@@ -18,7 +18,7 @@ const BASELINE_HEADERS = {
   "x-dns-prefetch-control": "off",
   "x-frame-options": "DENY",
   "content-security-policy":
-    "default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; manifest-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; worker-src 'self'; upgrade-insecure-requests",
+    "default-src 'self'; base-uri 'self'; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; manifest-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; worker-src 'self'; upgrade-insecure-requests",
 } as const;
 
 const PUBLIC_MACHINE_PREFIXES = [

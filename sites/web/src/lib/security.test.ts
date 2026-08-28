@@ -51,6 +51,20 @@ describe("applySecurityHeaders", () => {
     expect(response.headers.get("access-control-allow-origin")).toBeNull();
   });
 
+  it("permits Cloudflare Web Analytics without widening other sources", () => {
+    const response = applySecurityHeaders(
+      new Request("https://canmyagentuse.com/features"),
+      new Response("<html></html>")
+    );
+    const policy = response.headers.get("content-security-policy");
+    expect(policy).toContain(
+      "connect-src 'self' https://cloudflareinsights.com"
+    );
+    expect(policy).toContain(
+      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com"
+    );
+  });
+
   it("allows negotiated Markdown on canonical URLs cross-origin", () => {
     const response = applySecurityHeaders(
       new Request("https://canmyagentuse.com/features/mcp-tools"),
