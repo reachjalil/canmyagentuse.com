@@ -8,10 +8,11 @@
   "homepage": "https://canmyagentuse.com",
   "scripts": {
     "catalog:validate": "node --experimental-strip-types scripts/validate-catalog.ts && node --experimental-strip-types scripts/validate-research.ts && node --experimental-strip-types scripts/validate-representations.ts",
+    "marks:generate": "node --experimental-strip-types scripts/generate-provider-marks.ts",
     "social:generate": "node --experimental-strip-types scripts/generate-social-cards.ts",
-    "dev": "pnpm run catalog:validate && pnpm run social:generate && astro dev",
-    "build": "pnpm run catalog:validate && pnpm run social:generate && astro build",
-    "check": "pnpm run catalog:validate && astro check",
+    "dev": "pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro dev",
+    "build": "pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro build",
+    "check": "pnpm run marks:generate && pnpm run catalog:validate && astro check",
     "test": "vitest run",
     "preview": "astro preview",
     "cf:types": "wrangler types worker-configuration.generated.d.ts",
@@ -32,7 +33,9 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
+    "@lobehub/icons-static-svg": "1.94.0",
     "@types/node": "catalog:",
+    "simple-icons": "16.28.0",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "wrangler": "catalog:"

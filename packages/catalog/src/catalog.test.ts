@@ -155,6 +155,9 @@ describe("paths", () => {
       "/api/v1/atlas/vendors/openai.json"
     );
     expect(markdownPathForPagePath("/report")).toBe("/report.md");
+    expect(markdownPathForPagePath("/provider-marks")).toBe(
+      "/provider-marks.md"
+    );
   });
 });
 

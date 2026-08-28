@@ -97,6 +97,7 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
   ["/contradictions", "/contradictions.md"],
   ["/contribute", "/contribute.md"],
   ["/report", "/report.md"],
+  ["/provider-marks", "/provider-marks.md"],
 ]);
 
 const DYNAMIC_MARKDOWN_PREFIXES = [

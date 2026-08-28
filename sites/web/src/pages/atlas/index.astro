@@ -3,10 +3,10 @@ import {
   RESEARCH_STATUS_LABELS,
   SITE,
   countResearchStatuses,
-  providerReference,
   researchFeatureSlug,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
+import ProviderMark from "../../components/ProviderMark.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
@@ -169,13 +169,7 @@ const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_
               {vendors.map((vendor) => (
                 <tr>
                   <td>
-                    <span
-                      class="provider-inline-token"
-                      data-provider-tone={providerReference(vendor.vendor_name).tone}
-                      aria-hidden="true"
-                    >
-                      {providerReference(vendor.vendor_name).monogram}
-                    </span>
+                    <ProviderMark provider={vendor.vendor_name} variant="inline" />
                     <a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a>
                   </td>
                   <td>{vendor.coverage_tier}<small>{vendor.inclusion_basis}</small></td>

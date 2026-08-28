@@ -1,13 +1,14 @@
 ---
 import {
-  providerMarkIsDisplayable,
   providerReference,
   type ProviderMarkAuthorization,
 } from "@canmyagentuse/catalog";
+import ProviderMark from "./ProviderMark.astro";
 
 interface Props {
   provider: string;
   product?: string;
+  productSlug?: string;
   surface?: string;
   homepage?: string;
   catalogPath?: string;
@@ -19,6 +20,7 @@ interface Props {
 const {
   provider,
   product,
+  productSlug,
   surface,
   homepage,
   catalogPath,
@@ -27,24 +29,15 @@ const {
   mark,
 } = Astro.props;
 const reference = providerReference(provider);
-const showMark = providerMarkIsDisplayable(mark);
 ---
 
 <div
   class:list={["provider-reference", { "provider-reference--compact": compact }]}
   data-provider-tone={reference.tone}
 >
-  <span class="provider-reference__token" aria-hidden="true">
-    {
-      showMark ? (
-        <img src={mark.assetPath} alt="" width="40" height="40" loading="lazy" />
-      ) : (
-        reference.monogram
-      )
-    }
-  </span>
+  <ProviderMark provider={provider} productSlug={productSlug} mark={mark} />
   <div class="provider-reference__body">
-    <span class="provider-reference__label">Provider reference</span>
+    <span class="provider-reference__label">Independent reference</span>
     <strong>{provider}</strong>
     {product ? <span class="provider-reference__product">{product}</span> : null}
     {

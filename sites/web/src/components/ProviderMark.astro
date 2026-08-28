@@ -1,0 +1,55 @@
+---
+import {
+  providerMark,
+  providerMarkIsDisplayable,
+  providerReference,
+  type ProviderMarkAuthorization,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  provider: string;
+  productSlug?: string;
+  mark?: ProviderMarkAuthorization;
+  variant?: "reference" | "inline" | "product";
+  dataProductToken?: string;
+}
+
+const {
+  provider,
+  productSlug,
+  mark,
+  variant = "reference",
+  dataProductToken,
+} = Astro.props;
+const reference = providerReference(provider);
+const resolvedMark = mark ?? providerMark(provider, productSlug);
+const showMark = providerMarkIsDisplayable(resolvedMark);
+const className =
+  variant === "inline"
+    ? "provider-inline-token"
+    : variant === "product"
+      ? "product-monogram"
+      : "provider-reference__token";
+---
+
+<span
+  class={className}
+  data-provider-tone={reference.tone}
+  data-has-provider-mark={showMark ? "true" : "false"}
+  data-product-token={dataProductToken}
+  aria-hidden="true"
+>
+  {
+    <img
+      class="provider-token__mark"
+      src={showMark ? resolvedMark.assetPath : undefined}
+      alt=""
+      width="40"
+      height="40"
+      loading="lazy"
+      decoding="async"
+      hidden={!showMark}
+    />
+  }
+  <span class="provider-token__fallback" hidden={showMark}>{reference.monogram}</span>
+</span>
