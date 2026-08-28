@@ -1,0 +1,127 @@
+---
+import {
+  PROVIDER_MARKS,
+  SITE,
+  breadcrumbJsonLd,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import ProviderMark from "../components/ProviderMark.astro";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const marks = [...PROVIDER_MARKS].toSorted((left, right) =>
+  left.label.localeCompare(right.label)
+);
+const sourceCount = new Set(marks.map((mark) => mark.source)).size;
+---
+
+<BaseLayout
+  title={`Provider mark provenance | ${SITE.name}`}
+  description="Source, license, review date, and usage boundary for every third-party reference mark displayed by Can My Agent Use."
+  canonicalPath="/provider-marks"
+  socialTitle="Provider mark provenance"
+  socialDescription="An auditable manifest for the secondary provider and product marks used to identify catalog records."
+  socialImageAlt="Provider mark provenance for the independent Can My Agent Use catalog."
+  jsonLd={[
+    websiteJsonLd(),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Provider mark provenance", path: "/provider-marks" },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Independent identity references</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Provider mark provenance</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        These small marks identify the exact providers and products named in the
+        catalog. They are not badges, partner marks, endorsements, or evidence of
+        compatibility. Can My Agent Use remains visually and editorially independent.
+      </p>
+
+      <div class="trust-banner mt-6">
+        <strong>Source license is not trademark permission.</strong>
+        The manifest records where each local SVG came from, the package version,
+        the asset license, and the review date. It documents this publisher's
+        nominative-reference use; it is not a blanket legal conclusion about fair use.
+      </div>
+
+      <dl class="catalog-census mt-7">
+        <div><dt>Reviewed marks</dt><dd>{marks.length}</dd></div>
+        <div><dt>Pinned sources</dt><dd>{sourceCount}</dd></div>
+        <div><dt>Browser hotlinks</dt><dd>0</dd></div>
+        <div><dt>Fallback</dt><dd>Original token</dd></div>
+      </dl>
+
+      <section class="mt-10" aria-labelledby="rules-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Display boundary</p><h2 id="rules-title">How marks are used</h2></div>
+        </div>
+        <ul class="record-list provider-mark-rules">
+          <li><strong>Exact match</strong><span>A typed alias must identify the named provider or product. There is no fuzzy logo lookup.</span></li>
+          <li><strong>Secondary</strong><span>The Can My Agent Use mark, palette, copy, and layout remain dominant.</span></li>
+          <li><strong>Local</strong><span>Reviewed SVGs are copied at build time and served from this site's own asset path.</span></li>
+          <li><strong>Fallback</strong><span>Unknown or unreviewed brands keep the original two-letter catalog token.</span></li>
+        </ul>
+      </section>
+
+      <section class="mt-12" aria-labelledby="manifest-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Typed asset manifest</p><h2 id="manifest-title">Reviewed marks</h2></div>
+          <p>Every row resolves to one local asset and one pinned upstream record.</p>
+        </div>
+        <div class="table-scroll mt-4">
+          <table class="data-table provider-mark-table">
+            <thead>
+              <tr><th>Reference</th><th>Asset source</th><th>Review</th></tr>
+            </thead>
+            <tbody>
+              {marks.map((mark) => (
+                <tr>
+                  <td>
+                    <ProviderMark provider={mark.label} mark={mark} variant="inline" />
+                    <strong>{mark.label}</strong>
+                    <small>{mark.assetPath}</small>
+                  </td>
+                  <td>
+                    <a href={mark.sourceUrl} rel="noopener noreferrer">{mark.sourcePackage}@{mark.sourceVersion} ↗</a>
+                    <small>
+                      <a href={mark.repositoryUrl} rel="noopener noreferrer">Repository</a>
+                      {" · "}
+                      <a href={mark.licenseUrl} rel="noopener noreferrer">{mark.license}</a>
+                      {mark.brandGuidelinesUrl ? <>{" · "}<a href={mark.brandGuidelinesUrl} rel="noopener noreferrer">Brand guidance</a></> : null}
+                    </small>
+                  </td>
+                  <td>
+                    {mark.reviewedAt}
+                    <small>Nominative reference · no endorsement</small>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mt-12 max-w-3xl" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Upstream caveat</p><h2 id="sources-title">Source collections</h2></div>
+        </div>
+        <p>
+          AI-product assets come from the MIT-licensed
+          <a href="https://github.com/lobehub/lobe-icons" rel="noopener noreferrer">Lobe Icons repository</a>.
+          General provider assets come from the CC0-licensed
+          <a href="https://github.com/simple-icons/simple-icons" rel="noopener noreferrer">Simple Icons repository</a>.
+          The <a href="https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md" rel="noopener noreferrer">Simple Icons disclaimer</a>
+          explicitly notes that its collection license does not settle third-party
+          trademark or brand-policy rights; that distinction applies here as well.
+        </p>
+        <p class="mt-4 text-sm text-[color:var(--color-muted)]">
+          If you own a listed mark and believe a reference is inaccurate or outside
+          your published guidelines, use the <a href="/report">correction route</a>.
+        </p>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

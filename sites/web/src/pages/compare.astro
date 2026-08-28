@@ -4,9 +4,11 @@ import {
   SITE,
   currentStatus,
   expandFeatureSupport,
+  providerMark,
   providerReference,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
+import ProviderMark from "../components/ProviderMark.astro";
 import SiteChrome from "../components/SiteChrome.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import type { ComparisonCell, ComparisonRow } from "../lib/comparison";
@@ -49,19 +51,23 @@ const rows: ComparisonRow[] = features.map((entry) => {
 });
 
 const compareData = {
-  harnesses: harnesses.map((entry) => ({
-    slug: entry.data.slug,
-    title: entry.data.title,
-    vendor: entry.data.vendor,
-    surfaceLabel: HARNESS_SURFACE_LABELS[entry.data.surface],
-    summary: entry.data.summary,
-    execution: entry.data.execution,
-    targetKind: entry.data.targetKind,
-    environment: entry.data.defaultEnvironmentProfile,
-    homepage: entry.data.homepage,
-    providerMonogram: providerReference(entry.data.vendor).monogram,
-    providerTone: providerReference(entry.data.vendor).tone,
-  })),
+  harnesses: harnesses.map((entry) => {
+    const mark = providerMark(entry.data.vendor, entry.data.slug);
+    return {
+      slug: entry.data.slug,
+      title: entry.data.title,
+      vendor: entry.data.vendor,
+      surfaceLabel: HARNESS_SURFACE_LABELS[entry.data.surface],
+      summary: entry.data.summary,
+      execution: entry.data.execution,
+      targetKind: entry.data.targetKind,
+      environment: entry.data.defaultEnvironmentProfile,
+      homepage: entry.data.homepage,
+      providerMonogram: providerReference(entry.data.vendor).monogram,
+      providerTone: providerReference(entry.data.vendor).tone,
+      providerMarkPath: mark?.assetPath,
+    };
+  }),
   categories: categories.map((entry) => ({ slug: entry.data.slug, title: entry.data.title })),
   rows,
 };
@@ -120,14 +126,12 @@ const compareData = {
                 ))}
               </select>
               <div class="product-picker__identity">
-                <span
-                  class="product-monogram"
-                  data-product-monogram={side}
-                  data-provider-tone={providerReference(selected.vendor).tone}
-                  aria-hidden="true"
-                >
-                  {providerReference(selected.vendor).monogram}
-                </span>
+                <ProviderMark
+                  provider={selected.vendor}
+                  productSlug={selected.slug}
+                  variant="product"
+                  dataProductToken={side}
+                />
                 <div>
                   <h3 data-product-title={side}>{selected.title}</h3>
                   <p data-product-vendor={side}>{selected.vendor}</p>
@@ -183,7 +187,7 @@ const compareData = {
           <div data-comparison-rows></div>
           <div class="comparison-empty" data-comparison-empty hidden><strong>No capabilities match these filters.</strong><p>Try a broader lens, another group, or clear the search.</p></div>
         </div>
-        <p class="compare-disclaimer">Can My Agent Use is independent and is not affiliated with, endorsed by, or sponsored by the products referenced here. Names identify catalog columns only.</p>
+        <p class="compare-disclaimer">Can My Agent Use is independent and is not affiliated with, endorsed by, or sponsored by the products referenced here. Names and small reference marks identify catalog columns only. <a href="/provider-marks">Review mark provenance.</a></p>
       </section>
 
       <script is:inline type="application/json" id="compare-data" set:html={JSON.stringify(compareData)} />
@@ -196,7 +200,7 @@ const compareData = {
 
   const statusLabels = { yes: "Supported", partial: "Partial", no: "Unsupported", unknown: "Unknown", na: "Not applicable" } as const;
   const statusMarks = { yes: "Y", partial: "P", no: "N", unknown: "?", na: "–" } as const;
-  type Harness = { slug: string; title: string; vendor: string; surfaceLabel: string; summary: string; execution: string; targetKind: string; environment: string; homepage?: string; providerMonogram: string; providerTone: string };
+  type Harness = { slug: string; title: string; vendor: string; surfaceLabel: string; summary: string; execution: string; targetKind: string; environment: string; homepage?: string; providerMonogram: string; providerTone: string; providerMarkPath?: string };
   const raw = document.getElementById("compare-data")?.textContent ?? "{}";
   const data = JSON.parse(raw) as { harnesses: Harness[]; categories: { slug: string; title: string }[]; rows: ComparisonRow[] };
   const leftSelect = document.querySelector("[data-compare-a]");
@@ -212,7 +216,6 @@ const compareData = {
   function updateProduct(side: "left" | "right", harness: Harness) {
     put(`[data-product-title="${side}"]`, harness.title);
     put(`[data-product-vendor="${side}"]`, harness.vendor);
-    put(`[data-product-monogram="${side}"]`, harness.providerMonogram);
     put(`[data-product-surface="${side}"]`, harness.surfaceLabel);
     put(`[data-product-summary="${side}"]`, harness.summary);
     put(`[data-product-execution="${side}"]`, harness.execution);
@@ -221,8 +224,22 @@ const compareData = {
     put(`[data-column-heading="${side}"]`, harness.title);
     const link = document.querySelector(`[data-product-link="${side}"]`);
     if (link instanceof HTMLAnchorElement) link.href = `/harnesses/${encodeURIComponent(harness.slug)}`;
-    const token = document.querySelector(`[data-product-monogram="${side}"]`);
-    if (token instanceof HTMLElement) token.dataset.providerTone = harness.providerTone;
+    const token = document.querySelector(`[data-product-token="${side}"]`);
+    if (token instanceof HTMLElement) {
+      token.dataset.providerTone = harness.providerTone;
+      token.dataset.hasProviderMark = harness.providerMarkPath ? "true" : "false";
+      const image = token.querySelector(".provider-token__mark");
+      const fallback = token.querySelector(".provider-token__fallback");
+      if (image instanceof HTMLImageElement) {
+        image.hidden = !harness.providerMarkPath;
+        if (harness.providerMarkPath) image.src = harness.providerMarkPath;
+        else image.removeAttribute("src");
+      }
+      if (fallback instanceof HTMLElement) {
+        fallback.hidden = Boolean(harness.providerMarkPath);
+        fallback.textContent = harness.providerMonogram;
+      }
+    }
     const official = document.querySelector(`[data-product-official="${side}"]`);
     if (official instanceof HTMLAnchorElement) {
       official.hidden = !harness.homepage;

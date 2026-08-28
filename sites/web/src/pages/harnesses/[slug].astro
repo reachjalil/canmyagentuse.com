@@ -120,6 +120,7 @@ function humanize(value: string): string {
           <ProviderReference
             provider={harness.data.vendor}
             product={harness.data.title}
+            productSlug={harness.data.slug}
             surface={HARNESS_SURFACE_LABELS[harness.data.surface]}
             homepage={harness.data.homepage}
             evidenceLabel={`${support.reviewed}/${support.total} current cells reviewed`}

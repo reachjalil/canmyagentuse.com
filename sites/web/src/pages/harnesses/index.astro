@@ -145,8 +145,9 @@ function humanize(value: string): string {
             <h2 id="directory-title">Tracked harnesses</h2>
           </div>
           <p>
-            Product names identify catalog records only. They do not imply
-            affiliation, certification, sponsorship, or endorsement.
+            Product names and reviewed reference marks identify catalog records
+            only. They do not imply affiliation, certification, sponsorship, or
+            endorsement.
           </p>
         </div>
 
@@ -219,6 +220,8 @@ function humanize(value: string): string {
                     >
                       <ProviderReference
                         provider={harness.vendor}
+                        product={harness.title}
+                        productSlug={harness.slug}
                         surface={HARNESS_SURFACE_LABELS[harness.surface]}
                         homepage={harness.homepage}
                         evidenceLabel={`${summary.reviewed}/${summary.total} current cells reviewed`}

@@ -74,6 +74,7 @@ export const GET: APIRoute = async () => {
     urlEntry("/contradictions", "weekly", catalogUpdated),
     urlEntry("/contribute", "monthly", catalogUpdated),
     urlEntry("/report", "monthly", catalogUpdated),
+    urlEntry("/provider-marks", "monthly", catalogUpdated),
     urlEntry("/news", "daily", catalogUpdated),
     urlEntry(MACHINE_PATHS.llms, "daily", catalogUpdated),
     urlEntry(MACHINE_PATHS.sitemapMarkdown, "daily", catalogUpdated),

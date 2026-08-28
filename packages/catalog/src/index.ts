@@ -59,12 +59,15 @@ export type { HarnessColumn, MatrixCell, SurfaceGroup } from "./matrix.ts";
 export { isPublished, resolveMetadata } from "./metadata.ts";
 export type { ResolvedMetadata } from "./metadata.ts";
 export {
+  PROVIDER_MARKS,
   PROVIDER_TONES,
+  providerMark,
   providerMarkIsDisplayable,
   providerReference,
 } from "./provider.ts";
 export type {
   ProviderMarkAuthorization,
+  ProviderMarkSource,
   ProviderReference,
   ProviderTone,
 } from "./provider.ts";

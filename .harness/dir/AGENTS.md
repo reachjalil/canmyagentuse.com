@@ -61,11 +61,25 @@ Do not hand-maintain those files in `public/`.
 
 ## Provider names and visual identity
 
-This product's identity stays dominant. Provider and agent names may appear as
-plain text when they truthfully identify a catalog row. Do not copy provider
-HTML, CSS, logos, fonts, screenshots, or microcopy. Do not imply affiliation,
-certification, or official status. Use `provider-compatible-ui-skill` before
-adding branded marks, comparative marketing, or close visual imitation.
+This product's identity stays dominant. Provider and product names may appear
+as plain text when they truthfully identify a catalog record. A provider or
+product mark may appear only as a secondary nominative reference when it is:
+
+- mapped to the exact named provider or product in a typed manifest;
+- copied into a local `/provider-marks/` asset rather than hotlinked;
+- traceable to a pinned source package or provider-controlled download;
+- documented with its source, source license, review date, and any located
+  brand-guideline URL; and
+- paired with plain-text identification and the site-wide non-affiliation
+  notice, with an original monogram fallback for every unreviewed record.
+
+An open-source asset license does not grant trademark rights, and inclusion in
+the manifest is not a legal conclusion about fair use. Do not place provider
+marks in this site's own logo, wordmark, domain, navigation identity, or social
+branding. Do not copy provider HTML, CSS, fonts, screenshots, or microcopy, and
+do not imply affiliation, certification, sponsorship, or official status. Use
+`provider-compatible-ui-skill` before adding or changing branded marks,
+comparative marketing, or close visual imitation.
 
 ## Tooling
 

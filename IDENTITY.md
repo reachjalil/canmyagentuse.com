@@ -36,21 +36,22 @@ The original mark is the **evidence aperture**: four warm ledger corners frame o
 - `/sites/web/public/og-card.svg` — editable social-card source
 - `/sites/web/public/og-card.png` — 1200 × 630 Open Graph and Twitter card
 
-The header pairs the mark with a plain-text wordmark and the operating line **lookup · compare · cite**. Do not style provider names as wordmarks or add undocumented provider logos to matrix columns.
+The header pairs the mark with a plain-text wordmark and the operating line **lookup · compare · cite**. Do not style provider names as wordmarks or place provider marks in the site's own navigation identity.
 
 ## Provider reference system
 
-Provider records use an original two-letter reference token, a restrained color family from the Can My Agent Use palette, the provider name in plain text, and direct links labeled **Official site**. The token is a navigation aid, not a provider logo. Product profiles also report reviewed capability counts and list the public references attached to their compatibility cells.
+Provider records use the provider or product name in plain text, a small reference tile, and direct links labeled **Official site**. The tile shows a reviewed third-party mark when the typed manifest has an exact match; otherwise it shows the original two-letter token. Product profiles also report reviewed capability counts and list the public references attached to their compatibility cells.
 
-`@canmyagentuse/catalog` owns the deterministic provider reference helper so HTML pages and comparison controls use the same monogram and tone. A real provider mark may replace the token only when its record includes all of the following:
+`@canmyagentuse/catalog` owns the deterministic provider reference helper and the reviewed mark manifest so HTML pages and comparison controls resolve the same asset, fallback, and provenance. A provider or product mark may replace the token only when its record includes all of the following:
 
 - a local asset path under `/provider-marks/`;
-- the provider-controlled source URL for the asset;
-- the current trademark or media-kit terms URL;
-- the date those terms were reviewed;
-- a concrete permission basis for this catalog use.
+- an exact provider or product alias, never a fuzzy name match;
+- a pinned source-package asset or provider-controlled download URL;
+- the source repository and asset-license URLs;
+- the review date and any located provider brand-guideline URL; and
+- an explicit `nominative-reference` use classification.
 
-The runtime gate rejects incomplete mark records. An image found on a provider website, favicon service, package registry, search result, or community logo collection is not enough. Trademark authorization is separate from an image file's copyright license.
+The runtime gate rejects incomplete mark records. The build copies reviewed SVGs into the site and strips scripts, event handlers, and remote references. It never loads marks from a third-party CDN in the browser. An image found through search, a favicon service, or an unpinned collection is not enough. A repository's copyright license and a trademark owner's rights are separate; this manifest records the publisher's nominative-identification posture and is not a legal determination that a use is fair.
 
 ## Copy system
 
@@ -85,15 +86,15 @@ Evidence classes are literal: documented, vendor-attested, listed, tested, repor
 
 ## Legal and product boundary
 
-Provider and product names are plain-text nominative references used only to identify a catalog column or evidence source. Can My Agent Use uses original icons, layout, copy, palette, and code. The independent notice remains visible site-wide.
+Provider and product names and reviewed reference marks are used only to identify a catalog column, exact product surface, or evidence source. They remain visually secondary to the Can My Agent Use identity and are paired with plain-text names. Can My Agent Use uses an original site mark, layout, copy, palette, and code. The independent notice remains visible site-wide, and the public mark-provenance page records each local asset's source and review date.
 
 Provider-compatible review for this identity:
 
 | Risk | Finding |
 | --- | --- |
 | Green | Original task-focused catalog; plain-text provider names; original ledger query mark; independent notice; public evidence links. |
-| Yellow | Comparative marketing, marketplace publication, provider screenshots, official palettes, or provider names promoted into the product identity require policy and legal review. |
-| Red | Provider logos, copied shells or microcopy, official/certified/partner claims, or an interface that can pass as a provider product are not permitted without documented authorization and qualified review. |
+| Yellow | Secondary, manifest-backed provider marks; comparative marketing; marketplace publication; provider screenshots; official palettes; or provider names promoted beyond record identification require policy review and may require qualified legal review. |
+| Red | Unreviewed or hotlinked provider logos, copied shells or microcopy, official/certified/partner claims, provider marks inside this product's identity, or an interface that can pass as a provider product are not permitted. |
 
 The notice supports an already distinct design; it is not permission to copy. All third-party terms, data rights, and trademark policies remain separate obligations.
 
