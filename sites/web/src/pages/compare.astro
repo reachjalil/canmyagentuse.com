@@ -4,6 +4,7 @@ import {
   SITE,
   currentStatus,
   expandFeatureSupport,
+  providerReference,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
 import SiteChrome from "../components/SiteChrome.astro";
@@ -57,6 +58,9 @@ const compareData = {
     execution: entry.data.execution,
     targetKind: entry.data.targetKind,
     environment: entry.data.defaultEnvironmentProfile,
+    homepage: entry.data.homepage,
+    providerMonogram: providerReference(entry.data.vendor).monogram,
+    providerTone: providerReference(entry.data.vendor).tone,
   })),
   categories: categories.map((entry) => ({ slug: entry.data.slug, title: entry.data.title })),
   rows,
@@ -64,17 +68,17 @@ const compareData = {
 ---
 
 <BaseLayout
-  title={`Compare harnesses | ${SITE.name}`}
-  description="Compare exact agent harness surfaces by capability, constraints, environment, and dated evidence."
+  title={`Compare products | ${SITE.name}`}
+  description="Compare exact agent product surfaces by capability, constraints, environment, and dated evidence."
   canonicalPath="/compare"
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
     <main id="main" class="compare-page">
       <section class="compare-hero shell">
-        <p class="compare-eyebrow">Decision workspace · current track</p>
+        <p class="compare-eyebrow">Current-track comparison</p>
         <div class="compare-hero__copy">
-          <h1>Compare harnesses,<br /><em>without the hand-waving.</em></h1>
+          <h1>Compare exact<br /><em>product surfaces.</em></h1>
           <p>
             Choose two exact product surfaces. Compare what they support, where the
             constraints differ, and how much evidence sits behind every answer.
@@ -83,8 +87,8 @@ const compareData = {
         <aside class="compare-principle" aria-label="How to read this comparison">
           <strong>No winner score.</strong>
           <p>
-            A harness is only “better” for a specific job. Unknown means we do not
-            have enough published evidence—not that the product lacks the capability.
+            A product is only "better" for a specific job. Unknown means we do not
+            have enough published evidence. It does not mean the product lacks the capability.
           </p>
           <a href="/methodology">Read the methodology →</a>
         </aside>
@@ -116,7 +120,14 @@ const compareData = {
                 ))}
               </select>
               <div class="product-picker__identity">
-                <span class="product-monogram" data-product-monogram={side} aria-hidden="true">{selected.title.slice(0, 1)}</span>
+                <span
+                  class="product-monogram"
+                  data-product-monogram={side}
+                  data-provider-tone={providerReference(selected.vendor).tone}
+                  aria-hidden="true"
+                >
+                  {providerReference(selected.vendor).monogram}
+                </span>
                 <div>
                   <h3 data-product-title={side}>{selected.title}</h3>
                   <p data-product-vendor={side}>{selected.vendor}</p>
@@ -129,7 +140,16 @@ const compareData = {
                 <div><dt>Target</dt><dd data-product-target={side}>{selected.targetKind}</dd></div>
                 <div><dt>Environment</dt><dd data-product-environment={side}>{selected.defaultEnvironmentProfile}</dd></div>
               </dl>
-              <a class="product-profile-link" data-product-link={side} href={`/harnesses/${selected.slug}`}>Open product evidence →</a>
+              <div class="product-reference-actions">
+                <a class="product-profile-link" data-product-link={side} href={`/harnesses/${selected.slug}`}>Catalog evidence →</a>
+                <a
+                  class="product-official-link"
+                  data-product-official={side}
+                  href={selected.homepage ?? "#"}
+                  rel="noopener noreferrer"
+                  hidden={!selected.homepage}
+                >Official site ↗</a>
+              </div>
             </article>
           ))}
         </div>
@@ -152,7 +172,7 @@ const compareData = {
         </div>
 
         <form class="compare-filters" data-compare-form>
-          <label class="compare-search"><span>Search capabilities</span><input type="search" name="q" placeholder="Try ‘MCP’, ‘browser’, ‘files’…" data-compare-query /></label>
+          <label class="compare-search"><span>Search capabilities</span><input type="search" name="q" placeholder="MCP, browser, files" data-compare-query /></label>
           <label><span>Decision lens</span><select name="view" data-compare-view><option value="all">Everything</option><option value="different">Meaningful differences</option><option value="supported">Supported by either</option><option value="evidence-gaps">Evidence gaps</option></select></label>
           <label><span>Capability group</span><select name="category" data-compare-category><option value="">All groups</option>{categories.map((entry) => <option value={entry.data.slug}>{entry.data.title}</option>)}</select></label>
           <output data-compare-count aria-live="polite">{rows.length} capabilities</output>
@@ -176,7 +196,7 @@ const compareData = {
 
   const statusLabels = { yes: "Supported", partial: "Partial", no: "Unsupported", unknown: "Unknown", na: "Not applicable" } as const;
   const statusMarks = { yes: "Y", partial: "P", no: "N", unknown: "?", na: "–" } as const;
-  type Harness = { slug: string; title: string; vendor: string; surfaceLabel: string; summary: string; execution: string; targetKind: string; environment: string };
+  type Harness = { slug: string; title: string; vendor: string; surfaceLabel: string; summary: string; execution: string; targetKind: string; environment: string; homepage?: string; providerMonogram: string; providerTone: string };
   const raw = document.getElementById("compare-data")?.textContent ?? "{}";
   const data = JSON.parse(raw) as { harnesses: Harness[]; categories: { slug: string; title: string }[]; rows: ComparisonRow[] };
   const leftSelect = document.querySelector("[data-compare-a]");
@@ -192,7 +212,7 @@ const compareData = {
   function updateProduct(side: "left" | "right", harness: Harness) {
     put(`[data-product-title="${side}"]`, harness.title);
     put(`[data-product-vendor="${side}"]`, harness.vendor);
-    put(`[data-product-monogram="${side}"]`, harness.title.slice(0, 1).toUpperCase());
+    put(`[data-product-monogram="${side}"]`, harness.providerMonogram);
     put(`[data-product-surface="${side}"]`, harness.surfaceLabel);
     put(`[data-product-summary="${side}"]`, harness.summary);
     put(`[data-product-execution="${side}"]`, harness.execution);
@@ -201,6 +221,13 @@ const compareData = {
     put(`[data-column-heading="${side}"]`, harness.title);
     const link = document.querySelector(`[data-product-link="${side}"]`);
     if (link instanceof HTMLAnchorElement) link.href = `/harnesses/${encodeURIComponent(harness.slug)}`;
+    const token = document.querySelector(`[data-product-monogram="${side}"]`);
+    if (token instanceof HTMLElement) token.dataset.providerTone = harness.providerTone;
+    const official = document.querySelector(`[data-product-official="${side}"]`);
+    if (official instanceof HTMLAnchorElement) {
+      official.hidden = !harness.homepage;
+      if (harness.homepage) official.href = harness.homepage;
+    }
   }
   function makeStatus(cell: ComparisonRow["cells"][string]) {
     const wrapper = document.createElement("div");

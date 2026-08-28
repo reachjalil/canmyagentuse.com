@@ -36,6 +36,7 @@ export {
 } from "./jsonld.ts";
 export {
   buildMatrix,
+  currentSupportSnapshot,
   currentStatus,
   expandFeatureSupport,
   formatPercent,
@@ -43,9 +44,20 @@ export {
   sourcedShare,
   statusFor,
 } from "./matrix.ts";
+export type { CurrentSupportSnapshot } from "./matrix.ts";
 export type { HarnessColumn, MatrixCell, SurfaceGroup } from "./matrix.ts";
 export { isPublished, resolveMetadata } from "./metadata.ts";
 export type { ResolvedMetadata } from "./metadata.ts";
+export {
+  PROVIDER_TONES,
+  providerMarkIsDisplayable,
+  providerReference,
+} from "./provider.ts";
+export type {
+  ProviderMarkAuthorization,
+  ProviderReference,
+  ProviderTone,
+} from "./provider.ts";
 export { validateCatalogRelations } from "./relations.ts";
 export type { CatalogRelationInput } from "./relations.ts";
 export {

@@ -10,6 +10,7 @@ import {
   techArticleJsonLd,
 } from "@canmyagentuse/catalog";
 import { render } from "astro:content";
+import ProviderReference from "../../components/ProviderReference.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import StatusMark from "../../components/StatusMark.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -45,6 +46,25 @@ const related = features.map((feature) => {
     status: currentStatus(column?.versions ?? []),
   };
 });
+const reviewedCapabilities = related.filter(
+  (row) => row.status !== "unknown"
+).length;
+const publicReferences = [
+  ...new Map(
+    related.flatMap((row) =>
+      row.versions.flatMap((version) =>
+        (version.evidence ?? []).flatMap((reference) => {
+          const resource = row.feature.resources.find(
+            (candidate) => candidate.id === reference.resourceId
+          );
+          return resource ? [[resource.href, resource] as const] : [];
+        })
+      )
+    )
+  ).values(),
+].toSorted((left, right) =>
+  (right.reviewedAt ?? "").localeCompare(left.reviewedAt ?? "")
+);
 ---
 
 <BaseLayout
@@ -77,26 +97,64 @@ const related = features.map((feature) => {
       <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
         {harness.data.summary}
       </p>
+      <div class="mt-6 max-w-3xl">
+        <ProviderReference
+          provider={harness.data.vendor}
+          product={harness.data.title}
+          surface={HARNESS_SURFACE_LABELS[harness.data.surface]}
+          homepage={harness.data.homepage}
+          evidenceLabel={`${reviewedCapabilities} reviewed capabilities`}
+        />
+      </div>
       <p class="mt-3 font-mono text-xs">
         <a href={harnessMarkdownPath(harness.data.slug)}>Markdown</a>
         {" · "}
         <a href={`/api/v1/harnesses/${harness.data.slug}.json`}>JSON</a>
-        {harness.data.homepage ? (
-          <>
-            {" · "}
-            <a href={harness.data.homepage} rel="noopener noreferrer">Vendor site</a>
-          </>
-        ) : null}
       </p>
       <dl class="catalog-census surface-census mt-7">
         <div><dt>Surface</dt><dd>{HARNESS_SURFACE_LABELS[harness.data.surface]}</dd></div>
         <div><dt>Execution</dt><dd>{harness.data.execution}</dd></div>
         <div><dt>Target model</dt><dd>{harness.data.targetKind}</dd></div>
         <div><dt>Default profile</dt><dd>{harness.data.defaultEnvironmentProfile}</dd></div>
+        <div><dt>Reviewed capabilities</dt><dd>{reviewedCapabilities}</dd></div>
+        <div><dt>Public references</dt><dd>{publicReferences.length}</dd></div>
       </dl>
       <div class="prose-page mt-8">
         <Content />
       </div>
+      {
+        publicReferences.length ? (
+          <section class="reference-ledger mt-10" aria-labelledby="references-heading">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Provider and standards provenance</p>
+                <h2 id="references-heading">Reviewed public references</h2>
+              </div>
+              <p>
+                These links support individual capability cells. They are not a
+                product-wide certification.
+              </p>
+            </div>
+            <ul>
+              {publicReferences.map((resource) => (
+                <li>
+                  <div>
+                    <a href={resource.href} rel="noopener noreferrer">
+                      {resource.title} <span aria-hidden="true">↗</span>
+                    </a>
+                    <span>{resource.publisher ?? "Public source"}</span>
+                  </div>
+                  <small>
+                    {[resource.evidenceType, resource.reviewedAt]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </small>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null
+      }
       <h2 class="mt-12 text-2xl font-semibold tracking-tight">Capabilities</h2>
       <table class="compare-table mt-4">
         <thead>

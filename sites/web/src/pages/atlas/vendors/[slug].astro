@@ -1,5 +1,6 @@
 ---
 import { SITE, countResearchStatuses, websiteJsonLd, type ResearchVendor } from "@canmyagentuse/catalog";
+import ProviderReference from "../../../components/ProviderReference.astro";
 import SiteChrome from "../../../components/SiteChrome.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
@@ -38,11 +39,19 @@ const context = researchVendorContext(vendor);
         The provider name truthfully identifies catalog targets. Can My Agent Use is
         independent and is not affiliated with, endorsed by, or sponsored by this provider.
       </p>
+      <div class="mt-6 max-w-3xl">
+        <ProviderReference
+          provider={vendor.vendor_name}
+          homepage={vendor.website}
+          evidenceLabel={`${context.sources.length} reviewed references`}
+        />
+      </div>
 
       <dl class="catalog-census research-detail-census mt-7">
         <div><dt>Coverage tier</dt><dd>{vendor.coverage_tier}</dd></div>
         <div><dt>Products</dt><dd>{context.products.length}</dd></div>
         <div><dt>Exact surfaces</dt><dd>{context.surfaces.length}</dd></div>
+        <div><dt>References</dt><dd>{context.sources.length}</dd></div>
         <div><dt>Supported</dt><dd class="status-yes">{context.statuses.supported}</dd></div>
         <div><dt>Partial</dt><dd class="status-partial">{context.statuses.partial}</dd></div>
         <div><dt>Explicit no</dt><dd class="status-no">{context.statuses.unsupported}</dd></div>
@@ -51,7 +60,7 @@ const context = researchVendorContext(vendor);
 
       <nav class="atlas-subnav mt-5" aria-label="Record formats">
         <a href="/atlas">Atlas</a>
-        <a href={vendor.website}>Provider website</a>
+        <a href={vendor.website} rel="noopener noreferrer">Official provider website ↗</a>
         <a href={researchVendorMarkdownPath(vendor.vendor_id)}>Markdown</a>
         <a href={researchVendorJsonPath(vendor.vendor_id)}>JSON</a>
       </nav>
@@ -83,6 +92,38 @@ const context = researchVendorContext(vendor);
           </table>
         </div>
       </section>
+
+      {
+        context.sources.length ? (
+          <section class="reference-ledger mt-12" aria-labelledby="vendor-references-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Evidence provenance</p>
+                <h2 id="vendor-references-title">Published references</h2>
+              </div>
+              <p>
+                Sources are attached to exact compatibility cells. A source does not
+                establish support beyond the claim it documents.
+              </p>
+            </div>
+            <ul>
+              {context.sources.map((source) => (
+                <li>
+                  <div>
+                    <a href={source.url} rel="noopener noreferrer">
+                      {source.title} <span aria-hidden="true">↗</span>
+                    </a>
+                    <span>{source.publisher}</span>
+                  </div>
+                  <small>
+                    {source.source_type} · reviewed {source.retrieved_at_utc.slice(0, 10)}
+                  </small>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null
+      }
     </main>
   </SiteChrome>
 </BaseLayout>

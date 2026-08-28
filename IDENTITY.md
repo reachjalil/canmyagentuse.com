@@ -36,7 +36,21 @@ The original mark is the **evidence aperture**: four warm ledger corners frame o
 - `/sites/web/public/og-card.svg` — editable social-card source
 - `/sites/web/public/og-card.png` — 1200 × 630 Open Graph and Twitter card
 
-The header pairs the mark with a plain-text wordmark and the operating line **lookup · compare · cite**. Do not style provider names as wordmarks or add provider logos to matrix columns.
+The header pairs the mark with a plain-text wordmark and the operating line **lookup · compare · cite**. Do not style provider names as wordmarks or add undocumented provider logos to matrix columns.
+
+## Provider reference system
+
+Provider records use an original two-letter reference token, a restrained color family from the Can My Agent Use palette, the provider name in plain text, and direct links labeled **Official site**. The token is a navigation aid, not a provider logo. Product profiles also report reviewed capability counts and list the public references attached to their compatibility cells.
+
+`@canmyagentuse/catalog` owns the deterministic provider reference helper so HTML pages and comparison controls use the same monogram and tone. A real provider mark may replace the token only when its record includes all of the following:
+
+- a local asset path under `/provider-marks/`;
+- the provider-controlled source URL for the asset;
+- the current trademark or media-kit terms URL;
+- the date those terms were reviewed;
+- a concrete permission basis for this catalog use.
+
+The runtime gate rejects incomplete mark records. An image found on a provider website, favicon service, package registry, search result, or community logo collection is not enough. Trademark authorization is separate from an image file's copyright license.
 
 ## Copy system
 

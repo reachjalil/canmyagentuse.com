@@ -6,6 +6,7 @@ import {
   type PageData,
   type SpecificationData,
   SUPPORT_STATUS_LABELS,
+  currentSupportSnapshot,
   categoryMarkdownPath,
   categoryPath,
   expandFeatureSupport,
@@ -24,6 +25,7 @@ import {
   specificationPath,
   toEntryMarkdown,
 } from "@canmyagentuse/catalog";
+import { currentSupportSnippet } from "./support.ts";
 
 type PortableEntry =
   | FeatureData
@@ -155,10 +157,26 @@ export function featureMarkdown(input: {
   body: string;
 }): string {
   const { feature, harnesses, body } = input;
+  const currentSupport = currentSupportSnapshot(
+    expandFeatureSupport(feature, harnesses)
+  );
   const specification = feature.specification
     ? `- Specification: [${feature.specification.id}](${specificationMarkdownPath(feature.specification.id)}) — revision ${feature.specification.revision}`
     : `- Specification: ${feature.specLabel}`;
   const details = [
+    "## Current support at a glance",
+    "",
+    currentSupportSnippet(feature.title, currentSupport),
+    "",
+    `- Reviewed current products: ${currentSupport.sourced} of ${currentSupport.total}`,
+    `- Supported: ${currentSupport.counts.yes}`,
+    `- Partial: ${currentSupport.counts.partial}`,
+    `- Unsupported: ${currentSupport.counts.no}`,
+    `- Unreviewed: ${currentSupport.counts.unknown}`,
+    `- Not applicable: ${currentSupport.counts.na}`,
+    "",
+    "Unknown or unreviewed means insufficient published evidence; it does not mean unsupported.",
+    "",
     body.trim(),
     "",
     "## Catalog context",

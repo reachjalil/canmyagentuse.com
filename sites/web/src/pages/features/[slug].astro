@@ -1,6 +1,7 @@
 ---
 import {
   breadcrumbJsonLd,
+  currentSupportSnapshot,
   expandFeatureSupport,
   featureMarkdownPath,
   featurePath,
@@ -16,6 +17,7 @@ import SiteChrome from "../../components/SiteChrome.astro";
 import VersionMatrix from "../../components/VersionMatrix.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { entryBySlug, publishedCollection } from "../../lib/collections";
+import { currentSupportSnippet } from "../../lib/support";
 
 export async function getStaticPaths() {
   const features = await publishedCollection("features");
@@ -39,14 +41,16 @@ const metadata = resolveMetadata(feature.data);
 const harnessData = harnesses.map((entry) => entry.data);
 const columns = expandFeatureSupport(feature.data, harnessData);
 const coverage = sourcedShare(columns);
+const currentSupport = currentSupportSnapshot(columns);
+const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport);
 ---
 
 <BaseLayout
   title={metadata.seoTitle}
-  description={metadata.description}
+  description={supportSnippet}
   canonicalPath={metadata.canonicalPath}
   socialTitle={metadata.socialTitle}
-  socialDescription={metadata.socialDescription}
+  socialDescription={supportSnippet}
   socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} compatibility card from Can My Agent Use.`}
   contentType="article"
   publishedTime={metadata.published}
@@ -63,9 +67,9 @@ const coverage = sourcedShare(columns);
   ]}
 >
   <SiteChrome searchValue={feature.data.title}>
-    <main id="main" class="shell py-8">
+    <main id="main" class="shell feature-page">
       <div class="feature-head">
-        <div>
+        <div class="feature-head__copy">
           <p class="font-mono text-xs text-[color:var(--color-muted)]">
             Capability · {feature.data.category}
           </p>
@@ -84,26 +88,32 @@ const coverage = sourcedShare(columns);
           <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
             {feature.data.summary}
           </p>
-          <p class="mt-3 font-mono text-xs">
+          <p class="feature-verdict">{supportSnippet}</p>
+          <p class="feature-formats">
             <a href={featureMarkdownPath(feature.data.slug)}>Markdown</a>
             {" · "}
             <a href={`/api/v1/features/${feature.data.slug}.json`}>JSON</a>
           </p>
         </div>
         <aside class="coverage-stat">
-          <span class="font-mono text-xs tracking-wide text-[color:var(--color-muted)] uppercase">
-            Sourced cells
-          </span>
-          <strong>{formatPercent(coverage)}</strong>
-          <p class="mt-2 text-xs text-[color:var(--color-muted)]">
-            Share of version tracks that are not unknown. Not a usage or market figure.
-          </p>
+          <span>Current products reviewed</span>
+          <strong>{currentSupport.sourced}<small>/{currentSupport.total}</small></strong>
+          <dl class="coverage-stat__counts">
+            <div data-status="yes"><dt>Supported</dt><dd>{currentSupport.counts.yes}</dd></div>
+            <div data-status="partial"><dt>Partial</dt><dd>{currentSupport.counts.partial}</dd></div>
+            <div data-status="no"><dt>Unsupported</dt><dd>{currentSupport.counts.no}</dd></div>
+          </dl>
+          <p>{formatPercent(coverage)} of all current and preview tracks are sourced.</p>
         </aside>
       </div>
-      <div class="prose-page mt-8">
-        <Content />
-      </div>
       <VersionMatrix feature={feature.data} harnesses={harnessData} />
+      <section class="feature-explainer" aria-labelledby="feature-explainer-title">
+        <p class="eyebrow">Definition and scope</p>
+        <h2 id="feature-explainer-title">What this capability means</h2>
+        <div class="prose-page">
+          <Content />
+        </div>
+      </section>
       <AssertionLedger feature={feature.data} harnesses={harnessData} />
       <NotesPanel feature={feature.data} />
     </main>

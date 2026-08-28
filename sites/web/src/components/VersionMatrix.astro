@@ -3,6 +3,7 @@ import {
   HARNESS_SURFACE_LABELS,
   SUPPORT_STATUS_LABELS,
   TRACK_LABELS,
+  currentSupportSnapshot,
   expandFeatureSupport,
   groupHarnesses,
   type FeatureData,
@@ -24,9 +25,10 @@ const currentCells = columns
   .map((column) => column.versions.find((version) => version.track === "current"))
   .filter((version): version is VersionCell => Boolean(version));
 const sourcedCurrent = currentCells.filter((version) => version.status !== "unknown").length;
+const snapshot = currentSupportSnapshot(columns);
 const statusCounts = ["yes", "partial", "no", "unknown", "na"].map((status) => ({
   status,
-  count: currentCells.filter((version) => version.status === status).length,
+  count: snapshot.counts[status as keyof typeof snapshot.counts],
 }));
 
 function evidenceLabel(version: VersionCell) {
@@ -47,10 +49,10 @@ function evidenceLabel(version: VersionCell) {
   <header class="support-summary__header">
     <div>
       <p class="eyebrow">Current evidence by product</p>
-      <h2 id="support-summary-title">Support summary</h2>
+      <h2 id="support-summary-title">Can my agent use {feature.title}?</h2>
       <p>
-        {sourcedCurrent} of {currentCells.length} current product columns have reviewed evidence.
-        A dated check is shown when a public version number is not available.
+        Read across for the answer. {sourcedCurrent} of {currentCells.length} current product
+        columns have reviewed evidence; unreviewed does not mean unsupported.
       </p>
     </div>
     <div class="support-summary__actions">

@@ -131,10 +131,26 @@ export function researchVendorContext(vendor: ResearchVendor) {
   const cells = researchSeed.compatibility_cells.filter((cell) =>
     surfaceIds.has(cell.surface_id)
   );
+  const sources = [
+    ...new Set(
+      cells.flatMap((cell) => splitResearchSourceKeys(cell.source_keys))
+    ),
+  ]
+    .flatMap((sourceKey) => {
+      const source = researchAtlas.sourcesById.get(sourceKey);
+      return source ? [source] : [];
+    })
+    .toSorted(
+      (left, right) =>
+        left.publisher.localeCompare(right.publisher) ||
+        left.title.localeCompare(right.title)
+    );
   return {
     vendor,
     products,
     surfaces,
+    cells,
+    sources,
     statuses: countResearchStatuses(cells),
     summary: researchAtlas.summariesByVendor.get(vendor.vendor_id),
   };

@@ -21,7 +21,7 @@
     "biome:fix": "biome format --write . && biome lint --write .",
     "biome:imports": "biome check --write --assist-enabled=true --only=assist/source/organizeImports .",
     "preview": "pnpm --filter @canmyagentuse/web preview",
-    "deploy": "pnpm --filter @canmyagentuse/web deploy",
+    "deploy": "pnpm --filter @canmyagentuse/web run deploy",
     "harness:validate": "npx harnessc validate",
     "harness:preview": "npx harnessc activate",
     "harness:activate": "npx harnessc activate --yes",

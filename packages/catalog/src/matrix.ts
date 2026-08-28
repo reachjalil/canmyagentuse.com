@@ -2,6 +2,7 @@ import type { FeatureData, HarnessData } from "./schema.ts";
 import {
   HARNESS_SURFACES,
   type HarnessSurface,
+  SUPPORT_STATUSES,
   type SupportStatus,
   type VersionCell,
 } from "./status.ts";
@@ -21,6 +22,12 @@ export interface MatrixCell {
   harness: string;
   status: SupportStatus;
   versions: VersionCell[];
+}
+
+export interface CurrentSupportSnapshot {
+  total: number;
+  sourced: number;
+  counts: Record<SupportStatus, number>;
 }
 
 export function groupHarnesses(
@@ -118,6 +125,24 @@ export function sourcedShare(columns: readonly HarnessColumn[]): number {
     versions.filter((version) => version.status !== "unknown").length /
     versions.length
   );
+}
+
+export function currentSupportSnapshot(
+  columns: readonly HarnessColumn[]
+): CurrentSupportSnapshot {
+  const current = columns.map((column) => currentStatus(column.versions));
+  const counts = Object.fromEntries(
+    SUPPORT_STATUSES.map((status) => [
+      status,
+      current.filter((candidate) => candidate === status).length,
+    ])
+  ) as Record<SupportStatus, number>;
+
+  return {
+    total: current.length,
+    sourced: current.length - counts.unknown,
+    counts,
+  };
 }
 
 export function formatPercent(value: number): string {

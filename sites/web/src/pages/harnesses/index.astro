@@ -2,15 +2,47 @@
 import {
   HARNESS_SURFACE_LABELS,
   SITE,
+  currentStatus,
+  expandFeatureSupport,
   groupHarnesses,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
+import ProviderReference from "../../components/ProviderReference.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { publishedCollection } from "../../lib/collections";
 
-const harnesses = await publishedCollection("harnesses");
+const [harnesses, features] = await Promise.all([
+  publishedCollection("harnesses"),
+  publishedCollection("features"),
+]);
 const groups = groupHarnesses(harnesses.map((entry) => entry.data));
+const harnessData = harnesses.map((entry) => entry.data);
+const coverageByHarness = new Map(
+  harnessData.map((harness) => [
+    harness.slug,
+    { reviewed: 0, sourceIds: new Set<string>() },
+  ])
+);
+for (const feature of features) {
+  for (const column of expandFeatureSupport(feature.data, harnessData)) {
+    const coverage = coverageByHarness.get(column.harness.slug);
+    if (!coverage) continue;
+    const current =
+      column.versions.find((version) => version.track === "current") ??
+      column.versions[0];
+    if (currentStatus(column.versions) !== "unknown") coverage.reviewed += 1;
+    for (const reference of current?.evidence ?? []) {
+      coverage.sourceIds.add(reference.resourceId);
+    }
+  }
+}
+
+function coverageLabel(slug: string): string {
+  const coverage = coverageByHarness.get(slug);
+  if (!coverage || coverage.reviewed === 0) return "Evidence review pending";
+  return `${coverage.reviewed} reviewed · ${coverage.sourceIds.size} sources`;
+}
 ---
 
 <BaseLayout
@@ -36,9 +68,13 @@ const groups = groupHarnesses(harnesses.map((entry) => entry.data));
             <ul class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {group.items.map((harness) => (
                 <li class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-4">
-                  <p class="font-mono text-xs text-[color:var(--color-muted)]">
-                    {harness.family}
-                  </p>
+                  <ProviderReference
+                    provider={harness.vendor}
+                    surface={HARNESS_SURFACE_LABELS[harness.surface]}
+                    homepage={harness.homepage}
+                    evidenceLabel={coverageLabel(harness.slug)}
+                    compact
+                  />
                   <a class="text-xl font-semibold tracking-tight" href={`/harnesses/${harness.slug}`}>
                     {harness.title}
                   </a>

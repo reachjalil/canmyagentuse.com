@@ -3,7 +3,12 @@ import { buildCoverageReport } from "./coverage.ts";
 import { API_CATALOG_PROFILE, catalogApiLinkset } from "./api-catalog.ts";
 import { toLlmsTxt } from "./llms.ts";
 import { buildEvidenceLedger } from "./evidence.ts";
-import { buildMatrix, expandFeatureSupport, sourcedShare } from "./matrix.ts";
+import {
+  buildMatrix,
+  currentSupportSnapshot,
+  expandFeatureSupport,
+  sourcedShare,
+} from "./matrix.ts";
 import { isPublished, resolveMetadata } from "./metadata.ts";
 import { catalogOpenApi } from "./openapi.ts";
 import {
@@ -217,6 +222,11 @@ describe("matrix", () => {
       { track: "preview", status: "unknown", noteIds: [] },
     ]);
     expect(sourcedShare(column ? [column] : [])).toBe(0.5);
+    expect(currentSupportSnapshot(column ? [column] : [])).toEqual({
+      total: 1,
+      sourced: 1,
+      counts: { yes: 1, partial: 0, no: 0, unknown: 0, na: 0 },
+    });
   });
 });
 

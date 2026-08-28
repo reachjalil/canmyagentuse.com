@@ -1,0 +1,70 @@
+---
+import {
+  providerMarkIsDisplayable,
+  providerReference,
+  type ProviderMarkAuthorization,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  provider: string;
+  product?: string;
+  surface?: string;
+  homepage?: string;
+  catalogPath?: string;
+  evidenceLabel?: string;
+  compact?: boolean;
+  mark?: ProviderMarkAuthorization;
+}
+
+const {
+  provider,
+  product,
+  surface,
+  homepage,
+  catalogPath,
+  evidenceLabel,
+  compact = false,
+  mark,
+} = Astro.props;
+const reference = providerReference(provider);
+const showMark = providerMarkIsDisplayable(mark);
+---
+
+<div
+  class:list={["provider-reference", { "provider-reference--compact": compact }]}
+  data-provider-tone={reference.tone}
+>
+  <span class="provider-reference__token" aria-hidden="true">
+    {
+      showMark ? (
+        <img src={mark.assetPath} alt="" width="40" height="40" loading="lazy" />
+      ) : (
+        reference.monogram
+      )
+    }
+  </span>
+  <div class="provider-reference__body">
+    <span class="provider-reference__label">Provider reference</span>
+    <strong>{provider}</strong>
+    {product ? <span class="provider-reference__product">{product}</span> : null}
+    {
+      surface || evidenceLabel ? (
+        <span class="provider-reference__meta">
+          {[surface, evidenceLabel].filter(Boolean).join(" · ")}
+        </span>
+      ) : null
+    }
+  </div>
+  {
+    homepage || catalogPath ? (
+      <nav class="provider-reference__links" aria-label={`${provider} references`}>
+        {homepage ? (
+          <a href={homepage} rel="noopener noreferrer">
+            Official site <span aria-hidden="true">↗</span>
+          </a>
+        ) : null}
+        {catalogPath ? <a href={catalogPath}>Catalog record <span aria-hidden="true">→</span></a> : null}
+      </nav>
+    ) : null
+  }
+</div>

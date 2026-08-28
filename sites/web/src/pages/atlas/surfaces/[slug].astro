@@ -1,5 +1,6 @@
 ---
 import { SITE, websiteJsonLd, type ResearchSurface } from "@canmyagentuse/catalog";
+import ProviderReference from "../../../components/ProviderReference.astro";
 import ResearchCellTable from "../../../components/ResearchCellTable.astro";
 import SiteChrome from "../../../components/SiteChrome.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
@@ -38,6 +39,16 @@ const context = researchSurfaceContext(surface);
         {" / "}{context.product.product_name}. This page does not inherit claims from
         sibling products or surfaces.
       </p>
+      <div class="mt-6 max-w-3xl">
+        <ProviderReference
+          provider={context.vendor.vendor_name}
+          product={context.product.product_name}
+          surface={surface.surface_type}
+          homepage={context.vendor.website}
+          catalogPath={researchVendorPath(context.vendor.vendor_id)}
+          evidenceLabel={`${context.cells.length - context.statuses.unknown} reviewed claims`}
+        />
+      </div>
 
       <dl class="catalog-census research-detail-census mt-7">
         <div><dt>Surface ID</dt><dd>{surface.surface_id}</dd></div>

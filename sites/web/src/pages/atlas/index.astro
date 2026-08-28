@@ -3,6 +3,7 @@ import {
   RESEARCH_STATUS_LABELS,
   SITE,
   countResearchStatuses,
+  providerReference,
   researchFeatureSlug,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
@@ -167,7 +168,16 @@ const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_
             <tbody>
               {vendors.map((vendor) => (
                 <tr>
-                  <td><a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a></td>
+                  <td>
+                    <span
+                      class="provider-inline-token"
+                      data-provider-tone={providerReference(vendor.vendor_name).tone}
+                      aria-hidden="true"
+                    >
+                      {providerReference(vendor.vendor_name).monogram}
+                    </span>
+                    <a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a>
+                  </td>
                   <td>{vendor.coverage_tier}<small>{vendor.inclusion_basis}</small></td>
                   <td>{vendor.surface_count}</td>
                   <td class="status-yes">{vendor.supported_cells}</td>
