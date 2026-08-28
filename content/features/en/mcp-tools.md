@@ -48,6 +48,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code documents MCP tools as a supported agent tool type and supports local or remote MCP servers in Copilot agent mode."
   - id: 9
     text: "Evidence checked 2026-08-28: OpenWork Desktop documents workspace or global custom MCP servers, including an OAuth setup path, for use in agent sessions."
+  - id: 10
+    text: "Evidence checked 2026-08-28: xAI documents that Grok Bot connects to tools through plugins and MCP servers, while hosted MCP tool calls are run on the Bot computer's behalf; team MCP policy can disable servers or member-added configurations."
 issues: []
 resources:
   - id: openai-chatgpt-mcp
@@ -113,6 +115,14 @@ resources:
     publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: xai-grok-bot-team-mcp
+    title: xAI — Grok Bot for teams and enterprises
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Plugins and MCP policy
 support:
   - harness: chatgpt-web
     versions:
@@ -263,6 +273,25 @@ support:
             value: documented OAuth setup currently expects dynamic client registration
         evidence:
           - resourceId: openwork-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: team MCP allowlists, denylists, member-install policy, and network allowlists can disable a server
+          - type: auth
+            value: sign-in tokens for hosted MCP servers remain with the backend that runs tool calls on the computer's behalf
+        evidence:
+          - resourceId: xai-grok-bot-team-mcp
             type: documented
             observedAt: 2026-08-28
 ---

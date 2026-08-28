@@ -14,9 +14,12 @@ tags:
   - runtime
 updated: 2026-08-28
 published: 2026-08-28
-category: runtime
+category: models-context
 summary: Run against a model hosted on the operator's machine.
 specLabel: Product capability
+aliases: [self-hosted model, local inference, on-device model]
+parent: models-and-context
+related: [model-selection]
 highlight: false
 notes:
   - id: 1
@@ -29,7 +32,9 @@ resources:
 support: []
 ---
 
-Run against a model hosted on the operator's machine.
+This row asks whether the exact harness can send model requests to an operator-controlled local inference runtime. A cloud model with a desktop client is not a local model, and a configurable remote API base URL does not prove on-device execution.
+
+Evidence should identify the supported runtimes or protocols, model-discovery behavior, tool-calling and multimodal constraints, authentication, and whether any prompts, telemetry, or embeddings still leave the device.
 
 The matrix below lists published **web**, **desktop**, and **CLI** surfaces. Unreviewed cells remain **unknown** until a dated note and public source support a more specific status.
 

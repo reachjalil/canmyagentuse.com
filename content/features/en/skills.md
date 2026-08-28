@@ -44,6 +44,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code documents Agent Skills as generally available for GitHub Copilot in VS Code with project and personal directories and progressive loading."
   - id: 8
     text: "Evidence checked 2026-08-28: OpenWork Desktop documents SKILL.md creation, import, sharing, organization installation, and workspace loading through its OpenCode-backed runtime."
+  - id: 9
+    text: "Evidence checked 2026-08-28: xAI documents saved and packaged skills in Grok Bot, and the Agent Plugins compatible-client registry lists Grok Bot as loading Agent Skills. The cell establishes core discovery and loading, not every optional Agent Skills behavior."
 issues: []
 resources:
   - id: openai-chatgpt-skills
@@ -102,6 +104,21 @@ resources:
     publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: xai-grok-bot-skills
+    title: xAI — Grok Bot skills and routines
+    href: https://docs.x.ai/grok-bot/skills-routines-and-automations
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: agent-plugins-grok-bot-client
+    title: Agent Plugins — Compatible clients
+    href: https://agent-plugins.org/compatible-clients
+    kind: spec
+    publisher: Agent Plugins
+    evidenceType: listed
+    reviewedAt: 2026-08-28
+    locator: Grok Bot
 support:
   - harness: chatgpt-web
     versions:
@@ -236,6 +253,28 @@ support:
         evidence:
           - resourceId: openwork-skills
             type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation and compatible-client listing
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: saved skills are available across Bots and packaged or private skills are managed through the desktop Plugins area
+          - type: policy
+            value: connector or login prerequisites and per-Bot enablement can limit a skill at runtime
+        evidence:
+          - resourceId: xai-grok-bot-skills
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: agent-plugins-grok-bot-client
+            type: listed
             observedAt: 2026-08-28
 ---
 

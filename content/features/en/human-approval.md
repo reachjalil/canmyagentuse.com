@@ -21,6 +21,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop surfaces permission requests and documents allow-once, always-allow, and deny responses."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Grok Bot shows a proposed operation and inputs before approval; desktop controls include Allow once, Deny, and matching Always allow rules, while Require Approval rules take precedence."
 issues: []
 resources:
   - title: Methodology
@@ -31,6 +33,13 @@ resources:
     href: https://github.com/different-ai/openwork
     kind: docs
     publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: xai-grok-bot-approvals
+    title: xAI — Grok Bot approvals, security, and privacy
+    href: https://docs.x.ai/grok-bot/approvals-security-and-privacy
+    kind: docs
+    publisher: xAI
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -49,6 +58,25 @@ support:
             value: effective prompts depend on workspace and server approval configuration
         evidence:
           - resourceId: openwork-permissions
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: Auto Review is model-based and complements rather than replaces explicit approval boundaries and least privilege
+          - type: runtime
+            value: local-computer execution defaults to asking every time and is configured separately from cloud-computer actions
+        evidence:
+          - resourceId: xai-grok-bot-approvals
             type: documented
             observedAt: 2026-08-28
 ---

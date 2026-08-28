@@ -33,4 +33,4 @@ The catalog separates workspace instructions, skills, package formats, tool prot
 
 ## Independent by design
 
-Names such as ChatGPT, Claude, Cursor, Gemini, Copilot, Codex, OpenCode, and OpenWork Desktop appear as plain text to identify products. Can My Agent Use is not affiliated with, endorsed by, certified by, or official to any listed provider. The site does not use provider logos, screenshots, fonts, product shells, or proprietary visual assets.
+Names such as ChatGPT, Claude, Cursor, Gemini, Grok, Grok Bot, Copilot, Codex, OpenCode, and OpenWork Desktop appear as plain text to identify products. Can My Agent Use is not affiliated with, endorsed by, certified by, or official to any listed provider. The site does not use provider screenshots, fonts, product shells, or proprietary interface assets. Any secondary provider marks are locally copied, provenance-recorded nominative references with an original monogram fallback; they do not imply affiliation.

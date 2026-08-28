@@ -28,6 +28,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code agents can navigate, read, screenshot, click, type, hover, drag, and handle dialogs in the integrated browser; organization policy can disable the tools."
   - id: 4
     text: "Evidence checked 2026-08-28: OpenWork Desktop's first-party browser can open pages, click, fill forms, read page content, and take screenshots; OpenWork explicitly distinguishes this from general operating-system control."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Grok Bot exposes a persistent hosted computer with browser and desktop tools. The operator can watch clicks, typing, and navigation, take over sensitive steps, and let work continue after closing the preview."
 issues: []
 resources:
   - id: openai-cloud-browser
@@ -56,6 +58,13 @@ resources:
     href: https://openworklabs.com/docs/start-here/do-work-with-it/control-the-browser
     kind: docs
     publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: xai-grok-bot-computer
+    title: xAI — Grok Bot computer and apps
+    href: https://docs.x.ai/grok-bot/computer-and-apps
+    kind: docs
+    publisher: xAI
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -135,6 +144,25 @@ support:
             value: OpenWork Browser extension must be enabled
         evidence:
           - resourceId: openwork-browser
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: computer use runs on an account-scoped hosted Linux VM; all Bots for the account share its files, sessions, and credentials
+          - type: policy
+            value: one Bot can run one computer-use task on its screen at a time; sensitive steps should use operator takeover
+        evidence:
+          - resourceId: xai-grok-bot-computer
             type: documented
             observedAt: 2026-08-28
 ---

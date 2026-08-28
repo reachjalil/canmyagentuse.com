@@ -27,7 +27,7 @@ A support assertion answers one narrow question for a **capability revision × e
 
 ## Capability families and atomic rows
 
-Broad labels such as MCP, plugins, Agent Skills, subagents, persistent instructions, and WebMCP are capability families, not compatibility cells. A family has independently testable atomic children. For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support. Likewise, a product-native plugin does not imply support for the portable Agent Plugins manifest.
+Broad labels such as MCP, plugins, Agent Skills, subagents, model and context management, file inputs, data security, operational reliability, collaboration, persistent instructions, and WebMCP are capability families, not compatibility cells. A family has independently testable atomic children. For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support. Likewise, basic subagent delegation does not imply concurrency, nesting, inherited tools, isolated context, independent model choice, or structured handoff.
 
 Family progress is derived from child rows for each exact product. The catalog reports both reviewed children and supported-or-partial children, plus the full status breakdown. It never authors or infers one umbrella family status.
 
@@ -44,6 +44,14 @@ Evidence classes stay separate: **documented**, **vendor-attested**, **listed**,
 Plan, policy, region, authorization, transport, protocol revision, role, feature flag, runtime, preview, and vendor-extension limits remain structured qualifiers. They are not folded into prose and lost when the matrix is rendered.
 
 Compatibility status and product lifecycle are separate. An exact cell can be currently unsupported while its lifecycle is `planned`, or partially supported while it is `experimental` or `preview`. Lifecycle values are `untracked`, `requested`, `planned`, `experimental`, `preview`, `stable`, and `deprecated`; they require the same evidence discipline as the associated compatibility assertion.
+
+## Limits and measured values
+
+Some of the most useful harness facts are numeric: advertised and effective context tokens, maximum output, file bytes and count, document pages, audio or video duration, concurrent subagents, requests or tokens per reset window, run duration, storage, retention, and price. A number is not portable without its unit and scope.
+
+Every measured value should identify the exact harness, model or mode, plan, environment, region or policy when relevant, what the value limits, whether it is a documented maximum or a tested observation, the reset or billing period, the review date, and the boundary behavior. A model API limit is not copied into a chat, desktop, editor, or CLI surface without product evidence. When an advertised maximum and an effective usable limit differ, preserve both and explain the reservation, truncation, sampling, or compaction behavior.
+
+Prompt caching is split into three claims: reuse, operator controls, and telemetry. File upload is split from model-visible understanding and from preprocessing disclosure. These distinctions keep a paperclip icon, a provider model card, or a generic caching statement from becoming a broader compatibility claim than the evidence supports.
 
 Do not source a claim from rumors, search snippets without a stable page, community recollection, private beta screens, or screenshots of interfaces that are not public. When a document describes a model or API rather than the named harness, it does not automatically prove harness support.
 

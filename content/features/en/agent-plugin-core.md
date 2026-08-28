@@ -27,15 +27,42 @@ aliases: ["plugin.json"]
 parent: plugins
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry lists Grok Bot among clients that support the portable Agent Plugins format. This is registry evidence, not an independent runtime conformance test."
 issues: []
 resources:
   - title: Agent Plugins portable manifest reference
     href: https://agent-plugins.org/specification/1.0
     kind: spec
-support: []
+  - id: agent-plugins-grok-bot-client
+    title: Agent Plugins — Compatible clients
+    href: https://agent-plugins.org/compatible-clients
+    kind: spec
+    publisher: Agent Plugins
+    evidenceType: listed
+    reviewedAt: 2026-08-28
+    locator: Grok Bot
+support:
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Agent Plugins compatible-client listing
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: support is registry-listed and was not independently conformance-tested by Can My Agent Use
+        evidence:
+          - resourceId: agent-plugins-grok-bot-client
+            type: listed
+            observedAt: 2026-08-28
 ---
 
 Load the published portable plugin.json manifest and its core components.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+The Grok Bot cell is based on the Agent Plugins project's dated compatible-client registry. Unreviewed clients remain unknown, and the listing does not prove every optional client extension.

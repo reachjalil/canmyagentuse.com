@@ -27,15 +27,42 @@ aliases: ["stdio MCP"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists MCP stdio for Grok Bot. This is registry evidence, not an independent transport test."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: agent-plugins-grok-bot-client
+    title: Agent Plugins — Compatible clients
+    href: https://agent-plugins.org/compatible-clients
+    kind: spec
+    publisher: Agent Plugins
+    evidenceType: listed
+    reviewedAt: 2026-08-28
+    locator: Grok Bot
+support:
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Agent Plugins compatible-client listing
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: transport support is registry-listed and was not independently tested by Can My Agent Use
+        evidence:
+          - resourceId: agent-plugins-grok-bot-client
+            type: listed
+            observedAt: 2026-08-28
 ---
 
 Connect to a local MCP server over standard input and output.
 
-This row remains unknown for a product until exact, dated evidence covers this capability rather than MCP generally.
+The Grok Bot cell is registry-listed. Server lifecycle, installation location, authorization, and security policy remain deployment-specific.

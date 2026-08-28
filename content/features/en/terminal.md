@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code documents terminal tools for agent mode, with user-configurable approval and auto-approval behavior."
   - id: 6
     text: "Evidence checked 2026-08-28: OpenWork's OpenCode-backed runtime includes shell execution, with permission requests surfaced in the desktop app and policy controlled by the host."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Grok Bot's persistent cloud computer includes a command line and filesystem; local-computer commands are a separate capability controlled by a desktop approval policy."
 issues: []
 resources:
   - id: anthropic-cli-terminal
@@ -74,6 +76,13 @@ resources:
     href: https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
     kind: docs
     publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: xai-grok-bot-terminal
+    title: xAI — Grok Bot computer and apps
+    href: https://docs.x.ai/grok-bot/computer-and-apps
+    kind: docs
+    publisher: xAI
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -167,6 +176,25 @@ support:
             value: shell execution remains subject to OpenWork and OpenCode permission rules
         evidence:
           - resourceId: openwork-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: commands run on the account-scoped hosted computer by default; credentials and files there are shared across the account's Bots
+          - type: policy
+            value: commands on the operator's local Mac or Windows computer are separately controlled and default to asking every time
+        evidence:
+          - resourceId: xai-grok-bot-terminal
             type: documented
             observedAt: 2026-08-28
 ---

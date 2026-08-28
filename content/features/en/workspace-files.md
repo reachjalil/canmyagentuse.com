@@ -34,6 +34,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code agent tools include workspace search and file editing in the open workspace."
   - id: 7
     text: "Evidence checked 2026-08-28: OpenWork Desktop selects a project folder, runs its host stack against that workspace, and routes workspace file access through the OpenWork server and OpenCode runtime."
+  - id: 8
+    text: "Evidence checked 2026-08-28: Grok Bot provides a durable `/workspace` directory on its hosted computer and lets Bots read files saved there by other Bots. The directory and its contents are shared across all Bots on the account, not selected as an isolated local project."
 issues: []
 resources:
   - id: anthropic-desktop-files
@@ -85,6 +87,14 @@ resources:
     publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: xai-grok-bot-workspace
+    title: xAI — Grok Bot files and results
+    href: https://docs.x.ai/grok-bot/files-and-results
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Shared computer files
 support:
   - harness: claude-desktop
     versions:
@@ -193,6 +203,25 @@ support:
             value: access is limited by the selected workspace and OpenWork approval rules
         evidence:
           - resourceId: openwork-workspace-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Bot desktop documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: the documented workspace is a durable hosted `/workspace` shared across all Bots on one account, not an isolated user-selected local project
+          - type: policy
+            value: access to the operator's local files is separately controlled and requires local-computer permission
+        evidence:
+          - resourceId: xai-grok-bot-workspace
             type: documented
             observedAt: 2026-08-28
 ---

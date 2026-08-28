@@ -159,6 +159,8 @@ describe("paths", () => {
     expect(markdownPathForPagePath("/provider-marks")).toBe(
       "/provider-marks.md"
     );
+    expect(markdownPathForPagePath("/harness-guide")).toBe("/harness-guide.md");
+    expect(pagePathForMarkdownPath("/harness-guide.md")).toBe("/harness-guide");
   });
 });
 

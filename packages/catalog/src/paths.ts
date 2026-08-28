@@ -85,6 +85,7 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
   ["/about", "/about.md"],
   ["/methodology", "/methodology.md"],
   ["/privacy", "/privacy.md"],
+  ["/harness-guide", "/harness-guide.md"],
   ["/compare", "/compare.md"],
   ["/matrix", "/matrix.md"],
   ["/evidence", "/evidence.md"],

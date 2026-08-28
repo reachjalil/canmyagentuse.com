@@ -27,15 +27,44 @@ aliases: ["Streamable HTTP"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists MCP Streamable HTTP for Grok Bot. This is registry evidence, not an independent transport test."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: agent-plugins-grok-bot-client
+    title: Agent Plugins — Compatible clients
+    href: https://agent-plugins.org/compatible-clients
+    kind: spec
+    publisher: Agent Plugins
+    evidenceType: listed
+    reviewedAt: 2026-08-28
+    locator: Grok Bot
+support:
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Agent Plugins compatible-client listing
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: transport support is registry-listed and was not independently tested by Can My Agent Use
+          - type: policy
+            value: organization server and network allowlists can block a remote server
+        evidence:
+          - resourceId: agent-plugins-grok-bot-client
+            type: listed
+            observedAt: 2026-08-28
 ---
 
 Connect to an MCP server over the current Streamable HTTP transport.
 
-This row remains unknown for a product until exact, dated evidence covers this capability rather than MCP generally.
+The Grok Bot cell is registry-listed. Authentication, server policy, and optional MCP primitives remain separate claims.
