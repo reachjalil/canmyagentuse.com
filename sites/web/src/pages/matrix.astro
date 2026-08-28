@@ -1,0 +1,134 @@
+---
+import {
+  SITE,
+  currentStatus,
+  expandFeatureSupport,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import StatusMark from "../components/StatusMark.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publishedCollection } from "../lib/collections";
+
+const [features, harnesses] = await Promise.all([
+  publishedCollection("features"),
+  publishedCollection("harnesses"),
+]);
+const harnessData = harnesses.map((entry) => entry.data);
+const rows = features.map((entry) => ({
+  feature: entry.data,
+  cells: expandFeatureSupport(entry.data, harnessData).map((column) => ({
+    harness: column.harness.slug,
+    status: currentStatus(column.versions),
+  })),
+}));
+---
+
+<BaseLayout
+  title={`Compatibility matrix | ${SITE.name}`}
+  description="Current capability status by exact web, desktop, and CLI product column. Unknown cells remain visible."
+  canonicalPath="/matrix"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">All product columns</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Compatibility matrix</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        Each column names one exact web, desktop, or CLI product. Filter rows
+        here, then open a capability to see its target, conditions, sources, and
+        change history. The grid does not calculate a product score.
+      </p>
+      <form class="filter-toolbar mt-6" data-matrix-controls>
+        <label>Filter capabilities<input type="search" name="q" placeholder="MCP, skills, terminal" /></label>
+        <label>Surface<select name="surface"><option value="all">All surfaces</option><option value="web">Web</option><option value="desktop">Desktop</option><option value="cli">CLI</option></select></label>
+        <label>Evidence scope<select name="coverage"><option value="all">All capabilities</option><option value="sourced">Sourced in view</option><option value="unknown">All unknown in view</option></select></label>
+        <output class="filter-count" data-matrix-count aria-live="polite">{rows.length} capabilities</output>
+      </form>
+      <div class="table-scroll mt-4">
+        <table class="power-matrix" data-power-matrix>
+          <thead><tr><th>Capability</th>{harnesses.map((entry) => <th data-matrix-column data-surface={entry.data.surface}><a href={`/harnesses/${entry.data.slug}`}>{entry.data.title}<small>{entry.data.surface}</small></a></th>)}</tr></thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr data-title={`${row.feature.title} ${row.feature.aliases.join(" ")}`.toLowerCase()}>
+                <th scope="row"><a href={`/features/${row.feature.slug}`}>{row.feature.title}</a></th>
+                {harnesses.map((entry) => {
+                  const status = row.cells.find((cell) => cell.harness === entry.data.slug)?.status ?? "unknown";
+                  return <td data-matrix-column data-surface={entry.data.surface} data-status={status}><StatusMark status={status} /></td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const controls = document.querySelector("[data-matrix-controls]");
+  const rows = [...document.querySelectorAll("[data-power-matrix] tbody tr")];
+  const columns = [...document.querySelectorAll("[data-matrix-column]")];
+  const count = document.querySelector("[data-matrix-count]");
+
+  function paintMatrix() {
+    if (!(controls instanceof HTMLFormElement)) return;
+    const values = new FormData(controls);
+    const query = String(values.get("q") ?? "").trim().toLowerCase();
+    const surface = String(values.get("surface") ?? "all");
+    const coverage = String(values.get("coverage") ?? "all");
+
+    for (const column of columns) {
+      column.toggleAttribute(
+        "hidden",
+        surface !== "all" && column.getAttribute("data-surface") !== surface
+      );
+    }
+
+    let visible = 0;
+    for (const row of rows) {
+      const titleMatches =
+        !query || (row.getAttribute("data-title") ?? "").includes(query);
+      const statuses = [...row.querySelectorAll("[data-matrix-column]")]
+        .filter(
+          (cell) =>
+            surface === "all" || cell.getAttribute("data-surface") === surface
+        )
+        .map((cell) => cell.getAttribute("data-status"));
+      const hasSourced = statuses.some((status) => status !== "unknown");
+      const coverageMatches =
+        coverage === "all" ||
+        (coverage === "sourced" && hasSourced) ||
+        (coverage === "unknown" && !hasSourced);
+      const matches = titleMatches && coverageMatches;
+      row.toggleAttribute("hidden", !matches);
+      if (matches) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "capability" : "capabilities"}`;
+
+    const url = new URL(window.location.href);
+    for (const [name, value] of [
+      ["q", query],
+      ["surface", surface === "all" ? "" : surface],
+      ["coverage", coverage === "all" ? "" : coverage],
+    ]) {
+      if (value) url.searchParams.set(name, value);
+      else url.searchParams.delete(name);
+    }
+    history.replaceState({}, "", url);
+  }
+
+  if (controls instanceof HTMLFormElement) {
+    const params = new URLSearchParams(window.location.search);
+    for (const name of ["q", "surface", "coverage"]) {
+      const field = controls.elements.namedItem(name);
+      const value = params.get(name);
+      if (value && (field instanceof HTMLInputElement || field instanceof HTMLSelectElement)) {
+        field.value = value;
+      }
+    }
+    controls.addEventListener("input", paintMatrix);
+    controls.addEventListener("change", paintMatrix);
+    paintMatrix();
+  }
+</script>

@@ -1,0 +1,51 @@
+---
+import { CONFORMANCE_TESTS, SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const grouped = new Map<string, typeof CONFORMANCE_TESTS>();
+for (const test of CONFORMANCE_TESTS) {
+  const bucket = grouped.get(test.specification) ?? [];
+  bucket.push(test);
+  grouped.set(test.specification, bucket);
+}
+---
+
+<BaseLayout
+  title={`Conformance test registry | ${SITE.name}`}
+  description="Proposed deterministic and isolated conformance test definitions, clearly separated from executed results."
+  canonicalPath="/tests"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Proposed tests</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Conformance test registry</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        {CONFORMANCE_TESTS.length} definitions state how support could be tested.
+        None has been run against a catalog product.
+      </p>
+      <div class="trust-banner mt-6">
+        <strong>Execution status: proposed, not run.</strong> Static manifest
+        validation comes first. Untrusted scripts, local servers, and remote
+        authorization flows require isolated runners, denied ambient credentials,
+        controlled egress, redaction, and signed environment provenance.
+      </div>
+
+      {[...grouped.entries()].map(([name, tests]) => (
+        <section class="mt-10">
+          <div class="section-heading"><div><p class="eyebrow">{tests.length} definitions</p><h2>{name}</h2></div></div>
+          <ul class="test-list">
+            {tests.map((test) => (
+              <li>
+                <code>{test.id}</code>
+                <div><strong>{test.name}</strong><span>{test.featureId} · {test.fixtureType}</span></div>
+                <div><b>{test.requirementLevel}</b><small>{test.executionStatus}</small></div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </main>
+  </SiteChrome>
+</BaseLayout>

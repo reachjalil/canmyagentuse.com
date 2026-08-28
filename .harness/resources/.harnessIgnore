@@ -1,0 +1,25 @@
+**/.DS_Store
+**/node_modules/
+**/logs/
+**/*.log
+**/.env
+**/.env.*
+**/.dev.vars
+**/.dev.vars.*
+**/settings.local.json
+
+# Keep the reviewed skill catalog, but project only the active set.
+skills/*
+
+!skills/harness-config/
+!skills/harness-config/**
+!skills/canmyagentuse-site-skill/
+!skills/canmyagentuse-site-skill/**
+!skills/astro-v6-cloudflare-skill/
+!skills/astro-v6-cloudflare-skill/**
+!skills/astro-6-reference-skill/
+!skills/astro-6-reference-skill/**
+!skills/provider-compatible-ui-skill/
+!skills/provider-compatible-ui-skill/**
+!skills/quality-testing-strategy-skill/
+!skills/quality-testing-strategy-skill/**

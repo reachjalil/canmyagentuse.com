@@ -1,0 +1,51 @@
+vendor_id,vendor_name,coverage_tier,surface_count,supported_cells,partial_cells,unsupported_cells,unknown_cells,non_unknown_cells,evidence_coverage_percent,inclusion_basis,notes
+anthropic,Anthropic,A,2,24,3,0,71,27,27.6,first-party deep dive + ACP registry wrapper,
+openai,OpenAI,A,6,63,1,5,225,69,23.5,first-party deep dive + Agent Plugins + ACP adapter,
+cursor,Cursor,A,3,55,2,0,90,57,38.8,first-party deep dive + both registries,
+microsoft-vscode,Microsoft / Visual Studio Code,A,1,14,0,0,35,14,28.6,Agent Plugins client + release-specific docs,
+github,GitHub,A,4,29,0,3,164,32,16.3,first-party deep dive + both registries,
+google,Google,A,2,15,2,0,81,17,17.3,first-party Gemini CLI + ACP registry,
+zed,Zed Industries,A,2,9,1,3,85,13,13.3,first-party MCP and ACP host docs,
+jetbrains,JetBrains,A,3,13,1,0,133,14,9.5,first-party MCP/ACP/agent docs + Junie registry,
+aws-kiro,AWS / Kiro,A,4,38,3,5,150,46,23.5,first-party surface tables + Agent Plugins + ACP registry,
+cline,Cline,A,2,12,1,3,82,16,16.3,first-party CLI/extension/subagent docs + ACP registry,
+opencode,OpenCode,A,3,36,0,0,111,36,24.5,first-party CLI/desktop/IDE docs + ACP registry,
+continue,Continue,A,3,9,0,10,128,19,12.9,first-party mode-specific MCP docs,
+cognition,Cognition,A,4,34,2,0,160,36,18.4,first-party Cascade/Devin surface split + ACP registry,
+augment,Augment Code,A,2,28,0,0,70,28,28.6,first-party Auggie docs + ACP registry,
+block-goose,Block / goose,A,3,31,2,0,114,33,22.4,first-party MCP/Skills/ACP/subagent docs + ACP registry,
+nous-hermes,Nous Research / Hermes,A,2,17,0,0,81,17,17.3,first-party docs + Agent Plugins client,
+openclaw,OpenClaw,A,3,20,1,0,126,21,14.3,first-party MCP/ACP/Skills docs + Agent Plugins client,
+xai,xAI,A,2,25,0,0,73,25,25.5,Grok Build ACP + Grok Bot Agent Plugins,
+nanoclaw,NanoClaw,B,1,9,0,0,40,9,18.4,official Agent Plugins client + repository,
+moonshot,Moonshot AI,A,2,22,0,1,75,23,23.5,current Kimi Code docs + stale ACP registry entry,
+mistral,Mistral AI,A,1,10,0,1,38,11,22.4,first-party Vibe MCP docs + ACP registry,
+qoder,Qoder,A,1,16,0,0,33,16,32.7,first-party CLI docs + stale ACP registry entry,
+alibaba-qwen,Alibaba / Qwen,A,1,15,0,0,34,15,30.6,first-party Qwen Code docs + ACP registry,
+factory,Factory AI,A,2,19,0,1,78,20,20.4,first-party Droid docs + ACP registry,
+kilo,Kilo,A,2,15,0,0,83,15,15.3,first-party CLI/IDE docs + ACP registry,
+openhands,OpenHands,A,4,20,1,0,175,21,10.7,first-party CLI/Canvas/ACP docs,
+replit,Replit,A,2,12,0,0,86,12,12.2,first-party Agent/MCP client/server/Skills docs,
+warp,Warp,A,3,20,1,0,126,21,14.3,first-party local/CLI/cloud docs,
+roo-code,Roo Code,B,1,0,0,6,43,6,12.2,historical lifecycle,
+aider,Aider,D,1,0,0,0,49,0,0.0,watchlist; first-party documentation reviewed but no current protocol claim found,
+agoragentic,Agoragentic,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+amp,Amp,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+autohand,Autohand,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+codebuddy,Tencent Cloud / CodeBuddy,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+snowflake,Snowflake,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+corust,Corust,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+crow,crow-cli,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+deepagents,LangChain / DeepAgents,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+dimcode,DimCode,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+dirac,Dirac,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+fast-agent,fast-agent,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+zai,Z.AI / GLM Agent,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+harn,Harn,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+minion,Minion Code,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+compass-ai,Compass AI / Nova,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+pi,pi,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+poolside,Poolside,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+sigit,siGit Code,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+stakpak,Stakpak,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.
+vt-code,VT Code,C,1,2,0,0,47,2,4.1,ACP Registry only,Only the ACP agent role/version is asserted; all other features remain unknown.

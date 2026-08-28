@@ -1,0 +1,66 @@
+---
+import {
+  breadcrumbJsonLd,
+  newsPath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const news = await publishedCollection("news");
+  return news.map((item) => ({
+    params: { slug: item.data.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing news slug.");
+
+const news = await publishedCollection("news");
+const item = entryBySlug(news, slug);
+if (!item) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(item);
+const metadata = resolveMetadata(item.data);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} catalog news card from Can My Agent Use.`}
+  contentType="article"
+  publishedTime={metadata.published}
+  modifiedTime={metadata.updated}
+  section="Catalog news"
+  tags={metadata.tags}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "News", path: "/news" },
+      { name: item.data.title, path: newsPath(item.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="font-mono text-xs text-[color:var(--color-muted)]">News</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight">{item.data.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
+        {item.data.summary}
+      </p>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>

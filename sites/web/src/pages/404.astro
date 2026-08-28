@@ -1,0 +1,24 @@
+---
+import { SITE } from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`Not found — ${SITE.name}`}
+  description="That catalog path is not published."
+  canonicalPath="/404"
+  noindex
+>
+  <SiteChrome>
+    <main id="main" class="shell py-16">
+      <h1 class="text-4xl font-semibold tracking-tight">Not found</h1>
+      <p class="mt-4 max-w-xl text-[color:var(--color-muted)]">
+        That path is not in the published catalog. Start from
+        <a class="underline" href="/">home</a>,
+        <a class="underline" href="/features">capabilities</a>, or
+        <a class="underline" href="/harnesses">harnesses</a>.
+      </p>
+    </main>
+  </SiteChrome>
+</BaseLayout>

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "generated_at_utc": "2026-08-28T19:30Z",
+  "checks": {
+    "numbered_markdown_files": 29,
+    "sources": 159,
+    "surfaces": 20,
+    "matrix_capabilities": 42,
+    "taxonomy_capabilities": 56,
+    "support_assertions": 840,
+    "conformance_tests_proposed": 24,
+    "runtime_tests_executed": 0
+  },
+  "exceptions": [
+    "Archive snapshots were not captured; every source has an explicit archive-failed marker.",
+    "Runtime conformance tests were designed but not executed; all seed rows are documentation/evidence research only."
+  ],
+  "issues": []
+}

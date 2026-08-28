@@ -1,0 +1,15 @@
+flowchart TB
+  HOME[/] --> F[/features/]
+  HOME --> H[/harnesses/]
+  HOME --> S[/specs/]
+  F --> FD[/feature/:slug/]
+  H --> HD[/harness/:slug/]
+  S --> SD[/spec/:slug/]
+  HOME --> CMP[/compare/]
+  HOME --> MAT[/matrix/]
+  FD --> E[/evidence/]
+  HD --> E
+  HOME --> T[/tests/]
+  HOME --> C[/changes/]
+  HOME --> X[/contradictions/]
+  HOME --> A[/about/]

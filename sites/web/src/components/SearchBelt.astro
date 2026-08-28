@@ -1,0 +1,175 @@
+---
+import type {
+  FeatureData,
+  HarnessData,
+  SpecificationData,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  features: FeatureData[];
+  harnesses: HarnessData[];
+  specifications: SpecificationData[];
+  value?: string;
+  scope?: SearchScope;
+}
+
+type SearchScope = "all" | "feature" | "harness" | "specification";
+
+const {
+  features,
+  harnesses,
+  specifications,
+  value = "",
+  scope = "all",
+} = Astro.props;
+const scopeOptions = [
+  { value: "all", label: "Everything", hint: "Capabilities, products, and specifications" },
+  { value: "feature", label: "Capabilities", hint: "Atomic things an agent may be able to do" },
+  { value: "harness", label: "Products", hint: "Exact web, desktop, and CLI products" },
+  { value: "specification", label: "Specifications", hint: "Protocols, formats, and conventions" },
+] as const;
+const currentScope = scopeOptions.find((option) => option.value === scope) ?? scopeOptions[0];
+const index = [
+  ...features.map((feature) => ({
+    title: feature.title,
+    aliases: feature.aliases,
+    path: `/features/${feature.slug}`,
+    kind: "feature",
+    kindLabel: "Capability",
+  })),
+  ...harnesses.map((harness) => ({
+    title: `${harness.title} (${harness.surface})`,
+    aliases: [harness.slug, harness.family, harness.vendor],
+    path: `/harnesses/${harness.slug}`,
+    kind: "harness",
+    kindLabel: "Product",
+  })),
+  ...specifications.map((specification) => ({
+    title: specification.title,
+    aliases: [specification.slug, ...specification.aliases],
+    path: `/specs/${specification.slug}`,
+    kind: "specification",
+    kindLabel: "Specification",
+  })),
+];
+---
+
+<div class="search-belt">
+  <form class="shell search-belt__form" action="/search" method="get" role="search" data-search-belt>
+    <div class="search-belt__composer">
+      <label class="search-belt__sentence" for="capability-search">
+        <span class="search-belt__lead">Can my agent use</span>
+        <span class="search-belt__field">
+          <input
+            id="capability-search"
+            name="q"
+            type="search"
+            placeholder="MCP, Cursor, SKILL.md…"
+            value={value}
+            list="capability-suggestions"
+            autocomplete="off"
+            aria-describedby="search-support-text"
+          />
+          <small id="search-support-text">Capability, product, specification, or alias</small>
+        </span>
+        <span class="search-belt__question" aria-hidden="true">?</span>
+      </label>
+      <div class="search-belt__controls">
+        <details class="search-belt__options">
+          <summary>
+            <span>Scope</span>
+            <strong data-scope-current>{currentScope.label}</strong>
+          </summary>
+          <div class="search-belt__options-panel">
+            <fieldset>
+              <legend>Search within</legend>
+              {
+                scopeOptions.map((option) => (
+                  <label>
+                    <input
+                      type="radio"
+                      name="scope"
+                      value={option.value}
+                      checked={option.value === currentScope.value}
+                      data-scope-option
+                      data-scope-label={option.label}
+                    />
+                    <span>
+                      <strong>{option.label}</strong>
+                      <small>{option.hint}</small>
+                    </span>
+                  </label>
+                ))
+              }
+            </fieldset>
+            <a href="/methodology">How compatibility cells are marked</a>
+          </div>
+        </details>
+        <button type="submit">Look up</button>
+      </div>
+    </div>
+    <datalist id="capability-suggestions">
+      {index.map((item) => <option value={item.title}>{item.kindLabel}</option>)}
+    </datalist>
+    <script is:inline type="application/json" id="capability-index" set:html={JSON.stringify(index)} />
+  </form>
+</div>
+
+<script>
+  const form = document.querySelector("[data-search-belt]");
+  const raw = document.getElementById("capability-index")?.textContent ?? "[]";
+  const items = JSON.parse(raw) as {
+    title: string;
+    aliases: string[];
+    path: string;
+    kind: "feature" | "harness" | "specification";
+  }[];
+
+  const destinationFor = (input: HTMLInputElement, form: HTMLFormElement) => {
+    const query = input.value.trim().toLowerCase();
+    if (!query) return "/features";
+
+    const selectedScope = form.querySelector("input[name='scope']:checked");
+    const scope = selectedScope instanceof HTMLInputElement ? selectedScope.value : "all";
+
+    const exact = items.find(
+      (item) =>
+        (scope === "all" || item.kind === scope) &&
+        (item.title.toLowerCase() === query ||
+          item.aliases.some((alias) => alias.toLowerCase() === query))
+    );
+
+    if (exact) return exact.path;
+
+    const destination = new URL("/search", window.location.origin);
+    destination.searchParams.set("q", input.value.trim());
+    if (scope !== "all") destination.searchParams.set("scope", scope);
+    return `${destination.pathname}${destination.search}`;
+  };
+
+  if (form instanceof HTMLFormElement) {
+    form.addEventListener("submit", (event) => {
+      const input = form.querySelector("input[name='q']");
+      if (!(input instanceof HTMLInputElement)) return;
+      event.preventDefault();
+      window.location.href = destinationFor(input, form);
+    });
+
+    const input = form.querySelector("input[name='q']");
+    if (input instanceof HTMLInputElement) {
+      input.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        window.location.href = destinationFor(input, form);
+      });
+    }
+
+    const currentScope = form.querySelector("[data-scope-current]");
+    for (const option of form.querySelectorAll("[data-scope-option]")) {
+      if (!(option instanceof HTMLInputElement)) continue;
+      option.addEventListener("change", () => {
+        if (currentScope) currentScope.textContent = option.dataset.scopeLabel ?? "Everything";
+      });
+    }
+  }
+</script>

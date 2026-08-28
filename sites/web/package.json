@@ -1,0 +1,40 @@
+{
+  "name": "@canmyagentuse/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public Can My Agent Use catalog on Astro 7 and Cloudflare Workers.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://canmyagentuse.com",
+  "scripts": {
+    "catalog:validate": "node --experimental-strip-types scripts/validate-catalog.ts && node --experimental-strip-types scripts/validate-research.ts && node --experimental-strip-types scripts/validate-representations.ts",
+    "social:generate": "node --experimental-strip-types scripts/generate-social-cards.ts",
+    "dev": "pnpm run catalog:validate && pnpm run social:generate && astro dev",
+    "build": "pnpm run catalog:validate && pnpm run social:generate && astro build",
+    "check": "pnpm run catalog:validate && astro check",
+    "test": "vitest run",
+    "preview": "astro preview",
+    "cf:types": "wrangler types worker-configuration.generated.d.ts",
+    "deploy": "pnpm run build && wrangler deploy --config dist/server/wrangler.json",
+    "deploy:dry-run": "pnpm run build && wrangler deploy --dry-run --config dist/server/wrangler.json"
+  },
+  "dependencies": {
+    "@astrojs/check": "catalog:",
+    "@astrojs/cloudflare": "catalog:",
+    "@canmyagentuse/catalog": "workspace:*",
+    "@fontsource/ibm-plex-mono": "catalog:",
+    "@fontsource/ibm-plex-sans": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "astro": "catalog:",
+    "sharp": "catalog:",
+    "tailwindcss": "catalog:",
+    "yaml": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "wrangler": "catalog:"
+  }
+}

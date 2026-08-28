@@ -1,0 +1,50 @@
+feature_id,feature_group,feature_name,description,role,parent_feature_id,testability
+mcp.client,MCP,MCP client role,Surface can connect to and consume MCP servers.,client,,deterministic
+mcp.server,MCP,MCP server role,Surface can expose capabilities as an MCP server.,server,,deterministic
+mcp.revision.2026-07-28,MCP,MCP 2026-07-28,Exact current dated revision support or negotiation.,both,,deterministic
+mcp.tools,MCP,MCP tools,Discovers and calls tools.,client,,deterministic
+mcp.resources,MCP,MCP resources,Lists/reads resources and templates.,client,,deterministic
+mcp.prompts,MCP,MCP prompts,Lists and retrieves prompts.,client,,deterministic
+mcp.transport.stdio,MCP,MCP stdio,Local subprocess transport.,both,,deterministic
+mcp.transport.streamable-http,MCP,MCP Streamable HTTP,Current HTTP transport.,both,,deterministic
+mcp.transport.legacy-sse,MCP,MCP legacy SSE,Legacy SSE transport compatibility.,both,,deterministic
+mcp.transport.websocket-extension,MCP,MCP WebSocket extension,Non-core WebSocket transport/extension.,both,,deterministic
+mcp.auth.oauth,MCP,MCP OAuth,Remote OAuth authorization flow support.,client,,deterministic
+mcp.roots,MCP,MCP roots,Client provides filesystem/workspace roots.,client,,deterministic
+mcp.sampling,MCP,MCP sampling,Client handles server-requested model sampling.,client,,deterministic
+mcp.elicitation,MCP,MCP elicitation,Client handles structured user input requests.,client,,deterministic
+mcp.list-changed,MCP,MCP list_changed,Dynamic primitive-list refresh notifications.,client,,deterministic
+mcp.tasks,MCP,MCP tasks,Long-running task utility support.,both,,deterministic
+mcp.apps,MCP,MCP Apps / interactive UI,Host can render interactive MCP application UI.,client,,interactive
+agent-skills.core,Agent Skills,Agent Skills core,Loads standard SKILL.md packages and required metadata.,both,,deterministic
+agent-skills.standard-paths,Agent Skills,Agent Skills standard paths,Discovers vendor-neutral .agents skill locations.,both,,deterministic
+agent-skills.scripts-assets,Agent Skills,Agent Skills scripts/assets,"Handles optional scripts, references, and assets.",both,,security-sensitive
+agent-plugins.core,Agent Plugins,Agent Plugins 1.0 core,Loads the published portable plugin manifest and components.,both,,deterministic
+agent-plugins.skills,Agent Plugins,Agent Plugins packaged skills,Loads portable skills from a plugin package.,both,agent-plugins.core,deterministic
+agent-plugins.mcp,Agent Plugins,Agent Plugins packaged MCP,Loads MCP server configuration from a portable plugin package.,both,agent-plugins.core,deterministic
+agent-plugins.failure-isolation,Agent Plugins,Agent Plugins failure isolation,Invalid components fail narrowly without poisoning valid components.,both,agent-plugins.core,deterministic
+acp.client,ACP,ACP client/host role,Surface hosts external ACP agents.,client,,deterministic
+acp.agent,ACP,ACP agent/server role,Surface exposes an agent to ACP clients.,agent,,deterministic
+acp.transport.stdio,ACP,ACP stdio,JSON-RPC over stdio transport.,both,,deterministic
+acp.mcp-forwarding,ACP,ACP MCP forwarding,ACP host forwards configured MCP servers to the agent.,both,,deterministic
+acp.session-load,ACP,ACP session load/resume,Loads or resumes a prior session.,both,,deterministic
+acp.session-list,ACP,ACP session list,Lists prior sessions.,both,,deterministic
+acp.terminal-reverse-rpc,ACP,ACP terminal reverse RPC,Agent asks client to run/manage terminal sessions.,both,,deterministic
+acp.elicitation,ACP,ACP elicitation/approval,Structured input or permission requests.,both,,deterministic
+a2a.client,A2A,A2A client role,Delegates work to A2A agents.,client,,deterministic
+a2a.server,A2A,A2A agent/server role,Publishes an Agent Card and accepts A2A work.,server,,deterministic
+instructions.agents-md,Instructions,AGENTS.md,Reads the cross-agent AGENTS.md convention.,both,,observational
+instructions.rules,Instructions,Native rules/instructions,Supports persistent or path-scoped product-native instructions.,both,,observational
+hooks,Native extensibility,Hooks,Runs lifecycle hooks or interceptors.,both,,security-sensitive
+subagents,Native extensibility,Subagents,Delegates work to product-native child agents.,both,,observational
+subagents.nested,Native extensibility,Nested subagents,Child agents can create further child agents.,both,subagents,observational
+subagents.mcp-access,Native extensibility,Subagent MCP access,Subagents can access MCP tools or declare MCP servers.,both,subagents,observational
+subagents.write-access,Native extensibility,Subagent write access,Subagents can write/edit project files.,both,subagents,observational
+plugins.native,Native extensibility,Native plugin system,Product-specific plugin/extension package beyond Agent Plugins core.,both,,deterministic
+marketplace-registry,Distribution,Marketplace or registry,"Install/distribute extensions, skills, plugins, or agents through a registry.",both,,observational
+automation.headless,Automation,Headless / CI execution,"Runs non-interactively in scripts, CI, or batch workflows.",both,,deterministic
+automation.cloud-agent,Automation,Cloud agent,Runs autonomous tasks in a hosted environment.,both,,observational
+governance.org-policy,Governance,Organization policy controls,"Central admin controls, allowlists, or managed settings.",both,,documentation-only
+session.handoff,Sessions,Session handoff/import,"Imports, shares, or hands sessions/configuration across surfaces.",both,,observational
+computer-use,Native extensibility,Computer/browser use,Controls browser or desktop applications through a computer-use surface.,both,,security-sensitive
+custom-agents,Native extensibility,Custom agents,Defines specialized named agents or modes.,both,,observational

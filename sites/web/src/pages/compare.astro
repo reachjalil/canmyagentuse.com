@@ -1,0 +1,273 @@
+---
+import {
+  HARNESS_SURFACE_LABELS,
+  SITE,
+  currentStatus,
+  expandFeatureSupport,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import type { ComparisonCell, ComparisonRow } from "../lib/comparison";
+import { publishedCollection } from "../lib/collections";
+
+const [features, harnesses, categories] = await Promise.all([
+  publishedCollection("features"),
+  publishedCollection("harnesses"),
+  publishedCollection("categories"),
+]);
+const harnessData = harnesses.map((entry) => entry.data);
+const leftDefault = harnesses.find((entry) => entry.data.slug === "cursor") ?? harnesses[0];
+const rightDefault = harnesses.find((entry) => entry.data.slug === "claude-cli") ?? harnesses[1] ?? harnesses[0];
+if (!leftDefault || !rightDefault) throw new Error("Compare needs at least two harnesses.");
+
+const rows: ComparisonRow[] = features.map((entry) => {
+  const feature = entry.data;
+  const cells = Object.fromEntries(
+    expandFeatureSupport(feature, harnessData).map((column) => {
+      const version = column.versions.find((item) => item.track === "current") ?? column.versions[0];
+      const evidence = version?.evidence ?? [];
+      const cell: ComparisonCell = {
+        status: currentStatus(column.versions),
+        evidenceCount: evidence.length,
+        observedAt: evidence.map((item) => item.observedAt).toSorted().at(-1),
+        target: version?.target ? `${version.target.kind}: ${version.target.revision}` : undefined,
+        environment: version?.environmentProfile,
+        qualifiers: (version?.qualifiers ?? []).map((item) => `${item.type}: ${item.value}`),
+      };
+      return [column.harness.slug, cell];
+    })
+  );
+  return {
+    slug: feature.slug,
+    title: feature.title,
+    summary: feature.summary,
+    category: feature.category,
+    cells,
+  };
+});
+
+const compareData = {
+  harnesses: harnesses.map((entry) => ({
+    slug: entry.data.slug,
+    title: entry.data.title,
+    vendor: entry.data.vendor,
+    surfaceLabel: HARNESS_SURFACE_LABELS[entry.data.surface],
+    summary: entry.data.summary,
+    execution: entry.data.execution,
+    targetKind: entry.data.targetKind,
+    environment: entry.data.defaultEnvironmentProfile,
+  })),
+  categories: categories.map((entry) => ({ slug: entry.data.slug, title: entry.data.title })),
+  rows,
+};
+---
+
+<BaseLayout
+  title={`Compare harnesses | ${SITE.name}`}
+  description="Compare exact agent harness surfaces by capability, constraints, environment, and dated evidence."
+  canonicalPath="/compare"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="compare-page">
+      <section class="compare-hero shell">
+        <p class="compare-eyebrow">Decision workspace · current track</p>
+        <div class="compare-hero__copy">
+          <h1>Compare harnesses,<br /><em>without the hand-waving.</em></h1>
+          <p>
+            Choose two exact product surfaces. Compare what they support, where the
+            constraints differ, and how much evidence sits behind every answer.
+          </p>
+        </div>
+        <aside class="compare-principle" aria-label="How to read this comparison">
+          <strong>No winner score.</strong>
+          <p>
+            A harness is only “better” for a specific job. Unknown means we do not
+            have enough published evidence—not that the product lacks the capability.
+          </p>
+          <a href="/methodology">Read the methodology →</a>
+        </aside>
+      </section>
+
+      <section class="shell compare-workbench" aria-labelledby="products-heading">
+        <div class="compare-section-heading">
+          <div>
+            <p>01 / Choose products</p>
+            <h2 id="products-heading">Two surfaces, compared exactly</h2>
+          </div>
+          <button class="compare-swap" type="button" data-compare-swap aria-label="Swap products">
+            <span aria-hidden="true">⇄</span> Swap sides
+          </button>
+        </div>
+
+        <div class="product-picker-grid">
+          {[
+            { side: "left", label: "Product A", selected: leftDefault.data },
+            { side: "right", label: "Product B", selected: rightDefault.data },
+          ].map(({ side, label, selected }) => (
+            <article class="product-picker" data-product-card={side}>
+              <label for={`compare-${side}`}>{label}</label>
+              <select id={`compare-${side}`} name={side === "left" ? "a" : "b"} data-compare-a={side === "left" ? true : undefined} data-compare-b={side === "right" ? true : undefined}>
+                {harnesses.map((entry) => (
+                  <option value={entry.data.slug} selected={entry.data.slug === selected.slug}>
+                    {entry.data.title} — {HARNESS_SURFACE_LABELS[entry.data.surface]}
+                  </option>
+                ))}
+              </select>
+              <div class="product-picker__identity">
+                <span class="product-monogram" data-product-monogram={side} aria-hidden="true">{selected.title.slice(0, 1)}</span>
+                <div>
+                  <h3 data-product-title={side}>{selected.title}</h3>
+                  <p data-product-vendor={side}>{selected.vendor}</p>
+                </div>
+                <span class="surface-chip" data-product-surface={side}>{HARNESS_SURFACE_LABELS[selected.surface]}</span>
+              </div>
+              <p class="product-picker__summary" data-product-summary={side}>{selected.summary}</p>
+              <dl class="product-facts">
+                <div><dt>Execution</dt><dd data-product-execution={side}>{selected.execution}</dd></div>
+                <div><dt>Target</dt><dd data-product-target={side}>{selected.targetKind}</dd></div>
+                <div><dt>Environment</dt><dd data-product-environment={side}>{selected.defaultEnvironmentProfile}</dd></div>
+              </dl>
+              <a class="product-profile-link" data-product-link={side} href={`/harnesses/${selected.slug}`}>Open product evidence →</a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="shell compare-results" aria-labelledby="results-heading">
+        <div class="compare-section-heading">
+          <div>
+            <p>02 / Find the differences</p>
+            <h2 id="results-heading">Capability evidence</h2>
+          </div>
+          <a class="compare-share" data-compare-share href="/compare.md">Markdown view ↗</a>
+        </div>
+
+        <div class="compare-totals" aria-label="Comparison summary">
+          <article><span>Meaningful differences</span><strong data-summary-different>0</strong><small>Status, target, environment, or constraint</small></article>
+          <article><span>Matching records</span><strong data-summary-matched>0</strong><small>The published records align</small></article>
+          <article><span>Evidence gaps</span><strong data-summary-gaps>0</strong><small>Unknown on at least one side</small></article>
+          <article><span>Explicit support</span><strong><b data-summary-left>0</b> <i>/</i> <b data-summary-right>0</b></strong><small><span data-short-left>Product A</span> / <span data-short-right>Product B</span></small></article>
+        </div>
+
+        <form class="compare-filters" data-compare-form>
+          <label class="compare-search"><span>Search capabilities</span><input type="search" name="q" placeholder="Try ‘MCP’, ‘browser’, ‘files’…" data-compare-query /></label>
+          <label><span>Decision lens</span><select name="view" data-compare-view><option value="all">Everything</option><option value="different">Meaningful differences</option><option value="supported">Supported by either</option><option value="evidence-gaps">Evidence gaps</option></select></label>
+          <label><span>Capability group</span><select name="category" data-compare-category><option value="">All groups</option>{categories.map((entry) => <option value={entry.data.slug}>{entry.data.title}</option>)}</select></label>
+          <output data-compare-count aria-live="polite">{rows.length} capabilities</output>
+        </form>
+
+        <div class="comparison-board">
+          <div class="comparison-board__head" aria-hidden="true"><span>Capability</span><strong data-column-heading="left">{leftDefault.data.title}</strong><strong data-column-heading="right">{rightDefault.data.title}</strong></div>
+          <div data-comparison-rows></div>
+          <div class="comparison-empty" data-comparison-empty hidden><strong>No capabilities match these filters.</strong><p>Try a broader lens, another group, or clear the search.</p></div>
+        </div>
+        <p class="compare-disclaimer">Can My Agent Use is independent and is not affiliated with, endorsed by, or sponsored by the products referenced here. Names identify catalog columns only.</p>
+      </section>
+
+      <script is:inline type="application/json" id="compare-data" set:html={JSON.stringify(compareData)} />
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  import { comparisonSummary, filterComparisonRows, type ComparisonLens, type ComparisonRow } from "../lib/comparison";
+
+  const statusLabels = { yes: "Supported", partial: "Partial", no: "Unsupported", unknown: "Unknown", na: "Not applicable" } as const;
+  const statusMarks = { yes: "Y", partial: "P", no: "N", unknown: "?", na: "–" } as const;
+  type Harness = { slug: string; title: string; vendor: string; surfaceLabel: string; summary: string; execution: string; targetKind: string; environment: string };
+  const raw = document.getElementById("compare-data")?.textContent ?? "{}";
+  const data = JSON.parse(raw) as { harnesses: Harness[]; categories: { slug: string; title: string }[]; rows: ComparisonRow[] };
+  const leftSelect = document.querySelector("[data-compare-a]");
+  const rightSelect = document.querySelector("[data-compare-b]");
+  const lensSelect = document.querySelector("[data-compare-view]");
+  const categorySelect = document.querySelector("[data-compare-category]");
+  const queryInput = document.querySelector("[data-compare-query]");
+  const rowsRoot = document.querySelector("[data-comparison-rows]");
+  const emptyState = document.querySelector("[data-comparison-empty]");
+
+  function harnessFor(slug: string) { return data.harnesses.find((item) => item.slug === slug) ?? data.harnesses[0]; }
+  function put(selector: string, value: string) { const element = document.querySelector(selector); if (element) element.textContent = value; }
+  function updateProduct(side: "left" | "right", harness: Harness) {
+    put(`[data-product-title="${side}"]`, harness.title);
+    put(`[data-product-vendor="${side}"]`, harness.vendor);
+    put(`[data-product-monogram="${side}"]`, harness.title.slice(0, 1).toUpperCase());
+    put(`[data-product-surface="${side}"]`, harness.surfaceLabel);
+    put(`[data-product-summary="${side}"]`, harness.summary);
+    put(`[data-product-execution="${side}"]`, harness.execution);
+    put(`[data-product-target="${side}"]`, harness.targetKind);
+    put(`[data-product-environment="${side}"]`, harness.environment);
+    put(`[data-column-heading="${side}"]`, harness.title);
+    const link = document.querySelector(`[data-product-link="${side}"]`);
+    if (link instanceof HTMLAnchorElement) link.href = `/harnesses/${encodeURIComponent(harness.slug)}`;
+  }
+  function makeStatus(cell: ComparisonRow["cells"][string]) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "comparison-cell";
+    wrapper.dataset.status = cell.status;
+    const headline = document.createElement("div");
+    headline.className = "comparison-cell__headline";
+    const mark = document.createElement("b");
+    mark.textContent = statusMarks[cell.status];
+    const label = document.createElement("strong");
+    label.textContent = statusLabels[cell.status];
+    headline.appendChild(mark);
+    headline.appendChild(label);
+    wrapper.appendChild(headline);
+    const facts = document.createElement("ul");
+    for (const value of [cell.target, cell.environment, ...cell.qualifiers].filter(Boolean) as string[]) {
+      const item = document.createElement("li"); item.textContent = value; facts.appendChild(item);
+    }
+    if (facts.childElementCount) wrapper.appendChild(facts);
+    const evidence = document.createElement("small");
+    evidence.textContent = cell.evidenceCount ? `${cell.evidenceCount} source${cell.evidenceCount === 1 ? "" : "s"}${cell.observedAt ? ` · ${cell.observedAt}` : ""}` : "No attached public evidence";
+    wrapper.appendChild(evidence);
+    return wrapper;
+  }
+  function makeRow(row: ComparisonRow, left: string, right: string) {
+    const article = document.createElement("article"); article.className = "comparison-row";
+    const capability = document.createElement("div"); capability.className = "comparison-capability";
+    const group = document.createElement("span"); group.textContent = data.categories.find((item) => item.slug === row.category)?.title ?? row.category;
+    const title = document.createElement("a"); title.href = `/features/${encodeURIComponent(row.slug)}`; title.textContent = row.title;
+    const summary = document.createElement("p"); summary.textContent = row.summary;
+    capability.appendChild(group);
+    capability.appendChild(title);
+    capability.appendChild(summary);
+    article.appendChild(capability);
+    article.appendChild(makeStatus(row.cells[left]));
+    article.appendChild(makeStatus(row.cells[right]));
+    return article;
+  }
+  function applyValidOption(select: HTMLSelectElement | null, value: string | null) {
+    if (select && value && [...select.options].some((option) => option.value === value)) select.value = value;
+  }
+  function paint() {
+    if (!(leftSelect instanceof HTMLSelectElement) || !(rightSelect instanceof HTMLSelectElement) || !(lensSelect instanceof HTMLSelectElement) || !(categorySelect instanceof HTMLSelectElement) || !(queryInput instanceof HTMLInputElement) || !(rowsRoot instanceof HTMLElement)) return;
+    const left = harnessFor(leftSelect.value); const right = harnessFor(rightSelect.value);
+    if (!left || !right) return;
+    updateProduct("left", left); updateProduct("right", right);
+    put("[data-short-left]", left.title); put("[data-short-right]", right.title);
+    const summary = comparisonSummary(data.rows, left.slug, right.slug);
+    put("[data-summary-different]", String(summary.different)); put("[data-summary-matched]", String(summary.matched)); put("[data-summary-gaps]", String(summary.evidenceGaps)); put("[data-summary-left]", String(summary.leftSupported)); put("[data-summary-right]", String(summary.rightSupported));
+    const visible = filterComparisonRows(data.rows, { leftSlug: left.slug, rightSlug: right.slug, lens: lensSelect.value as ComparisonLens, category: categorySelect.value || undefined, query: queryInput.value });
+    rowsRoot.replaceChildren(...visible.map((row) => makeRow(row, left.slug, right.slug)));
+    if (emptyState instanceof HTMLElement) emptyState.hidden = visible.length > 0;
+    put("[data-compare-count]", `${visible.length} of ${data.rows.length} capabilities`);
+    const url = new URL(window.location.href);
+    url.searchParams.set("a", left.slug); url.searchParams.set("b", right.slug);
+    lensSelect.value === "all" ? url.searchParams.delete("view") : url.searchParams.set("view", lensSelect.value);
+    categorySelect.value ? url.searchParams.set("category", categorySelect.value) : url.searchParams.delete("category");
+    queryInput.value.trim() ? url.searchParams.set("q", queryInput.value.trim()) : url.searchParams.delete("q");
+    history.replaceState({}, "", url);
+    const markdown = document.querySelector("[data-compare-share]");
+    if (markdown instanceof HTMLAnchorElement) markdown.href = `/compare.md?${url.searchParams.toString()}`;
+  }
+  const params = new URLSearchParams(window.location.search);
+  applyValidOption(leftSelect instanceof HTMLSelectElement ? leftSelect : null, params.get("a")); applyValidOption(rightSelect instanceof HTMLSelectElement ? rightSelect : null, params.get("b")); applyValidOption(lensSelect instanceof HTMLSelectElement ? lensSelect : null, params.get("view")); applyValidOption(categorySelect instanceof HTMLSelectElement ? categorySelect : null, params.get("category"));
+  if (queryInput instanceof HTMLInputElement) queryInput.value = params.get("q") ?? "";
+  for (const control of [leftSelect, rightSelect, lensSelect, categorySelect]) control?.addEventListener("change", paint);
+  queryInput?.addEventListener("input", paint);
+  document.querySelector("[data-compare-swap]")?.addEventListener("click", () => { if (!(leftSelect instanceof HTMLSelectElement) || !(rightSelect instanceof HTMLSelectElement)) return; const previous = leftSelect.value; leftSelect.value = rightSelect.value; rightSelect.value = previous; paint(); });
+  paint();
+</script>

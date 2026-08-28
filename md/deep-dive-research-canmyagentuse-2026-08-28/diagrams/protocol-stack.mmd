@@ -1,0 +1,16 @@
+flowchart TB
+  I[Repository instructions
+AGENTS.md / vendor rules] --> S[Agent Skills]
+  S --> P[Agent Plugins / vendor packages]
+  P --> M[MCP
+agent ↔ tools/context]
+  W[WebMCP / NLWeb
+website ↔ agent] --> M
+  M --> U[MCP Apps / AG-UI / A2UI
+interactive UI]
+  C[ACP
+editor ↔ coding agent] --> A[Agent runtime]
+  H[AHP
+session host ↔ clients] --> A
+  A --> X[A2A
+agent ↔ agent]

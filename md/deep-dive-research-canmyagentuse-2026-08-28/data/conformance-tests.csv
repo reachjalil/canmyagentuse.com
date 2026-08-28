@@ -1,0 +1,25 @@
+test_id,name,specification,feature_id,fixture_type,requirement_level,execution_status
+T-MCP-001,MCP initialize + protocolVersion negotiation,MCP,mcp.tools,deterministic fixture,required,proposed-not-run
+T-MCP-002,tools/list and tools/call round trip,MCP,mcp.tools,deterministic fixture,required,proposed-not-run
+T-MCP-003,resources/list and resources/read,MCP,mcp.resources,deterministic fixture,optional,proposed-not-run
+T-MCP-004,prompts/list and prompts/get,MCP,mcp.prompts,deterministic fixture,optional,proposed-not-run
+T-MCP-005,sampling/createMessage request from server to client,MCP,mcp.sampling,deterministic fixture,optional,proposed-not-run
+T-MCP-006,elicitation form request and response,MCP,mcp.elicitation,deterministic fixture,optional,proposed-not-run
+T-MCP-007,roots/list request from server to client,MCP,mcp.roots,deterministic fixture,optional,proposed-not-run
+T-MCP-008,task-augmented request lifecycle,MCP,mcp.tasks,deterministic fixture,experimental,proposed-not-run
+T-MCP-009,stdio framing and stderr isolation,MCP,mcp.stdio,fixture process,required,proposed-not-run
+T-MCP-010,Streamable HTTP session lifecycle,MCP,mcp.streamable-http,fixture HTTP server,required,proposed-not-run
+T-MCP-011,OAuth discovery and authorization flow,MCP,mcp.oauth,isolated auth fixture,optional,proposed-not-run
+T-MCP-012,notifications/tools/list_changed refresh,MCP,mcp.tools-list-changed,deterministic fixture,optional,proposed-not-run
+T-APP-001,ui:// resource discovery and sandbox render,MCP Apps,mcp.apps,sandboxed fixture,optional,proposed-not-run
+T-SKL-001,SKILL.md frontmatter validation,Agent Skills,skills.discovery,static fixture,required,proposed-not-run
+T-SKL-002,metadata-only startup discovery,Agent Skills,skills.progressive,instrumented fixture,recommended,proposed-not-run
+T-SKL-003,script execution relative to skill root,Agent Skills,skills.scripts,sandboxed fixture,optional,proposed-not-run
+T-PLG-001,plugin.json Agent Plugins 1.0 validation,Agent Plugins,plugins.v1,static fixture,required,proposed-not-run
+T-PLG-002,mcp.json PLUGIN_ROOT resolution,Agent Plugins,plugins.mcp,sandboxed fixture,optional,proposed-not-run
+T-INS-001,root AGENTS.md discovery,AGENTS.md,instructions.agents-md,repo fixture,recommended,proposed-not-run
+T-INS-002,nested AGENTS.md precedence,AGENTS.md,instructions.agents-md-nested,repo fixture,recommended,proposed-not-run
+T-ACP-001,ACP initialize/session/prompt JSON-RPC flow,ACP,acp.agent,subprocess fixture,required,proposed-not-run
+T-AHP-001,AHP session subscribe/resume,AHP,ahp.host,session fixture,preview,proposed-not-run
+T-WEB-001,navigator.modelContext tool registration,WebMCP,webmcp,browser fixture,draft,proposed-not-run
+T-A2A-001,Agent Card discovery and task send,A2A,a2a,HTTP fixture,optional,proposed-not-run

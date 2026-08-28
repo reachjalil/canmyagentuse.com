@@ -1,0 +1,41 @@
+---
+import type {
+  FeatureData,
+  HarnessData,
+  NewsData,
+  SpecificationData,
+} from "@canmyagentuse/catalog";
+import { publishedCollection } from "../lib/collections";
+import FeatureIndex from "./FeatureIndex.astro";
+import SearchBelt from "./SearchBelt.astro";
+import SiteFooter from "./SiteFooter.astro";
+import SiteHeader from "./SiteHeader.astro";
+
+interface Props {
+  showIndex?: boolean;
+  searchValue?: string;
+  searchScope?: "all" | "feature" | "harness" | "specification";
+}
+
+const { showIndex = false, searchValue = "", searchScope = "all" } = Astro.props;
+const features = await publishedCollection("features");
+const harnesses = await publishedCollection("harnesses");
+const specifications = await publishedCollection("specifications");
+const news = await publishedCollection("news");
+const featureData: FeatureData[] = features.map((entry) => entry.data);
+const harnessData: HarnessData[] = harnesses.map((entry) => entry.data);
+const specificationData: SpecificationData[] = specifications.map((entry) => entry.data);
+const latest: NewsData | undefined = news[0]?.data;
+---
+
+<SiteHeader latest={latest} />
+<SearchBelt
+  features={featureData}
+  harnesses={harnessData}
+  specifications={specificationData}
+  value={searchValue}
+  scope={searchScope}
+/>
+{showIndex ? <FeatureIndex features={featureData} /> : null}
+<slot />
+<SiteFooter />

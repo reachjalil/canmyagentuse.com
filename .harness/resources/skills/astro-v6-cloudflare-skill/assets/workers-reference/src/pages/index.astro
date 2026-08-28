@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import { LikeForm } from '../components/LikeForm';
+import { env } from 'cloudflare:workers';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{env.APP_NAME}</title>
+  </head>
+  <body>
+    <main style="font-family: system-ui; padding: 2rem;">
+      <h1>{env.APP_NAME}</h1>
+      <p>This page is on-demand rendered on Cloudflare Workers.</p>
+
+      <LikeForm client:load postId="demo" />
+    </main>
+  </body>
+</html>

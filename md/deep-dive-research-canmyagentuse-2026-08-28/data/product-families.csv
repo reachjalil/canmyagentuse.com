@@ -1,0 +1,13 @@
+product_id,vendor,product,source_id
+claude,Anthropic,Claude,S-098
+chatgpt,OpenAI,ChatGPT,S-088
+codex,OpenAI,Codex,S-088
+cursor,Cursor,Cursor,S-107
+github-copilot,GitHub/Microsoft,GitHub Copilot,S-114
+github-copilot,GitHub,GitHub Copilot,S-119
+kiro,AWS,Kiro,S-124
+gemini,Google,Gemini,S-130
+zed,Zed Industries,Zed,S-136
+ai-assistant,JetBrains,AI Assistant,S-142
+goose,Block / AAIF,goose,S-147
+opencode,OpenCode,OpenCode,S-149

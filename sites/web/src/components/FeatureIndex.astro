@@ -1,0 +1,122 @@
+---
+import { featureIndex, type FeatureData } from "@canmyagentuse/catalog";
+
+interface Props {
+  features: FeatureData[];
+}
+
+const { features } = Astro.props;
+const groups = featureIndex(features);
+---
+
+<div class="feature-index" data-feature-index>
+  <div class="shell feature-index__bar">
+    <button
+      class="feature-index__heading"
+      type="button"
+      aria-expanded="false"
+      aria-controls="feature-index-panel"
+      data-index-toggle
+    >
+      <span>Index of capabilities</span>
+      <small data-index-count aria-live="polite">{features.length} capabilities</small>
+      <span class="feature-index__toggle" aria-hidden="true">+</span>
+    </button>
+    <label class="feature-index__filter" for="feature-index-filter">
+      <span>Filter</span>
+      <input
+        class="index-filter"
+        id="feature-index-filter"
+        name="feature-filter"
+        type="search"
+        data-index-filter
+        placeholder="MCP, terminal, skills"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </label>
+  </div>
+  <div class="feature-index__panel" id="feature-index-panel" data-index-panel hidden>
+    <div class="shell py-5">
+      <p class="feature-index__empty" data-index-empty hidden>
+        No capabilities match this filter. Try a shorter name or clear the field.
+      </p>
+      <div class="feature-index__grid grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          groups.map((group) => (
+            <section class="index-group" data-index-group>
+              <h2 class="font-mono text-sm" id={`letter-${group.letter}`}>
+                {group.letter}
+              </h2>
+              <ul class="mt-2 text-sm">
+                {group.items.map((feature) => (
+                  <li
+                    data-index-item
+                    data-index-text={`${feature.title} ${feature.slug} ${feature.category}`.toLowerCase()}
+                  >
+                    <a href={`/features/${feature.slug}`}>{feature.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector("[data-feature-index]");
+  const input = root?.querySelector("[data-index-filter]");
+  const count = root?.querySelector("[data-index-count]");
+  const empty = root?.querySelector("[data-index-empty]");
+  const toggle = root?.querySelector("[data-index-toggle]");
+  const panel = root?.querySelector("[data-index-panel]");
+
+  const setOpen = (open: boolean) => {
+    if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
+    root?.toggleAttribute("data-open", open);
+  };
+
+  if (toggle instanceof HTMLButtonElement && panel instanceof HTMLElement) {
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+  }
+
+  if (input instanceof HTMLInputElement) {
+    const applyFilter = () => {
+      const query = input.value.trim().toLowerCase();
+      if (query) setOpen(true);
+      let visibleCount = 0;
+
+      for (const group of root?.querySelectorAll("[data-index-group]") ?? []) {
+        let visibleInGroup = 0;
+        for (const item of group.querySelectorAll("[data-index-item]")) {
+          const haystack = item.getAttribute("data-index-text") ?? "";
+          const hidden = query.length > 0 && !haystack.includes(query);
+          item.toggleAttribute("hidden", hidden);
+          if (!hidden) {
+            visibleCount += 1;
+            visibleInGroup += 1;
+          }
+        }
+        group.toggleAttribute("hidden", visibleInGroup === 0);
+      }
+
+      if (count) count.textContent = `${visibleCount} ${visibleCount === 1 ? "capability" : "capabilities"}`;
+      if (empty instanceof HTMLElement) empty.hidden = visibleCount > 0;
+    };
+
+    input.addEventListener("focus", () => setOpen(true));
+    input.addEventListener("input", applyFilter);
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !input.value) return;
+      input.value = "";
+      applyFilter();
+    });
+  }
+</script>

@@ -1,0 +1,17 @@
+---
+import { publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const harnesses = await publishedCollection("harnesses");
+  return harnesses.map((harness) => ({
+    params: { slug: harness.data.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) {
+  return Astro.redirect("/harnesses", 301);
+}
+
+return Astro.redirect(`/harnesses/${slug}`, 301);
+---

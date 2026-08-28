@@ -1,0 +1,4 @@
+interface:
+  display_name: "Provider-Compatible UI"
+  short_description: "Design familiar but original provider-linked UIs"
+  default_prompt: "Design or review this provider-linked UI for recognizable experiential grammar, original implementation, focused flow, truthful source identification, and affiliation risk."

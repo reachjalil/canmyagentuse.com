@@ -1,0 +1,10 @@
+flowchart LR
+  S[Specs / vendor docs / repos / community] --> W[Source watcher or contributor]
+  W --> P[Proposal]
+  P --> V[Schema + referential validation]
+  V --> R[Human review]
+  R --> E[Immutable evidence]
+  E --> A[Assertion]
+  A --> D[Derived profile resolver]
+  D --> UI[Feature & harness pages]
+  T[Isolated conformance runner] --> E

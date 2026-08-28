@@ -1,0 +1,77 @@
+---
+import {
+  SITE,
+  researchFeatureSlug,
+  websiteJsonLd,
+  type ResearchFeature,
+} from "@canmyagentuse/catalog";
+import ResearchCellTable from "../../../components/ResearchCellTable.astro";
+import SiteChrome from "../../../components/SiteChrome.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  researchAtlas,
+  researchFeatureContext,
+  researchFeatureJsonPath,
+  researchFeatureMarkdownPath,
+  researchFeaturePath,
+} from "../../../lib/research";
+
+export function getStaticPaths() {
+  return researchAtlas.seed.features.map((feature) => ({
+    params: { slug: researchFeatureSlug(feature.feature_id) },
+    props: { feature },
+  }));
+}
+
+interface Props { feature: ResearchFeature }
+const { feature } = Astro.props;
+const context = researchFeatureContext(feature);
+---
+
+<BaseLayout
+  title={`${feature.feature_name} research matrix — ${SITE.name}`}
+  description={`${feature.description} Exact-surface evidence across all ${context.cells.length} surfaces in the 2026-08-28 Evidence Atlas.`}
+  canonicalPath={researchFeaturePath(feature.feature_id)}
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Evidence Atlas · atomic feature</p>
+      <h1 class="text-4xl font-semibold tracking-tight">{feature.feature_name}</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">{feature.description}</p>
+
+      <dl class="catalog-census research-detail-census mt-7">
+        <div><dt>Feature ID</dt><dd>{feature.feature_id}</dd></div>
+        <div><dt>Group</dt><dd>{feature.feature_group}</dd></div>
+        <div><dt>Role</dt><dd>{feature.role}</dd></div>
+        <div><dt>Testability</dt><dd>{feature.testability}</dd></div>
+        <div><dt>Exact surfaces</dt><dd>{context.statuses.total}</dd></div>
+        <div><dt>Supported</dt><dd class="status-yes">{context.statuses.supported}</dd></div>
+        <div><dt>Partial</dt><dd class="status-partial">{context.statuses.partial}</dd></div>
+        <div><dt>Explicit no</dt><dd class="status-no">{context.statuses.unsupported}</dd></div>
+        <div><dt>Unknown</dt><dd class="status-unknown">{context.statuses.unknown}</dd></div>
+      </dl>
+
+      <div class="trust-banner mt-6">
+        <strong>Atomic means scoped.</strong>
+        This row does not promote a broad product claim into every protocol primitive,
+        role, transport, or sibling surface. Unknown is an evidence gap, not an
+        inferred negative.
+      </div>
+
+      <nav class="atlas-subnav mt-5" aria-label="Record formats">
+        <a href="/atlas">Atlas</a>
+        <a href={researchFeatureMarkdownPath(feature.feature_id)}>Markdown</a>
+        <a href={researchFeatureJsonPath(feature.feature_id)}>JSON</a>
+      </nav>
+
+      <section class="mt-10" aria-labelledby="cells-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">All exact targets</p><h2 id="cells-title">Surface matrix</h2></div>
+          <p>Provider references are plain text and secondary to the evidence record.</p>
+        </div>
+        <ResearchCellTable cells={context.cells} focus="feature" />
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

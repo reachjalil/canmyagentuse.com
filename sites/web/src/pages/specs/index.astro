@@ -1,0 +1,60 @@
+---
+import { PROTOCOL_LAYERS, SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publishedCollection } from "../../lib/collections";
+
+const specifications = await publishedCollection("specifications");
+---
+
+<BaseLayout
+  title={`Specifications | ${SITE.name}`}
+  description="Revision-aware index of the protocols, package formats, instruction conventions, and UI layers represented by the catalog."
+  canonicalPath="/specs"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Compatibility layers</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Specifications and conventions</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        These layers coexist. A package format is not a tool protocol; a UI
+        protocol is not an editor-agent transport. Every compatibility claim
+        keeps the specification revision and directional role visible.
+      </p>
+
+      <section class="layer-stack mt-8" aria-labelledby="layer-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Layer map</p>
+            <h2 id="layer-title">Interoperability stack</h2>
+          </div>
+          <p>Layer order is explanatory, not a maturity or quality ranking.</p>
+        </div>
+        <ol>
+          {PROTOCOL_LAYERS.map((layer) => (
+            <li>
+              <span>{layer.order.toString().padStart(2, "0")}</span>
+              <strong>{layer.name}</strong>
+              <p>{layer.examples}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="atlas-grid mt-8" aria-label="Specification index">
+        {specifications.map((entry) => (
+          <article class="atlas-card">
+            <p class="eyebrow">{entry.data.maturity}</p>
+            <h2><a href={`/specs/${entry.data.slug}`}>{entry.data.title}</a></h2>
+            <p>{entry.data.summary}</p>
+            <dl>
+              <div><dt>Revision</dt><dd>{entry.data.revision}</dd></div>
+              <div><dt>Authority</dt><dd>{entry.data.authority}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

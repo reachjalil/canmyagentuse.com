@@ -1,0 +1,13 @@
+flowchart LR
+  A[Official ACP Registry\n39 entries] --> I[Registry inventory]
+  B[Official Agent Plugins clients\n9 entries] --> I
+  C[First-party product docs] --> E[Scoped assertions]
+  D[Specifications and release notes] --> E
+  I --> E
+  E --> R{Exact surface + feature + environment?}
+  R -- yes --> S[Supported / Partial / Unsupported]
+  R -- no --> U[Unknown]
+  S --> G[Full surface × feature grid]
+  U --> G
+  G --> M[Matrix / Compare / Vendor pages]
+  G --> T[Test backlog for unknowns and contradictions]

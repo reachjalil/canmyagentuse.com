@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Can My Agent Use</title>
+  <desc id="desc">Night-ledger social card with a copper evidence cell framed by ledger corners and the words Lookup, compare, cite.</desc>
+  <rect width="1200" height="630" fill="#12100e"/>
+  <path d="M0 0H36V630H0ZM1164 0H1200V630H1164Z" fill="#c45c26"/>
+  <g transform="translate(92 86) scale(3.9)">
+    <path d="M27 13H13V27M37 13H51V27M51 37V51H37M27 51H13V37" fill="none" stroke="#fff8eb" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+    <rect x="25" y="25" width="14" height="14" rx="1" fill="#c45c26"/>
+  </g>
+  <text x="455" y="155" fill="#efe6d4" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="25" letter-spacing="7">INDEPENDENT COMPATIBILITY CATALOG</text>
+  <text x="455" y="250" fill="#fff8eb" font-family="IBM Plex Sans, Arial, sans-serif" font-size="69" font-weight="600">CAN MY AGENT</text>
+  <text x="455" y="328" fill="#fff8eb" font-family="IBM Plex Sans, Arial, sans-serif" font-size="69" font-weight="600">USE THIS?</text>
+  <text x="96" y="430" fill="#d4c7ae" font-family="IBM Plex Sans, Arial, sans-serif" font-size="32">Look up a capability. Compare harnesses. Leave with evidence.</text>
+  <rect x="96" y="490" width="96" height="64" fill="#2a6f54"/>
+  <rect x="204" y="490" width="96" height="64" fill="#b07a22"/>
+  <rect x="312" y="490" width="96" height="64" fill="#d2c6b0"/>
+  <text x="131" y="535" fill="#f4fff8" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="31">Y</text>
+  <text x="239" y="535" fill="#fff8eb" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="31">P</text>
+  <text x="347" y="535" fill="#3a342c" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="31">?</text>
+  <text x="455" y="535" fill="#c45c26" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="30">LOOKUP · COMPARE · CITE</text>
+  <text x="96" y="594" fill="#8e8679" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="22">canmyagentuse.com · provider names are nominative · no affiliation implied</text>
+</svg>

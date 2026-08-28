@@ -1,0 +1,26 @@
+---
+import {
+  SUPPORT_STATUS_LABELS,
+  SUPPORT_STATUS_MARK,
+  type SupportStatus,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  status: SupportStatus;
+  noteIds?: number[];
+}
+
+const { status, noteIds = [] } = Astro.props;
+const label = SUPPORT_STATUS_LABELS[status];
+---
+
+<span class={`status-${status}`}>
+  <abbr title={label}>{SUPPORT_STATUS_MARK[status]}</abbr>
+  {
+    noteIds.length > 0 ? (
+      <sup class="font-mono text-[0.65rem]">
+        {noteIds.join(",")}
+      </sup>
+    ) : null
+  }
+</span>

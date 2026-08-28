@@ -1,0 +1,9 @@
+date,surface,community,topic,sentiment,gist,source_id
+2026-06-02,Reddit,r/ClaudeAI,production-mcp-friction,skeptical,Large tool sets can consume context and degrade tool selection; anecdotal practitioner report.,S-151
+2026-08-19,Reddit,r/mcp,registry-noise,mixed,Community attempts to separate actively used MCP servers from directory noise.,S-152
+2026-08-20,Reddit,r/ClaudeAI,mcp-vs-skills,mixed,Discussion contrasts always-visible MCP tool schemas with progressive skill loading.,S-153
+2025-10-25,Reddit,r/ClaudeAI,extension-bloat,skeptical,Practitioner reports confusion and slowdown after accumulating many plugins/MCP servers/commands.,S-154
+2026-07-30,Reddit,r/mcp,directory-review,cautious,Practitioner describes directory submission checks and plan/access friction; unverified anecdote.,S-155
+2026-03-01,Hacker News,HN,acp-editor-coupling,skeptical,Commenter questions incentives and coupling in ACP-style deep editor integration.,S-157
+2026-05-21,Cursor Forum,Cursor,instruction-semantics,confused,"Community questions differences between AGENTS.md, rules and hook scoping.",S-158
+2026-04-10,Cursor Forum,Cursor,agents-md-auto-load,cautious,Request shows that cross-tool instruction conventions can conflict with a host’s own interpretation.,S-159

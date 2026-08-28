@@ -1,0 +1,31 @@
+---
+import { ECOSYSTEM_CHANGES, SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`Compatibility timeline | ${SITE.name}`}
+  description="Dated specification, registry, governance, and product changes that affect catalog claims."
+  canonicalPath="/changes"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Dated context</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Compatibility timeline</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        These events can change how a claim must be scoped. A launch, registry
+        entry, or community announcement does not change a support cell by itself.
+      </p>
+      <ol class="timeline mt-8">
+        {[...ECOSYSTEM_CHANGES].toReversed().map((item) => (
+          <li>
+            <time datetime={item.date}>{item.date}</time>
+            <div><span>{item.family} · {item.type}</span><a href={item.href}>{item.event}</a></div>
+          </li>
+        ))}
+      </ol>
+    </main>
+  </SiteChrome>
+</BaseLayout>

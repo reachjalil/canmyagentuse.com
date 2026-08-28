@@ -1,0 +1,10 @@
+method,path,purpose,cache
+GET,/api/v1/features,List atomic features and profiles,"public,max-age=300"
+GET,/api/v1/features/{feature_id},"Feature metadata, revisions and support summary","public,max-age=300"
+GET,/api/v1/surfaces,List harness surfaces/releases/hosted observations,"public,max-age=300"
+GET,/api/v1/surfaces/{surface_id},Surface metadata and compatibility assertions,"public,max-age=300"
+GET,/api/v1/compat,"Filter assertions by feature, surface, revision, environment and evidence","public,max-age=60"
+GET,/api/v1/evidence/{source_id},"Evidence record, freshness and contradiction links","public,max-age=300"
+GET,/api/v1/tests,Conformance test registry,"public,max-age=300"
+GET,/api/v1/changes,Compatibility change feed,"public,max-age=60"
+POST,/api/v1/contributions,Submit an evidence-backed assertion proposal,no-store

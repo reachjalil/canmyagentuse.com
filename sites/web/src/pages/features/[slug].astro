@@ -1,0 +1,111 @@
+---
+import {
+  breadcrumbJsonLd,
+  expandFeatureSupport,
+  featureMarkdownPath,
+  featurePath,
+  formatPercent,
+  resolveMetadata,
+  sourcedShare,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import NotesPanel from "../../components/NotesPanel.astro";
+import AssertionLedger from "../../components/AssertionLedger.astro";
+import SiteChrome from "../../components/SiteChrome.astro";
+import VersionMatrix from "../../components/VersionMatrix.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const features = await publishedCollection("features");
+  return features.map((feature) => ({
+    params: { slug: feature.data.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing feature slug.");
+
+const features = await publishedCollection("features");
+const harnesses = await publishedCollection("harnesses");
+const feature = entryBySlug(features, slug);
+if (!feature) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(feature);
+const metadata = resolveMetadata(feature.data);
+const harnessData = harnesses.map((entry) => entry.data);
+const columns = expandFeatureSupport(feature.data, harnessData);
+const coverage = sourcedShare(columns);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} compatibility card from Can My Agent Use.`}
+  contentType="article"
+  publishedTime={metadata.published}
+  modifiedTime={metadata.updated}
+  section={feature.data.category}
+  tags={metadata.tags}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Capabilities", path: "/features" },
+      { name: feature.data.title, path: featurePath(feature.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome searchValue={feature.data.title}>
+    <main id="main" class="shell py-8">
+      <div class="feature-head">
+        <div>
+          <p class="font-mono text-xs text-[color:var(--color-muted)]">
+            Capability · {feature.data.category}
+          </p>
+          <h1 class="mt-2 text-4xl font-semibold tracking-tight">
+            {feature.data.title}
+            {
+              feature.data.specification ? (
+                <a class="spec-pill" href={`/specs/${feature.data.specification.id}`}>
+                  {feature.data.specLabel}
+                </a>
+              ) : (
+                <span class="spec-pill">{feature.data.specLabel}</span>
+              )
+            }
+          </h1>
+          <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
+            {feature.data.summary}
+          </p>
+          <p class="mt-3 font-mono text-xs">
+            <a href={featureMarkdownPath(feature.data.slug)}>Markdown</a>
+            {" · "}
+            <a href={`/api/v1/features/${feature.data.slug}.json`}>JSON</a>
+          </p>
+        </div>
+        <aside class="coverage-stat">
+          <span class="font-mono text-xs tracking-wide text-[color:var(--color-muted)] uppercase">
+            Sourced cells
+          </span>
+          <strong>{formatPercent(coverage)}</strong>
+          <p class="mt-2 text-xs text-[color:var(--color-muted)]">
+            Share of version tracks that are not unknown. Not a usage or market figure.
+          </p>
+        </aside>
+      </div>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+      <VersionMatrix feature={feature.data} harnesses={harnessData} />
+      <AssertionLedger feature={feature.data} harnesses={harnessData} />
+      <NotesPanel feature={feature.data} />
+    </main>
+  </SiteChrome>
+</BaseLayout>

@@ -1,0 +1,4 @@
+/agents /harnesses 301
+/api/v1/agents.json /api/v1/harnesses.json 301
+/agents/* /harnesses/:splat 301
+/api/v1/agents/* /api/v1/harnesses/:splat 301

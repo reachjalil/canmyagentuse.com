@@ -1,0 +1,107 @@
+---
+import type { ResearchCompatibilityCell } from "@canmyagentuse/catalog";
+import {
+  researchFeaturePath,
+  researchSourcesForCell,
+  researchSurfacePath,
+  researchVendorPath,
+} from "../lib/research";
+import ResearchStatus from "./ResearchStatus.astro";
+
+interface Props {
+  cells: ResearchCompatibilityCell[];
+  focus: "surface" | "feature";
+}
+
+const { cells, focus } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table class="data-table research-cell-table">
+    <thead>
+      <tr>
+        <th>{focus === "surface" ? "Feature" : "Exact surface"}</th>
+        <th>Status</th>
+        {focus === "feature" ? <th>Provider / type</th> : null}
+        <th>Evidence</th>
+        <th>Conditions and notes</th>
+        <th>Sources</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        cells.map((cell) => {
+          const sources = researchSourcesForCell(cell);
+          const detail = [
+            cell.evidence_methods,
+            cell.confidence ? `${cell.confidence} confidence` : "",
+            cell.last_verified_at ? `verified ${cell.last_verified_at}` : "",
+          ].filter(Boolean);
+          const conditions = [
+            cell.environment_scopes && cell.environment_scopes !== "default"
+              ? `Environment: ${cell.environment_scopes}`
+              : "",
+            cell.qualifiers,
+            cell.notes,
+          ].filter(Boolean);
+          return (
+            <tr data-research-cell data-status={cell.primary_status}>
+              <td>
+                {focus === "surface" ? (
+                  <a href={researchFeaturePath(cell.feature_id)}>
+                    {cell.feature_name}
+                  </a>
+                ) : (
+                  <a href={researchSurfacePath(cell.surface_id)}>
+                    {cell.surface_name}
+                  </a>
+                )}
+                <small>
+                  {focus === "surface"
+                    ? `${cell.feature_group} · ${cell.feature_id}`
+                    : `${cell.product_name} · ${cell.surface_id}`}
+                </small>
+              </td>
+              <td><ResearchStatus status={cell.primary_status} /></td>
+              {focus === "feature" ? (
+                <td>
+                  <a href={researchVendorPath(cell.vendor_id)}>{cell.vendor_name}</a>
+                  <small>{cell.surface_type} · tier {cell.coverage_tier}</small>
+                </td>
+              ) : null}
+              <td>
+                {detail.length > 0 ? detail.join(" · ") : "No claim evidence"}
+                {cell.assertion_count > 0 ? (
+                  <small>
+                    {cell.assertion_count} {cell.assertion_count === 1 ? "assertion" : "assertions"}
+                  </small>
+                ) : null}
+              </td>
+              <td>
+                {conditions.length > 0
+                  ? conditions.join(" · ")
+                  : cell.primary_status === "unknown"
+                    ? "No defensible evidence established in this research pass."
+                    : "No additional condition recorded."}
+              </td>
+              <td>
+                {sources.length > 0 ? (
+                  <ul class="research-source-links">
+                    {sources.map((source) => (
+                      <li>
+                        <a href={source.url}>{source.source_key}</a>
+                        <span>{source.title}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  "—"
+                )}
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>

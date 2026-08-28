@@ -1,0 +1,20 @@
+date,family,event,event_type,source_id
+2024-11-05,MCP,Legacy HTTP+SSE transport family referenced by later compatibility docs,historical,S-023
+2025-01-29,Community,MCP-agent discussion shows early framework interest,community,S-156
+2025-06-23,A2A,Google donated A2A to the Linux Foundation,governance,S-071
+2025-08-27,ACP,Zed described bring-your-own-agent integration and ACP,announcement,S-063
+2025-10-02,ACP,Zed published an ACP ecosystem progress report,ecosystem,S-064
+2025-10-16,ACP,Codex integration in Zed via ACP,product,S-139
+2025-11-06,ACP,Zed Agent Extensions simplified ACP agent distribution,product,S-138
+2025-11-21,MCP Apps,MCP Apps proposal announced,proposal,S-040
+2025-11-25,MCP,MCP 2025-11-25 revision added tasks and expanded elicitation/sampling,standard,S-033
+2026-01-26,MCP Apps,MCP Apps stable extension revision referenced by current docs,standard,S-039
+2026-01-28,ACP,ACP Registry went live,registry,S-062
+2026-02-05,VS Code,MCP Apps and Agent Skills reached major VS Code milestones,product,S-114
+2026-04-10,Cursor,Practitioner request exposed AGENTS.md auto-loading trade-offs,community,S-159
+2026-06-02,MCP,Practitioner post described production friction with large MCP tool sets,community,S-151
+2026-06-08,A2UI,A2UI v1.0 candidate updated,standard,S-081
+2026-08-04,Kiro,Kiro docs describe Agent Skills and Agent Plugins-based Powers across surfaces,product,S-123
+2026-08-26,WebMCP,WebMCP Draft Community Group Report dated Aug 26 2026,standard,S-074
+2026-08-26,AHP,VS Code announced Agent Host and open Agent Host Protocol,standard/product,S-116
+2026-08-28,CanMyAgentUse,Research snapshot for this package,research,

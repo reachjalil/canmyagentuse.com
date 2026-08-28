@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CanMyAgentUse Support Assertion",
+  "type": "object",
+  "required": [
+    "feature_id",
+    "surface_id",
+    "target_revision",
+    "environment_profile",
+    "status",
+    "evidence"
+  ],
+  "properties": {
+    "feature_id": {
+      "type": "string"
+    },
+    "surface_id": {
+      "type": "string"
+    },
+    "target_revision": {
+      "type": "string"
+    },
+    "environment_profile": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "y",
+        "a",
+        "n",
+        "u"
+      ]
+    },
+    "qualifiers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "evidence_type",
+          "observed_at"
+        ]
+      }
+    }
+  }
+}

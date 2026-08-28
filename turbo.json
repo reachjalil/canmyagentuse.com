@@ -1,0 +1,32 @@
+{
+  "$schema": "https://v2-9-6.turborepo.dev/schema.json",
+  "tasks": {
+    "check": {
+      "dependsOn": ["^check"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "content/**",
+        "tsconfig.json",
+        "astro.config.mjs",
+        "wrangler.jsonc"
+      ],
+      "outputs": [],
+      "outputLogs": "new-only"
+    },
+    "test": {
+      "dependsOn": ["^check"],
+      "inputs": ["$TURBO_DEFAULT$", "src/**", "tsconfig.json"],
+      "outputs": [],
+      "outputLogs": "new-only"
+    },
+    "build": {
+      "dependsOn": ["^check", "^build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

@@ -1,0 +1,93 @@
+surface_id,product_id,surface_name,surface_type,version_or_observation,availability,coverage_tier,source_key,registry_role,registry_version,notes
+claude-code-cli,claude-code,Claude Code CLI / local host,cli,2.1.232+ / observed 2026-08-28,ga,A,S-010,,,
+claude-agent-acp-wrapper,claude-acp-wrapper,Claude Agent ACP wrapper,acp-adapter,0.70.0,ga,C,S-001,acp-agent,0.70.0,
+chatgpt-web,chatgpt,ChatGPT web,web,hosted observed 2026-08-28,ga,A,S-020,,,
+chatgpt-desktop,chatgpt,ChatGPT desktop / Codex host,desktop,observed 2026-08-28,ga,A,S-021,,,
+chatgpt-mobile,chatgpt,ChatGPT mobile,mobile,observed 2026-08-28,ga,A,S-020,,,
+codex-cli,codex,Codex CLI,cli,observed 2026-08-28,ga,A,S-022,,,
+codex-ide,codex,Codex IDE extension,ide-extension,observed 2026-08-28,ga,A,S-021,,,
+codex-acp-adapter,codex-acp-adapter,Codex ACP adapter,acp-adapter,1.7.0,ga,C,S-001,acp-agent,1.7.0,
+cursor-editor,cursor,Cursor editor agent,native-editor-agent,observed 2026-08-28,ga,A,S-030,,,
+cursor-cli,cursor,Cursor CLI agent,cli,2026.08.11,ga,A,S-034,acp-agent,2026.08.11,
+cursor-cloud-agent,cursor,Cursor Cloud Agent,cloud-agent,hosted observed 2026-08-28,ga,A,S-035,,,
+vscode-agent-host,vscode-agent-host,VS Code agent/plugin host,ide-host,1.133,ga,A,S-040,,,
+copilot-vscode,github-copilot,GitHub Copilot in VS Code,ide-extension,VS Code 1.133 / observed 2026-08-28,ga,A,S-040,,,
+copilot-cli,github-copilot,GitHub Copilot CLI,cli,1.0.81 registry observation,ga,B,S-001,acp-agent,1.0.81,
+copilot-cloud-agent,github-copilot,GitHub Copilot cloud agent,cloud-agent,hosted observed 2026-08-28,ga,A,S-042,,,
+copilot-code-review,github-copilot,GitHub Copilot code review,cloud-code-review,hosted observed 2026-08-28,ga,A,S-044,,,
+gemini-cli,gemini-cli,Gemini CLI,cli,0.57.0 registry / observed 2026-08-28,ga,A,S-050,acp-agent,0.57.0,
+google-antigravity,google-antigravity,Google Antigravity ACP agent,acp-agent,1.0.0,ga,C,S-001,acp-agent,1.0.0,
+zed-native-agent,zed,Zed native Agent,native-editor-agent,observed 2026-08-28,ga,A,S-060,,,
+zed-acp-host,zed,Zed external-agent ACP host,acp-client,observed 2026-08-28,ga,A,S-061,acp-client,v1,
+jetbrains-native-agent,jetbrains-ai-assistant,JetBrains native AI Assistant,ide-agent,observed 2026-08-28,ga,A,S-070,,,
+jetbrains-acp-host,jetbrains-ai-assistant,JetBrains ACP host,acp-client,observed 2026-08-28,ga,A,S-071,acp-client,v1,
+junie-acp-agent,junie,Junie ACP agent,acp-agent,3032.2.0,ga,B,S-001,acp-agent,3032.2.0,
+kiro-ide,kiro,Kiro IDE,ide-agent,observed 2026-08-28,ga,A,S-080,,,
+kiro-cli,kiro,Kiro CLI 3,cli,3.x / observed 2026-08-28,ga,A,S-083,,,
+kiro-web,kiro,Kiro Web,web-agent,hosted observed 2026-08-28,ga,A,S-080,,,
+kiro-mobile,kiro,Kiro Mobile,mobile-agent,preview observed 2026-08-28,preview,A,S-080,,,
+cline-vscode,cline,Cline VS Code extension,ide-extension,observed 2026-08-28,ga,A,S-091,,,
+cline-cli,cline,Cline CLI,cli,3.0.60,ga,A,S-092,acp-agent,3.0.60,
+opencode-cli,opencode,OpenCode CLI/TUI,cli,1.18.25,ga,A,S-100,acp-agent,1.18.25,
+opencode-desktop,opencode,OpenCode desktop,desktop,observed 2026-08-28,ga,A,S-100,,,
+opencode-ide,opencode,OpenCode IDE extension,ide-extension,observed 2026-08-28,ga,A,S-100,,,
+continue-agent-mode,continue,Continue Agent mode,ide-agent-mode,observed 2026-08-28,ga,A,S-110,,,
+continue-plan-mode,continue,Continue Plan mode,ide-plan-mode,observed 2026-08-28,ga,A,S-111,,,
+continue-chat-mode,continue,Continue Chat mode,ide-chat-mode,observed 2026-08-28,ga,A,S-111,,,
+cascade-desktop,cascade,Cascade desktop agent,desktop-agent,observed 2026-08-28,ga,A,S-120,,,
+devin-local,devin,Devin Local,local-agent,observed 2026-08-28,ga,A,S-124,,,
+devin-cli,devin,Devin CLI,cli,3000.6.2 registry / observed 2026-08-28,ga,A,S-125,acp-agent,3000.6.2,
+devin-cloud,devin,Devin Cloud,cloud-agent,hosted observed 2026-08-28,ga,B,S-127,,,
+auggie-cli,auggie,Auggie CLI,cli,0.36.0 registry / observed 2026-08-28,ga,A,S-134,acp-agent,0.36.0,
+augment-ide,auggie,Augment IDE agent,ide-extension,observed 2026-08-28,ga,A,S-135,,,
+goose-cli,goose,goose CLI,cli,1.48.0,ga,A,S-140,acp-agent,1.48.0,
+goose-desktop,goose,goose desktop,desktop,observed 2026-08-28,ga,A,S-140,,,
+goose-acp-host,goose,goose ACP-agent provider host,acp-client,observed 2026-08-28,ga,A,S-146,acp-client,v1,
+hermes-core,hermes,Hermes CLI/desktop/messaging core,multi-surface-agent,observed 2026-08-28,ga,A,S-151,,,
+hermes-acp-agent,hermes,Hermes ACP agent,acp-agent,observed 2026-08-28,ga,A,S-150,acp-agent,v1,
+openclaw-core,openclaw,OpenClaw core agent,multi-surface-agent,observed 2026-08-28,ga,A,S-160,,,
+openclaw-acp-host,openclaw,OpenClaw ACP host,acp-client,observed 2026-08-28,ga,A,S-162,acp-client,v1,
+openclaw-mcp-server,openclaw,OpenClaw MCP server,mcp-server,observed 2026-08-28,ga,A,S-161,,,
+grok-build-cli,grok-build,Grok Build CLI/TUI,cli,1.0.12,ga,A,S-170,acp-agent,1.0.12,
+grok-bot-cloud,grok-bot,Grok Bot cloud,cloud-agent,hosted observed 2026-08-28,ga,A,S-173,,,
+nanoclaw-agent,nanoclaw,NanoClaw agent,messaging-agent,observed 2026-08-28,ga,B,S-002,,,
+kimi-code-cli,kimi-code,Kimi Code CLI,cli,0.39.1 current docs,ga,A,S-182,,,
+kimi-cli-legacy-acp,kimi-cli-legacy,Kimi CLI ACP registry entry,acp-agent,1.49.0 registry,deprecated,C,S-001,acp-agent,1.49.0,Registry version belongs to the legacy Kimi CLI line; current Kimi Code CLI uses a different version line.
+mistral-vibe-cli,mistral-vibe,Mistral Vibe CLI,cli,2.24.1,ga,A,S-190,acp-agent,2.24.1,
+qoder-cli,qoder-cli,Qoder CLI,cli,1.1.25+ current docs / registry 0.2.14,ga,A,S-204,acp-agent,0.2.14,Official ACP registry version is stale relative to current Qoder CLI releases.
+qwen-code-cli,qwen-code,Qwen Code CLI,cli,0.22.2 registry / observed 2026-08-28,ga,A,S-210,acp-agent,0.22.2,
+factory-droid-cli,factory-droid,Factory Droid CLI,cli,0.206.0,ga,A,S-221,acp-agent,0.206.0,
+factory-droid-headless,factory-droid,Factory Droid Exec,headless-agent,observed 2026-08-28,ga,A,S-222,,,
+kilo-cli,kilo-code,Kilo CLI,cli,7.5.5 registry / observed 2026-08-28,ga,A,S-230,acp-agent,7.5.5,
+kilo-ide,kilo-code,Kilo IDE extension,ide-extension,observed 2026-08-28,ga,A,S-232,,,
+openhands-cli,openhands,OpenHands CLI,cli,observed 2026-08-28,ga,A,S-242,,,
+openhands-acp-agent,openhands,OpenHands ACP agent,acp-agent,experimental observed 2026-08-28,experimental,A,S-242,acp-agent,experimental,
+openhands-canvas-local,openhands,OpenHands Agent Canvas local backend,web-desktop-host,1.15.x observed 2026-08-28,ga,A,S-241,,,
+openhands-canvas-cloud,openhands,OpenHands Agent Canvas cloud backend,cloud-agent-host,hosted observed 2026-08-28,ga,A,S-244,,,
+replit-agent,replit-agent,Replit Agent,cloud-ide-agent,hosted observed 2026-08-28,ga,A,S-250,,,
+replit-mcp-server,replit-mcp,Replit MCP Server,mcp-server,observed 2026-08-28,ga,A,S-253,,,
+warp-local-agent,warp-agent,Warp local Agent,desktop-agent,observed 2026-08-28,ga,A,S-261,,,
+warp-agent-cli,warp-agent,Warp Agent CLI / Oz CLI,cli,observed 2026-08-28,ga,A,S-266,,,
+warp-cloud-agent,warp-agent,Warp Cloud Agent,cloud-agent,hosted observed 2026-08-28,ga,A,S-263,,,
+roo-code-vscode,roo-code,Roo Code VS Code extension,ide-extension,discontinued 2026-05-15,discontinued,B,S-270,,,
+aider-cli,aider,Aider CLI,cli,observed 2026-08-28,ga,D,S-271,,,
+agoragentic-acp-agent,agoragentic-agent,Agoragentic,acp-agent,1.3.0,ga,C,S-001,acp-agent,1.3.0,Registry-only coverage.
+amp-acp-agent,amp-agent,Amp ACP wrapper,acp-wrapper,0.9.0,ga,C,S-001,acp-agent,0.9.0,Registry-only coverage.
+autohand-acp-agent,autohand-agent,Autohand Code,acp-agent,0.2.1,ga,C,S-001,acp-agent,0.2.1,Registry-only coverage.
+codebuddy-acp-agent,codebuddy-agent,Codebuddy Code,acp-agent,2.141.0,ga,C,S-001,acp-agent,2.141.0,Registry-only coverage.
+snowflake-acp-agent,snowflake-agent,Cortex Code,acp-agent,1.0.73,ga,C,S-001,acp-agent,1.0.73,Registry-only coverage.
+corust-acp-agent,corust-agent,Corust Agent,acp-agent,0.6.0,ga,C,S-001,acp-agent,0.6.0,Registry-only coverage.
+crow-acp-agent,crow-agent,crow-cli,acp-agent,0.1.24,ga,C,S-001,acp-agent,0.1.24,Registry-only coverage.
+deepagents-acp-agent,deepagents-agent,DeepAgents,acp-agent,0.1.7,ga,C,S-001,acp-agent,0.1.7,Registry-only coverage.
+dimcode-acp-agent,dimcode-agent,DimCode,acp-agent,0.3.22,ga,C,S-001,acp-agent,0.3.22,Registry-only coverage.
+dirac-acp-agent,dirac-agent,Dirac,acp-agent,0.5.1,ga,C,S-001,acp-agent,0.5.1,Registry-only coverage.
+fast-agent-acp-agent,fast-agent-agent,fast-agent,acp-agent,0.10.1,ga,C,S-001,acp-agent,0.10.1,Registry-only coverage.
+zai-acp-agent,zai-agent,GLM Agent,acp-agent,1.6.1,ga,C,S-001,acp-agent,1.6.1,Registry-only coverage.
+harn-acp-agent,harn-agent,Harn,acp-agent,0.10.119,ga,C,S-001,acp-agent,0.10.119,Registry-only coverage.
+minion-acp-agent,minion-agent,Minion Code,acp-agent,0.1.44,ga,C,S-001,acp-agent,0.1.44,Registry-only coverage.
+compass-ai-acp-agent,compass-ai-agent,Nova,acp-agent,1.1.37,ga,C,S-001,acp-agent,1.1.37,Registry-only coverage.
+pi-acp-agent,pi-agent,pi ACP,acp-adapter,0.0.33,ga,C,S-001,acp-agent,0.0.33,Registry-only coverage.
+poolside-acp-agent,poolside-agent,Poolside,acp-agent,1.0.16,ga,C,S-001,acp-agent,1.0.16,Registry-only coverage.
+sigit-acp-agent,sigit-agent,siGit Code,acp-agent,1.5.2,ga,C,S-001,acp-agent,1.5.2,Registry-only coverage.
+stakpak-acp-agent,stakpak-agent,Stakpak,acp-agent,0.3.88,ga,C,S-001,acp-agent,0.3.88,Registry-only coverage.
+vt-code-acp-agent,vt-code-agent,VT Code,acp-agent,0.96.14,ga,C,S-001,acp-agent,0.96.14,Registry-only coverage.

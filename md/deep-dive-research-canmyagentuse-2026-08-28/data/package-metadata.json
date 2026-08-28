@@ -1,0 +1,14 @@
+{
+  "package": "deep-dive-research-canmyagentuse-2026-08-28",
+  "generated_at_utc": "2026-08-28T19:30Z",
+  "sources": 159,
+  "surfaces": 20,
+  "matrix_capabilities": 42,
+  "taxonomy_capabilities": 56,
+  "support_assertions": 840,
+  "proposed_conformance_tests": 24,
+  "runtime_tests_executed": 0,
+  "archive_capture": "unavailable-explicitly-marked",
+  "primary_audience": "Builder / Architect",
+  "secondary_audience": "Evaluator / Skeptic"
+}

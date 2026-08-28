@@ -1,0 +1,123 @@
+---
+import {
+  ENVIRONMENT_PROFILES,
+  SITE,
+  buildEvidenceLedger,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publishedCollection } from "../lib/collections";
+
+const features = await publishedCollection("features");
+const records = buildEvidenceLedger(features.map((entry) => entry.data));
+const statementCount = records.reduce((total, record) => total + record.statements.length, 0);
+const publishers = [...new Set(records.map((record) => record.publisher).filter((value): value is string => Boolean(value)))].toSorted();
+const evidenceClasses = [...new Set(records.map((record) => record.evidenceType ?? record.kind))].toSorted();
+---
+
+<BaseLayout
+  title={`Evidence ledger | ${SITE.name}`}
+  description="Public sources, evidence classes, review dates, and the exact compatibility statements that cite them."
+  canonicalPath="/evidence"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Reviewed public sources</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Evidence ledger</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        {records.length} reviewed source records support {statementCount} published
+        capability statements. These records cite documentation. They are not
+        runtime tests.
+      </p>
+      <div class="trust-banner mt-6">
+        <strong>Evidence labels stay literal.</strong> Documented means a current
+        public product or standards source was reviewed. Listed means a project
+        compatibility list named the client. Neither means Can My Agent Use ran
+        the implementation.
+      </div>
+      <p class="mt-4 max-w-3xl text-sm text-[color:var(--color-muted)]">
+        This ledger covers the curated web/desktop/CLI matrix. The broader
+        <a class="underline" href="/atlas">Evidence Atlas</a> publishes the full
+        92-surface research model and its <a class="underline" href="/atlas/sources">149-source ledger</a>.
+      </p>
+
+      <section class="mt-8" aria-labelledby="profiles-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Condition model</p><h2 id="profiles-title">Environment profiles</h2></div>
+          <p>Plan, policy, region, auth, transport, and runtime remain additional qualifiers.</p>
+        </div>
+        <div class="profile-grid">
+          {ENVIRONMENT_PROFILES.map((profile) => (
+            <article><strong>{profile.name}</strong><code>{profile.id}</code><p>{profile.description}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-10" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Reviewed records</p><h2 id="sources-title">Sources</h2></div>
+          <p><a href="/api/v1/evidence.json">JSON ledger</a></p>
+        </div>
+        <form class="filter-toolbar" data-evidence-filters>
+          <label>Search sources<input type="search" name="q" placeholder="Title, publisher, capability…" /></label>
+          <label>Publisher<select name="publisher"><option value="">All publishers</option>{publishers.map((publisher) => <option value={publisher.toLowerCase()}>{publisher}</option>)}</select></label>
+          <label>Evidence class<select name="class"><option value="">All classes</option>{evidenceClasses.map((evidenceClass) => <option value={evidenceClass.toLowerCase()}>{evidenceClass}</option>)}</select></label>
+          <output class="filter-count" data-evidence-count aria-live="polite">{records.length} sources</output>
+        </form>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>Source</th><th>Class</th><th>Reviewed</th><th>Capability</th><th>Statements</th></tr></thead>
+            <tbody>
+              {records.map((record) => (
+                <tr
+                  data-evidence-row
+                  data-search={`${record.title} ${record.publisher ?? ""} ${record.id} ${record.feature.title}`.toLowerCase()}
+                  data-publisher={(record.publisher ?? "").toLowerCase()}
+                  data-class={(record.evidenceType ?? record.kind).toLowerCase()}
+                >
+                  <td><a href={record.href}>{record.title}</a><small>{record.publisher ?? record.kind} · {record.id}</small></td>
+                  <td>{record.evidenceType ?? record.kind}</td>
+                  <td>{record.reviewedAt ?? "Not recorded"}</td>
+                  <td><a href={`/features/${record.feature.slug}`}>{record.feature.title}</a></td>
+                  <td>{record.statements.length}</td>
+                </tr>
+              ))}
+              <tr data-evidence-empty hidden><td colspan="5">No evidence record matches these filters.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector("[data-evidence-filters]");
+  const rows = [...document.querySelectorAll("[data-evidence-row]")];
+  const count = document.querySelector("[data-evidence-count]");
+  const empty = document.querySelector("[data-evidence-empty]");
+
+  function filterEvidence() {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const values = new FormData(filters);
+    const query = String(values.get("q") ?? "").trim().toLowerCase();
+    const publisher = String(values.get("publisher") ?? "");
+    const evidenceClass = String(values.get("class") ?? "");
+    let visible = 0;
+    for (const row of rows) {
+      const matches =
+        (!query || (row.getAttribute("data-search") ?? "").includes(query)) &&
+        (!publisher || row.getAttribute("data-publisher") === publisher) &&
+        (!evidenceClass || row.getAttribute("data-class") === evidenceClass);
+      row.toggleAttribute("hidden", !matches);
+      if (matches) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "source" : "sources"}`;
+    empty?.toggleAttribute("hidden", visible !== 0);
+  }
+
+  filters?.addEventListener("input", filterEvidence);
+  filters?.addEventListener("change", filterEvidence);
+</script>

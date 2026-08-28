@@ -1,0 +1,220 @@
+---
+import type { FeatureData } from "@canmyagentuse/catalog";
+
+interface Props {
+  feature: FeatureData;
+}
+
+const { feature } = Astro.props;
+---
+
+<div class="mt-10" data-notes>
+  <div class="note-tabs" role="tablist" aria-label="Feature notes">
+    <button
+      id="notes-tab"
+      type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls="feature-notes"
+      data-panel="notes"
+    >
+      Notes ({feature.notes.length})
+    </button>
+    <button
+      id="issues-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="known-issues"
+      data-panel="issues"
+    >
+      Known issues ({feature.issues.length})
+    </button>
+    <button
+      id="resources-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="feature-resources"
+      data-panel="resources"
+    >
+      Resources ({feature.resources.length})
+    </button>
+    <button
+      id="report-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="feature-report"
+      data-panel="report"
+    >
+      Report issue
+    </button>
+  </div>
+
+  <section
+    class="note-panel dash-card"
+    id="feature-notes"
+    role="tabpanel"
+    aria-labelledby="notes-tab"
+    data-note-panel="notes"
+  >
+    {
+      feature.notes.length === 0 ? (
+        <p>No notes yet. Unknown cells do not need a note.</p>
+      ) : (
+        <ol class="space-y-2">
+          {feature.notes.map((note) => (
+            <li>
+              <span class="font-mono text-xs">{note.id}.</span> {note.text}
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </section>
+
+  <section
+    class="note-panel dash-card"
+    id="known-issues"
+    role="tabpanel"
+    aria-labelledby="issues-tab"
+    data-note-panel="issues"
+    hidden
+  >
+    {
+      feature.issues.length === 0 ? (
+        <p>No sourced issues are attached to this row.</p>
+      ) : (
+        <ol class="space-y-2">
+          {feature.issues.map((issue) => (
+            <li>
+              <span class="font-mono text-xs">{issue.id}.</span> {issue.text}
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </section>
+
+  <section
+    class="note-panel dash-card"
+    id="feature-resources"
+    role="tabpanel"
+    aria-labelledby="resources-tab"
+    data-note-panel="resources"
+    hidden
+  >
+    {
+      feature.resources.length === 0 ? (
+        <p>No resources yet.</p>
+      ) : (
+        <ul class="space-y-2">
+          {feature.resources.map((resource) => (
+            <li>
+              <a class="underline" href={resource.href}>
+                {resource.title}
+              </a>
+              <span class="font-mono text-xs text-[color:var(--color-muted)]">
+                {" "}
+                {resource.evidenceType ?? resource.kind}
+                {resource.publisher ? ` · ${resource.publisher}` : ""}
+                {resource.reviewedAt ? ` · reviewed ${resource.reviewedAt}` : ""}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <section
+    class="note-panel dash-card"
+    id="feature-report"
+    role="tabpanel"
+    aria-labelledby="report-tab"
+    data-note-panel="report"
+    hidden
+  >
+    <h2>Found a wrong or incomplete result?</h2>
+    <p>
+      Name the exact product, describe what happened, add the date, and link public evidence
+      when available. A community report starts a review. It does not change the support state
+      by itself.
+    </p>
+    <p class="mt-4">
+      <a class="report-link" href={`/report?feature=${feature.slug}`}>Prepare an issue report</a>
+      <a class="ml-3 underline" href="/methodology">Read the evidence rules</a>
+    </p>
+  </section>
+</div>
+
+<script>
+  const root = document.querySelector("[data-notes]");
+  if (root) {
+    const tabs = root.querySelectorAll("[data-panel]");
+    const panels = root.querySelectorAll("[data-note-panel]");
+    const selectPanel = (id: string) => {
+      for (const tab of tabs) {
+        tab.setAttribute(
+          "aria-selected",
+          tab.getAttribute("data-panel") === id ? "true" : "false"
+        );
+      }
+      for (const panel of panels) {
+        panel.toggleAttribute(
+          "hidden",
+          panel.getAttribute("data-note-panel") !== id
+        );
+      }
+    };
+
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        const id = tab.getAttribute("data-panel");
+        if (!id) return;
+        selectPanel(id);
+        const panel = root.querySelector(`[data-note-panel="${id}"]`);
+        if (panel?.id) history.replaceState(null, "", `#${panel.id}`);
+      });
+    }
+
+    const selectHashPanel = () => {
+      const hashPanel = [...panels].find((panel) => `#${panel.id}` === window.location.hash);
+      if (hashPanel) {
+        const id = hashPanel.getAttribute("data-note-panel");
+        if (id) {
+          selectPanel(id);
+          requestAnimationFrame(() => hashPanel.scrollIntoView({ block: "start" }));
+        }
+      }
+    };
+
+    window.addEventListener("hashchange", selectHashPanel);
+    selectHashPanel();
+  }
+</script>
+
+<style>
+  .note-panel h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .note-panel h2 + p {
+    max-width: 48rem;
+    margin: 0.45rem 0 0;
+    color: var(--color-muted);
+  }
+
+  .report-link {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 0.45rem 0.7rem;
+    text-decoration: none;
+  }
+</style>

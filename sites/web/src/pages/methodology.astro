@@ -1,0 +1,45 @@
+---
+import {
+  breadcrumbJsonLd,
+  pagePath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../lib/collections";
+
+const pages = await publishedCollection("pages");
+const page = entryBySlug(pages, "methodology");
+if (!page) throw new Error("Missing methodology page.");
+
+const { Content } = await render(page);
+const metadata = resolveMetadata(page.data);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? "Can My Agent Use evidence and compatibility methodology card."}
+  modifiedTime={metadata.updated}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: page.data.title, path: pagePath(page.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <h1 class="text-4xl font-semibold tracking-tight">{page.data.title}</h1>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>

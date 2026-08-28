@@ -1,0 +1,43 @@
+{
+  "name": "canmyagentuse.com",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.30.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "dev": "pnpm --filter @canmyagentuse/web dev",
+    "test": "turbo run test",
+    "lint": "pnpm biome:check",
+    "lint:fix": "pnpm biome:fix",
+    "format": "pnpm biome:format",
+    "biome:lint": "biome lint .",
+    "biome:format": "biome format .",
+    "biome:check": "biome check --assist-enabled=false .",
+    "biome:fix": "biome format --write . && biome lint --write .",
+    "biome:imports": "biome check --write --assist-enabled=true --only=assist/source/organizeImports .",
+    "preview": "pnpm --filter @canmyagentuse/web preview",
+    "deploy": "pnpm --filter @canmyagentuse/web deploy",
+    "harness:validate": "npx harnessc validate",
+    "harness:preview": "npx harnessc activate",
+    "harness:activate": "npx harnessc activate --yes",
+    "setup:harness": "pnpm harness:validate && pnpm harness:activate"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.8",
+    "turbo": "^2.9.6",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
+  }
+}

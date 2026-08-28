@@ -1,0 +1,26 @@
+---
+import {
+  RESEARCH_STATUS_LABELS,
+  RESEARCH_STATUS_MARKS,
+  type ResearchStatus,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  status: ResearchStatus;
+  showLabel?: boolean;
+}
+
+const { status, showLabel = true } = Astro.props;
+const label = RESEARCH_STATUS_LABELS[status];
+const className =
+  status === "supported"
+    ? "status-yes"
+    : status === "unsupported"
+      ? "status-no"
+      : `status-${status}`;
+---
+
+<span class={`research-status ${className}`} data-status={status}>
+  <abbr title={label}>{RESEARCH_STATUS_MARKS[status]}</abbr>
+  {showLabel ? <strong>{label}</strong> : null}
+</span>

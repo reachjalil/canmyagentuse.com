@@ -1,0 +1,100 @@
+---
+import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { researchAtlas } from "../../lib/research";
+
+const sources = [...researchAtlas.seed.sources].toSorted(
+  (left, right) =>
+    left.publisher.localeCompare(right.publisher) || left.title.localeCompare(right.title)
+);
+const publishers = [...new Set(sources.map((source) => source.publisher))].toSorted();
+const types = [...new Set(sources.map((source) => source.source_type))].toSorted();
+---
+
+<BaseLayout
+  title={`Evidence Atlas sources — ${SITE.name}`}
+  description={`All ${sources.length} source records used by the 2026-08-28 deep compatibility research, with publisher, evidence type, retrieval date, and archive status.`}
+  canonicalPath="/atlas/sources"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Evidence Atlas · provenance</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Research source ledger</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        {sources.length} public records support the research snapshot. A source record
+        is evidence provenance, not a product-wide compatibility claim.
+      </p>
+      <div class="trust-banner mt-6">
+        <strong>Archive gap retained.</strong>
+        Automated archive submission was unavailable during the research pass. Live
+        documentation is mutable, so the package calls for archive remediation and a
+        registry refresh before future publication dates.
+      </div>
+
+      <nav class="atlas-subnav mt-5" aria-label="Evidence Atlas">
+        <a href="/atlas">Atlas</a>
+        <a href="/api/v1/atlas.json">JSON index</a>
+      </nav>
+
+      <form class="filter-toolbar mt-8" data-atlas-source-filters>
+        <label>Search sources<input type="search" name="q" placeholder="MCP, Anthropic, registry…" /></label>
+        <label>Publisher<select name="publisher"><option value="">All publishers</option>{publishers.map((publisher) => <option value={publisher}>{publisher}</option>)}</select></label>
+        <label>Source type<select name="type"><option value="">All types</option>{types.map((type) => <option value={type}>{type}</option>)}</select></label>
+        <output class="filter-count" data-atlas-source-count aria-live="polite">{sources.length} sources</output>
+      </form>
+
+      <div class="table-scroll mt-4">
+        <table class="data-table research-source-table">
+          <thead><tr><th>Source</th><th>Publisher</th><th>Type / role</th><th>Published</th><th>Retrieved</th><th>Archive</th></tr></thead>
+          <tbody>
+            {sources.map((source) => (
+              <tr
+                data-atlas-source
+                data-search={`${source.source_key} ${source.title} ${source.publisher} ${source.notes}`.toLowerCase()}
+                data-publisher={source.publisher}
+                data-type={source.source_type}
+              >
+                <td><a href={source.url}>{source.title}</a><small>{source.source_key} · {source.confidence} confidence</small></td>
+                <td>{source.publisher}</td>
+                <td>{source.source_type}<small>{source.role}</small></td>
+                <td>{source.published_at}</td>
+                <td>{source.retrieved_at_utc.slice(0, 10)}</td>
+                <td>{source.archive_url.startsWith("http") ? <a href={source.archive_url}>Archived copy</a> : "Archive unavailable"}</td>
+              </tr>
+            ))}
+            <tr data-atlas-source-empty hidden><td colspan="6">No source matches these filters.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector("[data-atlas-source-filters]");
+  const rows = [...document.querySelectorAll("[data-atlas-source]")];
+  const count = document.querySelector("[data-atlas-source-count]");
+  const empty = document.querySelector("[data-atlas-source-empty]");
+  function filterSources() {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const values = new FormData(filters);
+    const query = String(values.get("q") ?? "").trim().toLowerCase();
+    const publisher = String(values.get("publisher") ?? "");
+    const type = String(values.get("type") ?? "");
+    let visible = 0;
+    for (const row of rows) {
+      const matches =
+        (!query || (row.getAttribute("data-search") ?? "").includes(query)) &&
+        (!publisher || row.getAttribute("data-publisher") === publisher) &&
+        (!type || row.getAttribute("data-type") === type);
+      row.toggleAttribute("hidden", !matches);
+      if (matches) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "source" : "sources"}`;
+    empty?.toggleAttribute("hidden", visible !== 0);
+  }
+  filters?.addEventListener("input", filterSources);
+  filters?.addEventListener("change", filterSources);
+</script>

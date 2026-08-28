@@ -1,0 +1,59 @@
+---
+import {
+  HARNESS_SURFACE_LABELS,
+  SITE,
+  groupHarnesses,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publishedCollection } from "../../lib/collections";
+
+const harnesses = await publishedCollection("harnesses");
+const groups = groupHarnesses(harnesses.map((entry) => entry.data));
+---
+
+<BaseLayout
+  title={`Product columns | ${SITE.name}`}
+  description="Exact web, desktop, and CLI agent products listed as catalog columns."
+  canonicalPath="/harnesses"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <h1 class="text-4xl font-semibold tracking-tight">Product columns</h1>
+      <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
+        Each entry is one exact web, desktop, or CLI column in the matrix.
+        Product names identify the column and do not imply affiliation,
+        certification, or official status.
+      </p>
+      {
+        groups.map((group) => (
+          <section class="mt-10">
+            <h2 class="text-sm tracking-[0.14em] text-[color:var(--color-muted)] uppercase">
+              {HARNESS_SURFACE_LABELS[group.surface]}
+            </h2>
+            <ul class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((harness) => (
+                <li class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-4">
+                  <p class="font-mono text-xs text-[color:var(--color-muted)]">
+                    {harness.family}
+                  </p>
+                  <a class="text-xl font-semibold tracking-tight" href={`/harnesses/${harness.slug}`}>
+                    {harness.title}
+                  </a>
+                  <p class="mt-2 text-sm text-[color:var(--color-muted)]">{harness.summary}</p>
+                  <p class="mt-3 font-mono text-xs">
+                    <a href={`/harnesses/${harness.slug}.md`}>Markdown</a>
+                    {" · "}
+                    <a href={`/api/v1/harnesses/${harness.slug}.json`}>JSON</a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </main>
+  </SiteChrome>
+</BaseLayout>

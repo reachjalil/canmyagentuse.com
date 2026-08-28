@@ -1,0 +1,2 @@
+# Local-only Cloudflare secrets (never commit).
+# PUBLIC_SITE_URL=http://localhost:4321

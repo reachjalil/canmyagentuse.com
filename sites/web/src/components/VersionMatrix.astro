@@ -1,0 +1,428 @@
+---
+import {
+  HARNESS_SURFACE_LABELS,
+  SUPPORT_STATUS_LABELS,
+  TRACK_LABELS,
+  expandFeatureSupport,
+  groupHarnesses,
+  type FeatureData,
+  type HarnessData,
+  type VersionCell,
+} from "@canmyagentuse/catalog";
+import StatusMark from "./StatusMark.astro";
+
+interface Props {
+  feature: FeatureData;
+  harnesses: HarnessData[];
+}
+
+const { feature, harnesses } = Astro.props;
+const columns = expandFeatureSupport(feature, harnesses);
+const groups = groupHarnesses(harnesses);
+const columnMap = new Map(columns.map((column) => [column.harness.slug, column]));
+const currentCells = columns
+  .map((column) => column.versions.find((version) => version.track === "current"))
+  .filter((version): version is VersionCell => Boolean(version));
+const sourcedCurrent = currentCells.filter((version) => version.status !== "unknown").length;
+const statusCounts = ["yes", "partial", "no", "unknown", "na"].map((status) => ({
+  status,
+  count: currentCells.filter((version) => version.status === status).length,
+}));
+
+function evidenceLabel(version: VersionCell) {
+  if (version.status === "unknown") return "No source reviewed";
+  const date = version.target?.observedAt ?? version.evidence?.[0]?.observedAt;
+  if (version.target?.kind === "release") return version.target.revision;
+  if (version.target?.kind === "hosted-observation") {
+    return date ? `Observed ${date}` : "Hosted product";
+  }
+  if (version.target?.kind === "dated-documentation") {
+    return date ? `Docs checked ${date}` : "Current documentation";
+  }
+  return date ? `Checked ${date}` : "Evidence recorded";
+}
+---
+
+<section class="support-summary mt-8" data-matrix aria-labelledby="support-summary-title">
+  <header class="support-summary__header">
+    <div>
+      <p class="eyebrow">Current evidence by product</p>
+      <h2 id="support-summary-title">Support summary</h2>
+      <p>
+        {sourcedCurrent} of {currentCells.length} current product columns have reviewed evidence.
+        A dated check is shown when a public version number is not available.
+      </p>
+    </div>
+    <div class="support-summary__actions">
+      <a href="#known-issues">Known issues ({feature.issues.length})</a>
+      <a class="support-summary__report" href={`/report?feature=${feature.slug}`}>Report an issue</a>
+    </div>
+  </header>
+
+  <div class="support-summary__toolbar">
+    <div class="matrix-tabs" role="tablist" aria-label="Support records">
+      <button type="button" role="tab" aria-selected="true" data-view="current">
+        Current
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-view="all">
+        All records
+      </button>
+    </div>
+    <ul class="support-counts" aria-label="Current support totals">
+      {
+        statusCounts.map(({ status, count }) => (
+          <li data-status={status}>
+            <span>{SUPPORT_STATUS_LABELS[status as keyof typeof SUPPORT_STATUS_LABELS]}</span>
+            <strong>{count}</strong>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="support-board" data-view="current">
+    {
+      groups.map((group) => (
+        <section class="support-band" aria-labelledby={`surface-${group.surface}`}>
+          <header class="support-band__label">
+            <h3 id={`surface-${group.surface}`}>{HARNESS_SURFACE_LABELS[group.surface]}</h3>
+            <span>{group.items.length} products</span>
+          </header>
+          <div class="support-band__columns">
+            {group.items.map((harness) => {
+              const column = columnMap.get(harness.slug);
+              return (
+                <article class="support-column">
+                  <header class="support-column__head">
+                    <a href={`/harnesses/${harness.slug}`}>{harness.title}</a>
+                    <small>{harness.family}</small>
+                  </header>
+                  <div class="support-column__records">
+                    {(column?.versions ?? []).map((version) => (
+                      <div
+                        class="support-record"
+                        data-status={version.status}
+                        data-track={version.track}
+                        title={`${harness.title}, ${TRACK_LABELS[version.track] ?? version.track}: ${SUPPORT_STATUS_LABELS[version.status]}${version.qualifiers?.length ? `. Conditions: ${version.qualifiers.map((item) => `${item.type}=${item.value}`).join("; ")}` : ""}`}
+                      >
+                        <div class="support-record__status">
+                          <StatusMark status={version.status} noteIds={version.noteIds} />
+                          <strong>{SUPPORT_STATUS_LABELS[version.status]}</strong>
+                        </div>
+                        <span>{evidenceLabel(version)}</span>
+                        <small>
+                          {TRACK_LABELS[version.track] ?? version.track}
+                          {version.qualifiers?.length
+                            ? ` · ${version.qualifiers.length} ${version.qualifiers.length === 1 ? "condition" : "conditions"}`
+                            : " record"}
+                        </small>
+                      </div>
+                    ))}
+                  </div>
+                  <a
+                    class="support-column__report"
+                    href={`/report?feature=${feature.slug}&harness=${harness.slug}&track=current`}
+                  >
+                    Report this result
+                  </a>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <footer class="support-summary__footer">
+    <p>
+      <strong>Unknown</strong> means no public evidence has been reviewed for that product and
+      capability. It does not mean unsupported.
+    </p>
+    <a href="/methodology">How statuses are assigned</a>
+  </footer>
+</section>
+
+<script>
+  const root = document.querySelector("[data-matrix]");
+  if (root) {
+    const board = root.querySelector(".support-board");
+    const tabs = root.querySelectorAll('[role="tab"]');
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        const view = tab.getAttribute("data-view");
+        if (!view || !board) return;
+        board.setAttribute("data-view", view);
+        for (const other of tabs) {
+          other.setAttribute("aria-selected", other === tab ? "true" : "false");
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .support-summary {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+
+  .support-summary__header {
+    display: grid;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem;
+  }
+
+  .support-summary__header h2 {
+    margin: 0;
+    font-size: 1.65rem;
+    letter-spacing: -0.035em;
+  }
+
+  .support-summary__header p:last-child {
+    max-width: 44rem;
+    margin: 0.35rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.88rem;
+  }
+
+  .support-summary__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 0.45rem;
+  }
+
+  .support-summary__actions a {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    border: 1px solid var(--color-line);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    text-decoration: none;
+  }
+
+  .support-summary__actions .support-summary__report {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .support-summary__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-canvas) 55%, var(--color-paper));
+    padding: 0.7rem 1rem;
+  }
+
+  .support-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .support-counts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.25rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .support-counts li::before {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--status-color);
+    content: "";
+  }
+
+  .support-counts li[data-status="yes"] { --status-color: #2a6f54; }
+  .support-counts li[data-status="partial"] { --status-color: #b07a22; }
+  .support-counts li[data-status="no"] { --status-color: #8f3a2a; }
+  .support-counts li[data-status="unknown"] { --status-color: #b9ad97; }
+  .support-counts li[data-status="na"] { --status-color: #ebe3d3; }
+
+  .support-band + .support-band {
+    border-top: 0.3rem solid var(--color-ink);
+  }
+
+  .support-band__label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 0.5rem 0.7rem;
+  }
+
+  .support-band__label h3 {
+    margin: 0;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .support-band__label span {
+    color: color-mix(in srgb, var(--color-paper) 72%, var(--color-ink));
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .support-band__columns {
+    display: grid;
+    grid-auto-columns: minmax(8.7rem, 1fr);
+    grid-auto-flow: column;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  .support-column {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    border-right: 1px solid var(--color-line);
+  }
+
+  .support-column:last-child { border-right: 0; }
+
+  .support-column__head {
+    min-height: 4.4rem;
+    border-top: 0.28rem solid var(--color-copper-deep);
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.55rem 0.6rem 0.45rem;
+  }
+
+  .support-column__head a {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .support-column__head a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15rem;
+  }
+
+  .support-column__head small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+  }
+
+  .support-column__records {
+    flex: 1;
+    padding: 0.35rem;
+  }
+
+  .support-record {
+    min-height: 6.8rem;
+    border: 1px solid rgb(18 16 14 / 16%);
+    background: var(--status-bg);
+    color: var(--status-ink);
+    padding: 0.55rem;
+  }
+
+  .support-record + .support-record { margin-top: 0.3rem; }
+  .support-record[data-status="yes"] { --status-bg: #2a6f54; --status-ink: #f4fff8; }
+  .support-record[data-status="partial"] { --status-bg: #8c5f19; --status-ink: #fff8eb; }
+  .support-record[data-status="no"] { --status-bg: #8f3a2a; --status-ink: #fff4ef; }
+  .support-record[data-status="unknown"] { --status-bg: #d2c6b0; --status-ink: #3a342c; }
+  .support-record[data-status="na"] { --status-bg: #ebe3d3; --status-ink: #6e675d; }
+
+  .support-record__status {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+
+  .support-record__status strong { font-size: 0.78rem; }
+
+  .support-record > span,
+  .support-record > small {
+    display: block;
+    margin-top: 0.42rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    line-height: 1.35;
+  }
+
+  .support-record > small {
+    margin-top: 0.22rem;
+    opacity: 0.76;
+  }
+
+  .support-column__report {
+    display: flex;
+    min-height: 2.2rem;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-align: center;
+    text-underline-offset: 0.15rem;
+  }
+
+  .support-board[data-view="current"]
+    .support-record[data-track]:not([data-track="current"]) {
+    display: none;
+  }
+
+  .support-summary__footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    border-top: 1px solid var(--color-line);
+    padding: 0.75rem 1rem;
+    color: var(--color-muted);
+    font-size: 0.76rem;
+  }
+
+  .support-summary__footer p {
+    max-width: 48rem;
+    margin: 0;
+  }
+
+  .support-summary__footer a { font-weight: 500; }
+
+  @media (min-width: 800px) {
+    .support-summary__header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .support-summary__actions { justify-content: flex-end; }
+  }
+
+  @media (max-width: 620px) {
+    .support-summary { margin-inline: -0.5rem; }
+
+    .support-counts span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+</style>

@@ -1,0 +1,11 @@
+flowchart LR
+  WEB[Public web] --> Q[Test request queue]
+  Q --> STATIC[Static validators]
+  Q --> ISO[Disposable isolated runner]
+  ISO --> FIX[Deterministic fixture servers]
+  ISO --> AUTH[Secret broker
+scoped throwaway credentials]
+  ISO --> REDACT[Artifact redaction]
+  REDACT --> SIGN[Signed test result]
+  SIGN --> EVID[Evidence store]
+  WEB -. never executes untrusted code .-> ISO

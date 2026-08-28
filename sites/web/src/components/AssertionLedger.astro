@@ -1,0 +1,96 @@
+---
+import {
+  SUPPORT_STATUS_LABELS,
+  type FeatureData,
+  type HarnessData,
+} from "@canmyagentuse/catalog";
+
+interface Props {
+  feature: FeatureData;
+  harnesses: HarnessData[];
+}
+
+const { feature, harnesses } = Astro.props;
+const harnessMap = new Map(harnesses.map((harness) => [harness.slug, harness]));
+const resourceMap = new Map(
+  feature.resources
+    .filter((resource) => resource.id)
+    .map((resource) => [resource.id as string, resource])
+);
+const assertions = feature.support.flatMap((row) =>
+  (row.versions ?? [])
+    .filter((version) => version.status !== "unknown")
+    .map((version) => ({ row, version, harness: harnessMap.get(row.harness) }))
+);
+---
+
+{
+  assertions.length > 0 ? (
+    <section class="mt-10" aria-labelledby="assertion-ledger-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Traceable compatibility</p>
+          <h2 id="assertion-ledger-title">Assertion ledger</h2>
+        </div>
+        <p>
+          Documentation evidence only. No runtime conformance test is implied.
+        </p>
+      </div>
+      <div class="assertion-grid">
+        {assertions.map(({ row, version, harness }) => (
+          <article class="assertion-card">
+            <header>
+              <div>
+                <strong>{harness?.title ?? row.harness}</strong>
+                <span>{harness?.surface ?? "surface"} · {version.track}</span>
+              </div>
+              <b data-status={version.status}>
+                {SUPPORT_STATUS_LABELS[version.status]}
+              </b>
+            </header>
+            <dl>
+              <div>
+                <dt>Target</dt>
+                <dd>
+                  {version.target?.revision ?? "Not recorded"}
+                  {version.target?.kind ? ` · ${version.target.kind}` : ""}
+                </dd>
+              </div>
+              <div>
+                <dt>Environment</dt>
+                <dd>{version.environmentProfile ?? "Not recorded"}</dd>
+              </div>
+              <div>
+                <dt>Observed</dt>
+                <dd>{version.target?.observedAt ?? version.evidence?.[0]?.observedAt ?? "Not recorded"}</dd>
+              </div>
+            </dl>
+            {version.qualifiers?.length ? (
+              <ul class="qualifier-list" aria-label="Conditions">
+                {version.qualifiers.map((qualifier) => (
+                  <li><span>{qualifier.type}</span>{qualifier.value}</li>
+                ))}
+              </ul>
+            ) : (
+              <p class="assertion-clear">No additional condition is recorded for this statement.</p>
+            )}
+            <div class="assertion-sources">
+              <span>Evidence</span>
+              <ul>
+                {(version.evidence ?? []).map((reference) => {
+                  const resource = resourceMap.get(reference.resourceId);
+                  return (
+                    <li>
+                      {resource ? <a href={resource.href}>{resource.title}</a> : reference.resourceId}
+                      <small>{reference.type} · reviewed {reference.observedAt}</small>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  ) : null
+}

@@ -1,0 +1,13 @@
+erDiagram
+  VENDOR ||--o{ PRODUCT : owns
+  PRODUCT ||--o{ SURFACE : exposes
+  SURFACE ||--o{ TARGET : versions_or_observes
+  SPECIFICATION ||--o{ SPEC_REVISION : publishes
+  SPEC_REVISION ||--o{ FEATURE : defines
+  FEATURE ||--o{ ASSERTION : judged_in
+  TARGET ||--o{ ASSERTION : target_of
+  ENVIRONMENT_PROFILE ||--o{ ASSERTION : qualifies
+  ASSERTION ||--o{ EVIDENCE : supported_by
+  FEATURE ||--o{ TEST_CASE : tested_by
+  TEST_CASE ||--o{ TEST_RUN : executes
+  TARGET ||--o{ TEST_RUN : observed_on

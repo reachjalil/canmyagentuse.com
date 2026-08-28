@@ -1,0 +1,128 @@
+---
+import {
+  HARNESS_SURFACE_LABELS,
+  breadcrumbJsonLd,
+  currentStatus,
+  expandFeatureSupport,
+  harnessMarkdownPath,
+  harnessPath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../../components/SiteChrome.astro";
+import StatusMark from "../../components/StatusMark.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const harnesses = await publishedCollection("harnesses");
+  return harnesses.map((harness) => ({
+    params: { slug: harness.data.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing harness slug.");
+
+const harnesses = await publishedCollection("harnesses");
+const features = await publishedCollection("features");
+const harness = entryBySlug(harnesses, slug);
+if (!harness) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(harness);
+const metadata = resolveMetadata(harness.data);
+const related = features.map((feature) => {
+  const column = expandFeatureSupport(
+    feature.data,
+    harnesses.map((entry) => entry.data)
+  ).find((item) => item.harness.slug === harness.data.slug);
+  return {
+    feature: feature.data,
+    versions: column?.versions ?? [],
+    status: currentStatus(column?.versions ?? []),
+  };
+});
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} harness profile card from Can My Agent Use.`}
+  contentType="article"
+  publishedTime={metadata.published}
+  modifiedTime={metadata.updated}
+  section={`${harness.data.surface} harness`}
+  tags={metadata.tags}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Harnesses", path: "/harnesses" },
+      { name: harness.data.title, path: harnessPath(harness.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="font-mono text-xs text-[color:var(--color-muted)]">
+        Harness · {HARNESS_SURFACE_LABELS[harness.data.surface]} · {harness.data.vendor}
+      </p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight">{harness.data.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
+        {harness.data.summary}
+      </p>
+      <p class="mt-3 font-mono text-xs">
+        <a href={harnessMarkdownPath(harness.data.slug)}>Markdown</a>
+        {" · "}
+        <a href={`/api/v1/harnesses/${harness.data.slug}.json`}>JSON</a>
+        {harness.data.homepage ? (
+          <>
+            {" · "}
+            <a href={harness.data.homepage} rel="noopener noreferrer">Vendor site</a>
+          </>
+        ) : null}
+      </p>
+      <dl class="catalog-census surface-census mt-7">
+        <div><dt>Surface</dt><dd>{HARNESS_SURFACE_LABELS[harness.data.surface]}</dd></div>
+        <div><dt>Execution</dt><dd>{harness.data.execution}</dd></div>
+        <div><dt>Target model</dt><dd>{harness.data.targetKind}</dd></div>
+        <div><dt>Default profile</dt><dd>{harness.data.defaultEnvironmentProfile}</dd></div>
+      </dl>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+      <h2 class="mt-12 text-2xl font-semibold tracking-tight">Capabilities</h2>
+      <table class="compare-table mt-4">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Current</th>
+            <th>Preview</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            related.map((row) => (
+              <tr>
+                <th scope="row">
+                  <a href={`/features/${row.feature.slug}`}>{row.feature.title}</a>
+                </th>
+                {row.versions.map((version) => (
+                  <td data-status={version.status}>
+                    <StatusMark status={version.status} noteIds={version.noteIds} />
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </main>
+  </SiteChrome>
+</BaseLayout>

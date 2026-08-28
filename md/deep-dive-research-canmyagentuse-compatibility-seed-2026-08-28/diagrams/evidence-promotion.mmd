@@ -1,0 +1,16 @@
+flowchart TD
+  X[Normative specification] --> F[Defines feature]
+  R[Official registry] --> L[Registry-listed role/components]
+  D[First-party surface docs] --> DOC[Documented assertion]
+  N[Release note] --> DOC
+  I[Reproducible issue] --> REP[Reported incident / contradiction]
+  TEST[Signed release-pinned run] --> VER[Independently tested assertion]
+  F --> CELL[Compatibility cell]
+  L --> CELL
+  DOC --> CELL
+  REP --> CELL
+  VER --> CELL
+  CELL --> Q{Evidence conflict or gate?}
+  Q -- yes --> P[Partial / contradiction / scoped profiles]
+  Q -- no --> S[Supported or explicit unsupported]
+  NONE[No defensible evidence] --> U[Unknown]

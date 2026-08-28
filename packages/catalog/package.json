@@ -1,0 +1,23 @@
+{
+  "name": "@canmyagentuse/catalog",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed catalog model, paths, JSON-LD, and agent documents for Can My Agent Use.",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

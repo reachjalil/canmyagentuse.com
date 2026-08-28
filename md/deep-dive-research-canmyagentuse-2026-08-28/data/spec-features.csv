@@ -1,0 +1,57 @@
+feature_id,name,specification,layer,kind,parent_profile,required_for_parent
+mcp.tools,MCP tools,MCP,protocol,server-feature,,no
+mcp.resources,MCP resources,MCP,protocol,server-feature,,no
+mcp.prompts,MCP prompts,MCP,protocol,server-feature,,no
+mcp.sampling,MCP sampling,MCP,protocol,client-feature,,no
+mcp.elicitation,MCP elicitation,MCP,protocol,client-feature,,no
+mcp.roots,MCP roots,MCP,protocol,client-feature,,no
+mcp.tasks,MCP tasks,MCP,protocol,utility,,no
+mcp.stdio,MCP stdio transport,MCP,transport,transport,,no
+mcp.streamable-http,MCP Streamable HTTP transport,MCP,transport,transport,,no
+mcp.sse-legacy,MCP legacy HTTP+SSE transport,MCP,transport,transport,,no
+mcp.oauth,MCP OAuth authorization,MCP,security,auth,,no
+mcp.tools-list-changed,MCP tools/list_changed notification,MCP,protocol,notification,,no
+mcp.apps,MCP Apps interactive UI,MCP Apps,ui,extension,,no
+skills.discovery,Agent Skills discovery,Agent Skills,skills,discovery,,no
+skills.progressive,Agent Skills progressive disclosure,Agent Skills,skills,loading,,no
+skills.scripts,Agent Skills scripts,Agent Skills,skills,component,,no
+skills.references-assets,Agent Skills references/assets,Agent Skills,skills,component,,no
+skills.manual-invoke,Agent Skills explicit/manual invocation,Agent Skills,skills,activation,,no
+skills.project-scope,Project-scoped Agent Skills,Agent Skills,skills,scope,,no
+skills.user-scope,User/global Agent Skills,Agent Skills,skills,scope,,no
+plugins.v1,Agent Plugins v1 plugin.json,Agent Plugins,packaging,manifest,,no
+plugins.skills,Agent Plugins skills component,Agent Plugins,packaging,component,,no
+plugins.mcp,Agent Plugins mcp.json component,Agent Plugins,packaging,component,,no
+plugins.marketplace,Plugin marketplace/install flow,Packaging,distribution,marketplace,,no
+plugins.vendor-ext,Vendor-specific plugin extensions,Packaging,distribution,extension,,no
+instructions.agents-md,AGENTS.md root instructions,AGENTS.md,instructions,file,,no
+instructions.agents-md-nested,Nested AGENTS.md instructions,AGENTS.md,instructions,file,,no
+instructions.claude-md,CLAUDE.md compatibility,Vendor convention,instructions,file,,no
+instructions.vendor-rules,Vendor-native rules/instructions,Vendor convention,instructions,rules,,no
+hooks,Lifecycle hooks,Vendor convention,automation,hooks,,no
+subagents,Subagents,Vendor convention,agents,composition,,no
+custom-agents,Custom agent definitions,Vendor convention,agents,composition,,no
+permissions,Granular agent/tool permissions,Vendor convention,security,permissions,,no
+headless,Headless/non-interactive agent mode,Vendor convention,runtime,execution,,no
+acp.client,ACP client/editor role,ACP,interoperability,client,,no
+acp.agent,ACP agent/server role,ACP,interoperability,agent,,no
+ahp.client,AHP client role,AHP,interoperability,client,,no
+ahp.host,AHP host role,AHP,interoperability,host,,no
+a2a,A2A protocol endpoint/client,A2A,interoperability,agent-agent,,no
+ag-ui,AG-UI frontend/runtime bridge,AG-UI,interoperability,agent-ui,,no
+webmcp,WebMCP site tools,WebMCP,web,browser,,no
+nlweb,NLWeb/MCP website interaction,NLWeb,web,semantic-web,,no
+mcp.logging,MCP logging utility,MCP,protocol,utility,,no
+mcp.progress,MCP progress notifications,MCP,protocol,utility,,no
+mcp.cancellation,MCP cancellation,MCP,protocol,utility,,no
+mcp.server-instructions,MCP server instructions,MCP,protocol,metadata,,no
+mcp.resource-subscribe,MCP resource subscriptions,MCP,protocol,notification,,no
+mcp.prompts-list-changed,MCP prompts/list_changed,MCP,protocol,notification,,no
+mcp.tasks-list,MCP tasks/list,MCP,protocol,utility,,no
+mcp.registry,Official MCP Registry metadata,MCP Registry,distribution,registry,,no
+a2ui,A2UI generative UI,A2UI,ui,generative-ui,,no
+open-json-ui,Open JSON UI,Open JSON UI,ui,generative-ui,,no
+agent-marketplace,Cross-client agent/plugin registry,Distribution,distribution,registry,,no
+session-portability,Portable resumable agent sessions,Runtime,runtime,session,,no
+workspace-policy,Admin policy gating,Governance,security,policy,,no
+vendor-attestation,Vendor compatibility attestation,CanMyAgentUse,evidence,attestation,,no

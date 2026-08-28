@@ -1,0 +1,225 @@
+---
+import {
+  RESEARCH_STATUS_LABELS,
+  SITE,
+  countResearchStatuses,
+  researchFeatureSlug,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  researchAtlas,
+  researchFeaturePath,
+  researchSurfacePath,
+  researchVendorPath,
+} from "../../lib/research";
+
+const { report, seed } = researchAtlas;
+const vendors = [...seed.summary_by_vendor].toSorted((left, right) =>
+  left.vendor_name.localeCompare(right.vendor_name)
+);
+const surfaces = seed.surfaces
+  .map((surface) => {
+    const product = researchAtlas.productsById.get(surface.product_id);
+    const vendor = product
+      ? researchAtlas.vendorsById.get(product.vendor_id)
+      : undefined;
+    const cells = researchAtlas.cellsBySurface.get(surface.surface_id) ?? [];
+    if (!product || !vendor) throw new Error(`Missing context for ${surface.surface_id}`);
+    return { surface, product, vendor, statuses: countResearchStatuses(cells) };
+  })
+  .toSorted(
+    (left, right) =>
+      left.vendor.vendor_name.localeCompare(right.vendor.vendor_name) ||
+      left.surface.surface_name.localeCompare(right.surface.surface_name)
+  );
+const features = seed.features
+  .map((feature) => ({
+    feature,
+    statuses: countResearchStatuses(
+      researchAtlas.cellsByFeature.get(feature.feature_id) ?? []
+    ),
+  }))
+  .toSorted(
+    (left, right) =>
+      left.feature.feature_group.localeCompare(right.feature.feature_group) ||
+      left.feature.feature_name.localeCompare(right.feature.feature_name)
+  );
+const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_type))].toSorted();
+---
+
+<BaseLayout
+  title={`Evidence Atlas — ${SITE.name}`}
+  description="The full 2026-08-28 documentation-backed compatibility seed: 50 vendors, 92 exact surfaces, 49 atomic features, 4,508 cells, and source-level evidence."
+  canonicalPath="/atlas"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Deep vendor compatibility snapshot</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Evidence Atlas</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        The complete {seed.research_cutoff} research seed, published at its original
+        vendor → product → exact-surface → atomic-feature resolution. The Atlas is
+        broader than the curated web/desktop/CLI matrix and keeps adapters, IDE
+        modes, cloud agents, protocol roles, and mobile surfaces distinct.
+      </p>
+
+      <div class="trust-banner mt-6">
+        <strong>Documentation-backed, not independently certified.</strong>
+        Registry membership proves only the role or portable components the registry
+        lists. First-party documentation establishes a dated documented claim. No
+        runtime conformance suite was executed, and unknown never means unsupported.
+      </div>
+
+      <dl class="catalog-census research-census mt-7">
+        <div><dt>Vendors</dt><dd>{report.vendors}</dd></div>
+        <div><dt>Products</dt><dd>{report.products}</dd></div>
+        <div><dt>Exact surfaces</dt><dd>{report.surfaces}</dd></div>
+        <div><dt>Atomic features</dt><dd>{report.features}</dd></div>
+        <div><dt>Compatibility cells</dt><dd>{report.compatibilityCells}</dd></div>
+        <div><dt>Supported</dt><dd>{report.statuses.supported}</dd></div>
+        <div><dt>Partial</dt><dd>{report.statuses.partial}</dd></div>
+        <div><dt>Explicit no</dt><dd>{report.statuses.unsupported}</dd></div>
+        <div><dt>Unknown</dt><dd>{report.statuses.unknown}</dd></div>
+        <div><dt>Source records</dt><dd>{report.sources}</dd></div>
+      </dl>
+
+      <nav class="atlas-subnav mt-5" aria-label="Evidence Atlas">
+        <a href="#surfaces">Exact surfaces</a>
+        <a href="#features">Atomic features</a>
+        <a href="#vendors">Vendor coverage</a>
+        <a href="/atlas/sources">Source ledger</a>
+        <a href="/atlas.md">Markdown</a>
+        <a href="/api/v1/atlas.json">JSON</a>
+      </nav>
+
+      <section class="mt-10" id="surfaces" aria-labelledby="surface-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">92 non-conflated targets</p><h2 id="surface-title">Exact surfaces</h2></div>
+          <p>Filter by provider, product, surface ID, type, or coverage state.</p>
+        </div>
+        <form class="filter-toolbar" data-atlas-surface-filters>
+          <label>Search surfaces<input type="search" name="q" placeholder="Claude Code, ACP, CLI…" /></label>
+          <label>Surface type<select name="type"><option value="">All types</option>{surfaceTypes.map((type) => <option value={type}>{type}</option>)}</select></label>
+          <label>Coverage tier<select name="tier"><option value="">All tiers</option><option value="A">Tier A</option><option value="B">Tier B</option><option value="C">Tier C</option><option value="D">Tier D</option></select></label>
+          <output class="filter-count" data-atlas-surface-count aria-live="polite">{surfaces.length} surfaces</output>
+        </form>
+        <div class="table-scroll mt-4">
+          <table class="data-table atlas-surface-table">
+            <thead><tr><th>Exact surface</th><th>Type / target</th><th>Tier</th><th>Supported (Y)</th><th>Partial (P)</th><th>Unsupported (N)</th><th>Unknown (?)</th></tr></thead>
+            <tbody>
+              {surfaces.map(({ surface, product, vendor, statuses }) => (
+                <tr
+                  data-atlas-surface
+                  data-search={`${surface.surface_name} ${surface.surface_id} ${surface.surface_type} ${product.product_name} ${vendor.vendor_name}`.toLowerCase()}
+                  data-type={surface.surface_type}
+                  data-tier={surface.coverage_tier}
+                >
+                  <td><a href={researchSurfacePath(surface.surface_id)}>{surface.surface_name}</a><small><a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a> · {product.product_name}</small></td>
+                  <td>{surface.surface_type}<small>{surface.version_or_observation}</small></td>
+                  <td>{surface.coverage_tier}<small>{surface.availability}</small></td>
+                  <td class="status-yes">{statuses.supported}</td>
+                  <td class="status-partial">{statuses.partial}</td>
+                  <td class="status-no">{statuses.unsupported}</td>
+                  <td class="status-unknown">{statuses.unknown}</td>
+                </tr>
+              ))}
+              <tr data-atlas-surface-empty hidden><td colspan="7">No exact surface matches these filters.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mt-12" id="features" aria-labelledby="feature-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Atomic capability taxonomy</p><h2 id="feature-title">Features</h2></div>
+          <p>Each row expands across all {report.surfaces} exact surfaces.</p>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table atlas-feature-table">
+            <thead><tr><th>Feature</th><th>Role / testability</th><th>Supported (Y)</th><th>Partial (P)</th><th>Unsupported (N)</th><th>Unknown (?)</th></tr></thead>
+            <tbody>
+              {features.map(({ feature, statuses }) => (
+                <tr id={`feature-${researchFeatureSlug(feature.feature_id)}`}>
+                  <td><a href={researchFeaturePath(feature.feature_id)}>{feature.feature_name}</a><small>{feature.feature_group} · {feature.feature_id}</small></td>
+                  <td>{feature.role}<small>{feature.testability}</small></td>
+                  <td class="status-yes">{statuses.supported}</td>
+                  <td class="status-partial">{statuses.partial}</td>
+                  <td class="status-no">{statuses.unsupported}</td>
+                  <td class="status-unknown">{statuses.unknown}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mt-12" id="vendors" aria-labelledby="vendor-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Evidence coverage, not product score</p><h2 id="vendor-title">Vendors</h2></div>
+          <p>More sourced cells may reflect broader documentation, not a more capable product.</p>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table atlas-vendor-table">
+            <thead><tr><th>Vendor</th><th>Tier / basis</th><th>Surfaces</th><th>Supported (Y)</th><th>Partial (P)</th><th>Unsupported (N)</th><th>Unknown (?)</th><th>Coverage</th></tr></thead>
+            <tbody>
+              {vendors.map((vendor) => (
+                <tr>
+                  <td><a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a></td>
+                  <td>{vendor.coverage_tier}<small>{vendor.inclusion_basis}</small></td>
+                  <td>{vendor.surface_count}</td>
+                  <td class="status-yes">{vendor.supported_cells}</td>
+                  <td class="status-partial">{vendor.partial_cells}</td>
+                  <td class="status-no">{vendor.unsupported_cells}</td>
+                  <td class="status-unknown">{vendor.unknown_cells}</td>
+                  <td>{vendor.evidence_coverage_percent.toFixed(1)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="limits-title">
+        <div class="section-heading"><div><p class="eyebrow">Publication boundary</p><h2 id="limits-title">Limitations retained from the research</h2></div></div>
+        <ul class="record-list">
+          {seed.limitations.map((limitation) => <li><strong>Limit</strong><span>{limitation}</span></li>)}
+        </ul>
+        <p class="mt-4 text-sm text-[color:var(--color-muted)]">
+          Status labels: {Object.entries(RESEARCH_STATUS_LABELS).map(([key, value]) => `${key} = ${value}`).join(" · ")}.
+        </p>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector("[data-atlas-surface-filters]");
+  const rows = [...document.querySelectorAll("[data-atlas-surface]")];
+  const count = document.querySelector("[data-atlas-surface-count]");
+  const empty = document.querySelector("[data-atlas-surface-empty]");
+
+  function filterSurfaces() {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const values = new FormData(filters);
+    const query = String(values.get("q") ?? "").trim().toLowerCase();
+    const type = String(values.get("type") ?? "");
+    const tier = String(values.get("tier") ?? "");
+    let visible = 0;
+    for (const row of rows) {
+      const matches =
+        (!query || (row.getAttribute("data-search") ?? "").includes(query)) &&
+        (!type || row.getAttribute("data-type") === type) &&
+        (!tier || row.getAttribute("data-tier") === tier);
+      row.toggleAttribute("hidden", !matches);
+      if (matches) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "surface" : "surfaces"}`;
+    empty?.toggleAttribute("hidden", visible !== 0);
+  }
+
+  filters?.addEventListener("input", filterSurfaces);
+  filters?.addEventListener("change", filterSurfaces);
+</script>

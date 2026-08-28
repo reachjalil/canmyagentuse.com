@@ -1,0 +1,77 @@
+---
+import {
+  breadcrumbJsonLd,
+  categoryPath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const categories = await publishedCollection("categories");
+  return categories.map((category) => ({
+    params: { slug: category.data.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing category slug.");
+
+const categories = await publishedCollection("categories");
+const features = await publishedCollection("features");
+const category = entryBySlug(categories, slug);
+if (!category) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(category);
+const metadata = resolveMetadata(category.data);
+const members = features.filter(
+  (feature) => feature.data.category === category.data.slug
+);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} capability-group card from Can My Agent Use.`}
+  modifiedTime={metadata.updated}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: category.data.title, path: categoryPath(category.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="font-mono text-xs text-[color:var(--color-muted)]">Group</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight">{category.data.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
+        {category.data.summary}
+      </p>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+      <ul class="mt-8 grid gap-3">
+        {
+          members.map((feature) => (
+            <li class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-4">
+              <a class="text-xl font-semibold" href={`/features/${feature.data.slug}`}>
+                {feature.data.title}
+              </a>
+              <p class="mt-1 text-sm text-[color:var(--color-muted)]">{feature.data.summary}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </SiteChrome>
+</BaseLayout>

@@ -1,0 +1,16 @@
+test_id,feature_id,priority,test_type,target_scope,fixture,expected,risk,source_keys
+T-MCP-REV-001,mcp.revision.2026-07-28,P0,protocol,every MCP client surface,revision-negotiation fixture,Record exact negotiated revision and fallback behavior.,low,S-005
+T-MCP-TOOLS-001,mcp.tools,P0,protocol,every MCP client surface,tools list/call/error/list_changed,"Discover, call, update, and surface errors without silent capability loss.",low,S-005
+T-MCP-OPT-001,mcp.tools,P0,regression,Claude Code 2.1.232+ and comparison clients,valid response omitting optional cache-hint fields,Client accepts the valid payload.,low,S-015
+T-MCP-RES-001,mcp.resources,P1,protocol,MCP clients with unknown resource support,list/read/template/subscription,Record each primitive separately.,low,S-005
+T-MCP-PROMPT-001,mcp.prompts,P1,protocol,MCP clients with unknown prompt support,list/get with arguments,Prompt is discoverable and retrievable.,low,S-005
+T-MCP-OAUTH-001,mcp.auth.oauth,P1,security-sensitive,remote MCP client surfaces,local deterministic OAuth issuer,Document supported discovery/registration/login flow and token audience behavior.,high,S-005
+T-MCP-APP-001,mcp.apps,P1,interactive,hosts claiming MCP Apps/UI,minimal sandboxed UI resource,"Render UI, relay events, enforce sandbox and headless fallback.",medium,S-005
+T-SKILL-001,agent-skills.core,P0,static,every Skills client,valid/invalid SKILL.md corpus,"Validate discovery, required fields, precedence, and errors.",low,S-004
+T-SKILL-002,agent-skills.scripts-assets,P1,security-sensitive,Skills clients supporting scripts,contained and escaping paths/scripts,Reject path traversal and expose permission behavior.,high,S-004
+T-PLUGIN-001,agent-plugins.core,P0,static,all nine official Agent Plugins clients,minimal valid plugin + invalid variants,"Validate manifest, version, path containment, and component discovery.",low,S-003
+T-PLUGIN-002,agent-plugins.failure-isolation,P0,static/runtime,all nine official Agent Plugins clients,valid skill + invalid MCP and inverse,Invalid component fails narrowly and valid component remains usable.,medium,S-003
+T-ACP-001,acp.agent,P0,protocol,all 39 ACP Registry agents,reference ACP v1 client,"Initialize, authenticate, prompt, stream, and cancel.",medium,S-001
+T-ACP-SESSION-001,acp.session-load,P1,protocol,ACP agents,create/close/load/list session corpus,Record load/list support separately; no registry inference.,medium,S-001
+T-ACP-MCP-001,acp.mcp-forwarding,P1,protocol,ACP hosts and agents,host-provided MCP tool,Record whether and how MCP config/tools are forwarded.,medium,S-061;S-074;S-146
+T-A2A-001,a2a.client,P2,protocol,vendors with future A2A claims,reference Agent Card/task server,No status promotion until first-party role or conformance evidence exists.,medium,S-006

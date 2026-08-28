@@ -1,0 +1,54 @@
+---
+import {
+  CONTRADICTIONS,
+  OPEN_GOVERNANCE_QUESTIONS,
+  SITE,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`Contradictions and open questions | ${SITE.name}`}
+  description="Visible evidence conflicts, scope mismatches, and governance questions that should not be smoothed into a false support claim."
+  canonicalPath="/contradictions"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Source conflicts</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Contradictions and open questions</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        Public sources can disagree because they describe different roles,
+        revisions, package formats, or products. The catalog keeps each conflict
+        visible until a source or schema change resolves it.
+      </p>
+
+      <section class="contradiction-grid mt-8" aria-label="Contradiction ledger">
+        {CONTRADICTIONS.map((item) => (
+          <article>
+            <header><span>{item.status}</span><h2>{item.topic}</h2></header>
+            <div class="claim-pair">
+              <p><a href={item.sourceA.href}>{item.sourceA.id}</a>{item.sourceA.claim}</p>
+              <p><a href={item.sourceB.href}>{item.sourceB.id}</a>{item.sourceB.claim}</p>
+            </div>
+            <footer><strong>Handling</strong>{item.handling}</footer>
+          </article>
+        ))}
+      </section>
+
+      <section class="mt-10" aria-labelledby="questions-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Needs a decision</p><h2 id="questions-title">Open questions</h2></div>
+          <p>These questions do not block publication. They do prevent a general "verified" claim.</p>
+        </div>
+        <ul class="question-list">
+          {OPEN_GOVERNANCE_QUESTIONS.map((item) => (
+            <li><code>{item.id}</code><div><strong>{item.title}</strong><p>{item.question}</p></div><span>{item.owner} · {item.priority}</span></li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

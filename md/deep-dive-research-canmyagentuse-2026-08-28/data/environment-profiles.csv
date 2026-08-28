@@ -1,0 +1,6 @@
+profile_id,name,description
+local-default,Local default,Default local installation with no enterprise policy overrides; exact OS/runtime recorded by future test runs.
+hosted-default,Hosted default,Default hosted surface at the observation timestamp; plan and tenant policy recorded separately.
+enterprise-managed,Enterprise managed,Managed tenant with administrator policy gates explicitly captured as qualifiers.
+preview-enabled,Preview enabled,Surface with a documented preview/experimental feature switch enabled.
+air-gapped,Air-gapped/restricted network,"Restricted network profile; useful for local transports, registries and OAuth constraints."

@@ -1,0 +1,88 @@
+---
+import { SITE, countResearchStatuses, websiteJsonLd, type ResearchVendor } from "@canmyagentuse/catalog";
+import SiteChrome from "../../../components/SiteChrome.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  researchAtlas,
+  researchSurfacePath,
+  researchVendorContext,
+  researchVendorJsonPath,
+  researchVendorMarkdownPath,
+  researchVendorPath,
+} from "../../../lib/research";
+
+export function getStaticPaths() {
+  return researchAtlas.seed.vendors.map((vendor) => ({
+    params: { slug: vendor.vendor_id },
+    props: { vendor },
+  }));
+}
+
+interface Props { vendor: ResearchVendor }
+const { vendor } = Astro.props;
+const context = researchVendorContext(vendor);
+---
+
+<BaseLayout
+  title={`${vendor.vendor_name} research coverage — ${SITE.name}`}
+  description={`Independent exact-surface evidence coverage for ${vendor.vendor_name}: ${context.surfaces.length} surfaces, with supported, partial, explicit unsupported, and unknown cells kept distinct.`}
+  canonicalPath={researchVendorPath(vendor.vendor_id)}
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Evidence Atlas · provider record</p>
+      <h1 class="text-4xl font-semibold tracking-tight">{vendor.vendor_name}</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">{vendor.inclusion_basis}.</p>
+      <p class="mt-3 max-w-3xl text-sm text-[color:var(--color-muted)]">
+        The provider name truthfully identifies catalog targets. Can My Agent Use is
+        independent and is not affiliated with, endorsed by, or sponsored by this provider.
+      </p>
+
+      <dl class="catalog-census research-detail-census mt-7">
+        <div><dt>Coverage tier</dt><dd>{vendor.coverage_tier}</dd></div>
+        <div><dt>Products</dt><dd>{context.products.length}</dd></div>
+        <div><dt>Exact surfaces</dt><dd>{context.surfaces.length}</dd></div>
+        <div><dt>Supported</dt><dd class="status-yes">{context.statuses.supported}</dd></div>
+        <div><dt>Partial</dt><dd class="status-partial">{context.statuses.partial}</dd></div>
+        <div><dt>Explicit no</dt><dd class="status-no">{context.statuses.unsupported}</dd></div>
+        <div><dt>Unknown</dt><dd class="status-unknown">{context.statuses.unknown}</dd></div>
+      </dl>
+
+      <nav class="atlas-subnav mt-5" aria-label="Record formats">
+        <a href="/atlas">Atlas</a>
+        <a href={vendor.website}>Provider website</a>
+        <a href={researchVendorMarkdownPath(vendor.vendor_id)}>Markdown</a>
+        <a href={researchVendorJsonPath(vendor.vendor_id)}>JSON</a>
+      </nav>
+
+      <section class="mt-10" aria-labelledby="surfaces-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">No product-wide inheritance</p><h2 id="surfaces-title">Exact surfaces</h2></div>
+          <p>Counts are evidence coverage and must not be read as a product quality score.</p>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>Surface</th><th>Type / target</th><th>Tier</th><th>Supported (Y)</th><th>Partial (P)</th><th>Unsupported (N)</th><th>Unknown (?)</th></tr></thead>
+            <tbody>
+              {context.surfaces.map((surface) => {
+                const statuses = countResearchStatuses(researchAtlas.cellsBySurface.get(surface.surface_id) ?? []);
+                return (
+                  <tr>
+                    <td><a href={researchSurfacePath(surface.surface_id)}>{surface.surface_name}</a><small>{surface.surface_id}</small></td>
+                    <td>{surface.surface_type}<small>{surface.version_or_observation}</small></td>
+                    <td>{surface.coverage_tier}</td>
+                    <td class="status-yes">{statuses.supported}</td>
+                    <td class="status-partial">{statuses.partial}</td>
+                    <td class="status-no">{statuses.unsupported}</td>
+                    <td class="status-unknown">{statuses.unknown}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

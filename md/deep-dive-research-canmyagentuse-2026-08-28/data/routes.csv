@@ -1,0 +1,16 @@
+route,job,primary_audience,primary_handoff
+/,"Compatibility search, thesis, high-level protocol stack and popular comparisons",all,feature + surface search
+/features,Browse atomic capabilities and parent profiles,builder,capability explorer
+/feature/[slug],Can-I-Use-style deep page for one capability,builder,compatibility matrix + evidence
+/harnesses,Browse products and surfaces,evaluator,surface catalog
+/harness/[slug],All known capabilities for a surface/release,evaluator,surface scorecard
+/specs,Protocol/specification index,architect,spec family explorer
+/spec/[slug],"Revision history, feature tree, roles and conformance links",architect,spec anatomy
+/compare,Side-by-side selected surfaces,buyer,comparison table
+/matrix,Dense power-user compatibility grid,builder,filterable matrix
+/evidence,Evidence ledger and freshness filters,skeptic,evidence explorer
+/tests,Conformance test registry and run status,maintainer,test explorer
+/changes,Compatibility changes timeline,maintainer,change feed
+/contradictions,Open evidence conflicts,skeptic,contradiction ledger
+/contribute,How to submit/update claims,maintainer,contribution flow
+/about,"Method, support tokens, confidence and limits",all,methodology

@@ -1,0 +1,5 @@
+topic,signal,source_id,implication
+Can I Use data license,CC BY 4.0; attribution required when reusing its dataset.,S-010,Do not silently copy and relicense Can I Use feature data.
+MDN BCD data license,CC0 public-domain dedication.,S-017,"BCD schema ideas/data can be reused with much less attribution friction, while provenance is still good practice."
+Vendor plan gates,Compatibility can depend on plan/admin policy even when a protocol is implemented.,S-088,Store plan/policy as qualifiers instead of multiplying fake product versions.
+Project business model,No external pricing research establishes a mandatory monetization model for CanMyAgentUse.,,"Keep factual compatibility data independently accessible; monetize hosted testing, team workflows or enterprise evidence operations if desired."

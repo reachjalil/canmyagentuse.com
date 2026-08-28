@@ -1,0 +1,21 @@
+surface_id,vendor,product,name,surface_type,execution,default_source
+claude-code,Anthropic,Claude,Claude Code,cli,local,S-098
+claude-desktop,Anthropic,Claude,Claude Desktop,desktop,local,S-098
+claude-web,Anthropic,Claude,claude.ai,web,hosted,S-099
+chatgpt-web,OpenAI,ChatGPT,ChatGPT web,web,hosted,S-088
+codex-cli,OpenAI,Codex,Codex CLI,cli,local,S-088
+codex-ide,OpenAI,Codex,Codex IDE extension,ide,local,S-088
+codex-desktop,OpenAI,Codex,Codex in ChatGPT desktop,desktop,local,S-088
+cursor-ide,Cursor,Cursor,Cursor IDE,ide,local,S-107
+cursor-cli,Cursor,Cursor,Cursor CLI Agent,cli,local,S-110
+copilot-vscode,GitHub/Microsoft,GitHub Copilot,GitHub Copilot in VS Code,ide,local,S-114
+copilot-cli,GitHub,GitHub Copilot,GitHub Copilot CLI,cli,local,S-119
+copilot-cloud,GitHub,GitHub Copilot,GitHub Copilot coding agent,cloud-agent,hosted,S-120
+kiro-ide,AWS,Kiro,Kiro IDE,ide,local,S-124
+kiro-cli,AWS,Kiro,Kiro CLI,cli,local,S-124
+kiro-web,AWS,Kiro,Kiro Web,cloud-agent,hosted,S-124
+gemini-cli,Google,Gemini,Gemini CLI,cli,local,S-130
+zed-agent,Zed Industries,Zed,Zed Agent,ide,local,S-136
+jetbrains-ai,JetBrains,AI Assistant,JetBrains AI Assistant,ide,local,S-142
+goose,Block / AAIF,goose,goose Desktop / CLI,desktop-cli,local,S-147
+opencode,OpenCode,OpenCode,OpenCode CLI,cli,local,S-149

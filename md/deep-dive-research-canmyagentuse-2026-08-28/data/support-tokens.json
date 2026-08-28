@@ -1,0 +1,41 @@
+{
+  "y": {
+    "label": "Supported",
+    "meaning": "Evidence supports this atomic capability for the exact target and qualifiers."
+  },
+  "a": {
+    "label": "Partial / conditional",
+    "meaning": "Some behavior works, but scope, preview status, plan, policy, transport, role, or revision limits full support."
+  },
+  "n": {
+    "label": "Not supported",
+    "meaning": "Evidence explicitly shows absence or incompatibility for the target."
+  },
+  "u": {
+    "label": "Unknown",
+    "meaning": "No sufficiently specific evidence was captured; never infer support from brand-level marketing."
+  },
+  "qualifiers": [
+    "preview",
+    "experimental",
+    "plan",
+    "policy",
+    "region",
+    "auth",
+    "transport",
+    "protocol_revision",
+    "host_role",
+    "feature_flag",
+    "runtime",
+    "vendor_extension"
+  ],
+  "evidence_types": [
+    "documented",
+    "tested",
+    "vendor-attested",
+    "listed",
+    "reported",
+    "inferred",
+    "not-found"
+  ]
+}

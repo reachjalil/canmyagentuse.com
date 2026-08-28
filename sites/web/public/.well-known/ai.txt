@@ -1,0 +1,16 @@
+# Can My Agent Use
+
+> Independent compatibility evidence for exact agent harness surfaces. Public documents have Markdown twins; catalog records also have versioned JSON representations.
+
+- [Canonical site](https://canmyagentuse.com/)
+- [Markdown index](https://canmyagentuse.com/llms.txt)
+- [Full corpus](https://canmyagentuse.com/llms-full.txt)
+- [Markdown sitemap](https://canmyagentuse.com/sitemap.md)
+- [API Catalog](https://canmyagentuse.com/.well-known/api-catalog)
+- [OpenAPI](https://canmyagentuse.com/api/v1/openapi.json)
+- [Read-only catalog skill](https://canmyagentuse.com/skills/can-my-agent-use/SKILL.md)
+- [Harnesses JSON](https://canmyagentuse.com/api/v1/harnesses.json)
+- [Support matrix JSON](https://canmyagentuse.com/api/v1/matrix.json)
+- [Coverage JSON](https://canmyagentuse.com/api/v1/coverage.json)
+- [Evidence JSON](https://canmyagentuse.com/api/v1/evidence.json)
+- [Evidence Atlas JSON](https://canmyagentuse.com/api/v1/atlas.json)

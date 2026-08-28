@@ -1,0 +1,12 @@
+flowchart TD
+  Q[feature + surface + date + environment] --> FR[Resolve feature revision]
+  FR --> T[Resolve release or hosted observation]
+  T --> A[Fetch active assertions]
+  A --> F[Apply qualifiers/freshness]
+  F --> C{Contradiction?}
+  C -->|yes| W[Show warning + evidence branches]
+  C -->|no| P{Parent profile?}
+  P -->|yes| D[Derive from child capabilities]
+  P -->|no| R[Render y/a/n/u + evidence]
+  D --> R
+  W --> R

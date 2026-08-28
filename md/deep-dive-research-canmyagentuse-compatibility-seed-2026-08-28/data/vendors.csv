@@ -1,0 +1,51 @@
+vendor_id,vendor_name,website,coverage_tier,inclusion_basis,category,notes
+anthropic,Anthropic,https://anthropic.com,A,first-party deep dive + ACP registry wrapper,agent-harness,
+openai,OpenAI,https://openai.com,A,first-party deep dive + Agent Plugins + ACP adapter,agent-harness,
+cursor,Cursor,https://cursor.com,A,first-party deep dive + both registries,agent-harness,
+microsoft-vscode,Microsoft / Visual Studio Code,https://code.visualstudio.com,A,Agent Plugins client + release-specific docs,agent-harness,
+github,GitHub,https://github.com,A,first-party deep dive + both registries,agent-harness,
+google,Google,https://geminicli.com,A,first-party Gemini CLI + ACP registry,agent-harness,
+zed,Zed Industries,https://zed.dev,A,first-party MCP and ACP host docs,agent-harness,
+jetbrains,JetBrains,https://jetbrains.com,A,first-party MCP/ACP/agent docs + Junie registry,agent-harness,
+aws-kiro,AWS / Kiro,https://kiro.dev,A,first-party surface tables + Agent Plugins + ACP registry,agent-harness,
+cline,Cline,https://cline.bot,A,first-party CLI/extension/subagent docs + ACP registry,agent-harness,
+opencode,OpenCode,https://opencode.ai,A,first-party CLI/desktop/IDE docs + ACP registry,agent-harness,
+continue,Continue,https://continue.dev,A,first-party mode-specific MCP docs,agent-harness,
+cognition,Cognition,https://devin.ai,A,first-party Cascade/Devin surface split + ACP registry,agent-harness,
+augment,Augment Code,https://augmentcode.com,A,first-party Auggie docs + ACP registry,agent-harness,
+block-goose,Block / goose,https://goose.ai,A,first-party MCP/Skills/ACP/subagent docs + ACP registry,agent-harness,
+nous-hermes,Nous Research / Hermes,https://hermes-agent.nousresearch.com,A,first-party docs + Agent Plugins client,agent-harness,
+openclaw,OpenClaw,https://openclaw.ai,A,first-party MCP/ACP/Skills docs + Agent Plugins client,agent-harness,
+xai,xAI,https://x.ai,A,Grok Build ACP + Grok Bot Agent Plugins,agent-harness,
+nanoclaw,NanoClaw,https://nanoclaw.dev,B,official Agent Plugins client + repository,agent-harness,
+moonshot,Moonshot AI,https://kimi.com,A,current Kimi Code docs + stale ACP registry entry,agent-harness,
+mistral,Mistral AI,https://mistral.ai,A,first-party Vibe MCP docs + ACP registry,agent-harness,
+qoder,Qoder,https://qoder.com,A,first-party CLI docs + stale ACP registry entry,agent-harness,
+alibaba-qwen,Alibaba / Qwen,https://qwenlm.github.io/qwen-code-docs,A,first-party Qwen Code docs + ACP registry,agent-harness,
+factory,Factory AI,https://factory.ai,A,first-party Droid docs + ACP registry,agent-harness,
+kilo,Kilo,https://kilo.ai,A,first-party CLI/IDE docs + ACP registry,agent-harness,
+openhands,OpenHands,https://openhands.dev,A,first-party CLI/Canvas/ACP docs,agent-harness,
+replit,Replit,https://replit.com,A,first-party Agent/MCP client/server/Skills docs,agent-harness,
+warp,Warp,https://warp.dev,A,first-party local/CLI/cloud docs,agent-harness,
+roo-code,Roo Code,https://roocodeinc.github.io/Roo-Code/,B,historical lifecycle,agent-harness,
+aider,Aider,https://aider.chat,D,watchlist; first-party documentation reviewed but no current protocol claim found,agent-harness,
+agoragentic,Agoragentic,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+amp,Amp,https://ampcode.com,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+autohand,Autohand,https://autohand.ai,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+codebuddy,Tencent Cloud / CodeBuddy,https://www.codebuddy.ai,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+snowflake,Snowflake,https://snowflake.com,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+corust,Corust,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+crow,crow-cli,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+deepagents,LangChain / DeepAgents,https://github.com/langchain-ai/deepagents,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+dimcode,DimCode,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+dirac,Dirac,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+fast-agent,fast-agent,https://fast-agent.ai,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+zai,Z.AI / GLM Agent,https://z.ai,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+harn,Harn,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+minion,Minion Code,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+compass-ai,Compass AI / Nova,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+pi,pi,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+poolside,Poolside,https://poolside.ai,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+sigit,siGit Code,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+stakpak,Stakpak,https://stakpak.dev,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.
+vt-code,VT Code,https://agentclientprotocol.com/get-started/registry,C,ACP Registry only,agent-harness,Only the ACP agent role/version is asserted; all other features remain unknown.

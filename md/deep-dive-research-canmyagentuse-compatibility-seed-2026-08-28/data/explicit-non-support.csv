@@ -1,0 +1,39 @@
+vendor_name,product_name,surface_id,surface_name,feature_id,feature_name,environment_scope,source_keys,qualifiers,notes
+OpenAI,Codex,codex-ide,Codex IDE extension,agent-plugins.core,Agent Plugins 1.0 core,default,S-020,,OpenAI explicitly states that the IDE extension does not support plugins.
+OpenAI,Codex,codex-ide,Codex IDE extension,agent-plugins.skills,Agent Plugins packaged skills,default,S-020,,Plugin-bundled skills are not available because plugins are unsupported; standalone skills remain supported.
+OpenAI,Codex,codex-ide,Codex IDE extension,agent-plugins.mcp,Agent Plugins packaged MCP,default,S-020,,Plugin packaging is unsupported; direct MCP remains supported.
+OpenAI,ChatGPT,chatgpt-web,ChatGPT web,mcp.transport.stdio,MCP stdio,default,S-021,,ChatGPT web does not read local Codex MCP configuration or start local stdio servers.
+OpenAI,ChatGPT,chatgpt-mobile,ChatGPT mobile,mcp.transport.stdio,MCP stdio,default,S-021,,
+GitHub,GitHub Copilot,copilot-cloud-agent,GitHub Copilot cloud agent,mcp.resources,MCP resources,default,S-042,,GitHub documents tools-only MCP support and no remote OAuth for the cloud agent.
+GitHub,GitHub Copilot,copilot-cloud-agent,GitHub Copilot cloud agent,mcp.prompts,MCP prompts,default,S-042,,GitHub documents tools-only MCP support and no remote OAuth for the cloud agent.
+GitHub,GitHub Copilot,copilot-cloud-agent,GitHub Copilot cloud agent,mcp.auth.oauth,MCP OAuth,default,S-042,,GitHub documents tools-only MCP support and no remote OAuth for the cloud agent.
+Zed Industries,Zed,zed-native-agent,Zed native Agent,mcp.resources,MCP resources,default,S-060,,Zed explicitly limits native MCP support to tools and prompts and does not support these wider client primitives.
+Zed Industries,Zed,zed-native-agent,Zed native Agent,mcp.sampling,MCP sampling,default,S-060,,Zed explicitly limits native MCP support to tools and prompts and does not support these wider client primitives.
+Zed Industries,Zed,zed-native-agent,Zed native Agent,mcp.elicitation,MCP elicitation,default,S-060,,Zed explicitly limits native MCP support to tools and prompts and does not support these wider client primitives.
+AWS / Kiro,Kiro,kiro-web,Kiro Web,hooks,Hooks,default,S-080;S-081,Hooks and global skill paths are unavailable on Web; workspace skills remain supported.,
+AWS / Kiro,Kiro,kiro-mobile,Kiro Mobile,hooks,Hooks,default,S-080;S-081;S-082,"Mobile supports workspace skills but not global skills, Hooks, or Powers/Agent Plugins.",
+AWS / Kiro,Kiro,kiro-mobile,Kiro Mobile,agent-plugins.core,Agent Plugins 1.0 core,default,S-080;S-081;S-082,"Mobile supports workspace skills but not global skills, Hooks, or Powers/Agent Plugins.",
+AWS / Kiro,Kiro,kiro-mobile,Kiro Mobile,agent-plugins.skills,Agent Plugins packaged skills,default,S-080;S-081;S-082,"Mobile supports workspace skills but not global skills, Hooks, or Powers/Agent Plugins.",
+AWS / Kiro,Kiro,kiro-mobile,Kiro Mobile,agent-plugins.mcp,Agent Plugins packaged MCP,default,S-080;S-081;S-082,"Mobile supports workspace skills but not global skills, Hooks, or Powers/Agent Plugins.",
+Cline,Cline,cline-vscode,Cline VS Code extension,subagents.mcp-access,Subagent MCP access,default,S-090,,"Cline explicitly documents that subagents cannot use MCP, modify files, or spawn nested subagents."
+Cline,Cline,cline-vscode,Cline VS Code extension,subagents.write-access,Subagent write access,default,S-090,,"Cline explicitly documents that subagents cannot use MCP, modify files, or spawn nested subagents."
+Cline,Cline,cline-vscode,Cline VS Code extension,subagents.nested,Nested subagents,default,S-090,,"Cline explicitly documents that subagents cannot use MCP, modify files, or spawn nested subagents."
+Continue,Continue,continue-plan-mode,Continue Plan mode,mcp.client,MCP client role,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-plan-mode,Continue Plan mode,mcp.tools,MCP tools,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-plan-mode,Continue Plan mode,mcp.transport.stdio,MCP stdio,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-plan-mode,Continue Plan mode,mcp.transport.streamable-http,MCP Streamable HTTP,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-plan-mode,Continue Plan mode,mcp.transport.legacy-sse,MCP legacy SSE,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-chat-mode,Continue Chat mode,mcp.client,MCP client role,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-chat-mode,Continue Chat mode,mcp.tools,MCP tools,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-chat-mode,Continue Chat mode,mcp.transport.stdio,MCP stdio,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-chat-mode,Continue Chat mode,mcp.transport.streamable-http,MCP Streamable HTTP,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Continue,Continue,continue-chat-mode,Continue Chat mode,mcp.transport.legacy-sse,MCP legacy SSE,default,S-110;S-111,,Continue explicitly documents MCP as Agent-mode-only.
+Moonshot AI,Kimi Code CLI,kimi-code-cli,Kimi Code CLI,acp.terminal-reverse-rpc,ACP terminal reverse RPC,default,S-180,,Current Kimi ACP capability table does not implement terminal reverse RPC.
+Mistral AI,Mistral Vibe,mistral-vibe-cli,Mistral Vibe CLI,mcp.auth.oauth,MCP OAuth,default,S-190,,Mistral Vibe explicitly does not support MCP OAuth; use static credentials.
+Factory AI,Factory Droid,factory-droid-cli,Factory Droid CLI,subagents.nested,Nested subagents,default,S-224,,Factory explicitly states that a subagent cannot spawn its own subagents because the Task tool is unavailable to it.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,mcp.client,MCP client role,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,mcp.tools,MCP tools,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,agent-skills.core,Agent Skills core,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,hooks,Hooks,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,subagents,Subagents,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.
+Roo Code,Roo Code,roo-code-vscode,Roo Code VS Code extension,plugins.native,Native plugin system,default,S-270,,No current support because the product was discontinued; historical releases require separate as-of records.

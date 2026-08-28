@@ -1,0 +1,109 @@
+---
+import {
+  CONFORMANCE_TESTS,
+  breadcrumbJsonLd,
+  resolveMetadata,
+  specificationMarkdownPath,
+  specificationPath,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+
+export async function getStaticPaths() {
+  const specifications = await publishedCollection("specifications");
+  return specifications.map((entry) => ({ params: { slug: entry.data.slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing specification slug.");
+const [specifications, features] = await Promise.all([
+  publishedCollection("specifications"),
+  publishedCollection("features"),
+]);
+const specification = entryBySlug(specifications, slug);
+if (!specification) return Astro.redirect("/404");
+const { Content } = await render(specification);
+const metadata = resolveMetadata(specification.data);
+const mappedFeatures = features.filter(
+  (feature) => feature.data.specification?.id === specification.data.slug
+);
+const tests = CONFORMANCE_TESTS.filter(
+  (test) => test.specification.toLowerCase() === specification.data.title.toLowerCase() ||
+    test.specification.toLowerCase() === specification.data.aliases[0]?.toLowerCase()
+);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt ?? `${metadata.socialTitle} specification reference card from Can My Agent Use.`}
+  contentType="article"
+  publishedTime={metadata.published}
+  modifiedTime={metadata.updated}
+  section="Specification reference"
+  tags={metadata.tags}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Specifications", path: "/specs" },
+      { name: specification.data.title, path: specificationPath(specification.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome searchValue={specification.data.title}>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">{specification.data.maturity} · {specification.data.sourceId}</p>
+      <h1 class="text-4xl font-semibold tracking-tight">{specification.data.title}</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">{specification.data.summary}</p>
+      <p class="mt-3 font-mono text-xs">
+        <a href={specificationMarkdownPath(specification.data.slug)}>Markdown</a>{" · "}
+        <a href={`/api/v1/specs/${specification.data.slug}.json`}>JSON</a>{" · "}
+        <a href={specification.data.canonicalUrl}>Canonical source</a>
+      </p>
+
+      <div class="spec-facts mt-8">
+        <dl class="dash-card">
+          <div><dt>Revision</dt><dd>{specification.data.revision}</dd></div>
+          <div><dt>Maturity</dt><dd>{specification.data.maturity}</dd></div>
+          <div><dt>Authority</dt><dd>{specification.data.authority}</dd></div>
+          <div><dt>Structure</dt><dd>{specification.data.structure}</dd></div>
+          <div><dt>Roles</dt><dd>{specification.data.roles.join(", ") || "Not recorded"}</dd></div>
+        </dl>
+        <div class="prose-page dash-card"><Content /></div>
+      </div>
+
+      <section class="mt-10">
+        <div class="section-heading">
+          <div><p class="eyebrow">Catalog mapping</p><h2>Atomic capability rows</h2></div>
+          <p>Absence here means the feature tree has not yet been published, not that the specification lacks the capability.</p>
+        </div>
+        {mappedFeatures.length ? (
+          <ul class="record-list">
+            {mappedFeatures.map((feature) => (
+              <li><a href={`/features/${feature.data.slug}`}>{feature.data.title}</a><span>{feature.data.summary}</span></li>
+            ))}
+          </ul>
+        ) : <p class="trust-banner">No reviewed feature row is mapped yet. The specification reference remains useful for taxonomy and future contributions.</p>}
+      </section>
+
+      <section class="mt-10">
+        <div class="section-heading">
+          <div><p class="eyebrow">Conformance boundary</p><h2>Proposed tests</h2></div>
+          <p>Definitions only. No fixture has been executed against a harness.</p>
+        </div>
+        {tests.length ? (
+          <ul class="record-list">
+            {tests.map((test) => <li><strong>{test.id}</strong><span>{test.name} · {test.requirementLevel}</span></li>)}
+          </ul>
+        ) : <p class="trust-banner">No conformance definition is mapped to this specification yet.</p>}
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publishedCollection } from "../../lib/collections";
+
+const features = await publishedCollection("features");
+---
+
+<BaseLayout
+  title={`Capabilities | ${SITE.name}`}
+  description="Published capabilities in the Can My Agent Use catalog. Search the list or open a matrix."
+  canonicalPath="/features"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome showIndex>
+    <main id="main" class="shell py-8">
+      <h1 class="text-4xl font-semibold tracking-tight">Capabilities</h1>
+      <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
+        Each capability has an HTML article, a Markdown twin, and a JSON record.
+        Support cells stay unknown until sourced.
+      </p>
+      <ul class="mt-8 grid gap-3 md:grid-cols-2" data-feature-list>
+        {
+          features.map((feature) => (
+            <li
+              class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-4"
+              data-feature-card
+              data-feature-text={`${feature.data.title} ${feature.data.slug} ${feature.data.aliases.join(" ")} ${feature.data.specification?.id ?? ""} ${feature.data.summary} ${feature.data.category}`.toLowerCase()}
+            >
+              <p class="font-mono text-xs uppercase text-[color:var(--color-muted)]">
+                {feature.data.category}
+              </p>
+              <a class="text-xl font-semibold tracking-tight" href={`/features/${feature.data.slug}`}>
+                {feature.data.title}
+              </a>
+              <p class="mt-2 text-sm text-[color:var(--color-muted)]">{feature.data.summary}</p>
+              <p class="mt-3 font-mono text-xs">
+                <a href={`/features/${feature.data.slug}.md`}>Markdown</a>
+                {" · "}
+                <a href={`/api/v1/features/${feature.data.slug}.json`}>JSON</a>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const query = (params.get("q") ?? "").trim().toLowerCase();
+  const input = document.getElementById("capability-search");
+  if (input instanceof HTMLInputElement && query && !input.value) {
+    input.value = params.get("q") ?? "";
+  }
+  if (query) {
+    for (const card of document.querySelectorAll("[data-feature-card]")) {
+      const haystack = card.getAttribute("data-feature-text") ?? "";
+      card.toggleAttribute("hidden", !haystack.includes(query));
+    }
+  }
+</script>

@@ -1,0 +1,40 @@
+---
+import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`Contribute compatibility evidence | ${SITE.name}`}
+  description="How to propose an atomic feature, exact surface target, qualified assertion, and public evidence record."
+  canonicalPath="/contribute"
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Contribution guide</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Contribute evidence</h1>
+      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
+        Propose the smallest truthful compatibility statement. Maintainers review
+        source wording, exact surface identity, conditions, and whether the
+        statement is stronger than its evidence.
+      </p>
+
+      <ol class="contribution-steps mt-8">
+        <li><span>01</span><div><h2>Define the capability</h2><p>Use a stable, vendor-neutral ID; name the specification revision, role, authority, source, parent, children, and aliases.</p></div></li>
+        <li><span>02</span><div><h2>Name the target</h2><p>Identify one exact web, desktop, IDE, CLI, or cloud surface. Use a release/build where available or a dated hosted observation.</p></div></li>
+        <li><span>03</span><div><h2>Record the environment</h2><p>Select an environment profile and retain plan, policy, region, authorization, transport, runtime, preview, and feature-flag conditions.</p></div></li>
+        <li><span>04</span><div><h2>Attach evidence</h2><p>Add a stable resource ID, public HTTPS source, evidence class, review date, locator where useful, and a concise factual note.</p></div></li>
+        <li><span>05</span><div><h2>Validate and preview</h2><p>Run schema, referential-integrity, formatting, test, build, and browser checks. Review the generated feature and harness views.</p></div></li>
+        <li><span>06</span><div><h2>Publish without rewriting history</h2><p>Future changes should supersede a statement and create a dated change event. Vendor attestation remains distinct from independent reproduction.</p></div></li>
+      </ol>
+
+      <div class="trust-banner mt-8">
+        The repository workflow and frontmatter example live in
+        <code>CONTRIBUTING.md</code>. Public votes and unsourced comments do not
+        change colors. Community reports can open an investigation or
+        contradiction, but need authoritative or reproducible corroboration.
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>

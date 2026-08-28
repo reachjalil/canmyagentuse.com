@@ -1,0 +1,13 @@
+spec_id,name,authority,revision,maturity,structure,source_id
+mcp,Model Context Protocol,MCP project / AAIF ecosystem,2025-11-25,published,JSON-RPC + normative prose + TypeScript schema,S-019
+mcp-apps,MCP Apps,MCP project,2026-01-26,stable extension,MCP extension + ui:// resource + sandboxed iframe,S-039
+agent-skills,Agent Skills,Agent Skills maintainers,living,open standard,SKILL.md + YAML frontmatter + directory conventions,S-043
+agent-plugins,Agent Plugins,cross-vendor TSC,1.0.0,stable,closed JSON manifest + optional skills/mcp + vendor namespaces,S-049
+acp,Agent Client Protocol,ACP/Zed ecosystem,living,active,"JSON-RPC; local stdio mature, remote transport evolving",S-056
+ahp,Agent Host Protocol,Microsoft,0.5.x,preview,session host/client protocol,S-116
+a2a,Agent2Agent Protocol,Linux Foundation project,1.0.x,stable family,Agent Cards + Tasks + artifacts + streaming + bindings,S-067
+agents-md,AGENTS.md,community convention,living,convention,Markdown instruction file with host-specific discovery/precedence,S-072
+webmcp,WebMCP,W3C Web Machine Learning CG,2026-08-26 draft,draft community group report,web API + HTML/JS tool exposure + WPT,S-074
+ag-ui,AG-UI,AG-UI community,living,open protocol,event-based bidirectional agent/user interaction,S-077
+a2ui,A2UI,A2UI project,0.9.1 stable / 1.0 candidate,mixed,streaming JSON UI schema,S-082
+nlweb,NLWeb,NLWeb community,0.5 TypeSpec,early,natural-language web endpoints + Schema.org + MCP,S-085
