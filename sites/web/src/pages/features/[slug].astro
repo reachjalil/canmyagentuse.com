@@ -1,6 +1,8 @@
 ---
 import {
   breadcrumbJsonLd,
+  buildCapabilityProgress,
+  capabilityNode,
   currentSupportSnapshot,
   expandFeatureSupport,
   featureMarkdownPath,
@@ -9,6 +11,7 @@ import {
   resolveMetadata,
   sourcedShare,
   techArticleJsonLd,
+  SUPPORT_STATUS_LABELS,
 } from "@canmyagentuse/catalog";
 import { render } from "astro:content";
 import NotesPanel from "../../components/NotesPanel.astro";
@@ -43,6 +46,10 @@ const columns = expandFeatureSupport(feature.data, harnessData);
 const coverage = sourcedShare(columns);
 const currentSupport = currentSupportSnapshot(columns);
 const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport);
+const graph = capabilityNode(feature.data.slug, features.map((entry) => entry.data));
+const familyProgress = feature.data.capabilityKind === "family"
+  ? buildCapabilityProgress(feature.data.slug, features.map((entry) => entry.data), harnessData)
+  : [];
 ---
 
 <BaseLayout
@@ -71,7 +78,7 @@ const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport)
       <div class="feature-head">
         <div class="feature-head__copy">
           <p class="font-mono text-xs text-[color:var(--color-muted)]">
-            Capability · {feature.data.category}
+            {feature.data.capabilityKind === "family" ? "Capability family" : "Atomic capability"} · {feature.data.category}
           </p>
           <h1 class="mt-2 text-4xl font-semibold tracking-tight">
             {feature.data.title}
@@ -88,14 +95,14 @@ const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport)
           <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
             {feature.data.summary}
           </p>
-          <p class="feature-verdict">{supportSnippet}</p>
+          {feature.data.capabilityKind === "atomic" ? <p class="feature-verdict">{supportSnippet}</p> : null}
           <p class="feature-formats">
             <a href={featureMarkdownPath(feature.data.slug)}>Markdown</a>
             {" · "}
             <a href={`/api/v1/features/${feature.data.slug}.json`}>JSON</a>
           </p>
         </div>
-        <aside class="coverage-stat">
+        {feature.data.capabilityKind === "atomic" ? <aside class="coverage-stat">
           <span>Current products reviewed</span>
           <strong>{currentSupport.sourced}<small>/{currentSupport.total}</small></strong>
           <dl class="coverage-stat__counts">
@@ -104,9 +111,40 @@ const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport)
             <div data-status="no"><dt>Unsupported</dt><dd>{currentSupport.counts.no}</dd></div>
           </dl>
           <p>{formatPercent(coverage)} of all current and preview tracks are sourced.</p>
-        </aside>
+        </aside> : <aside class="coverage-stat">
+          <span>Atomic capabilities</span>
+          <strong>{graph?.children.length ?? 0}</strong>
+          <p>Family support is derived per product. No umbrella yes/no value is authored.</p>
+        </aside>}
       </div>
-      <VersionMatrix feature={feature.data} harnesses={harnessData} />
+      {graph?.parent ? (
+        <nav class="family-context" aria-label="Capability family">
+          <strong><a href={`/features/${graph.parent.slug}`}>{graph.parent.title}</a></strong>
+          <span> / {feature.data.title}</span>
+          {graph.siblings.length ? <p>Sibling capabilities: {graph.siblings.map((sibling, index) => <>{index ? " · " : ""}<a href={`/features/${sibling.slug}`}>{sibling.title}</a></>)}</p> : null}
+        </nav>
+      ) : null}
+      {feature.data.capabilityKind === "atomic" ? <VersionMatrix feature={feature.data} harnesses={harnessData} /> : (
+        <section class="feature-explainer" aria-labelledby="family-progress-title">
+          <p class="eyebrow">Independent support cells</p>
+          <h2 id="family-progress-title">Family progress by product</h2>
+          <p>Counts combine {graph?.children.length ?? 0} atomic capabilities. “Reviewed” measures evidence coverage; supported includes yes and partial.</p>
+          <div class="table-scroll"><table class="data-table">
+            <thead><tr><th>Product</th><th>Supported</th><th>Reviewed</th><th>Breakdown</th></tr></thead>
+            <tbody>{familyProgress.map((progress) => {
+              const harness = harnessData.find((candidate) => candidate.slug === progress.harness);
+              return <tr>
+                <th><a href={`/harnesses/${progress.harness}`}>{harness?.title ?? progress.harness}</a><small>{harness?.surface}</small></th>
+                <td>{progress.supported}/{progress.total}</td>
+                <td>{progress.reviewed}/{progress.total}</td>
+                <td>{SUPPORT_STATUS_LABELS.yes} {progress.counts.yes} · {SUPPORT_STATUS_LABELS.partial} {progress.counts.partial} · {SUPPORT_STATUS_LABELS.no} {progress.counts.no} · {SUPPORT_STATUS_LABELS.unknown} {progress.counts.unknown}</td>
+              </tr>;
+            })}</tbody>
+          </table></div>
+          <h3>Atomic capabilities</h3>
+          <ul>{graph?.children.map((child) => <li><a href={`/features/${child.slug}`}>{child.title}</a> — {child.summary}</li>)}</ul>
+        </section>
+      )}
       <section class="feature-explainer" aria-labelledby="feature-explainer-title">
         <p class="eyebrow">Definition and scope</p>
         <h2 id="feature-explainer-title">What this capability means</h2>
@@ -114,8 +152,8 @@ const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport)
           <Content />
         </div>
       </section>
-      <AssertionLedger feature={feature.data} harnesses={harnessData} />
-      <NotesPanel feature={feature.data} />
+      {feature.data.capabilityKind === "atomic" ? <AssertionLedger feature={feature.data} harnesses={harnessData} /> : null}
+      {feature.data.capabilityKind === "atomic" ? <NotesPanel feature={feature.data} /> : null}
     </main>
   </SiteChrome>
 </BaseLayout>

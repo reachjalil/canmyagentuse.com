@@ -25,7 +25,7 @@ The market now has two useful official discovery lists but no complete cross-sta
 - Official Agent Plugins clients represented: **9**. [S-002]
 - Product surfaces in this seed: **92**.
 - Features modeled: **49**.
-- Full cells: **4508**.
+- Full cells: **4557**.
 
 ### What the registries do well
 

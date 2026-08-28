@@ -6,6 +6,8 @@ import {
   type PageData,
   type SpecificationData,
   SUPPORT_STATUS_LABELS,
+  buildCapabilityProgress,
+  capabilityNode,
   currentSupportSnapshot,
   categoryMarkdownPath,
   categoryPath,
@@ -153,10 +155,46 @@ function featureAssertions(
 
 export function featureMarkdown(input: {
   feature: FeatureData;
+  features?: readonly FeatureData[];
   harnesses: readonly HarnessData[];
   body: string;
 }): string {
-  const { feature, harnesses, body } = input;
+  const { feature, features = [input.feature], harnesses, body } = input;
+  const graph = capabilityNode(feature.slug, features);
+  if (feature.capabilityKind === "family") {
+    const progress = buildCapabilityProgress(feature.slug, features, harnesses);
+    const childLines = (graph?.children ?? []).map(
+      (child) =>
+        `- [${child.title}](${featureMarkdownPath(child.slug)}) — ${child.summary}`
+    );
+    const progressLines = progress.map((item) => {
+      const harness = harnesses.find(
+        (candidate) => candidate.slug === item.harness
+      );
+      return `- [${harness?.title ?? item.harness}](${harnessMarkdownPath(item.harness)}): ${item.supported}/${item.total} supported or partial; ${item.reviewed}/${item.total} reviewed; yes ${item.counts.yes}, partial ${item.counts.partial}, no ${item.counts.no}, unknown ${item.counts.unknown}`;
+    });
+    return toEntryMarkdown({
+      title: feature.title,
+      htmlPath: featurePath(feature.slug),
+      jsonPath: featureJsonPath(feature.slug),
+      markdownPath: featureMarkdownPath(feature.slug),
+      llmSummary: feature.llmSummary,
+      body: [
+        body.trim(),
+        "",
+        "## Atomic capabilities",
+        "",
+        ...childLines,
+        "",
+        "## Current family progress by product",
+        "",
+        "Family support is derived from atomic child records. No umbrella compatibility value is authored.",
+        "",
+        ...progressLines,
+      ].join("\n"),
+      ...metadata(feature),
+    });
+  }
   const currentSupport = currentSupportSnapshot(
     expandFeatureSupport(feature, harnesses)
   );
@@ -184,6 +222,12 @@ export function featureMarkdown(input: {
     `- Category: [${feature.category}](${categoryMarkdownPath(feature.category)})`,
     specification,
     `- Aliases: ${feature.aliases.length ? feature.aliases.join(", ") : "None"}`,
+    ...(graph?.parent
+      ? [
+          `- Family: [${graph.parent.title}](${featureMarkdownPath(graph.parent.slug)})`,
+          `- Siblings: ${graph.siblings.length ? graph.siblings.map((sibling) => `[${sibling.title}](${featureMarkdownPath(sibling.slug)})`).join(", ") : "None"}`,
+        ]
+      : []),
     "",
     featureAssertions(feature, harnesses),
   ].join("\n");
@@ -207,18 +251,51 @@ export function harnessMarkdown(input: {
   body: string;
 }): string {
   const { harness, harnesses, features, body } = input;
-  const assertions = features.map((feature) => {
+  const atomicFeatures = features.filter(
+    (feature) => feature.capabilityKind === "atomic"
+  );
+  const capabilityRows = atomicFeatures.map((feature) => {
     const column = expandFeatureSupport(feature, harnesses).find(
       (candidate) => candidate.harness.slug === harness.slug
     );
     const versions = column?.versions ?? [];
-    return `- [${feature.title}](${featureMarkdownPath(feature.slug)}): ${versions
+    const current =
+      versions.find((version) => version.track === "current") ?? versions[0];
+    return { feature, versions, current };
+  });
+  const assertions = capabilityRows.map(({ feature, versions }) =>
+    `- [${feature.title}](${featureMarkdownPath(feature.slug)}): ${versions
       .map(
         (version) =>
           `${version.track} ${SUPPORT_STATUS_LABELS[version.status].toLowerCase()}`
       )
-      .join("; ")}`;
-  });
+      .join("; ")}`
+  );
+  const currentCounts = {
+    yes: 0,
+    partial: 0,
+    no: 0,
+    unknown: 0,
+    na: 0,
+  };
+  const currentSourceUrls = new Set<string>();
+  let latestCurrentEvidence: string | undefined;
+  for (const { feature, current } of capabilityRows) {
+    const status = current?.status ?? "unknown";
+    currentCounts[status] += 1;
+    for (const evidence of current?.evidence ?? []) {
+      if (!latestCurrentEvidence || evidence.observedAt > latestCurrentEvidence) {
+        latestCurrentEvidence = evidence.observedAt;
+      }
+      const resource = feature.resources.find(
+        (candidate) => candidate.id === evidence.resourceId
+      );
+      if (resource?.href.startsWith("https://")) {
+        currentSourceUrls.add(resource.href);
+      }
+    }
+  }
+  const reviewed = atomicFeatures.length - currentCounts.unknown;
   return toEntryMarkdown({
     title: harness.title,
     htmlPath: harnessPath(harness.slug),
@@ -234,8 +311,21 @@ export function harnessMarkdown(input: {
       `- Provider: ${harness.vendor}`,
       `- Surface: ${harness.surface}`,
       `- Execution: ${harness.execution}`,
+      `- Target type: ${harness.targetKind}`,
       `- Default environment: ${harness.defaultEnvironmentProfile}`,
       `- Tracks: ${harness.tracks.join(", ")}`,
+      `- Official reference: ${harness.homepage ?? "Not recorded"}`,
+      "",
+      "## Current support summary",
+      "",
+      `- Reviewed: ${reviewed}/${atomicFeatures.length}`,
+      `- Supported: ${currentCounts.yes}`,
+      `- Partial: ${currentCounts.partial}`,
+      `- Unsupported: ${currentCounts.no}`,
+      `- Unknown: ${currentCounts.unknown}`,
+      `- Not applicable: ${currentCounts.na}`,
+      `- Unique public sources: ${currentSourceUrls.size}`,
+      `- Latest current evidence: ${latestCurrentEvidence ?? "Review pending"}`,
       "",
       "## Capability assertions",
       "",

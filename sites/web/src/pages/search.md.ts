@@ -4,6 +4,8 @@ import {
   harnessMarkdownPath,
   searchCatalog,
   specificationMarkdownPath,
+  SUPPORT_STAGES,
+  SUPPORT_STATUSES,
 } from "@canmyagentuse/catalog";
 import { publishedCollection } from "../lib/collections";
 import { generatedPageMarkdown, latestUpdatedAt } from "../lib/markdown";
@@ -18,11 +20,30 @@ export const GET: APIRoute = async ({ url }) => {
     publishedCollection("specifications"),
   ]);
   const query = (url.searchParams.get("q") ?? "").trim();
-  const results = searchCatalog(query, {
-    features: features.map((entry) => entry.data),
-    harnesses: harnesses.map((entry) => entry.data),
-    specifications: specifications.map((entry) => entry.data),
-  });
+  const family = (url.searchParams.get("family") ?? "").trim();
+  const harness = (url.searchParams.get("harness") ?? "").trim();
+  const requestedSupport = (url.searchParams.get("support") ?? "").trim();
+  const support = SUPPORT_STATUSES.find(
+    (candidate) => candidate === requestedSupport
+  );
+  const requestedStage = (url.searchParams.get("stage") ?? "").trim();
+  const stage = SUPPORT_STAGES.find(
+    (candidate) => candidate === requestedStage
+  );
+  const results = searchCatalog(
+    query,
+    {
+      features: features.map((entry) => entry.data),
+      harnesses: harnesses.map((entry) => entry.data),
+      specifications: specifications.map((entry) => entry.data),
+    },
+    {
+      family: family || undefined,
+      harness: harness || undefined,
+      support,
+      stage,
+    }
+  );
   const pathFor = (
     kind: (typeof results.hits)[number]["kind"],
     slug: string
@@ -31,9 +52,11 @@ export const GET: APIRoute = async ({ url }) => {
     if (kind === "harness") return harnessMarkdownPath(slug);
     return specificationMarkdownPath(slug);
   };
-  const lines = query
+  const activeSearch = Boolean(query || family || harness || support || stage);
+  const lines = activeSearch
     ? [
         `Query: \`${query}\``,
+        `Filters: family=${family || "any"}; harness=${harness || "any"}; support=${support ?? "any"}; stage=${stage ?? "any"}`,
         "",
         `## Results (${results.hits.length})`,
         "",

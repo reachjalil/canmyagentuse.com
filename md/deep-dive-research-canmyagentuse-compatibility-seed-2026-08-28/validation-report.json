@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-28T19:48:01Z",
+  "generated_at_utc": "2026-08-28T23:30:00Z",
   "status": "pass",
   "checks": {
     "unique_vendors": true,
@@ -14,8 +14,8 @@
     "acp_registry_actual": 39,
     "agent_plugins_expected": 9,
     "agent_plugins_actual": 9,
-    "expected_cell_count": 4508,
-    "actual_cell_count": 4508,
+    "expected_cell_count": 4557,
+    "actual_cell_count": 4557,
     "duplicate_cells": [],
     "archive_field_errors": [],
     "source_url_errors": [],
@@ -23,7 +23,7 @@
     "section_errors": {},
     "frontmatter_errors": [],
     "summaries_over_120_words": {},
-    "used_source_reference_count": 149,
+    "used_source_reference_count": 183,
     "unresolved_source_references": [],
     "orphan_products": [],
     "missing_required_files": []
@@ -31,7 +31,7 @@
   "errors": [],
   "warnings": [
     {
-      "archive_remediation_required": 149
+      "archive_remediation_required": 183
     }
   ]
 }

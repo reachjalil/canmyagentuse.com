@@ -25,9 +25,9 @@ The deep vendor pass is complete for both official registries and includes first
 |---|---|---|
 | ACP Registry inventory | complete | 39/39 current entries represented |
 | Agent Plugins clients | complete | 9/9 official clients represented |
-| Major vendor surface split | complete | 92 surfaces across 50 vendors |
+| Major vendor surface split | complete | 93 surfaces across 51 vendors |
 | Feature taxonomy | complete | 49 role, protocol, packaging, and native features |
-| Full compatibility grid | complete | 4508 surface-feature cells |
+| Full compatibility grid | complete | 4557 surface-feature cells |
 | Explicit non-support review | complete | 38 sourced negative assertions |
 | Test backlog | complete | 15 proposed tests; none executed |
 | Archive capture | blocked | Every source carries `[archive-failed: automated archive submission unavailable in this environment]` |

@@ -1,12 +1,12 @@
 ---
-title: Agent Skills
-description: Discover and load reusable SKILL.md instruction packages, with current-track evidence for selected chat and coding harnesses.
+title: Agent Skills core and discovery
+description: Discover and load standard SKILL.md packages, with current-track evidence for selected chat and coding harnesses.
 slug: skills
 locale: en
-seoTitle: Agent Skills compatibility — Can My Agent Use
-socialTitle: Can my agent use Agent Skills?
-socialDescription: Current-track Agent Skills support by exact harness surface, with dated public evidence.
-llmSummary: Agent Skills are reusable packages centered on SKILL.md. Selected harnesses document discovery or use; plan, code-execution, scope, and beta conditions remain explicit.
+seoTitle: Agent Skills core and discovery compatibility — Can My Agent Use
+socialTitle: Can my agent discover Agent Skills?
+socialDescription: Current-track Agent Skills core discovery by exact harness surface, with dated public evidence.
+llmSummary: This atomic row covers recognizing, discovering, and loading standard SKILL.md packages. Scripts, assets, invocation, and scopes have separate sibling rows.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [runtime, skills, instructions, packaging]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: Discover and load reusable instruction packages centered on SKILL.md.
-specLabel: Agent Skills
+summary: Recognize, discover, and load reusable instruction packages centered on SKILL.md.
+specLabel: Agent Skills core
 specification:
   id: agent-skills
   revision: living
@@ -24,6 +24,7 @@ specification:
   authority: Agent Skills maintainers
   canonicalUrl: https://agentskills.io/specification
 aliases: [SKILL.md, skill packs, reusable workflows]
+parent: agent-skills
 related: [custom-instructions, plugins]
 highlight: true
 notes:
@@ -41,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI documents skill discovery tiers, installation, activation, and the Agent Skills directory structure."
   - id: 7
     text: "Evidence checked 2026-08-28: VS Code documents Agent Skills as generally available for GitHub Copilot in VS Code with project and personal directories and progressive loading."
+  - id: 8
+    text: "Evidence checked 2026-08-28: OpenWork Desktop documents SKILL.md creation, import, sharing, organization installation, and workspace loading through its OpenCode-backed runtime."
 issues: []
 resources:
   - id: openai-chatgpt-skills
@@ -90,6 +93,13 @@ resources:
     href: https://code.visualstudio.com/docs/agent-customization/agent-skills
     kind: docs
     publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: openwork-skills
+    title: OpenWork — Import a skill
+    href: https://openworklabs.com/docs/start-here/do-work-with-it/import-a-skill
+    kind: docs
+    publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -206,6 +216,25 @@ support:
         qualifiers: []
         evidence:
           - resourceId: vscode-skills
+            type: documented
+            observedAt: 2026-08-28
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork skill documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: native workspace path is .opencode/skills
+          - type: policy
+            value: organization skill installation requires OpenWork Cloud
+        evidence:
+          - resourceId: openwork-skills
             type: documented
             observedAt: 2026-08-28
 ---

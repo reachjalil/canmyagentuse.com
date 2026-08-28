@@ -2,94 +2,341 @@
 import {
   HARNESS_SURFACE_LABELS,
   SITE,
-  currentStatus,
-  expandFeatureSupport,
+  SUPPORT_STATUS_LABELS,
+  formatPercent,
   groupHarnesses,
   websiteJsonLd,
+  type HarnessSurface,
 } from "@canmyagentuse/catalog";
 import ProviderReference from "../../components/ProviderReference.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { publishedCollection } from "../../lib/collections";
+import { harnessSupportSummary } from "../../lib/harnesses";
 
 const [harnesses, features] = await Promise.all([
   publishedCollection("harnesses"),
   publishedCollection("features"),
 ]);
-const groups = groupHarnesses(harnesses.map((entry) => entry.data));
 const harnessData = harnesses.map((entry) => entry.data);
-const coverageByHarness = new Map(
+const featureData = features.map((entry) => entry.data);
+const groups = groupHarnesses(harnessData);
+const summaries = new Map(
   harnessData.map((harness) => [
     harness.slug,
-    { reviewed: 0, sourceIds: new Set<string>() },
+    harnessSupportSummary(harness.slug, featureData, harnessData),
   ])
 );
-for (const feature of features) {
-  for (const column of expandFeatureSupport(feature.data, harnessData)) {
-    const coverage = coverageByHarness.get(column.harness.slug);
-    if (!coverage) continue;
-    const current =
-      column.versions.find((version) => version.track === "current") ??
-      column.versions[0];
-    if (currentStatus(column.versions) !== "unknown") coverage.reviewed += 1;
-    for (const reference of current?.evidence ?? []) {
-      coverage.sourceIds.add(reference.resourceId);
-    }
-  }
-}
+const atomicFeatureCount = featureData.filter(
+  (feature) => feature.capabilityKind === "atomic"
+).length;
+const reviewedCells = [...summaries.values()].reduce(
+  (total, summary) => total + summary.reviewed,
+  0
+);
+const totalCells = [...summaries.values()].reduce(
+  (total, summary) => total + summary.total,
+  0
+);
 
-function coverageLabel(slug: string): string {
-  const coverage = coverageByHarness.get(slug);
-  if (!coverage || coverage.reviewed === 0) return "Evidence review pending";
-  return `${coverage.reviewed} reviewed · ${coverage.sourceIds.size} sources`;
+const surfaceDescriptions: Record<HarnessSurface, string> = {
+  web: "Browser-delivered products, scoped to hosted behavior observed at a dated point in time.",
+  desktop:
+    "Installed apps, editor workbenches, and extensions tracked as exact desktop surfaces.",
+  cli: "Terminal-native products, scoped to a release target and local execution environment.",
+};
+
+function humanize(value: string): string {
+  return value.replaceAll("-", " ");
 }
 ---
 
 <BaseLayout
-  title={`Product columns | ${SITE.name}`}
-  description="Exact web, desktop, and CLI agent products listed as catalog columns."
+  title={`Agent harnesses we track | ${SITE.name}`}
+  description={`Browse ${harnessData.length} exact web, desktop, and CLI agent product surfaces with descriptions, official references, support detail, and dated evidence.`}
   canonicalPath="/harnesses"
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
-    <main id="main" class="shell py-8">
-      <h1 class="text-4xl font-semibold tracking-tight">Product columns</h1>
-      <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
-        Each entry is one exact web, desktop, or CLI column in the matrix.
-        Product names identify the column and do not imply affiliation,
-        certification, or official status.
-      </p>
-      {
-        groups.map((group) => (
-          <section class="mt-10">
-            <h2 class="text-sm tracking-[0.14em] text-[color:var(--color-muted)] uppercase">
-              {HARNESS_SURFACE_LABELS[group.surface]}
-            </h2>
-            <ul class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {group.items.map((harness) => (
-                <li class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-4">
-                  <ProviderReference
-                    provider={harness.vendor}
-                    surface={HARNESS_SURFACE_LABELS[harness.surface]}
-                    homepage={harness.homepage}
-                    evidenceLabel={coverageLabel(harness.slug)}
-                    compact
-                  />
-                  <a class="text-xl font-semibold tracking-tight" href={`/harnesses/${harness.slug}`}>
-                    {harness.title}
-                  </a>
-                  <p class="mt-2 text-sm text-[color:var(--color-muted)]">{harness.summary}</p>
-                  <p class="mt-3 font-mono text-xs">
-                    <a href={`/harnesses/${harness.slug}.md`}>Markdown</a>
-                    {" · "}
-                    <a href={`/api/v1/harnesses/${harness.slug}.json`}>JSON</a>
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
+    <main id="main" class="harness-index">
+      <header class="shell harness-index-hero">
+        <div class="harness-index-hero__copy">
+          <p class="eyebrow">Exact product surfaces</p>
+          <h1>Agent harnesses<br /><em>we track.</em></h1>
+          <p>
+            Browse {harnessData.length} independently researched web, desktop,
+            and CLI products. Every profile explains what the product is, links
+            to the provider when a current official reference is recorded, and
+            shows the evidence behind each capability status.
+          </p>
+          <nav class="harness-index-hero__actions" aria-label="Harness directory actions">
+            <a class="harness-action harness-action--primary" href="#tracked-harnesses">
+              Browse the index ↓
+            </a>
+            <a class="harness-action" href="/compare">Compare two products →</a>
+            <a class="harness-action" href="/matrix">Open the full matrix →</a>
+          </nav>
+        </div>
+        <aside class="harness-definition" aria-labelledby="harness-definition-title">
+          <p class="eyebrow">Definition</p>
+          <h2 id="harness-definition-title">What counts as a harness?</h2>
+          <p>
+            A harness is the exact product surface through which a person or an
+            agent uses models, tools, files, and approvals. A provider family is
+            not one compatibility target: its web app, desktop app, editor, and
+            CLI can support different things.
+          </p>
+          <a href="/methodology">How support is researched →</a>
+        </aside>
+      </header>
+
+      <dl class="shell harness-index-census" aria-label="Harness catalog totals">
+        <div><dt>Tracked harnesses</dt><dd>{harnessData.length}</dd></div>
+        {
+          groups.map((group) => (
+            <div>
+              <dt>{HARNESS_SURFACE_LABELS[group.surface]}</dt>
+              <dd>{group.items.length}</dd>
+            </div>
+          ))
+        }
+        <div>
+          <dt>Current cells reviewed</dt>
+          <dd>{reviewedCells}<small>/{totalCells}</small></dd>
+        </div>
+      </dl>
+
+      <section class="shell harness-reading" aria-labelledby="reading-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Read the directory precisely</p>
+            <h2 id="reading-title">What each record tells you</h2>
+          </div>
+          <p>{atomicFeatureCount} atomic capabilities are checked independently for every current product column.</p>
+        </div>
+        <div class="harness-reading__grid">
+          <article>
+            <span>01</span>
+            <h3>Exact surface</h3>
+            <p>Web, desktop, and CLI records stay separate even when they share a provider or family name.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Scoped support</h3>
+            <p>Execution, release or hosted target, environment, conditions, and preview tracks remain attached to the claim.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Traceable evidence</h3>
+            <p>Reviewed statuses link back to dated public sources. Unknown means unreviewed—not unsupported.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Portable records</h3>
+            <p>Every profile has human-readable HTML plus Markdown and JSON twins for agents and downstream tools.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="tracked-harnesses" class="shell harness-directory" aria-labelledby="directory-title">
+        <div class="section-heading harness-directory__heading">
+          <div>
+            <p class="eyebrow">Complete curated index</p>
+            <h2 id="directory-title">Tracked harnesses</h2>
+          </div>
+          <p>
+            Product names identify catalog records only. They do not imply
+            affiliation, certification, sponsorship, or endorsement.
+          </p>
+        </div>
+
+        <form class="harness-filters" data-harness-filters>
+          <label class="harness-filters__query">
+            <span>Find a harness</span>
+            <input
+              type="search"
+              name="q"
+              placeholder="Product, provider, or description"
+              autocomplete="off"
+              data-harness-query
+            />
+          </label>
+          <label>
+            <span>Surface</span>
+            <select name="surface" data-harness-surface>
+              <option value="">All surfaces</option>
+              {
+                groups.map((group) => (
+                  <option value={group.surface}>{HARNESS_SURFACE_LABELS[group.surface]}</option>
+                ))
+              }
+            </select>
+          </label>
+          <label>
+            <span>Research state</span>
+            <select name="review" data-harness-review>
+              <option value="">All records</option>
+              <option value="reviewed">Has reviewed support</option>
+              <option value="pending">Review pending</option>
+            </select>
+          </label>
+          <output data-harness-count aria-live="polite">{harnessData.length} harnesses</output>
+        </form>
+
+        <div class="harness-empty" data-harness-empty hidden>
+          <strong>No harnesses match these filters.</strong>
+          <p>Try another product name, include all surfaces, or reset the research state.</p>
+        </div>
+
+        {
+          groups.map((group) => (
+            <section class="harness-surface" data-harness-section={group.surface} aria-labelledby={`surface-${group.surface}`}>
+              <header class="harness-surface__heading">
+                <div>
+                  <p class="eyebrow">{String(group.items.length).padStart(2, "0")} tracked</p>
+                  <h3 id={`surface-${group.surface}`}>{HARNESS_SURFACE_LABELS[group.surface]}</h3>
+                </div>
+                <p>{surfaceDescriptions[group.surface]}</p>
+              </header>
+              <ul class="harness-card-grid">
+                {group.items.map((harness) => {
+                  const summary = summaries.get(harness.slug);
+                  if (!summary) return null;
+                  const searchable = [
+                    harness.title,
+                    harness.vendor,
+                    harness.family,
+                    harness.summary,
+                    HARNESS_SURFACE_LABELS[harness.surface],
+                  ].join(" ").toLocaleLowerCase();
+                  return (
+                    <li
+                      class="harness-card"
+                      data-harness-card
+                      data-surface={harness.surface}
+                      data-reviewed={summary.reviewed > 0 ? "reviewed" : "pending"}
+                      data-search={searchable}
+                    >
+                      <ProviderReference
+                        provider={harness.vendor}
+                        surface={HARNESS_SURFACE_LABELS[harness.surface]}
+                        homepage={harness.homepage}
+                        evidenceLabel={`${summary.reviewed}/${summary.total} current cells reviewed`}
+                        compact
+                      />
+                      <div class="harness-card__body">
+                        <h4><a href={`/harnesses/${harness.slug}`}>{harness.title}</a></h4>
+                        <p>{harness.summary}</p>
+                        <dl class="harness-card__facts">
+                          <div><dt>Execution</dt><dd>{humanize(harness.execution)}</dd></div>
+                          <div><dt>Target</dt><dd>{humanize(harness.targetKind)}</dd></div>
+                          <div><dt>Environment</dt><dd>{humanize(harness.defaultEnvironmentProfile)}</dd></div>
+                        </dl>
+                      </div>
+                      <div class="harness-card__support">
+                        <div class="harness-card__support-head">
+                          <strong>Current support</strong>
+                          <span>{formatPercent(summary.coverage)} reviewed</span>
+                        </div>
+                        <div
+                          class="harness-support-meter"
+                          aria-label={`${summary.reviewed} of ${summary.total} current capability cells reviewed`}
+                        >
+                          {(["yes", "partial", "no", "na", "unknown"] as const).map((status) => (
+                            <i
+                              data-status={status}
+                              style={`width:${summary.total ? (summary.counts[status] / summary.total) * 100 : 0}%`}
+                              title={`${SUPPORT_STATUS_LABELS[status]}: ${summary.counts[status]}`}
+                            />
+                          ))}
+                        </div>
+                        <dl class="harness-status-counts">
+                          <div data-status="yes"><dt>Supported</dt><dd>{summary.counts.yes}</dd></div>
+                          <div data-status="partial"><dt>Partial</dt><dd>{summary.counts.partial}</dd></div>
+                          <div data-status="no"><dt>Unsupported</dt><dd>{summary.counts.no}</dd></div>
+                          <div data-status="unknown"><dt>Unknown</dt><dd>{summary.counts.unknown}</dd></div>
+                        </dl>
+                        <p class="harness-card__evidence">
+                          {summary.sourceCount} public {summary.sourceCount === 1 ? "source" : "sources"}
+                          {summary.latestEvidenceAt ? ` · latest evidence ${summary.latestEvidenceAt}` : " · evidence review pending"}
+                        </p>
+                      </div>
+                      <nav class="harness-card__actions" aria-label={`${harness.title} catalog links`}>
+                        <a class="harness-card__primary" href={`/harnesses/${harness.slug}`}>Support profile →</a>
+                        <a href={`/compare?a=${harness.slug}`}>Compare</a>
+                        <a href={`/harnesses/${harness.slug}.md`}>Markdown</a>
+                        <a href={`/api/v1/harnesses/${harness.slug}.json`}>JSON</a>
+                        {!harness.homepage ? <span>Official link not recorded</span> : null}
+                      </nav>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))
+        }
+
+        <footer class="harness-directory__footer">
+          <p>
+            Need the whole directory in a machine-readable form? Use the
+            <a href="/harnesses.md"> Markdown index</a>,
+            <a href="/harnesses/llms.txt"> llms.txt index</a>, or
+            <a href="/api/v1/harnesses.json"> JSON collection</a>.
+          </p>
+          <p><a href="/contribute">Suggest a missing harness or evidence update →</a></p>
+        </footer>
+      </section>
     </main>
   </SiteChrome>
 </BaseLayout>
+
+<script>
+  const form = document.querySelector("[data-harness-filters]");
+  const query = document.querySelector("[data-harness-query]");
+  const surface = document.querySelector("[data-harness-surface]");
+  const review = document.querySelector("[data-harness-review]");
+  const count = document.querySelector("[data-harness-count]");
+  const empty = document.querySelector("[data-harness-empty]");
+  const cards = [...document.querySelectorAll("[data-harness-card]")];
+  const sections = [...document.querySelectorAll("[data-harness-section]")];
+
+  function normalize(value: string): string {
+    return value.trim().toLocaleLowerCase();
+  }
+
+  function applyFilters() {
+    if (!(query instanceof HTMLInputElement) || !(surface instanceof HTMLSelectElement) || !(review instanceof HTMLSelectElement)) return;
+    const needle = normalize(query.value);
+    let visible = 0;
+    for (const card of cards) {
+      if (!(card instanceof HTMLElement)) continue;
+      const matchesQuery = !needle || normalize(card.dataset.search ?? "").includes(needle);
+      const matchesSurface = !surface.value || card.dataset.surface === surface.value;
+      const matchesReview = !review.value || card.dataset.reviewed === review.value;
+      card.hidden = !(matchesQuery && matchesSurface && matchesReview);
+      if (!card.hidden) visible += 1;
+    }
+    for (const section of sections) {
+      if (!(section instanceof HTMLElement)) continue;
+      section.hidden = !section.querySelector("[data-harness-card]:not([hidden])");
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "harness" : "harnesses"}`;
+    if (empty instanceof HTMLElement) empty.hidden = visible > 0;
+
+    const url = new URL(window.location.href);
+    needle ? url.searchParams.set("q", query.value.trim()) : url.searchParams.delete("q");
+    surface.value ? url.searchParams.set("surface", surface.value) : url.searchParams.delete("surface");
+    review.value ? url.searchParams.set("review", review.value) : url.searchParams.delete("review");
+    history.replaceState({}, "", url);
+  }
+
+  if (form instanceof HTMLFormElement && query instanceof HTMLInputElement && surface instanceof HTMLSelectElement && review instanceof HTMLSelectElement) {
+    const params = new URLSearchParams(window.location.search);
+    query.value = params.get("q") ?? "";
+    if ([...surface.options].some((option) => option.value === params.get("surface"))) surface.value = params.get("surface") ?? "";
+    if ([...review.options].some((option) => option.value === params.get("review"))) review.value = params.get("review") ?? "";
+    form.addEventListener("input", applyFilters);
+    form.addEventListener("change", applyFilters);
+    applyFilters();
+  }
+</script>

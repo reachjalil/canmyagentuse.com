@@ -18,11 +18,12 @@ published: 2026-08-28
 family: Goose
 vendor: Block
 surface: cli
-summary: Goose local agent CLI.
+summary: Extensible local agent CLI for coding and automation with multiple model providers and MCP extensions.
 tracks:
   - current
   - preview
 order: 270
+homepage: https://block-goose.mintlify.app/
 ---
 
 Goose appears here as a **CLI** column so a capability page can show this harness next to others.

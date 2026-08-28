@@ -30,6 +30,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI's official tool reference includes the `run_shell_command` tool with workspace and approval controls."
   - id: 5
     text: "Evidence checked 2026-08-28: VS Code documents terminal tools for agent mode, with user-configurable approval and auto-approval behavior."
+  - id: 6
+    text: "Evidence checked 2026-08-28: OpenWork's OpenCode-backed runtime includes shell execution, with permission requests surfaced in the desktop app and policy controlled by the host."
 issues: []
 resources:
   - id: anthropic-cli-terminal
@@ -65,6 +67,13 @@ resources:
     href: https://code.visualstudio.com/docs/copilot/concepts/tools
     kind: docs
     publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: openwork-terminal
+    title: OpenWork — Architecture
+    href: https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
+    kind: docs
+    publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -141,6 +150,23 @@ support:
         qualifiers: []
         evidence:
           - resourceId: vscode-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork architecture documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: shell execution remains subject to OpenWork and OpenCode permission rules
+        evidence:
+          - resourceId: openwork-terminal
             type: documented
             observedAt: 2026-08-28
 ---

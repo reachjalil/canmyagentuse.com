@@ -1,12 +1,12 @@
 ---
 title: Human approval
-description: "Pause before a tool or write until a person confirms. Compatibility evidence is published only after review."
+description: Pause before a tool or write until a person confirms, with current OpenWork Desktop evidence.
 slug: human-approval
 locale: en
 seoTitle: "Human approval — Can My Agent Use"
 socialTitle: Human approval
-socialDescription: "Pause before a tool or write until a person confirms. Unreviewed cells remain unknown."
-llmSummary: "Human approval: Pause before a tool or write until a person confirms. Unreviewed harness cells remain unknown until dated public evidence exists."
+socialDescription: Human-approval support by exact harness surface, with dated public evidence.
+llmSummary: OpenWork Desktop surfaces OpenCode permission requests and lets the operator allow once, allow always, or deny. Approval behavior still depends on workspace policy and runtime configuration.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -20,13 +20,37 @@ specLabel: Product capability
 highlight: false
 notes:
   - id: 1
-    text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
+    text: "Evidence checked 2026-08-28: OpenWork Desktop surfaces permission requests and documents allow-once, always-allow, and deny responses."
 issues: []
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-support: []
+  - id: openwork-permissions
+    title: OpenWork — Publisher repository
+    href: https://github.com/different-ai/openwork
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork repository documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: effective prompts depend on workspace and server approval configuration
+        evidence:
+          - resourceId: openwork-permissions
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Pause before a tool or write until a person confirms.

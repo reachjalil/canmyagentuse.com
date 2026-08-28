@@ -13,17 +13,17 @@ It does **not** claim to enumerate every agent product in existence. Registry me
 
 | Item | Count |
 |---|---:|
-| Vendors | 50 |
-| Products | 59 |
-| Distinct surfaces | 92 |
+| Vendors | 51 |
+| Products | 60 |
+| Distinct surfaces | 93 |
 | Compatibility features | 49 |
-| Long-form assertions | 825 |
-| Full surface × feature cells | 4508 |
-| Supported cells | 670 |
-| Partial cells | 21 |
-| Explicit unsupported cells | 38 |
-| Unknown cells | 3779 |
-| Primary/supporting sources | 149 |
+| Long-form assertions | 959 |
+| Full surface × feature cells | 4557 |
+| Supported cells | 790 |
+| Partial cells | 30 |
+| Explicit unsupported cells | 42 |
+| Unknown cells | 3695 |
+| Primary/supporting sources | 183 |
 | Proposed conformance tests | 15 |
 
 ## Start here

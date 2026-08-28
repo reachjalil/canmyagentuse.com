@@ -32,7 +32,7 @@ The largest risks are false product-wide claims, registry over-promotion, unsupp
 | A2A support guessed from “multi-agent” marketing | high | Leave A2A unknown without role evidence |
 | Discontinued products erased | medium | Historical lifecycle and as-of data |
 
-Current full-grid unknown cells: **3779**. That is an evidence backlog, not a data-quality failure.
+Current full-grid unknown cells: **3695**. That is an evidence backlog, not a data-quality failure.
 
 ## Confidence Notes
 

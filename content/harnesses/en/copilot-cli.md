@@ -18,11 +18,12 @@ published: 2026-08-28
 family: Copilot
 vendor: Microsoft
 surface: cli
-summary: GitHub Copilot in a terminal harness.
+summary: Terminal-native GitHub Copilot agent for questions, code changes, debugging, and GitHub workflows.
 tracks:
   - current
   - preview
 order: 280
+homepage: https://docs.github.com/en/copilot/how-tos/copilot-cli
 ---
 
 Copilot CLI appears here as a **CLI** column so a capability page can show this harness next to others.

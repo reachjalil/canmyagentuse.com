@@ -79,6 +79,7 @@ export function expandFeatureSupport(
           environmentProfile: explicit.environmentProfile,
           qualifiers: explicit.qualifiers,
           evidence: explicit.evidence,
+          stage: explicit.stage,
         };
       }
       if (track === "current" && override?.status) {
@@ -96,6 +97,7 @@ export function buildMatrix(
 ): MatrixCell[] {
   const cells: MatrixCell[] = [];
   for (const feature of features) {
+    if (feature.capabilityKind === "family") continue;
     for (const column of expandFeatureSupport(feature, harnesses)) {
       cells.push({
         feature: feature.slug,

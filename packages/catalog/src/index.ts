@@ -12,6 +12,16 @@ export {
 } from "./api-catalog.ts";
 export { buildCoverageReport } from "./coverage.ts";
 export type { CoverageReport, CoverageSlice } from "./coverage.ts";
+export {
+  buildCapabilityProgress,
+  capabilityFamily,
+  capabilityNode,
+  supportStatusForFeature,
+} from "./capability.ts";
+export type {
+  CapabilityNode,
+  CapabilityProgress,
+} from "./capability.ts";
 export { buildEvidenceLedger } from "./evidence.ts";
 export type { EvidenceLedgerRecord } from "./evidence.ts";
 export {
@@ -138,11 +148,16 @@ export type {
   SupportRowInput,
 } from "./schema.ts";
 export { featureIndex, featureLetter, searchCatalog } from "./search.ts";
-export type { CatalogSearchHit, SearchKind } from "./search.ts";
+export type {
+  CatalogSearchFilters,
+  CatalogSearchHit,
+  SearchKind,
+} from "./search.ts";
 export { LOCALES, SITE } from "./site.ts";
 export type { Locale, SiteConfig } from "./site.ts";
 export {
   AGENT_KINDS,
+  CAPABILITY_KINDS,
   CONTENT_KINDS,
   EVIDENCE_TYPES,
   ENVIRONMENT_PROFILE_IDS,
@@ -151,15 +166,19 @@ export {
   MATRIX_VIEWS,
   PUBLICATION_STATUSES,
   QUALIFIER_TYPES,
+  FEATURE_RELATION_TYPES,
   SUPPORT_STATUSES,
   SUPPORT_STATUS_LABELS,
   SUPPORT_STATUS_MARK,
+  SUPPORT_STAGES,
+  SUPPORT_STAGE_LABELS,
   TARGET_KINDS,
   TRACK_LABELS,
   isSupportStatus,
 } from "./status.ts";
 export type {
   AgentKind,
+  CapabilityKind,
   CatalogNote,
   CatalogResource,
   ContentKind,
@@ -170,9 +189,11 @@ export type {
   MatrixView,
   PublicationStatus,
   QualifierType,
+  FeatureRelationType,
   SeoFields,
   SupportRow,
   SupportStatus,
+  SupportStage,
   SupportQualifier,
   SupportTarget,
   TargetKind,

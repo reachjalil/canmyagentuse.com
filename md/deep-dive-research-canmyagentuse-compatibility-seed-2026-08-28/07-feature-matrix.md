@@ -15,15 +15,15 @@ After reading this file, a development team can understand the compatibility dec
 
 ## Summary
 
-The generated matrix covers 92 surfaces and 49 features. It contains 670 supported, 21 partial, 38 explicit unsupported, and 3779 unknown cells. Unknown remains the dominant state because exact revisions and optional protocol primitives are rarely documented across all surfaces.
+The generated matrix covers 93 surfaces and 49 features. It contains 790 supported, 30 partial, 42 explicit unsupported, and 3695 unknown cells. Unknown remains the dominant state because exact revisions and optional protocol primitives are rarely documented across all surfaces.
 
 ## What We Found
 
 | Vendor | Tier | Surfaces | Supported | Partial | Explicit no | Unknown | Evidence coverage |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | OpenAI | A | 6 | 63 | 1 | 5 | 225 | 23.5% |
-| Cursor | A | 3 | 55 | 2 | 0 | 90 | 38.8% |
-| AWS / Kiro | A | 4 | 38 | 3 | 5 | 150 | 23.5% |
+| Cursor | A | 3 | 55 | 2 | 0 | 90 | 39.8% |
+| AWS / Kiro | A | 4 | 39 | 3 | 5 | 150 | 23.5% |
 | Cognition | A | 4 | 34 | 2 | 0 | 160 | 18.4% |
 | OpenCode | A | 3 | 36 | 0 | 0 | 111 | 24.5% |
 | Block / goose | A | 3 | 31 | 2 | 0 | 114 | 22.4% |
@@ -47,7 +47,7 @@ The generated matrix covers 92 surfaces and 49 features. It contains 670 support
 | Microsoft / Visual Studio Code | A | 1 | 14 | 0 | 0 | 35 | 28.6% |
 | Zed Industries | A | 2 | 9 | 1 | 3 | 85 | 13.3% |
 | Replit | A | 2 | 12 | 0 | 0 | 86 | 12.2% |
-| Mistral AI | A | 1 | 10 | 0 | 1 | 38 | 22.4% |
+| Mistral AI | A | 1 | 10 | 0 | 1 | 39 | 22.4% |
 | NanoClaw | B | 1 | 9 | 0 | 0 | 40 | 18.4% |
 | Roo Code | B | 1 | 0 | 0 | 6 | 43 | 12.2% |
 | Agoragentic | C | 1 | 2 | 0 | 0 | 47 | 4.1% |

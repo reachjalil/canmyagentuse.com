@@ -26,6 +26,7 @@ specification:
   authority: MCP project
   canonicalUrl: https://modelcontextprotocol.io/extensions/apps/specification
 aliases: [MCP UI, interactive MCP apps]
+parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: true
 notes:

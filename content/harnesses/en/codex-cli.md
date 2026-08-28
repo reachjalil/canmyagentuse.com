@@ -18,11 +18,12 @@ published: 2026-08-28
 family: Codex
 vendor: OpenAI
 surface: cli
-summary: Codex in a terminal harness.
+summary: Terminal coding agent that can inspect, edit, and run code in a local repository.
 tracks:
   - current
   - preview
 order: 230
+homepage: https://developers.openai.com/codex/cli/
 ---
 
 Codex CLI appears here as a **CLI** column so a capability page can show this harness next to others.

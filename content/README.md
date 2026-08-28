@@ -21,6 +21,16 @@ images next to the Markdown file. Keep `sites/web/public/` for global assets.
 Support rows on a feature are optional. Missing rows expand to **unknown** for
 every published harness track. Do not invent yes/no cells.
 
+Use `capabilityKind: family` only for a grouping page and never author support
+rows on it. Atomic children use `parent: <family-slug>`; family progress and
+sibling links are derived from those children. Existing entries default to
+`capabilityKind: atomic`.
+
+Compatibility (`yes`, `partial`, `no`, `unknown`, `na`) is separate from the
+optional version-cell lifecycle `stage` (`untracked`, `requested`, `planned`,
+`experimental`, `preview`, `stable`, `deprecated`). For example, a documented
+roadmap item may be `status: no` with `stage: planned`.
+
 A non-unknown version statement identifies its target, environment profile,
 dated evidence references, and note IDs. Evidence resources use stable IDs so a
 statement can cite the exact public source that supports it. Specifications are

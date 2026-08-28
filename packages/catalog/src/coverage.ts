@@ -51,12 +51,15 @@ export function buildCoverageReport(
   features: readonly FeatureData[],
   harnesses: readonly HarnessData[]
 ): CoverageReport {
-  const cells = buildMatrix(features, harnesses);
+  const atomicFeatures = features.filter(
+    (feature) => feature.capabilityKind === "atomic"
+  );
+  const cells = buildMatrix(atomicFeatures, harnesses);
   return {
     generatedFrom: "published-current-track",
     totals: {
       ...slice(cells.map((cell) => cell.status)),
-      features: features.length,
+      features: atomicFeatures.length,
       harnesses: harnesses.length,
     },
     surfaces: HARNESS_SURFACES.map((surface) => {
@@ -74,7 +77,7 @@ export function buildCoverageReport(
         ),
       };
     }),
-    features: features.map((feature) => ({
+    features: atomicFeatures.map((feature) => ({
       slug: feature.slug,
       title: feature.title,
       ...slice(

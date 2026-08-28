@@ -1,12 +1,12 @@
 ---
 title: OpenWork Desktop
-description: "OpenWork Desktop listed as a desktop catalog column. Independent nominative reference; not affiliated with OpenWork."
+description: "OpenWork's first-party desktop agent harness, represented as an independent catalog column with dated public evidence."
 slug: openwork-desktop
 locale: en
 seoTitle: "OpenWork Desktop (Desktop) — Can My Agent Use"
 socialTitle: "OpenWork Desktop (Desktop)"
-socialDescription: Independent catalog column for OpenWork Desktop on desktop. Not affiliated with OpenWork.
-llmSummary: "OpenWork Desktop is listed as a desktop harness column. Selected cells are sourced; every unreviewed cell remains unknown. The name identifies the product and does not imply affiliation."
+socialDescription: Independent compatibility coverage for OpenWork's first-party desktop agent harness, backed by publisher documentation.
+llmSummary: "OpenWork Desktop is OpenWork's first-party local-first agent workbench, powered by OpenCode and able to connect to remote workers. Selected cells are sourced; every unreviewed cell remains unknown. The product name is nominative and does not imply affiliation."
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: harness
 status: published
@@ -18,15 +18,18 @@ published: 2026-08-28
 family: OpenWork
 vendor: OpenWork
 surface: desktop
-summary: OpenWork desktop workbench.
+summary: Local-first desktop agent workbench with OpenCode-backed skills, MCP, plugins, browser control, and local or remote workers.
 tracks:
   - current
-  - preview
 order: 130
+homepage: https://openworklabs.com
+targetKind: release
+execution: local
+defaultEnvironmentProfile: local-default
 ---
 
-OpenWork Desktop appears here as a **Desktop** column so a capability page can show this harness next to others.
+OpenWork Desktop is the publisher's first-party **Desktop** agent harness. It runs an OpenCode-backed host locally, can connect to remote OpenWork workers, and exposes documented flows for skills, MCP servers, native OpenCode plugins, permission decisions, and a built-in browser.
 
-The product name is a plain-text nominative reference. Can My Agent Use is independent of OpenWork and does not claim certification, partnership, or official status.
+The catalog treats it as a full comparison surface rather than a name-only placeholder. The product name is a plain-text nominative reference; Can My Agent Use is independent of OpenWork and does not claim certification, partnership, or endorsement.
 
-Support cells for this surface are published only when a dated note cites reviewable public evidence; every other cell remains **unknown**.
+Support cells for this surface are published only when a dated note cites reviewable public evidence. Platform, subscription, remote-worker, and companion-extension conditions stay attached to the relevant cells; every other cell remains **unknown**.

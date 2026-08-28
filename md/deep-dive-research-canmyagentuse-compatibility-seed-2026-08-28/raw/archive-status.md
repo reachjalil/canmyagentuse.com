@@ -1,6 +1,6 @@
 # Archive status
 
-Automated submission to Wayback Machine and archive.today was unavailable in this environment. All 149 source rows therefore contain:
+Automated submission to Wayback Machine and archive.today was unavailable in this environment. All 183 source rows therefore contain:
 
 `[archive-failed: automated archive submission unavailable in this environment]`
 

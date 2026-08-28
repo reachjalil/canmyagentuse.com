@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-28T19:48:01Z",
+  "generated_at_utc": "2026-08-28T23:30:00Z",
   "research_cutoff": "2026-08-28",
   "subject": "CanMyAgentUse compatibility seed",
   "scope": {
@@ -11,22 +11,22 @@
     "claim": "Complete for the two official registries at the cutoff, not literally every agent product in existence."
   },
   "counts": {
-    "vendors": 50,
-    "products": 59,
-    "surfaces": 92,
+    "vendors": 51,
+    "products": 60,
+    "surfaces": 93,
     "features": 49,
-    "assertions": 825,
-    "compatibility_cells": 4508,
-    "supported_cells": 670,
-    "partial_cells": 21,
-    "unsupported_cells": 38,
-    "unknown_cells": 3779,
-    "sources": 149,
+    "assertions": 959,
+    "compatibility_cells": 4557,
+    "supported_cells": 790,
+    "partial_cells": 30,
+    "unsupported_cells": 42,
+    "unknown_cells": 3695,
+    "sources": 183,
     "acp_registry_entries": 39,
     "agent_plugins_clients": 9,
     "registry_inventory_rows": 48,
-    "explicit_non_support_rows": 38,
-    "evidence_gap_rows": 939,
+    "explicit_non_support_rows": 42,
+    "evidence_gap_rows": 949,
     "proposed_tests": 15
   },
   "canonicality": {

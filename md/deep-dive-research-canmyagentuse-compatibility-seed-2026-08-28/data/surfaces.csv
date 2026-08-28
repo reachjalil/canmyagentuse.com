@@ -91,3 +91,4 @@ poolside-acp-agent,poolside-agent,Poolside,acp-agent,1.0.16,ga,C,S-001,acp-agent
 sigit-acp-agent,sigit-agent,siGit Code,acp-agent,1.5.2,ga,C,S-001,acp-agent,1.5.2,Registry-only coverage.
 stakpak-acp-agent,stakpak-agent,Stakpak,acp-agent,0.3.88,ga,C,S-001,acp-agent,0.3.88,Registry-only coverage.
 vt-code-acp-agent,vt-code-agent,VT Code,acp-agent,0.96.14,ga,C,S-001,acp-agent,0.96.14,Registry-only coverage.
+openwork-desktop,openwork,OpenWork Desktop,desktop-agent,observed 2026-08-28,ga,A,S-306,,,"First-party desktop surface; macOS and Linux are documented directly, while Windows distribution conditions differ."

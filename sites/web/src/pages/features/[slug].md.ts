@@ -23,6 +23,7 @@ export const GET: APIRoute = async ({ params }) => {
   return markdownResponse(
     featureMarkdown({
       feature: feature.data,
+      features: features.map((entry) => entry.data),
       harnesses: harnesses.map((entry) => entry.data),
       body: feature.body ?? "",
     })

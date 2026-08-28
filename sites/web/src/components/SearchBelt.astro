@@ -32,14 +32,20 @@ const currentScope = scopeOptions.find((option) => option.value === scope) ?? sc
 const index = [
   ...features.map((feature) => ({
     title: feature.title,
-    aliases: feature.aliases,
+    aliases: [feature.slug, ...feature.aliases],
+    searchText: [feature.summary, feature.description, feature.specLabel, feature.category, ...feature.tags].join(" "),
+    summary: feature.summary,
+    meta: `${feature.specLabel} · ${feature.category}`,
     path: `/features/${feature.slug}`,
     kind: "feature",
     kindLabel: "Capability",
   })),
   ...harnesses.map((harness) => ({
     title: `${harness.title} (${harness.surface})`,
-    aliases: [harness.slug, harness.family, harness.vendor],
+    aliases: [harness.slug, harness.title, harness.family, harness.vendor, harness.surface],
+    searchText: [harness.summary, harness.description, ...harness.tags].join(" "),
+    summary: harness.summary,
+    meta: `${harness.family} · ${harness.vendor}`,
     path: `/harnesses/${harness.slug}`,
     kind: "harness",
     kindLabel: "Product",
@@ -47,33 +53,51 @@ const index = [
   ...specifications.map((specification) => ({
     title: specification.title,
     aliases: [specification.slug, ...specification.aliases],
+    searchText: [specification.summary, specification.description, specification.authority, specification.revision, ...specification.roles, ...specification.tags].join(" "),
+    summary: specification.summary,
+    meta: `${specification.authority} · ${specification.revision}`,
     path: `/specs/${specification.slug}`,
     kind: "specification",
     kindLabel: "Specification",
   })),
 ];
+const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
 ---
 
 <div class="search-belt">
   <form class="shell search-belt__form" action="/search" method="get" role="search" data-search-belt>
     <div class="search-belt__composer">
-      <label class="search-belt__sentence" for="capability-search">
-        <span class="search-belt__lead">Can my agent use</span>
-        <span class="search-belt__field">
+      <div class="search-belt__sentence">
+        <label class="search-belt__lead" for="capability-search">Can my agent use</label>
+        <div class="search-belt__field">
           <input
             id="capability-search"
             name="q"
             type="search"
             placeholder="MCP, Cursor, SKILL.md…"
             value={value}
-            list="capability-suggestions"
             autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="capability-suggestions"
+            aria-expanded="false"
             aria-describedby="search-support-text"
           />
-          <small id="search-support-text">Capability, product, specification, or alias</small>
-        </span>
+          <small id="search-support-text">Search by capability, product, provider, protocol, or alias</small>
+          <div
+            id="capability-suggestions"
+            class="search-suggestions"
+            role="listbox"
+            aria-label="Catalog suggestions"
+            data-search-suggestions
+            hidden
+          ></div>
+          <span class="sr-only" aria-live="polite" data-search-status></span>
+        </div>
         <span class="search-belt__question" aria-hidden="true">?</span>
-      </label>
+      </div>
       <div class="search-belt__controls">
         <details class="search-belt__options">
           <summary>
@@ -105,62 +129,271 @@ const index = [
             <a href="/methodology">How compatibility cells are marked</a>
           </div>
         </details>
-        <button type="submit">Look up</button>
+        <button type="submit">Search</button>
       </div>
     </div>
-    <datalist id="capability-suggestions">
-      {index.map((item) => <option value={item.title}>{item.kindLabel}</option>)}
-    </datalist>
-    <script is:inline type="application/json" id="capability-index" set:html={JSON.stringify(index)} />
+    <script is:inline type="application/json" id="capability-index" set:html={serializedIndex} />
   </form>
 </div>
 
 <script>
-  const form = document.querySelector("[data-search-belt]");
-  const raw = document.getElementById("capability-index")?.textContent ?? "[]";
-  const items = JSON.parse(raw) as {
+  type SearchKind = "feature" | "harness" | "specification";
+  type SearchItem = {
     title: string;
     aliases: string[];
+    searchText: string;
+    summary: string;
+    meta: string;
     path: string;
-    kind: "feature" | "harness" | "specification";
-  }[];
+    kind: SearchKind;
+    kindLabel: string;
+  };
 
-  const destinationFor = (input: HTMLInputElement, form: HTMLFormElement) => {
-    const query = input.value.trim().toLowerCase();
-    if (!query) return "/features";
+  const form = document.querySelector("[data-search-belt]");
+  const raw = document.getElementById("capability-index")?.textContent ?? "[]";
+  const items = JSON.parse(raw) as SearchItem[];
+  const recentKey = "canmyagentuse:recent-searches";
 
-    const selectedScope = form.querySelector("input[name='scope']:checked");
-    const scope = selectedScope instanceof HTMLInputElement ? selectedScope.value : "all";
+  const normalize = (text: string) =>
+    text.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 
-    const exact = items.find(
-      (item) =>
-        (scope === "all" || item.kind === scope) &&
-        (item.title.toLowerCase() === query ||
-          item.aliases.some((alias) => alias.toLowerCase() === query))
-    );
+  const editDistance = (left: string, right: string) => {
+    let previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+    for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
+      const current = [leftIndex];
+      for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
+        current[rightIndex] = Math.min(
+          (current[rightIndex - 1] ?? 0) + 1,
+          (previous[rightIndex] ?? 0) + 1,
+          (previous[rightIndex - 1] ?? 0) +
+            (left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1)
+        );
+      }
+      previous = current;
+    }
+    return previous[right.length] ?? Math.max(left.length, right.length);
+  };
 
-    if (exact) return exact.path;
+  const fuzzyMatch = (needle: string, word: string) => {
+    if (needle.length < 4 || word.length < 4) return false;
+    const allowance = needle.length >= 8 ? 2 : 1;
+    if (needle.length === word.length) {
+      const mismatches = [...needle].flatMap((character, index) =>
+        character === word[index] ? [] : [index]
+      );
+      if (
+        mismatches.length === 2 &&
+        mismatches[1] === (mismatches[0] ?? 0) + 1 &&
+        needle[mismatches[0] ?? 0] === word[mismatches[1]] &&
+        needle[mismatches[1]] === word[mismatches[0] ?? 0]
+      )
+        return true;
+    }
+    return Math.abs(needle.length - word.length) <= allowance &&
+      editDistance(needle, word) <= allowance;
+  };
 
-    const destination = new URL("/search", window.location.origin);
-    destination.searchParams.set("q", input.value.trim());
-    if (scope !== "all") destination.searchParams.set("scope", scope);
-    return `${destination.pathname}${destination.search}`;
+  const scoreItem = (query: string, item: SearchItem) => {
+    const needle = normalize(query);
+    const title = normalize(item.title);
+    const aliases = item.aliases.map(normalize);
+    if (title === needle) return 100;
+    if (title.startsWith(needle)) return 90;
+    if (aliases.some((alias) => alias === needle)) return 85;
+
+    const tokens = needle.split(/\s+/).filter(Boolean);
+    const titleWords = title.split(/[^a-z0-9]+/).filter(Boolean);
+    if (tokens.every((token) => titleWords.some((word) => word.startsWith(token)))) return 80;
+
+    const haystack = normalize([item.title, ...item.aliases, item.searchText].join(" "));
+    if (haystack.includes(needle)) return 70;
+    if (tokens.every((token) => haystack.includes(token))) return 60;
+
+    const words = haystack.split(/[^a-z0-9]+/).filter(Boolean);
+    if (tokens.every((token) => words.some((word) => word.startsWith(token) || fuzzyMatch(token, word)))) return 35;
+    return 0;
   };
 
   if (form instanceof HTMLFormElement) {
+    const input = form.querySelector("input[name='q']");
+    const panel = form.querySelector("[data-search-suggestions]");
+    const status = form.querySelector("[data-search-status]");
+    const options = form.querySelector(".search-belt__options");
+    let activeIndex = -1;
+    let renderedOptions: HTMLAnchorElement[] = [];
+
+    const selectedScope = () => {
+      const selected = form.querySelector("input[name='scope']:checked");
+      return selected instanceof HTMLInputElement ? selected.value : "all";
+    };
+
+    const scopedItems = () => {
+      const scope = selectedScope();
+      return items.filter((item) => scope === "all" || item.kind === scope);
+    };
+
+    const readRecent = () => {
+      try {
+        const paths = JSON.parse(localStorage.getItem(recentKey) ?? "[]") as string[];
+        return paths.map((path) => items.find((item) => item.path === path)).filter(Boolean) as SearchItem[];
+      } catch {
+        return [];
+      }
+    };
+
+    const remember = (path: string) => {
+      try {
+        const paths = [path, ...readRecent().map((item) => item.path).filter((itemPath) => itemPath !== path)].slice(0, 3);
+        localStorage.setItem(recentKey, JSON.stringify(paths));
+      } catch {
+        // Search remains fully functional when storage is unavailable.
+      }
+    };
+
+    const closeSuggestions = () => {
+      if (!(input instanceof HTMLInputElement) || !(panel instanceof HTMLElement)) return;
+      panel.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+      activeIndex = -1;
+    };
+
+    const setActive = (nextIndex: number) => {
+      if (!(input instanceof HTMLInputElement) || renderedOptions.length === 0) return;
+      activeIndex = (nextIndex + renderedOptions.length) % renderedOptions.length;
+      for (const [index, option] of renderedOptions.entries()) {
+        const active = index === activeIndex;
+        option.setAttribute("aria-selected", String(active));
+        if (active) {
+          input.setAttribute("aria-activedescendant", option.id);
+          option.scrollIntoView({ block: "nearest" });
+        }
+      }
+    };
+
+    const addHeading = (text: string) => {
+      if (!(panel instanceof HTMLElement)) return;
+      const heading = document.createElement("p");
+      heading.className = "search-suggestions__heading";
+      heading.textContent = text;
+      panel.appendChild(heading);
+    };
+
+    const addOption = (title: string, path: string, kindLabel: string, meta: string, summary = "") => {
+      if (!(panel instanceof HTMLElement)) return;
+      const link = document.createElement("a");
+      link.id = `search-suggestion-${renderedOptions.length}`;
+      link.className = "search-suggestion";
+      link.href = path;
+      link.setAttribute("role", "option");
+      link.setAttribute("aria-selected", "false");
+      link.dataset.searchPath = path;
+
+      const badge = document.createElement("span");
+      badge.className = "search-suggestion__kind";
+      badge.textContent = kindLabel;
+      const body = document.createElement("span");
+      body.className = "search-suggestion__body";
+      const strong = document.createElement("strong");
+      strong.textContent = title;
+      const small = document.createElement("small");
+      small.textContent = summary || meta;
+      body.appendChild(strong);
+      body.appendChild(small);
+      const context = document.createElement("span");
+      context.className = "search-suggestion__meta";
+      context.textContent = meta;
+      link.appendChild(badge);
+      link.appendChild(body);
+      link.appendChild(context);
+      link.addEventListener("click", () => remember(path));
+      panel.appendChild(link);
+      renderedOptions.push(link);
+    };
+
+    const renderSuggestions = () => {
+      if (!(input instanceof HTMLInputElement) || !(panel instanceof HTMLElement)) return;
+      panel.replaceChildren();
+      renderedOptions = [];
+      activeIndex = -1;
+      input.removeAttribute("aria-activedescendant");
+      const query = input.value.trim();
+
+      if (query) {
+        const matches = scopedItems()
+          .map((item) => ({ item, score: scoreItem(query, item) }))
+          .filter((result) => result.score > 0)
+          .sort((left, right) => right.score - left.score || left.item.title.localeCompare(right.item.title))
+          .slice(0, 7);
+        addHeading(matches.length ? "Best matches" : "No close suggestions");
+        for (const { item } of matches) addOption(item.title, item.path, item.kindLabel, item.meta, item.summary);
+        if (!matches.length) addOption(`Search for “${query}”`, `/search?q=${encodeURIComponent(query)}`, "Search", "See the complete catalog results");
+      } else {
+        const scope = selectedScope();
+        const recent = readRecent().filter((item) => scope === "all" || item.kind === scope);
+        if (recent.length) {
+          addHeading("Recently viewed");
+          for (const item of recent) addOption(item.title, item.path, item.kindLabel, item.meta);
+        }
+        addHeading(recent.length ? "Or explore" : "Explore the catalog");
+        if (scope === "all" || scope === "feature") addOption("Browse capabilities", "/features", "Explore", `${items.filter((item) => item.kind === "feature").length} cataloged capabilities`);
+        if (scope === "all" || scope === "harness") addOption("Browse products", "/harnesses", "Explore", `${items.filter((item) => item.kind === "harness").length} exact agent surfaces`);
+        if (scope === "all" || scope === "specification") addOption("Browse specifications", "/specs", "Explore", `${items.filter((item) => item.kind === "specification").length} protocols and conventions`);
+      }
+
+      panel.hidden = false;
+      input.setAttribute("aria-expanded", "true");
+      if (status instanceof HTMLElement) status.textContent = `${renderedOptions.length} ${renderedOptions.length === 1 ? "suggestion" : "suggestions"} available.`;
+    };
+
+    const destinationFor = () => {
+      if (!(input instanceof HTMLInputElement)) return "/features";
+      const query = input.value.trim();
+      if (!query) return selectedScope() === "all" ? "/features" : {
+        feature: "/features",
+        harness: "/harnesses",
+        specification: "/specs",
+      }[selectedScope()] ?? "/features";
+      const normalizedQuery = normalize(query);
+      const exact = scopedItems().find((item) => normalize(item.title) === normalizedQuery || item.aliases.some((alias) => normalize(alias) === normalizedQuery));
+      if (exact) {
+        remember(exact.path);
+        return exact.path;
+      }
+      const destination = new URL("/search", window.location.origin);
+      destination.searchParams.set("q", query);
+      const scope = selectedScope();
+      if (scope !== "all") destination.searchParams.set("scope", scope);
+      return `${destination.pathname}${destination.search}`;
+    };
+
     form.addEventListener("submit", (event) => {
-      const input = form.querySelector("input[name='q']");
-      if (!(input instanceof HTMLInputElement)) return;
       event.preventDefault();
-      window.location.href = destinationFor(input, form);
+      const active = renderedOptions[activeIndex];
+      if (active && panel instanceof HTMLElement && !panel.hidden) {
+        remember(active.dataset.searchPath ?? active.pathname);
+        window.location.href = active.href;
+        return;
+      }
+      window.location.href = destinationFor();
     });
 
-    const input = form.querySelector("input[name='q']");
     if (input instanceof HTMLInputElement) {
+      input.addEventListener("focus", renderSuggestions);
+      input.addEventListener("input", renderSuggestions);
       input.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter") return;
-        event.preventDefault();
-        window.location.href = destinationFor(input, form);
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          if (panel instanceof HTMLElement && panel.hidden) renderSuggestions();
+          setActive(activeIndex + 1);
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          if (panel instanceof HTMLElement && panel.hidden) renderSuggestions();
+          setActive(activeIndex - 1);
+        } else if (event.key === "Escape") {
+          event.preventDefault();
+          closeSuggestions();
+        }
       });
     }
 
@@ -169,7 +402,17 @@ const index = [
       if (!(option instanceof HTMLInputElement)) continue;
       option.addEventListener("change", () => {
         if (currentScope) currentScope.textContent = option.dataset.scopeLabel ?? "Everything";
+        if (input instanceof HTMLInputElement && document.activeElement === input) renderSuggestions();
+        if (options instanceof HTMLDetailsElement) options.open = false;
       });
     }
+
+    if (options instanceof HTMLDetailsElement) options.addEventListener("toggle", () => {
+      if (options.open) closeSuggestions();
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Node && !form.contains(event.target)) closeSuggestions();
+    });
   }
 </script>

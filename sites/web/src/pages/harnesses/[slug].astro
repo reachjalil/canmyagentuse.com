@@ -1,9 +1,10 @@
 ---
 import {
   HARNESS_SURFACE_LABELS,
+  SUPPORT_STATUS_LABELS,
+  TRACK_LABELS,
   breadcrumbJsonLd,
-  currentStatus,
-  expandFeatureSupport,
+  formatPercent,
   harnessMarkdownPath,
   harnessPath,
   resolveMetadata,
@@ -15,6 +16,10 @@ import SiteChrome from "../../components/SiteChrome.astro";
 import StatusMark from "../../components/StatusMark.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { entryBySlug, publishedCollection } from "../../lib/collections";
+import {
+  harnessCapabilitySupport,
+  summarizeHarnessSupport,
+} from "../../lib/harnesses";
 
 export async function getStaticPaths() {
   const harnesses = await publishedCollection("harnesses");
@@ -26,8 +31,11 @@ export async function getStaticPaths() {
 const slug = Astro.params.slug;
 if (!slug) throw new Error("Missing harness slug.");
 
-const harnesses = await publishedCollection("harnesses");
-const features = await publishedCollection("features");
+const [harnesses, features, categories] = await Promise.all([
+  publishedCollection("harnesses"),
+  publishedCollection("features"),
+  publishedCollection("categories"),
+]);
 const harness = entryBySlug(harnesses, slug);
 if (!harness) {
   return Astro.redirect("/404");
@@ -35,23 +43,19 @@ if (!harness) {
 
 const { Content } = await render(harness);
 const metadata = resolveMetadata(harness.data);
-const related = features.map((feature) => {
-  const column = expandFeatureSupport(
-    feature.data,
-    harnesses.map((entry) => entry.data)
-  ).find((item) => item.harness.slug === harness.data.slug);
-  return {
-    feature: feature.data,
-    versions: column?.versions ?? [],
-    status: currentStatus(column?.versions ?? []),
-  };
-});
-const reviewedCapabilities = related.filter(
-  (row) => row.status !== "unknown"
-).length;
+const harnessData = harnesses.map((entry) => entry.data);
+const rows = harnessCapabilitySupport(
+  harness.data.slug,
+  features.map((entry) => entry.data),
+  harnessData
+);
+const support = summarizeHarnessSupport(rows);
+const categoryTitles = new Map(
+  categories.map((category) => [category.data.slug, category.data.title])
+);
 const publicReferences = [
   ...new Map(
-    related.flatMap((row) =>
+    rows.flatMap((row) =>
       row.versions.flatMap((version) =>
         (version.evidence ?? []).flatMap((reference) => {
           const resource = row.feature.resources.find(
@@ -65,6 +69,10 @@ const publicReferences = [
 ].toSorted((left, right) =>
   (right.reviewedAt ?? "").localeCompare(left.reviewedAt ?? "")
 );
+
+function humanize(value: string): string {
+  return value.replaceAll("-", " ");
+}
 ---
 
 <BaseLayout
@@ -89,42 +97,108 @@ const publicReferences = [
   ]}
 >
   <SiteChrome>
-    <main id="main" class="shell py-8">
-      <p class="font-mono text-xs text-[color:var(--color-muted)]">
-        Harness · {HARNESS_SURFACE_LABELS[harness.data.surface]} · {harness.data.vendor}
-      </p>
-      <h1 class="mt-2 text-4xl font-semibold tracking-tight">{harness.data.title}</h1>
-      <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
-        {harness.data.summary}
-      </p>
-      <div class="mt-6 max-w-3xl">
-        <ProviderReference
-          provider={harness.data.vendor}
-          product={harness.data.title}
-          surface={HARNESS_SURFACE_LABELS[harness.data.surface]}
-          homepage={harness.data.homepage}
-          evidenceLabel={`${reviewedCapabilities} reviewed capabilities`}
-        />
-      </div>
-      <p class="mt-3 font-mono text-xs">
-        <a href={harnessMarkdownPath(harness.data.slug)}>Markdown</a>
-        {" · "}
-        <a href={`/api/v1/harnesses/${harness.data.slug}.json`}>JSON</a>
-      </p>
-      <dl class="catalog-census surface-census mt-7">
+    <main id="main" class="shell harness-profile">
+      <nav class="harness-profile__breadcrumb" aria-label="Breadcrumb">
+        <a href="/harnesses">Harness index</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{harness.data.title}</span>
+      </nav>
+
+      <header class="harness-profile__hero">
+        <div class="harness-profile__intro">
+          <p class="eyebrow">
+            {HARNESS_SURFACE_LABELS[harness.data.surface]} harness · {harness.data.vendor}
+          </p>
+          <h1>{harness.data.title}</h1>
+          <p class="harness-profile__summary">{harness.data.summary}</p>
+          <nav class="harness-profile__actions" aria-label="Harness profile actions">
+            <a class="harness-action harness-action--primary" href="#capability-support">View capability support ↓</a>
+            <a class="harness-action" href={`/compare?a=${harness.data.slug}`}>Compare this product →</a>
+          </nav>
+        </div>
+        <div class="harness-profile__provider">
+          <ProviderReference
+            provider={harness.data.vendor}
+            product={harness.data.title}
+            surface={HARNESS_SURFACE_LABELS[harness.data.surface]}
+            homepage={harness.data.homepage}
+            evidenceLabel={`${support.reviewed}/${support.total} current cells reviewed`}
+          />
+          <p class="harness-profile__formats">
+            Catalog twins:
+            <a href={harnessMarkdownPath(harness.data.slug)}>Markdown</a>
+            <span aria-hidden="true">·</span>
+            <a href={`/api/v1/harnesses/${harness.data.slug}.json`}>JSON</a>
+          </p>
+        </div>
+      </header>
+
+      <dl class="harness-profile__facts" aria-label="Exact harness scope">
         <div><dt>Surface</dt><dd>{HARNESS_SURFACE_LABELS[harness.data.surface]}</dd></div>
-        <div><dt>Execution</dt><dd>{harness.data.execution}</dd></div>
-        <div><dt>Target model</dt><dd>{harness.data.targetKind}</dd></div>
-        <div><dt>Default profile</dt><dd>{harness.data.defaultEnvironmentProfile}</dd></div>
-        <div><dt>Reviewed capabilities</dt><dd>{reviewedCapabilities}</dd></div>
-        <div><dt>Public references</dt><dd>{publicReferences.length}</dd></div>
+        <div><dt>Execution</dt><dd>{humanize(harness.data.execution)}</dd></div>
+        <div><dt>Target type</dt><dd>{humanize(harness.data.targetKind)}</dd></div>
+        <div><dt>Default environment</dt><dd>{humanize(harness.data.defaultEnvironmentProfile)}</dd></div>
+        <div><dt>Tracks</dt><dd>{harness.data.tracks.map((track) => TRACK_LABELS[track] ?? humanize(track)).join(", ")}</dd></div>
+        <div><dt>Latest current evidence</dt><dd>{support.latestEvidenceAt ?? "Review pending"}</dd></div>
       </dl>
-      <div class="prose-page mt-8">
-        <Content />
-      </div>
+
+      <section class="harness-profile__description" aria-labelledby="about-harness-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Description and scope</p>
+            <h2 id="about-harness-title">About this harness</h2>
+          </div>
+          <p>This profile represents one exact product surface—not every product from {harness.data.vendor}.</p>
+        </div>
+        <div class="prose-page">
+          <Content />
+        </div>
+      </section>
+
+      <section class="harness-support-overview" aria-labelledby="support-overview-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Current-track snapshot</p>
+            <h2 id="support-overview-title">Support at a glance</h2>
+          </div>
+          <p>{support.reviewed} of {support.total} atomic capabilities have a reviewed current status.</p>
+        </div>
+        <div class="harness-support-overview__layout">
+          <div class="harness-support-score">
+            <span>Research coverage</span>
+            <strong>{formatPercent(support.coverage)}</strong>
+            <div
+              class="harness-support-meter"
+              aria-label={`${support.reviewed} of ${support.total} current capability cells reviewed`}
+            >
+              {(["yes", "partial", "no", "na", "unknown"] as const).map((status) => (
+                <i
+                  data-status={status}
+                  style={`width:${support.total ? (support.counts[status] / support.total) * 100 : 0}%`}
+                  title={`${SUPPORT_STATUS_LABELS[status]}: ${support.counts[status]}`}
+                />
+              ))}
+            </div>
+            <small>{support.sourceCount} unique public {support.sourceCount === 1 ? "source" : "sources"} on the current track</small>
+          </div>
+          <dl class="harness-support-totals">
+            <div data-status="yes"><dt>Supported</dt><dd>{support.counts.yes}</dd><small>Public evidence supports the current claim.</small></div>
+            <div data-status="partial"><dt>Partial</dt><dd>{support.counts.partial}</dd><small>Supported with a documented condition or limit.</small></div>
+            <div data-status="no"><dt>Unsupported</dt><dd>{support.counts.no}</dd><small>A current source explicitly says no.</small></div>
+            <div data-status="unknown"><dt>Unknown</dt><dd>{support.counts.unknown}</dd><small>No sufficiently scoped public evidence is published yet.</small></div>
+          </dl>
+        </div>
+        <div class="trust-banner">
+          <strong>Unknown is not “unsupported.”</strong> It means this exact
+          product-and-capability cell has not passed the catalog’s evidence bar.
+          Conditions such as plan, platform, preview access, policy, and runtime
+          stay attached to individual rows below.
+        </div>
+      </section>
+
       {
         publicReferences.length ? (
-          <section class="reference-ledger mt-10" aria-labelledby="references-heading">
+          <section class="reference-ledger harness-reference-ledger" aria-labelledby="references-heading">
             <div class="section-heading">
               <div>
                 <p class="eyebrow">Provider and standards provenance</p>
@@ -153,34 +227,153 @@ const publicReferences = [
               ))}
             </ul>
           </section>
-        ) : null
+        ) : (
+          <section class="harness-reference-empty" aria-labelledby="references-heading">
+            <p class="eyebrow">Provider and standards provenance</p>
+            <h2 id="references-heading">Public reference review pending</h2>
+            <p>No public source is attached to a current or preview capability cell for this exact harness yet.</p>
+            <a href="/contribute">Contribute a scoped source →</a>
+          </section>
+        )
       }
-      <h2 class="mt-12 text-2xl font-semibold tracking-tight">Capabilities</h2>
-      <table class="compare-table mt-4">
-        <thead>
-          <tr>
-            <th>Capability</th>
-            <th>Current</th>
-            <th>Preview</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            related.map((row) => (
+
+      <section id="capability-support" class="harness-capabilities" aria-labelledby="capabilities-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Atomic capability ledger</p>
+            <h2 id="capabilities-title">Capability support</h2>
+          </div>
+          <p>Open a capability record for its full notes, qualifiers, targets, and source links.</p>
+        </div>
+
+        <form class="harness-capability-filters" data-capability-filters>
+          <label>
+            <span>Find a capability</span>
+            <input type="search" name="q" placeholder="MCP, browser, files" autocomplete="off" data-capability-query />
+          </label>
+          <label>
+            <span>Current status</span>
+            <select name="status" data-capability-status>
+              <option value="">All statuses</option>
+              <option value="yes">Supported</option>
+              <option value="partial">Partial</option>
+              <option value="no">Unsupported</option>
+              <option value="unknown">Unknown</option>
+              <option value="na">Not applicable</option>
+            </select>
+          </label>
+          <output data-capability-count aria-live="polite">{rows.length} capabilities</output>
+        </form>
+
+        <div class="harness-capability-empty" data-capability-empty hidden>
+          <strong>No capabilities match these filters.</strong>
+          <p>Try a broader term or include every current status.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table harness-capability-table">
+            <thead>
               <tr>
-                <th scope="row">
-                  <a href={`/features/${row.feature.slug}`}>{row.feature.title}</a>
-                </th>
-                {row.versions.map((version) => (
-                  <td data-status={version.status}>
-                    <StatusMark status={version.status} noteIds={version.noteIds} />
-                  </td>
-                ))}
+                <th>Capability</th>
+                {harness.data.tracks.map((track) => <th>{TRACK_LABELS[track] ?? humanize(track)}</th>)}
+                <th>Current evidence and conditions</th>
               </tr>
-            ))
-          }
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr
+                  data-capability-row
+                  data-status={row.status}
+                  data-search={`${row.feature.title} ${row.feature.summary} ${categoryTitles.get(row.feature.category) ?? row.feature.category}`.toLocaleLowerCase()}
+                >
+                  <th scope="row">
+                    <small>{categoryTitles.get(row.feature.category) ?? row.feature.category}</small>
+                    <a href={`/features/${row.feature.slug}`}>{row.feature.title}</a>
+                    <p>{row.feature.summary}</p>
+                  </th>
+                  {row.versions.map((version) => (
+                    <td class="harness-capability-status" data-status={version.status}>
+                      <span><StatusMark status={version.status} /><strong>{SUPPORT_STATUS_LABELS[version.status]}</strong></span>
+                      {version.stage ? <small>{humanize(version.stage)}</small> : null}
+                    </td>
+                  ))}
+                  <td class="harness-capability-evidence">
+                    {row.evidenceCount ? (
+                      <>
+                        <strong>{row.evidenceCount} public {row.evidenceCount === 1 ? "reference" : "references"}</strong>
+                        <span>{row.latestEvidenceAt ? `Latest evidence ${row.latestEvidenceAt}` : "Evidence date not recorded"}</span>
+                        {row.current?.target ? <span>{humanize(row.current.target.kind)} · {row.current.target.revision}</span> : null}
+                        {row.qualifiers.length ? (
+                          <ul>{row.qualifiers.map((qualifier) => <li><b>{humanize(qualifier.type)}</b>: {qualifier.value}</li>)}</ul>
+                        ) : <span>No additional condition recorded.</span>}
+                        <a href={`/features/${row.feature.slug}#assertion-ledger-title`}>Evidence and notes →</a>
+                      </>
+                    ) : (
+                      <>
+                        <strong>No reviewed current evidence</strong>
+                        <span>This remains unknown; it is not an unsupported claim.</span>
+                        <a href={`/features/${row.feature.slug}`}>Open capability record →</a>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="harness-profile__footer">
+        <p>
+          Can My Agent Use is independent and is not affiliated with, endorsed
+          by, or sponsored by {harness.data.vendor}. Provider and product names
+          identify compatibility targets and evidence sources only.
+        </p>
+        <nav aria-label="Next harness actions">
+          <a href="/harnesses">All harnesses</a>
+          <a href={`/compare?a=${harness.data.slug}`}>Compare</a>
+          <a href="/methodology">Methodology</a>
+          <a href="/contribute">Contribute evidence</a>
+        </nav>
+      </footer>
     </main>
   </SiteChrome>
 </BaseLayout>
+
+<script>
+  const form = document.querySelector("[data-capability-filters]");
+  const query = document.querySelector("[data-capability-query]");
+  const status = document.querySelector("[data-capability-status]");
+  const count = document.querySelector("[data-capability-count]");
+  const empty = document.querySelector("[data-capability-empty]");
+  const rows = [...document.querySelectorAll("[data-capability-row]")];
+
+  function applyCapabilityFilters() {
+    if (!(query instanceof HTMLInputElement) || !(status instanceof HTMLSelectElement)) return;
+    const needle = query.value.trim().toLocaleLowerCase();
+    let visible = 0;
+    for (const row of rows) {
+      if (!(row instanceof HTMLTableRowElement)) continue;
+      const matchesQuery = !needle || (row.dataset.search ?? "").includes(needle);
+      const matchesStatus = !status.value || row.dataset.status === status.value;
+      row.hidden = !(matchesQuery && matchesStatus);
+      if (!row.hidden) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? "capability" : "capabilities"}`;
+    if (empty instanceof HTMLElement) empty.hidden = visible > 0;
+
+    const url = new URL(window.location.href);
+    needle ? url.searchParams.set("q", query.value.trim()) : url.searchParams.delete("q");
+    status.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
+    history.replaceState({}, "", url);
+  }
+
+  if (form instanceof HTMLFormElement && query instanceof HTMLInputElement && status instanceof HTMLSelectElement) {
+    const params = new URLSearchParams(window.location.search);
+    query.value = params.get("q") ?? "";
+    if ([...status.options].some((option) => option.value === params.get("status"))) status.value = params.get("status") ?? "";
+    form.addEventListener("input", applyCapabilityFilters);
+    form.addEventListener("change", applyCapabilityFilters);
+    applyCapabilityFilters();
+  }
+</script>

@@ -25,6 +25,14 @@ A support assertion answers one narrow question for a **capability revision × e
 - `unknown` is the default whenever evidence has not been reviewed or remains ambiguous.
 - `na` means the row does not apply to that kind of harness and still needs public evidence.
 
+## Capability families and atomic rows
+
+Broad labels such as MCP, plugins, Agent Skills, subagents, persistent instructions, and WebMCP are capability families, not compatibility cells. A family has independently testable atomic children. For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support. Likewise, a product-native plugin does not imply support for the portable Agent Plugins manifest.
+
+Family progress is derived from child rows for each exact product. The catalog reports both reviewed children and supported-or-partial children, plus the full status breakdown. It never authors or infers one umbrella family status.
+
+Atomic rows may also declare typed `requires`, `extends`, `alternative`, or `related` edges. Siblings are derived from their shared family parent.
+
 ## Evidence contract
 
 Every non-unknown cell is authored as a version entry with one or more note IDs, an explicit target, an environment profile, structured qualifiers, and typed evidence references. Each evidence reference resolves to a stable resource ID and records when it was reviewed. The resource list links to public vendor documentation, release notes, maintained first-party repositories, or the relevant open-standard documentation.
@@ -34,6 +42,8 @@ Targets are versioned releases when a stable release is public. Continuously dep
 Evidence classes stay separate: **documented**, **vendor-attested**, **listed**, **tested**, **reported**, **inferred**, and **not found** do not carry the same authority. Catalog v1 publishes documentation and listing evidence. The public test registry contains proposed definitions only; Can My Agent Use has not executed runtime conformance tests against these harnesses.
 
 Plan, policy, region, authorization, transport, protocol revision, role, feature flag, runtime, preview, and vendor-extension limits remain structured qualifiers. They are not folded into prose and lost when the matrix is rendered.
+
+Compatibility status and product lifecycle are separate. An exact cell can be currently unsupported while its lifecycle is `planned`, or partially supported while it is `experimental` or `preview`. Lifecycle values are `untracked`, `requested`, `planned`, `experimental`, `preview`, `stable`, and `deprecated`; they require the same evidence discipline as the associated compatibility assertion.
 
 Do not source a claim from rumors, search snippets without a stable page, community recollection, private beta screens, or screenshots of interfaces that are not public. When a document describes a model or API rather than the named harness, it does not automatically prove harness support.
 

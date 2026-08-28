@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI documents file-system tools for listing, reading, searching, writing, and patching files within the workspace."
   - id: 6
     text: "Evidence checked 2026-08-28: VS Code agent tools include workspace search and file editing in the open workspace."
+  - id: 7
+    text: "Evidence checked 2026-08-28: OpenWork Desktop selects a project folder, runs its host stack against that workspace, and routes workspace file access through the OpenWork server and OpenCode runtime."
 issues: []
 resources:
   - id: anthropic-desktop-files
@@ -74,6 +76,13 @@ resources:
     href: https://code.visualstudio.com/docs/copilot/concepts/tools
     kind: docs
     publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: openwork-workspace-files
+    title: OpenWork — Architecture
+    href: https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
+    kind: docs
+    publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -167,6 +176,23 @@ support:
         qualifiers: []
         evidence:
           - resourceId: vscode-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork architecture documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: access is limited by the selected workspace and OpenWork approval rules
+        evidence:
+          - resourceId: openwork-workspace-files
             type: documented
             observedAt: 2026-08-28
 ---

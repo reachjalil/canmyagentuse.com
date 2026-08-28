@@ -2,24 +2,24 @@
 title: Evidence Ledger
 file: 19-evidence-ledger.md
 audience: Builder / Architect; secondary Evaluator / Skeptic
-last_updated_utc: 2026-08-28T19:48:01Z
+last_updated_utc: 2026-08-28T23:30:00Z
 confidence: high
-sources_count: 149
+sources_count: 183
 ---
 
 # Evidence Ledger
 
 ## Reader Promise
 
-After reading this file, a development team can understand the compatibility decision it covers, audit the supporting evidence, and distinguish a documented surface capability from an unsupported or still-unknown claim.
+After reading this file, a development team can audit every source retained by the compatibility seed and distinguish evidence inventory from a scoped support assertion.
 
 ## Summary
 
-The ledger contains 149 specification, registry, first-party documentation, release, repository, and issue sources. Every live URL has a retrieval timestamp and an explicit archive-failed marker. The source ledger is evidence inventory; support assertions remain the scoped compatibility facts.
+The ledger contains 183 specification, registry, first-party documentation, release, repository, and issue sources. Every live URL has a retrieval timestamp and an explicit archive-failed marker. The source ledger is evidence inventory; support assertions remain the scoped compatibility facts.
 
-## What We Found
+## Source inventory
 
-| Key | Title | Publisher | Type | Role | Confidence | Retrieved | Archive |
+| ID | Source | Publisher | Type | Role | Confidence | Retrieved | Archive |
 |---|---|---|---|---|---|---|---|
 | S-001 | [ACP Registry](https://agentclientprotocol.com/get-started/registry) | Agent Client Protocol | registry | canonical | high | 2026-08-28T19:48:01Z | [archive-failed: automated archive submission unavailable in this environment] |
 | S-002 | [Agent Plugins compatible clients](https://agent-plugins.org/compatible-clients) | Agent Plugins | registry | canonical | high | 2026-08-28T19:48:01Z | [archive-failed: automated archive submission unavailable in this environment] |
@@ -170,14 +170,44 @@ The ledger contains 149 specification, registry, first-party documentation, rele
 | S-270 | [Roo Code shutdown notice](https://roocodeinc.github.io/Roo-Code/) | Roo Code | vendor-doc | historical | high | 2026-08-28T19:48:01Z | [archive-failed: automated archive submission unavailable in this environment] |
 | S-271 | [Aider documentation](https://aider.chat/docs/) | Aider | vendor-doc | supporting | medium | 2026-08-28T19:48:01Z | [archive-failed: automated archive submission unavailable in this environment] |
 | S-280 | [NanoClaw repository](https://github.com/qwibitai/nanoclaw) | NanoClaw | github | supporting | medium | 2026-08-28T19:48:01Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-290 | [Overview of customizing GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-291 | [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-292 | [GitHub Copilot CLI plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-293 | [Automate with GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-294 | [Adding custom instructions for GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-295 | [Cline MCP overview](https://docs.cline.bot/mcp/mcp-overview) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-296 | [Cline Skills](https://docs.cline.bot/customization/skills) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-297 | [Cline Plugins](https://docs.cline.bot/customization/plugins) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-298 | [Cline Hooks](https://docs.cline.bot/customization/hooks) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-299 | [Cline Scheduled Agents](https://docs.cline.bot/sdk/guides/scheduled-agents) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-300 | [Cline Connectors](https://docs.cline.bot/cli/connectors) | Cline | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-301 | [Aider options reference](https://aider.chat/docs/config/options.html) | Aider | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-302 | [Aider coding conventions](https://aider.chat/docs/usage/conventions.html) | Aider | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-303 | [Aider in-chat commands](https://aider.chat/docs/usage/commands.html) | Aider | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-304 | [About GitHub Copilot plugins](https://docs.github.com/en/copilot/concepts/agents/about-plugins) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-305 | [Administering Copilot CLI for your enterprise](https://docs.github.com/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise) | GitHub | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-306 | [OpenWork publisher repository](https://github.com/different-ai/openwork) | OpenWork | github | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-307 | [Get started with OpenWork](https://openworklabs.com/docs/start-here/get-started) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-308 | [Add an MCP server in OpenWork](https://openworklabs.com/docs/start-here/connect-your-stack/add-an-mcp-server) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-309 | [Import a skill into OpenWork](https://openworklabs.com/docs/start-here/do-work-with-it/import-a-skill) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-310 | [Control the browser with OpenWork](https://openworklabs.com/docs/start-here/do-work-with-it/control-the-browser) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-311 | [Get started with OpenWork Cloud](https://openworklabs.com/docs/cloud/get-started) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-312 | [OpenWork architecture](https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md) | OpenWork | github | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-313 | [OpenWork UI MCP control profile](https://github.com/different-ai/openwork/blob/dev/docs/mcp-ui-control-profile.md) | OpenWork | github | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-314 | [OpenWork Connect](https://openwork.studio/connect) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-315 | [OpenWork roadmap](https://openworklabs.com/docs/roadmap) | OpenWork | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-316 | [Kiro subagents](https://kiro.dev/docs/custom-agents/subagents/) | Kiro | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-317 | [How Kiro works](https://kiro.dev/docs/how-kiro-works/) | Kiro | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-318 | [Kiro configuration scopes](https://kiro.dev/docs/configuration/) | Kiro | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-319 | [Kiro enterprise governance](https://kiro.dev/docs/enterprise/governance/) | Kiro | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-320 | [OpenHands skills overview and support matrix](https://docs.openhands.dev/overview/skills) | OpenHands | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-321 | [OpenHands SDK plugins](https://docs.openhands.dev/sdk/guides/plugins) | OpenHands | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-322 | [OpenCode rules and AGENTS.md](https://opencode.ai/docs/rules) | OpenCode | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
+| S-323 | [Warp CLI MCP servers](https://docs.warp.dev/reference/cli/mcp-servers) | Warp | vendor-doc | canonical | high | 2026-08-28T23:30:00Z | [archive-failed: automated archive submission unavailable in this environment] |
 
 ## Confidence Notes
 
-Normative specifications define requirements but do not prove an implementation. First-party product documentation establishes `documented` support for the named surface and observation date. Official registries establish only the role or portable component they list. No runtime conformance suite was executed in this pass. Missing evidence remains `unknown`, not `unsupported`.
-
-## Open Threads
-
-Replace every archive-failed marker with an immutable snapshot or source-specific documented failure before publication.
+Normative specifications define protocol behavior but do not prove implementation. Registry listings prove only the listed role or portable component. First-party product documentation supports the exact surface statements recorded in `support-assertions.csv`; no runtime conformance suite was executed.
 
 ## Sources Used
 
@@ -330,3 +360,37 @@ Replace every archive-failed marker with an immutable snapshot or source-specifi
 - [S-270] Roo Code shutdown notice — https://roocodeinc.github.io/Roo-Code/
 - [S-271] Aider documentation — https://aider.chat/docs/
 - [S-280] NanoClaw repository — https://github.com/qwibitai/nanoclaw
+- [S-290] Overview of customizing GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview
+- [S-291] GitHub Copilot CLI command reference — https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+- [S-292] GitHub Copilot CLI plugin reference — https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference
+- [S-293] Automate with GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli
+- [S-294] Adding custom instructions for GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions
+- [S-295] Cline MCP overview — https://docs.cline.bot/mcp/mcp-overview
+- [S-296] Cline Skills — https://docs.cline.bot/customization/skills
+- [S-297] Cline Plugins — https://docs.cline.bot/customization/plugins
+- [S-298] Cline Hooks — https://docs.cline.bot/customization/hooks
+- [S-299] Cline Scheduled Agents — https://docs.cline.bot/sdk/guides/scheduled-agents
+- [S-300] Cline Connectors — https://docs.cline.bot/cli/connectors
+- [S-301] Aider options reference — https://aider.chat/docs/config/options.html
+- [S-302] Aider coding conventions — https://aider.chat/docs/usage/conventions.html
+- [S-303] Aider in-chat commands — https://aider.chat/docs/usage/commands.html
+- [S-304] About GitHub Copilot plugins — https://docs.github.com/en/copilot/concepts/agents/about-plugins
+- [S-305] Administering Copilot CLI for your enterprise — https://docs.github.com/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise
+- [S-306] OpenWork publisher repository — https://github.com/different-ai/openwork
+- [S-307] Get started with OpenWork — https://openworklabs.com/docs/start-here/get-started
+- [S-308] Add an MCP server in OpenWork — https://openworklabs.com/docs/start-here/connect-your-stack/add-an-mcp-server
+- [S-309] Import a skill into OpenWork — https://openworklabs.com/docs/start-here/do-work-with-it/import-a-skill
+- [S-310] Control the browser with OpenWork — https://openworklabs.com/docs/start-here/do-work-with-it/control-the-browser
+- [S-311] Get started with OpenWork Cloud — https://openworklabs.com/docs/cloud/get-started
+- [S-312] OpenWork architecture — https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
+- [S-313] OpenWork UI MCP control profile — https://github.com/different-ai/openwork/blob/dev/docs/mcp-ui-control-profile.md
+- [S-314] OpenWork Connect — https://openwork.studio/connect
+- [S-315] OpenWork roadmap — https://openworklabs.com/docs/roadmap
+- [S-316] Kiro subagents — https://kiro.dev/docs/custom-agents/subagents/
+- [S-317] How Kiro works — https://kiro.dev/docs/how-kiro-works/
+- [S-318] Kiro configuration scopes — https://kiro.dev/docs/configuration/
+- [S-319] Kiro enterprise governance — https://kiro.dev/docs/enterprise/governance/
+- [S-320] OpenHands skills overview and support matrix — https://docs.openhands.dev/overview/skills
+- [S-321] OpenHands SDK plugins — https://docs.openhands.dev/sdk/guides/plugins
+- [S-322] OpenCode rules and AGENTS.md — https://opencode.ai/docs/rules
+- [S-323] Warp CLI MCP servers — https://docs.warp.dev/reference/cli/mcp-servers

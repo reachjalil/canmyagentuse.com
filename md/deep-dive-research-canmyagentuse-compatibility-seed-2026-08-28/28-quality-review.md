@@ -32,17 +32,17 @@ The package also includes deeper surface-specific research for major vendors out
 
 | Object | Count |
 |---|---:|
-| Vendors | 50 |
-| Products | 59 |
-| Surfaces | 92 |
+| Vendors | 51 |
+| Products | 60 |
+| Surfaces | 93 |
 | Features | 49 |
-| Long-form assertions | 825 |
-| Full compatibility cells | 4508 |
-| Supported cells | 670 |
-| Partial cells | 21 |
-| Explicit unsupported cells | 38 |
-| Unknown cells | 3779 |
-| Source records | 149 |
+| Long-form assertions | 959 |
+| Full compatibility cells | 4557 |
+| Supported cells | 790 |
+| Partial cells | 30 |
+| Explicit unsupported cells | 42 |
+| Unknown cells | 3695 |
+| Source records | 183 |
 | Proposed tests | 15 |
 
 ### Quality-bar checklist

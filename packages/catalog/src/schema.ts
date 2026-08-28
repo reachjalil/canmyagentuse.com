@@ -2,12 +2,15 @@ import { z } from "zod";
 import { LOCALES } from "./site.ts";
 import {
   CONTENT_KINDS,
+  CAPABILITY_KINDS,
   EVIDENCE_TYPES,
   ENVIRONMENT_PROFILE_IDS,
   HARNESS_SURFACES,
   PUBLICATION_STATUSES,
   QUALIFIER_TYPES,
   SUPPORT_STATUSES,
+  SUPPORT_STAGES,
+  FEATURE_RELATION_TYPES,
   TARGET_KINDS,
 } from "./status.ts";
 
@@ -80,6 +83,13 @@ export const versionCellSchema = z.object({
   environmentProfile: z.enum(ENVIRONMENT_PROFILE_IDS).optional(),
   qualifiers: z.array(supportQualifierSchema).default([]),
   evidence: z.array(evidenceReferenceSchema).default([]),
+  stage: z.enum(SUPPORT_STAGES).optional(),
+});
+
+export const featureRelationSchema = z.object({
+  feature: z.string().min(1),
+  type: z.enum(FEATURE_RELATION_TYPES),
+  note: z.string().min(1).optional(),
 });
 
 export const supportRowSchema = z.object({
@@ -126,8 +136,10 @@ export const featureSchema = seoSchema("feature")
     specLabel: z.string().default("Product capability"),
     specification: specificationReferenceSchema.optional(),
     aliases: z.array(z.string().min(1)).default([]),
+    capabilityKind: z.enum(CAPABILITY_KINDS).default("atomic"),
     parent: z.string().min(1).optional(),
     related: z.array(z.string().min(1)).default([]),
+    relations: z.array(featureRelationSchema).default([]),
     highlight: z.boolean().default(false),
     notes: z.array(catalogNoteSchema).default([]),
     issues: z.array(catalogNoteSchema).default([]),
@@ -135,6 +147,21 @@ export const featureSchema = seoSchema("feature")
     support: z.array(supportRowSchema).default([]),
   })
   .superRefine((feature, context) => {
+    if (feature.capabilityKind === "family" && feature.parent) {
+      context.addIssue({
+        code: "custom",
+        message: "A capability family cannot itself have a parent.",
+        path: ["parent"],
+      });
+    }
+    if (feature.capabilityKind === "family" && feature.support.length > 0) {
+      context.addIssue({
+        code: "custom",
+        message:
+          "Family support is derived from atomic children; do not author support rows on a family.",
+        path: ["support"],
+      });
+    }
     const noteIds = new Set<number>();
     for (const [index, note] of feature.notes.entries()) {
       if (noteIds.has(note.id)) {

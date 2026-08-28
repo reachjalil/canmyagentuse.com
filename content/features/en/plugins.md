@@ -1,36 +1,34 @@
 ---
-title: Plugins
-description: "Install third-party extensions into the harness. Compatibility evidence is published only after review."
+title: Plugin systems
+description: Compare portable Agent Plugins, native product extensions, packaged components, marketplaces, isolation, and vendor-specific extensions independently.
 slug: plugins
 locale: en
-seoTitle: "Plugins — Can My Agent Use"
-socialTitle: Plugins
-socialDescription: "Install third-party extensions into the harness. Unreviewed cells remain unknown."
-llmSummary: "Plugins: Install third-party extensions into the harness. Unreviewed harness cells remain unknown until dated public evidence exists."
-audience: Engineers comparing chat, desktop, and CLI agent harnesses.
+seoTitle: Plugin system capability coverage — Can My Agent Use
+socialTitle: Which plugin capabilities can my agent use?
+socialDescription: Compare native and portable plugin capabilities without treating every extension format as interchangeable.
+llmSummary: Plugin support is a family of independent claims covering portable manifests, native extensions, packaged skills, packaged MCP, distribution, isolation, and vendor extensions.
+audience: Engineers comparing agent extension and distribution systems.
 contentKind: feature
 status: published
-tags:
-  - interfaces
+tags: [interfaces, plugins, packaging, distribution]
 updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
-summary: Install third-party extensions into the harness.
-specLabel: Product capability
-highlight: false
-notes:
-  - id: 1
-    text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
+summary: Track portable and product-native extension capabilities independently.
+specLabel: Plugin capability family
+aliases: [plugins, extensions, agent plugins, plugin marketplace]
+capabilityKind: family
+related: [agent-skills, mcp]
+highlight: true
+notes: []
 issues: []
 resources:
-  - title: Methodology
-    href: /methodology
-    kind: note
+  - title: Agent Plugins specification
+    href: https://agent-plugins.org/specification/1.0
+    kind: spec
 support: []
 ---
 
-Install third-party extensions into the harness.
+“Supports plugins” is not a sufficient compatibility claim. A product-native extension, a portable Agent Plugins package, a packaged skill, and a marketplace install can have different formats, trust boundaries, and lifecycle behavior.
 
-The matrix below lists published **web**, **desktop**, and **CLI** surfaces. Unreviewed cells remain **unknown** until a dated note and public source support a more specific status.
-
-Use the Markdown and JSON twins if you are an agent reading this site.
+This family derives progress from independently evidenced atomic capabilities.

@@ -37,11 +37,36 @@ export function validateCatalogRelations(input: CatalogRelationInput): void {
         `Feature "${feature.slug}" references unknown parent "${feature.parent}".`
       );
     }
+    if (feature.parent) {
+      const parent = input.features.find(
+        (candidate) => candidate.slug === feature.parent
+      );
+      if (parent && parent.capabilityKind !== "family") {
+        throw new Error(
+          `Feature "${feature.slug}" parent "${feature.parent}" is not a capability family.`
+        );
+      }
+      if (parent?.category !== feature.category) {
+        throw new Error(
+          `Feature "${feature.slug}" and parent "${feature.parent}" must share a category.`
+        );
+      }
+    }
     for (const related of feature.related) {
       if (!featureSlugs.has(related)) {
         throw new Error(
           `Feature "${feature.slug}" references unknown related feature "${related}".`
         );
+      }
+    }
+    for (const relation of feature.relations) {
+      if (!featureSlugs.has(relation.feature)) {
+        throw new Error(
+          `Feature "${feature.slug}" references unknown ${relation.type} feature "${relation.feature}".`
+        );
+      }
+      if (relation.feature === feature.slug) {
+        throw new Error(`Feature "${feature.slug}" cannot relate to itself.`);
       }
     }
     if (
@@ -59,6 +84,22 @@ export function validateCatalogRelations(input: CatalogRelationInput): void {
           `Feature "${feature.slug}" references unknown harness "${row.harness}".`
         );
       }
+    }
+  }
+
+  for (const feature of input.features) {
+    const visited = new Set<string>([feature.slug]);
+    let parent = feature.parent;
+    while (parent) {
+      if (visited.has(parent)) {
+        throw new Error(
+          `Capability hierarchy contains a cycle at "${parent}".`
+        );
+      }
+      visited.add(parent);
+      parent = input.features.find(
+        (candidate) => candidate.slug === parent
+      )?.parent;
     }
   }
 }

@@ -26,6 +26,7 @@ specification:
   authority: MCP project / AAIF ecosystem
   canonicalUrl: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
 aliases: [MCP tool calling, tools/list, tools/call]
+parent: mcp
 related: [mcp-resources, mcp-prompts, mcp-apps]
 highlight: true
 notes:
@@ -45,6 +46,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI documents configured MCP server discovery and invocation of the tools those servers expose."
   - id: 8
     text: "Evidence checked 2026-08-28: VS Code documents MCP tools as a supported agent tool type and supports local or remote MCP servers in Copilot agent mode."
+  - id: 9
+    text: "Evidence checked 2026-08-28: OpenWork Desktop documents workspace or global custom MCP servers, including an OAuth setup path, for use in agent sessions."
 issues: []
 resources:
   - id: openai-chatgpt-mcp
@@ -101,6 +104,13 @@ resources:
     href: https://code.visualstudio.com/docs/copilot/concepts/tools
     kind: docs
     publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: openwork-mcp
+    title: OpenWork — Add an MCP server
+    href: https://openworklabs.com/docs/start-here/connect-your-stack/add-an-mcp-server
+    kind: docs
+    publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -236,6 +246,23 @@ support:
         qualifiers: []
         evidence:
           - resourceId: vscode-agent-tools
+            type: documented
+            observedAt: 2026-08-28
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: documented OAuth setup currently expects dynamic client registration
+        evidence:
+          - resourceId: openwork-mcp
             type: documented
             observedAt: 2026-08-28
 ---

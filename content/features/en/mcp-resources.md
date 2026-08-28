@@ -25,6 +25,7 @@ specification:
   authority: MCP project / AAIF ecosystem
   canonicalUrl: https://modelcontextprotocol.io/specification/2026-07-28/server/resources
 aliases: [resources/list, resources/read, MCP context resources]
+parent: mcp
 related: [mcp-tools, mcp-prompts]
 highlight: false
 notes:

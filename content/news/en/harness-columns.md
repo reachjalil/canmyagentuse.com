@@ -19,6 +19,6 @@ summary: Major chat, desktop, and CLI products are listed as exact catalog colum
 
 Columns are grouped by web, desktop, and CLI product type, not by vendor.
 
-Each column has a `current` and `preview` track. Until notes exist, both tracks render as unknown.
+Each column publishes the tracks declared for that exact product surface. Unreviewed tracks and cells render as unknown rather than inheriting support from another surface.
 
-Listed families include ChatGPT, Claude, Gemini, Copilot, Cursor, OpenCode, OpenWork Desktop, Windsurf, Zed, Continue, Cline, Aider, Goose, Warp, Amp, Devin, and Replit Agent.
+Listed first-party product families include ChatGPT, Claude, Gemini, Copilot, Cursor, OpenCode, **OpenWork Desktop**, Windsurf, Zed, Continue, Cline, Aider, Goose, Warp, Amp, Devin, and Replit Agent. “First-party” identifies a publisher's own product surface; it does not imply that Can My Agent Use is affiliated with or endorsed by that publisher.

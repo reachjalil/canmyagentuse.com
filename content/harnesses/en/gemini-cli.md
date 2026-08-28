@@ -18,11 +18,12 @@ published: 2026-08-28
 family: Gemini
 vendor: Google
 surface: cli
-summary: Gemini in a terminal harness.
+summary: Interactive terminal agent with filesystem, shell, web, and MCP tools.
 tracks:
   - current
   - preview
 order: 250
+homepage: https://google-gemini.github.io/gemini-cli/docs/
 ---
 
 Gemini CLI appears here as a **CLI** column so a capability page can show this harness next to others.

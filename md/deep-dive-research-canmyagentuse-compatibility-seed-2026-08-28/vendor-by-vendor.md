@@ -2,9 +2,9 @@
 title: Vendor-by-Vendor Compatibility Seed
 file: vendor-by-vendor.md
 audience: Builder / Architect; secondary Evaluator / Skeptic
-last_updated_utc: 2026-08-28T19:48:01Z
+last_updated_utc: 2026-08-28T23:30:00Z
 confidence: mixed
-sources_count: 149
+sources_count: 183
 ---
 
 # Vendor-by-Vendor Compatibility Seed
@@ -54,7 +54,7 @@ None established in this pass.
 **Coverage tier:** D  
 **Inclusion basis:** watchlist; first-party documentation reviewed but no current protocol claim found  
 **Surfaces:** 1  
-**Cells:** supported 0 · partial 0 · explicit no 0 · unknown 49
+**Cells:** supported 2 · partial 1 · explicit no 0 · unknown 46
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -62,11 +62,12 @@ None established in this pass.
 
 ### Documented/registry-supported
 
-None established in this pass.
+- **Aider CLI · Native rules/instructions** (documented) — Convention files can be loaded persistently through .aider.conf.yml. [S-302]
+- **Aider CLI · Headless / CI execution** (documented) — --message and --message-file process one prompt and exit without interactive chat. [S-301]
 
 ### Partial, gated, experimental, or conflicting
 
-None established in this pass.
+- **Aider CLI · Session handoff/import** (documented) — The CLI can export context for manual paste into a web UI; this is a clipboard handoff, not synchronized session state. [S-303]
 
 ### Explicitly unsupported or currently unavailable
 
@@ -79,7 +80,9 @@ None established in this pass.
 ### Sources
 
 - [S-271] Aider documentation — https://aider.chat/docs/
-
+- [S-302] Aider coding conventions — https://aider.chat/docs/usage/conventions.html
+- [S-301] Aider options reference — https://aider.chat/docs/config/options.html
+- [S-303] Aider in-chat commands — https://aider.chat/docs/usage/commands.html
 ## Alibaba / Qwen
 
 **Coverage tier:** A  
@@ -565,7 +568,7 @@ None established in this pass.
 **Coverage tier:** A  
 **Inclusion basis:** first-party CLI/extension/subagent docs + ACP registry  
 **Surfaces:** 2  
-**Cells:** supported 12 · partial 1 · explicit no 3 · unknown 82
+**Cells:** supported 26 · partial 2 · explicit no 4 · unknown 66
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -574,33 +577,48 @@ None established in this pass.
 
 ### Documented/registry-supported
 
-- **Cline CLI · ACP agent/server role** (documented;registry-listed) — Official ACP Registry 3.0.60; registry proves the agent role, not every optional ACP method. [S-001;S-092]
-- **Cline CLI · ACP stdio** (documented;registry-listed) — Registry-distributed ACP agent launcher; exact optional capabilities remain unknown. [S-001;S-092]
-- **Cline CLI · Headless / CI execution** (documented) [S-001;S-092]
-- **Cline VS Code extension · Agent Skills core** (documented) [S-091;S-093]
-- **Cline VS Code extension · Native rules/instructions** (documented) [S-091;S-093]
-- **Cline VS Code extension · MCP Streamable HTTP** (documented) [S-091;S-093]
 - **Cline VS Code extension · MCP client role** (documented) [S-091;S-093]
-- **Cline VS Code extension · MCP stdio** (documented) [S-091;S-093]
 - **Cline VS Code extension · MCP tools** (documented) [S-091;S-093]
-- **Cline VS Code extension · Custom agents** (documented) [S-091;S-093]
+- **Cline VS Code extension · MCP resources** (documented) — The extension exposes access_mcp_resource for configured MCP servers. [S-091;S-295]
+- **Cline VS Code extension · MCP stdio** (documented) [S-091;S-093]
+- **Cline VS Code extension · MCP Streamable HTTP** (documented) [S-091;S-093]
+- **Cline VS Code extension · Agent Skills core** (documented) [S-091;S-093]
+- **Cline VS Code extension · Agent Skills scripts/assets** (documented) — Cline skills can bundle docs, templates, resources, and executable scripts. [S-093;S-296]
+- **Cline VS Code extension · Native rules/instructions** (documented) [S-091;S-093]
 - **Cline VS Code extension · Hooks** (documented) [S-091;S-093]
 - **Cline VS Code extension · Subagents** (documented) [S-091;S-093]
+- **Cline VS Code extension · Marketplace or registry** (documented) — The extension can discover and install integrations from Cline's MCP Marketplace. [S-295]
+- **Cline VS Code extension · Custom agents** (documented) [S-091;S-093]
+- **Cline CLI · MCP client role** (documented) — Cline documents MCP server use in both its CLI and VS Code extension. [S-092;S-295]
+- **Cline CLI · MCP tools** (documented) — Cline CLI can discover and execute tools exposed by MCP servers. [S-295]
+- **Cline CLI · MCP resources** (documented) — Cline documents MCP resources and an access_mcp_resource tool for the CLI harness. [S-295]
+- **Cline CLI · Agent Skills core** (documented) — Cline CLI discovers on-demand SKILL.md packages. [S-092;S-296]
+- **Cline CLI · Agent Skills scripts/assets** (documented) — Cline skills can bundle docs, templates, resources, and executable scripts. [S-296]
+- **Cline CLI · ACP agent/server role** (documented; registry-listed) — Official ACP Registry 3.0.60; registry proves the agent role, not every optional ACP method. [S-001;S-092]
+- **Cline CLI · ACP stdio** (documented; registry-listed) — Registry-distributed ACP agent launcher; exact optional capabilities remain unknown. [S-001;S-092]
+- **Cline CLI · Native rules/instructions** (documented) — The CLI reference documents global and project rules directories. [S-092]
+- **Cline CLI · Hooks** (documented) — Eight lifecycle hook types are explicitly available in Cline CLI. [S-092;S-298]
+- **Cline CLI · Native plugin system** (documented) — Cline CLI installs native plugins from npm, Git, or local paths. [S-092;S-297]
+- **Cline CLI · Marketplace or registry** (documented) — The CLI can install MCP integrations from Cline Marketplace and plugins from the npm registry. [S-295;S-297]
+- **Cline CLI · Headless / CI execution** (documented) — Persistent cron schedules run new CLI agent sessions independently of a client application. [S-092;S-001;S-299]
+- **Cline CLI · Session handoff/import** (documented) — CLI connectors create or continue the same agent session from messaging surfaces. [S-295;S-300]
+- **Cline CLI · Custom agents** (documented) — Project configuration includes agents.yaml agent definitions. [S-092]
 
 ### Partial, gated, experimental, or conflicting
 
 - **Cline VS Code extension · Agent Skills standard paths** (documented) — Skill behavior is documented but includes Cline-specific locations and semantics. [S-093]
+- **Cline CLI · Agent Skills standard paths** (documented) — SKILL.md is supported, but discovery uses Cline- and Claude-specific paths rather than the vendor-neutral .agents path. [S-296]
 
 ### Explicitly unsupported or currently unavailable
 
 - **Cline VS Code extension · Nested subagents** (documented) [S-090]
 - **Cline VS Code extension · Subagent MCP access** (documented) [S-090]
 - **Cline VS Code extension · Subagent write access** (documented) [S-090]
+- **Cline VS Code extension · Native plugin system** (documented) — Cline states that its native plugin system currently does not apply to the VS Code extension. [S-297]
 
 ### High-priority unknowns
 
 - Cline VS Code extension · MCP 2026-07-28 (P1)
-- Cline VS Code extension · MCP resources (P1)
 - Cline VS Code extension · MCP prompts (P1)
 - Cline VS Code extension · MCP OAuth (P1)
 - Cline VS Code extension · MCP roots (P2)
@@ -615,20 +633,25 @@ None established in this pass.
 - Cline VS Code extension · A2A client role (P2)
 - Cline VS Code extension · A2A agent/server role (P2)
 - Cline CLI · MCP 2026-07-28 (P1)
-- Cline CLI · MCP resources (P1)
 - Cline CLI · MCP prompts (P1)
 - Cline CLI · MCP OAuth (P1)
 - Cline CLI · MCP roots (P2)
-- … 10 additional high-priority unknowns in `data/evidence-gaps.csv`.
+- Cline CLI · MCP sampling (P2)
+- Cline CLI · MCP elicitation (P2)
 
 ### Sources
 
-- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
-- [S-090] Cline Subagents — https://docs.cline.bot/features/subagents
 - [S-091] Cline Tools reference — https://docs.cline.bot/tools-reference/all-cline-tools
-- [S-092] Cline CLI reference — https://docs.cline.bot/cli/cli-reference
 - [S-093] Cline Skills — https://docs.cline.bot/customization/skills
-
+- [S-295] Cline MCP overview — https://docs.cline.bot/mcp/mcp-overview
+- [S-296] Cline Skills — https://docs.cline.bot/customization/skills
+- [S-090] Cline Subagents — https://docs.cline.bot/features/subagents
+- [S-297] Cline Plugins — https://docs.cline.bot/customization/plugins
+- [S-092] Cline CLI reference — https://docs.cline.bot/cli/cli-reference
+- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
+- [S-298] Cline Hooks — https://docs.cline.bot/customization/hooks
+- [S-299] Cline Scheduled Agents — https://docs.cline.bot/sdk/guides/scheduled-agents
+- [S-300] Cline Connectors — https://docs.cline.bot/cli/connectors
 ## Cognition
 
 **Coverage tier:** A  
@@ -1186,7 +1209,7 @@ None established in this pass.
 **Coverage tier:** A  
 **Inclusion basis:** first-party deep dive + both registries  
 **Surfaces:** 4  
-**Cells:** supported 29 · partial 0 · explicit no 3 · unknown 164
+**Cells:** supported 54 · partial 0 · explicit no 3 · unknown 139
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -1197,35 +1220,60 @@ None established in this pass.
 
 ### Documented/registry-supported
 
+- **GitHub Copilot in VS Code · MCP client role** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP tools** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP resources** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP prompts** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP stdio** (documented; registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP Streamable HTTP** (documented; registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · MCP legacy SSE** (documented; registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Agent Skills core** (registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004]
+- **GitHub Copilot in VS Code · Agent Plugins 1.0 core** (documented; registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Agent Plugins packaged skills** (documented; registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Agent Plugins packaged MCP** (documented; registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Hooks** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Organization policy controls** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot in VS Code · Custom agents** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot CLI · MCP client role** (documented) — MCP servers add external tools and data sources to the CLI. [S-290;S-291]
+- **GitHub Copilot CLI · MCP tools** (documented) — The CLI discovers and invokes tools supplied by configured MCP servers. [S-290;S-291]
+- **GitHub Copilot CLI · Agent Skills core** (documented) — CLI skills are SKILL.md packages with instructions, scripts, and resources. [S-290;S-291]
+- **GitHub Copilot CLI · Agent Skills standard paths** (documented) — The CLI discovers project and personal skills in .agents/skills in addition to GitHub- and Claude-specific paths. [S-291]
+- **GitHub Copilot CLI · Agent Skills scripts/assets** (documented) — Documented skill packages may include scripts and resources. [S-290;S-291]
+- **GitHub Copilot CLI · Agent Plugins 1.0 core** (documented) — The CLI plugin manifest accepts the Agent Plugins/Open Plugin Spec 1.0 schema. [S-292]
+- **GitHub Copilot CLI · Agent Plugins packaged skills** (documented) — Plugin manifests can package SKILL.md directories. [S-292]
+- **GitHub Copilot CLI · Agent Plugins packaged MCP** (documented) — Plugin manifests can package MCP server configuration. [S-292]
 - **GitHub Copilot CLI · ACP agent/server role** (registry-listed) — Official ACP Registry 1.0.81; registry proves the agent role, not every optional ACP method. [S-001]
 - **GitHub Copilot CLI · ACP stdio** (registry-listed) — Registry-distributed ACP agent launcher; exact optional capabilities remain unknown. [S-001]
+- **GitHub Copilot CLI · AGENTS.md** (documented) — AGENTS.md is discovered from documented repository and working-directory scopes. [S-291;S-294]
+- **GitHub Copilot CLI · Native rules/instructions** (documented) — Repository, user, and path-specific persistent instruction files are documented. [S-290;S-294]
+- **GitHub Copilot CLI · Hooks** (documented) — Lifecycle hooks can run shell commands at session, prompt, task, and error events. [S-290;S-291]
+- **GitHub Copilot CLI · Subagents** (documented) — Custom agents run as isolated subagents and the CLI includes task-oriented subagent types. [S-290;S-291]
+- **GitHub Copilot CLI · Nested subagents** (documented) — The CLI documents a configurable subagent tree depth, with a default depth greater than one. [S-291]
+- **GitHub Copilot CLI · Subagent MCP access** (documented) — Plugin-provided agent packages can include MCP server configuration; access remains subject to the agent tool profile. [S-292]
+- **GitHub Copilot CLI · Subagent write access** (documented) — General-purpose and user-defined subagents can be assigned toolsets that include project modification tools. [S-290;S-291]
+- **GitHub Copilot CLI · Native plugin system** (documented) — Installable CLI plugins bundle agents, skills, hooks, commands, and integrations. [S-290;S-292]
+- **GitHub Copilot CLI · Marketplace or registry** (documented) — Plugins can be installed directly or through configured plugin marketplaces. [S-290;S-292]
+- **GitHub Copilot CLI · Headless / CI execution** (documented) — GitHub documents programmatic, scripted, and Actions workflows for Copilot CLI. [S-293]
+- **GitHub Copilot CLI · Organization policy controls** (documented) — Enterprise and organization controls cover CLI enablement, models, custom agents, MCP registries and allowlists, cloud delegation, and audit logging. [S-305]
+- **GitHub Copilot CLI · Custom agents** (documented) — Named custom agents can define expertise, instructions, models, and toolsets. [S-290;S-291]
+- **GitHub Copilot cloud agent · MCP client role** (documented) [S-042;S-043]
+- **GitHub Copilot cloud agent · MCP tools** (documented) [S-042;S-043]
+- **GitHub Copilot cloud agent · MCP stdio** (documented) — Repository-configured local MCP server command runs in the hosted task environment. [S-042]
+- **GitHub Copilot cloud agent · MCP Streamable HTTP** (documented) — Remote servers supported without remote OAuth. [S-042]
 - **GitHub Copilot cloud agent · Agent Skills core** (documented) [S-042;S-043]
+- **GitHub Copilot cloud agent · Agent Plugins 1.0 core** (documented) — GitHub documents plugin packages as supported by Copilot cloud agent. [S-304]
+- **GitHub Copilot cloud agent · Agent Plugins packaged skills** (documented) — Cloud-agent plugins may package SKILL.md skills. [S-304]
+- **GitHub Copilot cloud agent · Agent Plugins packaged MCP** (documented) — Cloud-agent plugins may package MCP server configuration. [S-304]
+- **GitHub Copilot cloud agent · Hooks** (documented) — Cloud-agent plugin packages may include event hooks. [S-042;S-043;S-304]
+- **GitHub Copilot cloud agent · Native plugin system** (documented) — Copilot cloud agent loads installable Copilot plugin packages. [S-304]
+- **GitHub Copilot cloud agent · Marketplace or registry** (documented) — Cloud-agent plugins can be enabled from registered marketplaces in repository settings. [S-304]
 - **GitHub Copilot cloud agent · Cloud agent** (documented) [S-042;S-043]
 - **GitHub Copilot cloud agent · Organization policy controls** (documented) [S-042;S-043]
-- **GitHub Copilot cloud agent · MCP Streamable HTTP** (documented) — Remote servers supported without remote OAuth. [S-042]
-- **GitHub Copilot cloud agent · MCP client role** (documented) [S-042;S-043]
-- **GitHub Copilot cloud agent · MCP stdio** (documented) — Repository-configured local MCP server command runs in the hosted task environment. [S-042]
-- **GitHub Copilot cloud agent · MCP tools** (documented) [S-042;S-043]
-- **GitHub Copilot cloud agent · Custom agents** (documented) [S-042;S-043]
-- **GitHub Copilot cloud agent · Hooks** (documented) [S-042;S-043]
-- **GitHub Copilot code review · Agent Skills core** (documented) [S-044]
-- **GitHub Copilot code review · Cloud agent** (documented) [S-044]
+- **GitHub Copilot cloud agent · Custom agents** (documented) — Cloud-agent plugins may include specialized custom-agent definitions. [S-042;S-043;S-304]
 - **GitHub Copilot code review · MCP client role** (documented) [S-044]
 - **GitHub Copilot code review · MCP tools** (documented) [S-044]
-- **GitHub Copilot in VS Code · Agent Plugins 1.0 core** (documented;registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · Agent Plugins packaged MCP** (documented;registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · Agent Plugins packaged skills** (documented;registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · Agent Skills core** (registry-listed) — Official Agent Plugins compatible-client listing for GitHub Copilot; exact surface behavior is refined by first-party docs where available. [S-002;S-003;S-004]
-- **GitHub Copilot in VS Code · Organization policy controls** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP Streamable HTTP** (documented;registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP client role** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP legacy SSE** (documented;registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP prompts** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP resources** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP stdio** (documented;registry-listed) — Transport listed by the Agent Plugins compatible-client page. [S-002;S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · MCP tools** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · Custom agents** (documented) [S-040;S-041;S-045]
-- **GitHub Copilot in VS Code · Hooks** (documented) [S-040;S-041;S-045]
+- **GitHub Copilot code review · Agent Skills core** (documented) [S-044]
+- **GitHub Copilot code review · Cloud agent** (documented) [S-044]
 
 ### Partial, gated, experimental, or conflicting
 
@@ -1233,9 +1281,9 @@ None established in this pass.
 
 ### Explicitly unsupported or currently unavailable
 
-- **GitHub Copilot cloud agent · MCP OAuth** (documented) [S-042]
-- **GitHub Copilot cloud agent · MCP prompts** (documented) [S-042]
 - **GitHub Copilot cloud agent · MCP resources** (documented) [S-042]
+- **GitHub Copilot cloud agent · MCP prompts** (documented) [S-042]
+- **GitHub Copilot cloud agent · MCP OAuth** (documented) [S-042]
 
 ### High-priority unknowns
 
@@ -1259,21 +1307,26 @@ None established in this pass.
 - GitHub Copilot CLI · MCP roots (P2)
 - GitHub Copilot CLI · MCP sampling (P2)
 - GitHub Copilot CLI · MCP elicitation (P2)
-- … 35 additional high-priority unknowns in `data/evidence-gaps.csv`.
 
 ### Sources
 
-- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
+- [S-040] VS Code 1.133 release notes — https://code.visualstudio.com/updates/v1_133
+- [S-041] GitHub Copilot MCP in IDE — https://docs.github.com/copilot/customizing-copilot/using-model-context-protocol/extending-copilot-chat-with-mcp
+- [S-045] GitHub Copilot enterprise agent management — https://docs.github.com/copilot/concepts/agents/enterprise-management
 - [S-002] Agent Plugins compatible clients — https://agent-plugins.org/compatible-clients
 - [S-003] Agent Plugins Specification 1.0.0 — https://agent-plugins.org/specification
 - [S-004] Agent Skills Specification — https://agentskills.io/specification
-- [S-040] VS Code 1.133 release notes — https://code.visualstudio.com/updates/v1_133
-- [S-041] GitHub Copilot MCP in IDE — https://docs.github.com/copilot/customizing-copilot/using-model-context-protocol/extending-copilot-chat-with-mcp
+- [S-290] Overview of customizing GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview
+- [S-291] GitHub Copilot CLI command reference — https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+- [S-292] GitHub Copilot CLI plugin reference — https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference
+- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
+- [S-294] Adding custom instructions for GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions
+- [S-293] Automate with GitHub Copilot CLI — https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli
+- [S-305] Administering Copilot CLI for your enterprise — https://docs.github.com/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise
 - [S-042] GitHub Copilot cloud agent MCP — https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/cloud-agent/mcp-and-cloud-agent
 - [S-043] GitHub Copilot cloud agent — https://docs.github.com/copilot/concepts/agents/cloud-agent/about-cloud-agent
+- [S-304] About GitHub Copilot plugins — https://docs.github.com/en/copilot/concepts/agents/about-plugins
 - [S-044] GitHub Copilot code review — https://docs.github.com/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review
-- [S-045] GitHub Copilot enterprise agent management — https://docs.github.com/copilot/concepts/agents/enterprise-management
-
 ## Google
 
 **Coverage tier:** A  
@@ -1508,6 +1561,8 @@ None established in this pass.
 - [S-230] Kilo CLI — https://kilo.ai/docs/code-with-ai/platforms/cli
 - [S-231] Kilo CLI Reference — https://kilo.ai/docs/code-with-ai/platforms/cli-reference
 - [S-232] Kilo JetBrains — https://kilo.ai/docs/code-with-ai/platforms/jetbrains
+
+undefined
 
 ## LangChain / DeepAgents
 
@@ -2105,7 +2160,7 @@ None established in this pass.
 **Coverage tier:** A  
 **Inclusion basis:** first-party CLI/desktop/IDE docs + ACP registry  
 **Surfaces:** 3  
-**Cells:** supported 36 · partial 0 · explicit no 0 · unknown 111
+**Cells:** supported 54 · partial 0 · explicit no 0 · unknown 93
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -2115,42 +2170,60 @@ None established in this pass.
 
 ### Documented/registry-supported
 
-- **OpenCode CLI/TUI · ACP agent/server role** (documented;registry-listed) — Official ACP Registry 1.18.25; registry proves the agent role, not every optional ACP method. [S-001;S-103]
-- **OpenCode CLI/TUI · ACP stdio** (documented;registry-listed) — Registry-distributed ACP agent launcher; exact optional capabilities remain unknown. [S-001;S-103]
+- **OpenCode CLI/TUI · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
 - **OpenCode CLI/TUI · Agent Skills core** (documented) [S-100;S-101;S-102;S-104;S-105]
 - **OpenCode CLI/TUI · Agent Skills standard paths** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · Headless / CI execution** (documented) [S-001;S-103]
+- **OpenCode CLI/TUI · Agent Skills scripts/assets** (documented) — OpenCode skills expose supporting files and let the agent read referenced scripts, resources, and assets on demand. [S-102]
+- **OpenCode CLI/TUI · ACP agent/server role** (documented; registry-listed) — Official ACP Registry 1.18.25; registry proves the agent role, not every optional ACP method. [S-001;S-103]
+- **OpenCode CLI/TUI · ACP stdio** (documented; registry-listed) — Registry-distributed ACP agent launcher; exact optional capabilities remain unknown. [S-001;S-103]
+- **OpenCode CLI/TUI · AGENTS.md** (documented) — OpenCode discovers project, nested, and global AGENTS.md instruction files. [S-322]
 - **OpenCode CLI/TUI · Native rules/instructions** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode CLI/TUI · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · Hooks** (documented) — Native OpenCode plugins register lifecycle, request, event, and tool-execution hooks. [S-105]
 - **OpenCode CLI/TUI · Subagents** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Agent Skills core** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Agent Skills standard paths** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Native rules/instructions** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode IDE extension · Subagents** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · Subagent MCP access** (documented) — Per-agent permissions can allow or restrict tools supplied by configured MCP servers. [S-104]
+- **OpenCode CLI/TUI · Subagent write access** (documented) — OpenCode subagents use their own configured permissions, including edit access when allowed. [S-104]
+- **OpenCode CLI/TUI · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode CLI/TUI · Marketplace or registry** (documented) — OpenCode installs native plugins from npm packages and exposes community plugin discovery; this is not the portable Agent Plugins registry. [S-105]
+- **OpenCode CLI/TUI · Headless / CI execution** (documented) [S-001;S-103]
+- **OpenCode CLI/TUI · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
 - **OpenCode desktop · Agent Skills core** (documented) [S-100;S-101;S-102;S-104;S-105]
 - **OpenCode desktop · Agent Skills standard paths** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · Agent Skills scripts/assets** (documented) — OpenCode skills expose supporting files and let the agent read referenced scripts, resources, and assets on demand. [S-102]
+- **OpenCode desktop · AGENTS.md** (documented) — OpenCode discovers project, nested, and global AGENTS.md instruction files. [S-322]
 - **OpenCode desktop · Native rules/instructions** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
-- **OpenCode desktop · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · Hooks** (documented) — Native OpenCode plugins register lifecycle, request, event, and tool-execution hooks. [S-105]
 - **OpenCode desktop · Subagents** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · Subagent MCP access** (documented) — Per-agent permissions can allow or restrict tools supplied by configured MCP servers. [S-104]
+- **OpenCode desktop · Subagent write access** (documented) — OpenCode subagents use their own configured permissions, including edit access when allowed. [S-104]
+- **OpenCode desktop · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode desktop · Marketplace or registry** (documented) — OpenCode installs native plugins from npm packages and exposes community plugin discovery; this is not the portable Agent Plugins registry. [S-105]
+- **OpenCode desktop · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · MCP client role** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · MCP tools** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · MCP stdio** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · MCP Streamable HTTP** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · MCP OAuth** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Agent Skills core** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Agent Skills standard paths** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Agent Skills scripts/assets** (documented) — OpenCode skills expose supporting files and let the agent read referenced scripts, resources, and assets on demand. [S-102]
+- **OpenCode IDE extension · AGENTS.md** (documented) — OpenCode discovers project, nested, and global AGENTS.md instruction files. [S-322]
+- **OpenCode IDE extension · Native rules/instructions** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Hooks** (documented) — Native OpenCode plugins register lifecycle, request, event, and tool-execution hooks. [S-105]
+- **OpenCode IDE extension · Subagents** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Subagent MCP access** (documented) — Per-agent permissions can allow or restrict tools supplied by configured MCP servers. [S-104]
+- **OpenCode IDE extension · Subagent write access** (documented) — OpenCode subagents use their own configured permissions, including edit access when allowed. [S-104]
+- **OpenCode IDE extension · Native plugin system** (documented) [S-100;S-101;S-102;S-104;S-105]
+- **OpenCode IDE extension · Marketplace or registry** (documented) — OpenCode installs native plugins from npm packages and exposes community plugin discovery; this is not the portable Agent Plugins registry. [S-105]
+- **OpenCode IDE extension · Custom agents** (documented) [S-100;S-101;S-102;S-104;S-105]
 
 ### Partial, gated, experimental, or conflicting
 
@@ -2182,24 +2255,23 @@ None established in this pass.
 - OpenCode desktop · MCP roots (P2)
 - OpenCode desktop · MCP sampling (P2)
 - OpenCode desktop · MCP elicitation (P2)
-- … 22 additional high-priority unknowns in `data/evidence-gaps.csv`.
 
 ### Sources
 
-- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
 - [S-100] OpenCode Overview — https://opencode.ai/docs/
 - [S-101] OpenCode MCP servers — https://opencode.ai/docs/mcp-servers/
 - [S-102] OpenCode Agent Skills — https://opencode.ai/docs/skills/
-- [S-103] OpenCode ACP — https://opencode.ai/docs/acp/
 - [S-104] OpenCode Agents — https://opencode.ai/docs/agents/
 - [S-105] OpenCode Plugins — https://opencode.ai/docs/plugins/
-
+- [S-001] ACP Registry — https://agentclientprotocol.com/get-started/registry
+- [S-103] OpenCode ACP — https://opencode.ai/docs/acp/
+- [S-322] OpenCode rules and AGENTS.md — https://opencode.ai/docs/rules
 ## OpenHands
 
 **Coverage tier:** A  
 **Inclusion basis:** first-party CLI/Canvas/ACP docs  
 **Surfaces:** 4  
-**Cells:** supported 20 · partial 1 · explicit no 0 · unknown 175
+**Cells:** supported 34 · partial 5 · explicit no 0 · unknown 157
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -2210,29 +2282,47 @@ None established in this pass.
 
 ### Documented/registry-supported
 
-- **OpenHands ACP agent · ACP agent/server role** (documented) — OpenHands marks IDE/ACP integration experimental. [S-242]
-- **OpenHands ACP agent · ACP stdio** (documented) — OpenHands marks IDE/ACP integration experimental. [S-242]
-- **OpenHands Agent Canvas cloud backend · Agent Skills core** (documented) [S-240;S-244]
-- **OpenHands Agent Canvas cloud backend · Cloud agent** (documented) [S-240;S-244]
-- **OpenHands Agent Canvas cloud backend · MCP client role** (documented) [S-240;S-244]
-- **OpenHands Agent Canvas cloud backend · MCP tools** (documented) [S-240;S-244]
-- **OpenHands Agent Canvas cloud backend · Custom agents** (documented) [S-240;S-244]
-- **OpenHands Agent Canvas local backend · ACP client/host role** (documented) — Agent Canvas can use ACP agents in experimental workflows. [S-245]
-- **OpenHands Agent Canvas local backend · Agent Skills core** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · Marketplace or registry** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · MCP client role** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · MCP tools** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · Custom agents** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · Hooks** (documented) [S-240;S-241]
-- **OpenHands Agent Canvas local backend · Native plugin system** (documented) [S-240;S-241]
-- **OpenHands CLI · Agent Skills core** (documented) [S-240;S-242]
-- **OpenHands CLI · Headless / CI execution** (documented) [S-240;S-242]
 - **OpenHands CLI · MCP client role** (documented) [S-240;S-242]
 - **OpenHands CLI · MCP tools** (documented) [S-240;S-242]
+- **OpenHands CLI · Agent Skills core** (documented) [S-240;S-242]
+- **OpenHands CLI · Agent Skills standard paths** (documented) — OpenHands documents the recommended .agents/skills path and SKILL.md packages for this surface. [S-320]
+- **OpenHands CLI · Agent Skills scripts/assets** (documented) — OpenHands Agent Skills can include scripts and reference files with progressive disclosure. [S-320]
+- **OpenHands CLI · AGENTS.md** (documented) — OpenHands recommends root-level AGENTS.md as always-on repository context. [S-320]
+- **OpenHands CLI · Marketplace or registry** (documented) — The CLI can install skills from the official OpenHands extensions registry into .agents/skills. [S-320]
+- **OpenHands CLI · Headless / CI execution** (documented) [S-240;S-242]
 - **OpenHands CLI · Custom agents** (documented) [S-240;S-242]
+- **OpenHands ACP agent · ACP agent/server role** (documented) — OpenHands marks IDE/ACP integration experimental. [S-242]
+- **OpenHands ACP agent · ACP stdio** (documented) — OpenHands marks IDE/ACP integration experimental. [S-242]
+- **OpenHands Agent Canvas local backend · MCP client role** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · MCP tools** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · Agent Skills core** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · Agent Skills standard paths** (documented) — OpenHands documents the recommended .agents/skills path and SKILL.md packages for this surface. [S-320]
+- **OpenHands Agent Canvas local backend · Agent Skills scripts/assets** (documented) — OpenHands Agent Skills can include scripts and reference files with progressive disclosure. [S-320]
+- **OpenHands Agent Canvas local backend · Agent Plugins packaged skills** (documented) — Local Agent Canvas plugins explicitly bundle and expose skills. [S-241;S-321]
+- **OpenHands Agent Canvas local backend · Agent Plugins packaged MCP** (documented) — Local Agent Canvas plugins explicitly bundle MCP server configuration. [S-241;S-321]
+- **OpenHands Agent Canvas local backend · ACP client/host role** (documented) — Agent Canvas can use ACP agents in experimental workflows. [S-245]
+- **OpenHands Agent Canvas local backend · AGENTS.md** (documented) — OpenHands recommends root-level AGENTS.md as always-on repository context. [S-320]
+- **OpenHands Agent Canvas local backend · Hooks** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · Native plugin system** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · Marketplace or registry** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas local backend · Custom agents** (documented) [S-240;S-241]
+- **OpenHands Agent Canvas cloud backend · MCP client role** (documented) [S-240;S-244]
+- **OpenHands Agent Canvas cloud backend · MCP tools** (documented) [S-240;S-244]
+- **OpenHands Agent Canvas cloud backend · Agent Skills core** (documented) [S-240;S-244]
+- **OpenHands Agent Canvas cloud backend · Agent Skills standard paths** (documented) — OpenHands documents the recommended .agents/skills path and SKILL.md packages for this surface. [S-320]
+- **OpenHands Agent Canvas cloud backend · Agent Skills scripts/assets** (documented) — OpenHands Agent Skills can include scripts and reference files with progressive disclosure. [S-320]
+- **OpenHands Agent Canvas cloud backend · AGENTS.md** (documented) — OpenHands recommends root-level AGENTS.md as always-on repository context. [S-320]
+- **OpenHands Agent Canvas cloud backend · Marketplace or registry** (documented) — OpenHands Cloud provides an integrated skill marketplace and managed organization skill library. [S-320]
+- **OpenHands Agent Canvas cloud backend · Cloud agent** (documented) [S-240;S-244]
+- **OpenHands Agent Canvas cloud backend · Organization policy controls** (documented) — OpenHands Cloud documents organization-level skill policies and team-wide managed skills. [S-320]
+- **OpenHands Agent Canvas cloud backend · Custom agents** (documented) [S-240;S-244]
 
 ### Partial, gated, experimental, or conflicting
 
+- **OpenHands Agent Canvas local backend · Agent Plugins 1.0 core** (documented) — Agent Canvas loads structured plugin bundles compatible with the Claude Code layout; exact Agent Plugins 1.0 conformance is not claimed. [S-241;S-321]
+- **OpenHands Agent Canvas cloud backend · Agent Plugins 1.0 core** (documented) — The plugin bundle format is documented, but cloud backends can disable management or expose an empty catalog. [S-241;S-321]
+- **OpenHands Agent Canvas cloud backend · Agent Plugins packaged skills** (documented) — Plugins can bundle skills, but cloud availability depends on backend plugin support. [S-241;S-321]
+- **OpenHands Agent Canvas cloud backend · Agent Plugins packaged MCP** (documented) — Plugins can bundle MCP configuration, but cloud availability depends on backend plugin support. [S-241;S-321]
 - **OpenHands Agent Canvas cloud backend · Native plugin system** (documented) — Cloud backend manages skills/plugins differently and hides the local Plugins page. [S-244]
 
 ### Explicitly unsupported or currently unavailable
@@ -2261,15 +2351,92 @@ None established in this pass.
 - OpenHands ACP agent · MCP prompts (P1)
 - OpenHands ACP agent · MCP OAuth (P1)
 - OpenHands ACP agent · MCP roots (P2)
-- … 40 additional high-priority unknowns in `data/evidence-gaps.csv`.
 
 ### Sources
 
 - [S-240] OpenHands Agent Canvas Customize — https://docs.openhands.dev/openhands/usage/agent-canvas/customize-and-settings
-- [S-241] OpenHands Agent Canvas Plugins — https://docs.openhands.dev/openhands/usage/agent-canvas/plugins
 - [S-242] OpenHands CLI ACP Overview — https://docs.openhands.dev/openhands/usage/cli/ide/overview
-- [S-244] OpenHands Agent Canvas local/cloud plugins — https://docs.openhands.dev/openhands/usage/agent-canvas/backend-setup/cloud
+- [S-320] OpenHands skills overview and support matrix — https://docs.openhands.dev/overview/skills
+- [S-241] OpenHands Agent Canvas Plugins — https://docs.openhands.dev/openhands/usage/agent-canvas/plugins
+- [S-321] OpenHands SDK plugins — https://docs.openhands.dev/sdk/guides/plugins
 - [S-245] OpenHands PR review ACP backend — https://docs.openhands.dev/openhands/usage/use-cases/code-review
+- [S-244] OpenHands Agent Canvas local/cloud plugins — https://docs.openhands.dev/openhands/usage/agent-canvas/backend-setup/cloud
+## OpenWork
+
+**Coverage tier:** A  
+**Inclusion basis:** first-party documentation and publisher repository  
+**Surfaces:** 1  
+**Cells:** supported 18 · partial 4 · explicit no 3 · unknown 24
+
+| Surface | Type | Version/observation | Availability | Registry role |
+|---|---|---|---|---|
+| OpenWork Desktop | desktop-agent | observed 2026-08-28 | ga |  |
+
+### Documented/registry-supported
+
+- **OpenWork Desktop · MCP client role** (documented) — OpenWork Desktop can add and consume custom MCP servers at workspace or global scope. [S-307;S-308]
+- **OpenWork Desktop · MCP server role** (documented) — The companion openwork-ui-mcp package exposes the running desktop app as a semantic MCP server; macOS is the primary documented platform. [S-313]
+- **OpenWork Desktop · MCP tools** (documented) — Configured MCP servers expose tools that OpenWork can use in agent sessions. [S-307;S-308]
+- **OpenWork Desktop · MCP stdio** (documented) — The documented openwork-ui-mcp companion runs as a stdio MCP server and bridges to the local desktop app. [S-313]
+- **OpenWork Desktop · Agent Skills core** (documented) — The desktop app lists, imports, creates, installs, syncs, and loads SKILL.md packages. [S-306;S-309]
+- **OpenWork Desktop · Agent Skills scripts/assets** (documented) — OpenWork inherits OpenCode's skill runtime, which exposes supporting skill files, while the desktop manages the containing skill directories. [S-306;S-102]
+- **OpenWork Desktop · AGENTS.md** (documented) — OpenWork exposes the underlying OpenCode runtime, which loads workspace and global AGENTS.md instructions. [S-306;S-322]
+- **OpenWork Desktop · Native rules/instructions** (documented) — The OpenCode-backed workspace supports persistent AGENTS.md and configured instruction sources. [S-306;S-322]
+- **OpenWork Desktop · Hooks** (documented) — OpenWork loads native OpenCode plugins, whose documented extension API includes lifecycle and tool hooks. [S-306;S-105]
+- **OpenWork Desktop · Subagents** (documented) — OpenWork's documented OpenCode primitives include agents that execute tasks with different models and isolated specialization. [S-312]
+- **OpenWork Desktop · Subagent MCP access** (documented) — OpenWork agents can interact with MCPs, and the inherited OpenCode agent permission model can expose MCP tools per agent. [S-312;S-104]
+- **OpenWork Desktop · Subagent write access** (documented) — OpenWork inherits OpenCode agent-specific tool permissions, including editable workspace access when allowed. [S-312;S-104]
+- **OpenWork Desktop · Native plugin system** (documented) — OpenWork manages native OpenCode plugins through the desktop Skills area and opencode.json. [S-306;S-312]
+- **OpenWork Desktop · Headless / CI execution** (documented) — The first-party OpenWork Orchestrator CLI runs OpenCode and OpenWork server without the desktop UI and supports automatic approval mode. [S-306]
+- **OpenWork Desktop · Cloud agent** (documented) — Hosted OpenWork Cloud workers continue agent work remotely and connect back to the desktop client. [S-306;S-311]
+- **OpenWork Desktop · Session handoff/import** (documented) — The desktop client connects to local or hosted workers and presents the same server-owned sessions across those connection modes. [S-306;S-311]
+- **OpenWork Desktop · Computer/browser use** (documented) — The first-party OpenWork Browser can open pages, click, fill forms, read content, and take screenshots; this does not imply general operating-system control. [S-310]
+- **OpenWork Desktop · Custom agents** (documented) — OpenWork uses OpenCode's configurable agent primitive and server-owned workspace configuration. [S-306;S-312]
+
+### Partial, gated, experimental, or conflicting
+
+- **OpenWork Desktop · MCP OAuth** (documented) — OpenWork documents OAuth MCP setup with dynamic client registration; servers that do not support dynamic registration are currently excluded. [S-308]
+- **OpenWork Desktop · Agent Skills standard paths** (documented) — SKILL.md packages are supported, but the native documented workspace path is .opencode/skills rather than the vendor-neutral .agents path. [S-309]
+- **OpenWork Desktop · Marketplace or registry** (documented) — OpenWork supports curated skill lists, share links, organization skill hubs, and manual sources; the architecture still describes broader registry search as future work. [S-309;S-312]
+- **OpenWork Desktop · Organization policy controls** (documented) — OpenWork Cloud and Connect document organization identity, roles, allowed domains, desktop restrictions, allowlists, policy, and audit controls; these controls require the hosted organization layer. [S-311;S-314]
+
+### Explicitly unsupported or currently unavailable
+
+- **OpenWork Desktop · Agent Plugins 1.0 core** (documented) — OpenWork's roadmap lists importing Claude-compatible plugin and marketplace manifests as future work; native OpenCode plugins are a separate supported system. [S-315]
+- **OpenWork Desktop · Agent Plugins packaged skills** (documented) — Packaging skills through the portable Agent Plugins manifest is roadmap work; standalone OpenWork skills are supported separately. [S-315]
+- **OpenWork Desktop · Agent Plugins packaged MCP** (documented) — Importing MCP configuration from portable Agent Plugins manifests is listed as future work; direct MCP configuration is supported separately. [S-315]
+
+### High-priority unknowns
+
+- OpenWork Desktop · MCP 2026-07-28 (P1)
+- OpenWork Desktop · MCP resources (P1)
+- OpenWork Desktop · MCP prompts (P1)
+- OpenWork Desktop · MCP Streamable HTTP (P1)
+- OpenWork Desktop · MCP roots (P2)
+- OpenWork Desktop · MCP sampling (P2)
+- OpenWork Desktop · MCP elicitation (P2)
+- OpenWork Desktop · MCP tasks (P2)
+- OpenWork Desktop · MCP Apps / interactive UI (P2)
+- OpenWork Desktop · Agent Plugins failure isolation (P2)
+- OpenWork Desktop · Nested subagents (P2)
+- OpenWork Desktop · ACP client/host role (P2)
+
+### Sources
+
+- [S-307] Get started with OpenWork — https://openworklabs.com/docs/start-here/get-started
+- [S-308] Add an MCP server in OpenWork — https://openworklabs.com/docs/start-here/connect-your-stack/add-an-mcp-server
+- [S-313] OpenWork UI MCP control profile — https://github.com/different-ai/openwork/blob/dev/docs/mcp-ui-control-profile.md
+- [S-306] OpenWork publisher repository — https://github.com/different-ai/openwork
+- [S-309] Import a skill into OpenWork — https://openworklabs.com/docs/start-here/do-work-with-it/import-a-skill
+- [S-102] OpenCode Agent Skills — https://opencode.ai/docs/skills/
+- [S-315] OpenWork roadmap — https://openworklabs.com/docs/roadmap
+- [S-322] OpenCode rules and AGENTS.md — https://opencode.ai/docs/rules
+- [S-105] OpenCode Plugins — https://opencode.ai/docs/plugins/
+- [S-312] OpenWork architecture — https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
+- [S-104] OpenCode Agents — https://opencode.ai/docs/agents/
+- [S-311] Get started with OpenWork Cloud — https://openworklabs.com/docs/cloud/get-started
+- [S-314] OpenWork Connect — https://openwork.studio/connect
+- [S-310] Control the browser with OpenWork — https://openworklabs.com/docs/start-here/do-work-with-it/control-the-browser
 
 ## pi
 
@@ -2683,7 +2850,7 @@ None established in this pass.
 **Coverage tier:** A  
 **Inclusion basis:** first-party local/CLI/cloud docs  
 **Surfaces:** 3  
-**Cells:** supported 20 · partial 1 · explicit no 0 · unknown 126
+**Cells:** supported 25 · partial 1 · explicit no 0 · unknown 121
 
 | Surface | Type | Version/observation | Availability | Registry role |
 |---|---|---|---|---|
@@ -2693,26 +2860,31 @@ None established in this pass.
 
 ### Documented/registry-supported
 
-- **Warp Agent CLI / Oz CLI · Agent Skills core** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Agent CLI / Oz CLI · Headless / CI execution** (documented) [S-266]
-- **Warp Agent CLI / Oz CLI · Native rules/instructions** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Agent CLI / Oz CLI · MCP client role** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Agent CLI / Oz CLI · MCP tools** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Agent CLI / Oz CLI · Session handoff/import** (documented) [S-266]
-- **Warp Cloud Agent · Agent Skills core** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Cloud Agent · Cloud agent** (documented) [S-263;S-264]
-- **Warp Cloud Agent · Organization policy controls** (documented) [S-263;S-264]
-- **Warp Cloud Agent · Native rules/instructions** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Cloud Agent · MCP Streamable HTTP** (documented) [S-263;S-264]
-- **Warp Cloud Agent · MCP client role** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Cloud Agent · MCP tools** (documented) [S-260;S-261;S-262;S-264]
-- **Warp Cloud Agent · Custom agents** (documented) [S-263;S-264]
-- **Warp Cloud Agent · Session handoff/import** (documented) [S-263;S-264]
+- **Warp local Agent · MCP client role** (documented) [S-260;S-261;S-262;S-264]
+- **Warp local Agent · MCP tools** (documented) [S-260;S-261;S-262;S-264]
+- **Warp local Agent · MCP stdio** (documented) [S-262]
 - **Warp local Agent · Agent Skills core** (documented) [S-260;S-261;S-262;S-264]
 - **Warp local Agent · Native rules/instructions** (documented) [S-260;S-261;S-262;S-264]
-- **Warp local Agent · MCP client role** (documented) [S-260;S-261;S-262;S-264]
-- **Warp local Agent · MCP stdio** (documented) [S-262]
-- **Warp local Agent · MCP tools** (documented) [S-260;S-261;S-262;S-264]
+- **Warp local Agent · Session handoff/import** (documented) — Warp can share a local agent session for access from a browser or another device. [S-266]
+- **Warp local Agent · Custom agents** (documented) — Warp agent profiles provide reusable custom agent behavior for local runs. [S-261;S-266]
+- **Warp Agent CLI / Oz CLI · MCP client role** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Agent CLI / Oz CLI · MCP tools** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Agent CLI / Oz CLI · MCP stdio** (documented) — Oz CLI accepts command-and-args MCP configurations and spawns those local servers for a run. [S-323]
+- **Warp Agent CLI / Oz CLI · MCP Streamable HTTP** (documented) — Oz CLI accepts URL-based remote MCP server configurations for local and cloud runs. [S-323]
+- **Warp Agent CLI / Oz CLI · Agent Skills core** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Agent CLI / Oz CLI · Native rules/instructions** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Agent CLI / Oz CLI · Headless / CI execution** (documented) [S-266]
+- **Warp Agent CLI / Oz CLI · Session handoff/import** (documented) [S-266]
+- **Warp Agent CLI / Oz CLI · Custom agents** (documented) — Oz CLI accepts reusable agent profiles that control behavior, tools, and execution context. [S-266]
+- **Warp Cloud Agent · MCP client role** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Cloud Agent · MCP tools** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Cloud Agent · MCP Streamable HTTP** (documented) [S-263;S-264]
+- **Warp Cloud Agent · Agent Skills core** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Cloud Agent · Native rules/instructions** (documented) [S-260;S-261;S-262;S-264]
+- **Warp Cloud Agent · Cloud agent** (documented) [S-263;S-264]
+- **Warp Cloud Agent · Organization policy controls** (documented) [S-263;S-264]
+- **Warp Cloud Agent · Session handoff/import** (documented) [S-263;S-264]
+- **Warp Cloud Agent · Custom agents** (documented) [S-263;S-264]
 
 ### Partial, gated, experimental, or conflicting
 
@@ -2744,17 +2916,16 @@ None established in this pass.
 - Warp Agent CLI / Oz CLI · MCP prompts (P1)
 - Warp Agent CLI / Oz CLI · MCP OAuth (P1)
 - Warp Agent CLI / Oz CLI · MCP roots (P2)
-- … 25 additional high-priority unknowns in `data/evidence-gaps.csv`.
 
 ### Sources
 
 - [S-260] Warp Agent Skills — https://docs.warp.dev/agents/capabilities/skills/
 - [S-261] Warp Agents Overview — https://docs.warp.dev/agents/
 - [S-262] Warp MCP workflows — https://docs.warp.dev/guides/external-tools/using-mcp-servers-with-warp/
-- [S-263] Warp Cloud Agents — https://docs.warp.dev/platform/
 - [S-264] Warp Agent cloud harness — https://docs.warp.dev/platform/harnesses/warp-agent/
 - [S-266] Warp Oz CLI — https://docs.warp.dev/reference/cli/
-
+- [S-323] Warp CLI MCP servers — https://docs.warp.dev/reference/cli/mcp-servers
+- [S-263] Warp Cloud Agents — https://docs.warp.dev/platform/
 ## xAI
 
 **Coverage tier:** A  

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildCoverageReport } from "./coverage.ts";
+import { buildCapabilityProgress, capabilityNode } from "./capability.ts";
 import { API_CATALOG_PROFILE, catalogApiLinkset } from "./api-catalog.ts";
 import { toLlmsTxt } from "./llms.ts";
 import { buildEvidenceLedger } from "./evidence.ts";
@@ -505,6 +506,137 @@ describe("search", () => {
       score: 100,
     });
   });
+
+  it("finds close spelling mistakes without outranking precise matches", () => {
+    const fuzzy = searchCatalog("modle contxt protcol", {
+      features: [feature],
+      harnesses: [harness],
+      specifications: [specification],
+    });
+
+    expect(fuzzy.hits[0]).toMatchObject({
+      kind: "specification",
+      slug: "mcp",
+      score: 35,
+    });
+    expect(
+      searchCatalog("Model Context Protocol", {
+        features: [feature],
+        harnesses: [harness],
+        specifications: [specification],
+      }).hits[0]?.score
+    ).toBe(100);
+  });
+
+  it("finds a capability through its family and filters exact support", () => {
+    const family = featureSchema.parse({
+      ...feature,
+      slug: "mcp",
+      title: "Model Context Protocol",
+      capabilityKind: "family",
+      support: [],
+    });
+    const child = featureSchema.parse({
+      ...sourcedFeature,
+      parent: "mcp",
+    });
+    const result = searchCatalog(
+      "Model Context Protocol",
+      { features: [family, child], harnesses: [harness] },
+      { family: "mcp", harness: "chatgpt-web", support: "yes" }
+    );
+    expect(result.features.map((item) => item.slug)).toEqual(["mcp-tools"]);
+  });
+
+  it("filters lifecycle independently from compatibility status", () => {
+    const staged = featureSchema.parse({
+      ...sourcedFeature,
+      support: sourcedFeature.support.map((row) => ({
+        ...row,
+        versions: row.versions?.map((version) => ({
+          ...version,
+          stage: "experimental",
+        })),
+      })),
+    });
+    expect(
+      searchCatalog(
+        "MCP tools",
+        { features: [staged], harnesses: [harness] },
+        {
+          harness: "chatgpt-web",
+          support: "yes",
+          stage: "experimental",
+        }
+      ).features
+    ).toHaveLength(1);
+    expect(
+      searchCatalog(
+        "MCP tools",
+        { features: [staged], harnesses: [harness] },
+        { harness: "chatgpt-web", stage: "stable" }
+      ).features
+    ).toHaveLength(0);
+  });
+});
+
+describe("capability families", () => {
+  const family = featureSchema.parse({
+    ...feature,
+    slug: "mcp",
+    title: "Model Context Protocol",
+    capabilityKind: "family",
+    support: [],
+  });
+  const tools = featureSchema.parse({ ...sourcedFeature, parent: "mcp" });
+  const prompts = featureSchema.parse({
+    ...feature,
+    slug: "mcp-prompts",
+    title: "MCP prompts",
+    parent: "mcp",
+  });
+
+  it("derives parents, children, and siblings", () => {
+    const node = capabilityNode("mcp-tools", [family, tools, prompts]);
+    expect(node?.parent?.slug).toBe("mcp");
+    expect(node?.siblings.map((item) => item.slug)).toEqual(["mcp-prompts"]);
+    expect(
+      capabilityNode("mcp", [family, tools, prompts])?.children
+    ).toHaveLength(2);
+  });
+
+  it("rolls up atomic support without inventing a family status", () => {
+    const [progress] = buildCapabilityProgress(
+      "mcp",
+      [family, tools, prompts],
+      [harness]
+    );
+    expect(progress).toMatchObject({
+      total: 2,
+      reviewed: 1,
+      supported: 1,
+      counts: { yes: 1, partial: 0, no: 0, unknown: 1, na: 0 },
+    });
+  });
+
+  it("rolls lifecycle stages up separately from support counts", () => {
+    const stagedTools = featureSchema.parse({
+      ...tools,
+      support: tools.support.map((row) => ({
+        ...row,
+        versions: row.versions?.map((version) => ({
+          ...version,
+          stage: "preview",
+        })),
+      })),
+    });
+    const [progress] = buildCapabilityProgress(
+      "mcp",
+      [family, stagedTools, prompts],
+      [harness]
+    );
+    expect(progress?.stages).toEqual({ preview: 1 });
+  });
 });
 
 describe("coverage", () => {
@@ -559,6 +691,16 @@ describe("catalog relationships", () => {
         specifications: [specification],
       })
     ).toThrow(/unknown related feature/);
+  });
+
+  it("requires parents to be capability families", () => {
+    expect(() =>
+      validateCatalogRelations({
+        features: [{ ...feature, parent: "mcp-tools" }],
+        harnesses: [harness],
+        specifications: [specification],
+      })
+    ).toThrow(/not a capability family/);
   });
 });
 

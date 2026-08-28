@@ -2,10 +2,13 @@ import { MACHINE_PATHS } from "./paths.ts";
 import { SITE } from "./site.ts";
 import {
   EVIDENCE_TYPES,
+  CAPABILITY_KINDS,
   ENVIRONMENT_PROFILE_IDS,
   HARNESS_SURFACES,
   QUALIFIER_TYPES,
   SUPPORT_STATUSES,
+  SUPPORT_STAGES,
+  FEATURE_RELATION_TYPES,
   TARGET_KINDS,
 } from "./status.ts";
 
@@ -377,6 +380,7 @@ export function catalogOpenApi() {
     components: {
       schemas: {
         Status: { type: "string", enum: SUPPORT_STATUSES },
+        SupportStage: { type: "string", enum: SUPPORT_STAGES },
         EvidenceType: { type: "string", enum: EVIDENCE_TYPES },
         Target: {
           type: "object",
@@ -418,6 +422,7 @@ export function catalogOpenApi() {
             },
             qualifiers: { type: "array", items: reference("Qualifier") },
             evidence: { type: "array", items: reference("EvidenceReference") },
+            stage: reference("SupportStage"),
           },
         },
         SupportRow: {
@@ -461,8 +466,21 @@ export function catalogOpenApi() {
             summary: { type: "string" },
             specLabel: { type: "string" },
             aliases: { type: "array", items: { type: "string" } },
+            capabilityKind: { type: "string", enum: CAPABILITY_KINDS },
             parent: { type: "string" },
             related: { type: "array", items: { type: "string" } },
+            relations: {
+              type: "array",
+              items: {
+                type: "object",
+                required: ["feature", "type"],
+                properties: {
+                  feature: { type: "string" },
+                  type: { type: "string", enum: FEATURE_RELATION_TYPES },
+                  note: { type: "string" },
+                },
+              },
+            },
             highlight: { type: "boolean" },
             notes: { type: "array", items: { type: "object" } },
             issues: { type: "array", items: { type: "object" } },

@@ -21,7 +21,7 @@ Primary specifications, official registries, first-party product documentation, 
 
 ### Source inventory
 
-The package contains 149 source records in `raw/source-ledger.csv`. Every row includes a live URL, publisher, source type, role, confidence, retrieval timestamp, and explicit archive failure.
+The package contains 183 source records in `raw/source-ledger.csv`. Every row includes a live URL, publisher, source type, role, confidence, retrieval timestamp, and explicit archive failure.
 
 ### Promotion rules
 

@@ -1,26 +1,26 @@
 ---
 title: Subagents
-description: "Delegate a bounded task to another agent process. Compatibility evidence is published only after review."
+description: Compare basic delegation, nested delegation, MCP availability, and write access as independent subagent capabilities.
 slug: subagents
 locale: en
-seoTitle: "Subagents — Can My Agent Use"
-socialTitle: Subagents
-socialDescription: "Delegate a bounded task to another agent process. Unreviewed cells remain unknown."
-llmSummary: "Subagents: Delegate a bounded task to another agent process. Unreviewed harness cells remain unknown until dated public evidence exists."
-audience: Engineers comparing chat, desktop, and CLI agent harnesses.
+seoTitle: Subagent capability coverage — Can My Agent Use
+socialTitle: Which subagent capabilities can my agent use?
+socialDescription: Compare delegation depth and child-agent permissions without treating subagents as one boolean.
+llmSummary: Subagents are a family of claims covering delegation, nesting, MCP access, and project write access.
+audience: Engineers comparing multi-agent execution and permission boundaries.
 contentKind: feature
 status: published
-tags:
-  - runtime
+tags: [runtime, subagents, delegation, permissions]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: Delegate a bounded task to another agent process.
-specLabel: Product capability
-highlight: false
-notes:
-  - id: 1
-    text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
+summary: Track delegation depth and child-agent tool permissions independently.
+specLabel: Product capability family
+aliases: [child agents, delegated agents, multi-agent delegation]
+capabilityKind: family
+related: [mcp]
+highlight: true
+notes: []
 issues: []
 resources:
   - title: Methodology
@@ -29,8 +29,4 @@ resources:
 support: []
 ---
 
-Delegate a bounded task to another agent process.
-
-The matrix below lists published **web**, **desktop**, and **CLI** surfaces. Unreviewed cells remain **unknown** until a dated note and public source support a more specific status.
-
-Use the Markdown and JSON twins if you are an agent reading this site.
+A harness may delegate one bounded task while preventing nested delegation, MCP access, or project writes. The family rollup keeps those boundaries visible.

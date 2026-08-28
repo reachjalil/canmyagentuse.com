@@ -26,6 +26,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor Agent can navigate, click, type, scroll, and capture screenshots in its integrated browser; this is browser control, not general operating-system GUI control."
   - id: 3
     text: "Evidence checked 2026-08-28: VS Code agents can navigate, read, screenshot, click, type, hover, drag, and handle dialogs in the integrated browser; organization policy can disable the tools."
+  - id: 4
+    text: "Evidence checked 2026-08-28: OpenWork Desktop's first-party browser can open pages, click, fill forms, read page content, and take screenshots; OpenWork explicitly distinguishes this from general operating-system control."
 issues: []
 resources:
   - id: openai-cloud-browser
@@ -47,6 +49,13 @@ resources:
     href: https://code.visualstudio.com/docs/agents/run/browser-tools
     kind: docs
     publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: openwork-browser
+    title: OpenWork — Control the browser
+    href: https://openworklabs.com/docs/start-here/do-work-with-it/control-the-browser
+    kind: docs
+    publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
@@ -107,6 +116,25 @@ support:
             value: organization policy can disable browser tools
         evidence:
           - resourceId: vscode-browser-tools
+            type: documented
+            observedAt: 2026-08-28
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork Browser documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: first-party OpenWork Browser only; no general desktop-app control
+          - type: policy
+            value: OpenWork Browser extension must be enabled
+        evidence:
+          - resourceId: openwork-browser
             type: documented
             observedAt: 2026-08-28
 ---

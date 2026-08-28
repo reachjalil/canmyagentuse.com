@@ -18,11 +18,12 @@ published: 2026-08-28
 family: OpenCode
 vendor: OpenCode
 surface: cli
-summary: OpenCode terminal harness.
+summary: Open-source terminal coding agent with project tools, configurable model providers, MCP, skills, and plugins.
 tracks:
   - current
   - preview
 order: 240
+homepage: https://opencode.ai/docs/
 ---
 
 OpenCode appears here as a **CLI** column so a capability page can show this harness next to others.

@@ -8,6 +8,40 @@ export const SUPPORT_STATUSES = [
 
 export type SupportStatus = (typeof SUPPORT_STATUSES)[number];
 
+/** Product lifecycle for a support assertion, kept separate from compatibility. */
+export const SUPPORT_STAGES = [
+  "untracked",
+  "requested",
+  "planned",
+  "experimental",
+  "preview",
+  "stable",
+  "deprecated",
+] as const;
+
+export type SupportStage = (typeof SUPPORT_STAGES)[number];
+
+export const SUPPORT_STAGE_LABELS = {
+  untracked: "Untracked",
+  requested: "Requested",
+  planned: "Planned",
+  experimental: "Experimental",
+  preview: "Preview",
+  stable: "Stable",
+  deprecated: "Deprecated",
+} as const satisfies Record<SupportStage, string>;
+
+export const CAPABILITY_KINDS = ["atomic", "family"] as const;
+export type CapabilityKind = (typeof CAPABILITY_KINDS)[number];
+
+export const FEATURE_RELATION_TYPES = [
+  "related",
+  "requires",
+  "extends",
+  "alternative",
+] as const;
+export type FeatureRelationType = (typeof FEATURE_RELATION_TYPES)[number];
+
 export const SUPPORT_STATUS_LABELS = {
   yes: "Supported",
   partial: "Partial",
@@ -101,6 +135,7 @@ export const QUALIFIER_TYPES = [
   "feature-flag",
   "runtime",
   "vendor-extension",
+  "origin-trial",
 ] as const;
 
 export type QualifierType = (typeof QUALIFIER_TYPES)[number];
@@ -130,6 +165,7 @@ export interface VersionCell {
   environmentProfile?: EnvironmentProfileId;
   qualifiers?: SupportQualifier[];
   evidence?: EvidenceReference[];
+  stage?: SupportStage;
 }
 
 export interface SupportRow {

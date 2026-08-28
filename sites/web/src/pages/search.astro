@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { SITE, searchCatalog, websiteJsonLd } from "@canmyagentuse/catalog";
+import { SITE, SUPPORT_STAGES, SUPPORT_STATUSES, searchCatalog, websiteJsonLd } from "@canmyagentuse/catalog";
 import SiteChrome from "../components/SiteChrome.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { publishedCollection } from "../lib/collections";
@@ -16,10 +16,22 @@ const [features, harnesses, specifications] = await Promise.all([
   publishedCollection("harnesses"),
   publishedCollection("specifications"),
 ]);
+const family = Astro.url.searchParams.get("family")?.trim() ?? "";
+const harness = Astro.url.searchParams.get("harness")?.trim() ?? "";
+const requestedSupport = Astro.url.searchParams.get("support")?.trim() ?? "";
+const support = SUPPORT_STATUSES.find((candidate) => candidate === requestedSupport);
+const requestedStage = Astro.url.searchParams.get("stage")?.trim() ?? "";
+const stage = SUPPORT_STAGES.find((candidate) => candidate === requestedStage);
+const activeSearch = Boolean(query || family || harness || support || stage);
 const results = searchCatalog(query, {
   features: features.map((entry) => entry.data),
   harnesses: harnesses.map((entry) => entry.data),
   specifications: specifications.map((entry) => entry.data),
+}, {
+  family: family || undefined,
+  harness: harness || undefined,
+  support,
+  stage,
 });
 const hits = searchScope === "all"
   ? results.hits
@@ -49,9 +61,9 @@ const scopeLabels = {
       <p class="eyebrow">Capabilities, products, and specifications</p>
       <h1 class="text-4xl font-semibold tracking-tight">Search the catalog</h1>
       {
-        query ? (
+        activeSearch ? (
           <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
-            {hits.length} {hits.length === 1 ? "result" : "results"} for <strong>"{query}"</strong>{" "}
+            {hits.length} {hits.length === 1 ? "result" : "results"}{query ? <> for <strong>"{query}"</strong></> : null}{" "}
             in {scopeLabels[searchScope]}.
           </p>
         ) : (
@@ -62,8 +74,39 @@ const scopeLabels = {
         )
       }
 
+      <form class="search-filters mt-6" method="get" action="/search">
+        <input type="hidden" name="q" value={query} />
+        {searchScope !== "all" ? <input type="hidden" name="scope" value={searchScope} /> : null}
+        <label>Capability family
+          <select name="family">
+            <option value="">All families</option>
+            {features.filter((entry) => entry.data.capabilityKind === "family").map((entry) => <option value={entry.data.slug} selected={entry.data.slug === family}>{entry.data.title}</option>)}
+          </select>
+        </label>
+        <label>Product
+          <select name="harness">
+            <option value="">All products</option>
+            {harnesses.map((entry) => <option value={entry.data.slug} selected={entry.data.slug === harness}>{entry.data.title} ({entry.data.surface})</option>)}
+          </select>
+        </label>
+        <label>Current support
+          <select name="support" disabled={!harness}>
+            <option value="">Any status</option>
+            {SUPPORT_STATUSES.map((candidate) => <option value={candidate} selected={candidate === support}>{candidate}</option>)}
+          </select>
+        </label>
+        <label>Lifecycle
+          <select name="stage" disabled={!harness}>
+            <option value="">Any stage</option>
+            {SUPPORT_STAGES.map((candidate) => <option value={candidate} selected={candidate === stage}>{candidate}</option>)}
+          </select>
+        </label>
+        <button type="submit">Apply filters</button>
+        {activeSearch ? <a href="/search">Clear</a> : null}
+      </form>
+
       {
-        query && hits.length === 0 ? (
+        activeSearch && hits.length === 0 ? (
           <div class="empty-state mt-8">
             <h2>No catalog record matched</h2>
             <p>
@@ -75,7 +118,7 @@ const scopeLabels = {
       }
 
       {
-        query && hits.length > 0 ? (
+        activeSearch && hits.length > 0 ? (
           <ol class="search-results mt-8">
             {hits.map((hit) => (
               <li>
@@ -92,7 +135,7 @@ const scopeLabels = {
       }
 
       {
-        !query ? (
+        !activeSearch ? (
           <nav class="search-starts mt-8" aria-label="Catalog starting points">
             <a href="/features"><strong>{features.length}</strong><span>Capabilities</span></a>
             <a href="/harnesses"><strong>{harnesses.length}</strong><span>Harness surfaces</span></a>

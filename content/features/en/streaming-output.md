@@ -1,12 +1,12 @@
 ---
 title: Streaming output
-description: "Show tokens and tool events as they arrive. Compatibility evidence is published only after review."
+description: Show tokens and tool events as they arrive, with current OpenWork Desktop evidence.
 slug: streaming-output
 locale: en
 seoTitle: "Streaming output — Can My Agent Use"
 socialTitle: Streaming output
-socialDescription: "Show tokens and tool events as they arrive. Unreviewed cells remain unknown."
-llmSummary: "Streaming output: Show tokens and tool events as they arrive. Unreviewed harness cells remain unknown until dated public evidence exists."
+socialDescription: Streaming-output support by exact harness surface, with dated public evidence.
+llmSummary: OpenWork Desktop subscribes to the OpenCode event stream over SSE and renders live session progress, tool activity, todos, and permission requests.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -20,13 +20,35 @@ specLabel: Product capability
 highlight: false
 notes:
   - id: 1
-    text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
+    text: "Evidence checked 2026-08-28: OpenWork Desktop's documented host mode subscribes to OpenCode SSE events for live session updates."
 issues: []
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-support: []
+  - id: openwork-streaming
+    title: OpenWork — Publisher repository
+    href: https://github.com/different-ai/openwork
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current OpenWork repository documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: openwork-streaming
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Show tokens and tool events as they arrive.
