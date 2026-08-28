@@ -263,13 +263,24 @@ export function harnessMarkdown(input: {
       versions.find((version) => version.track === "current") ?? versions[0];
     return { feature, versions, current };
   });
-  const assertions = capabilityRows.map(({ feature, versions }) =>
-    `- [${feature.title}](${featureMarkdownPath(feature.slug)}): ${versions
-      .map(
-        (version) =>
-          `${version.track} ${SUPPORT_STATUS_LABELS[version.status].toLowerCase()}`
-      )
-      .join("; ")}`
+  const familyAssertions = features
+    .filter((feature) => feature.capabilityKind === "family")
+    .map((feature) => {
+      const progress = buildCapabilityProgress(
+        feature.slug,
+        features,
+        harnesses
+      ).find((candidate) => candidate.harness === harness.slug);
+      return `- [${feature.title}](${featureMarkdownPath(feature.slug)}): derived current family progress; ${progress?.supported ?? 0}/${progress?.total ?? 0} supported or partial; ${progress?.reviewed ?? 0}/${progress?.total ?? 0} reviewed`;
+    });
+  const assertions = capabilityRows.map(
+    ({ feature, versions }) =>
+      `- [${feature.title}](${featureMarkdownPath(feature.slug)}): ${versions
+        .map(
+          (version) =>
+            `${version.track} ${SUPPORT_STATUS_LABELS[version.status].toLowerCase()}`
+        )
+        .join("; ")}`
   );
   const currentCounts = {
     yes: 0,
@@ -284,7 +295,10 @@ export function harnessMarkdown(input: {
     const status = current?.status ?? "unknown";
     currentCounts[status] += 1;
     for (const evidence of current?.evidence ?? []) {
-      if (!latestCurrentEvidence || evidence.observedAt > latestCurrentEvidence) {
+      if (
+        !latestCurrentEvidence ||
+        evidence.observedAt > latestCurrentEvidence
+      ) {
         latestCurrentEvidence = evidence.observedAt;
       }
       const resource = feature.resources.find(
@@ -327,7 +341,13 @@ export function harnessMarkdown(input: {
       `- Unique public sources: ${currentSourceUrls.size}`,
       `- Latest current evidence: ${latestCurrentEvidence ?? "Review pending"}`,
       "",
-      "## Capability assertions",
+      "## Capability family summaries",
+      "",
+      "Family summaries are derived from atomic child records; no umbrella compatibility value is authored.",
+      "",
+      ...familyAssertions,
+      "",
+      "## Atomic capability assertions",
       "",
       "Unknown means insufficient published evidence; it does not mean unsupported.",
       "",
