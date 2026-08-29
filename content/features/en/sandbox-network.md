@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Allow, deny, or restrict outbound network access from a tool sandbox.
@@ -29,6 +29,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor documents isolated Cloud Agent VMs governed by network policies and operator-controlled network access, but the reviewed page does not expose the policy's complete rule syntax."
   - id: 5
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents experimental OS-level sandboxing, an effective network policy, and explicit URL/domain allow and deny controls."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin security profiles enforce outbound hostname or CIDR allowlists on managed session VMs and block every other destination across shells, browsers, packages, and scripts."
 issues: []
 resources:
   - title: Methodology
@@ -71,7 +73,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: /sandbox, --sandbox, --allow-url, and --deny-url
+  - id: cognition-devin-security-profiles
+    title: "Cognition — Security Profiles"
+    href: https://docs.devin.ai/product-guides/security-profiles
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Restrictions in a profile; Network policy"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "all non-allowlisted outbound connections are blocked and destinations may be requested for approval"
+          - type: runtime
+            value: "machine-level enforcement on Devin-managed hosted VMs"
+        evidence:
+          - resourceId: cognition-devin-security-profiles
+            type: documented
+            observedAt: 2026-08-29
   - harness: gemini-cli
     versions:
       - track: current

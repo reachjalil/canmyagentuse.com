@@ -11,7 +11,7 @@ audience: Engineers evaluating multi-agent correctness, privacy, and token cost.
 contentKind: feature
 status: published
 tags: [runtime, subagents, context, isolation, security]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Define which conversation, instructions, files, memory, and tools a child receives.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI describes subagents as separate-context workers, allowing offloaded information to stay outside the main context window."
   - id: 5
     text: "Evidence checked 2026-08-28: VS Code documents a separate context window that excludes the parent conversation history and receives the child task, applicable instructions, and current agent configuration."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Each local Warp child has an independent run, conversation, transcript, lifecycle, working directory, and credit usage, coordinating through explicit messages."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Each Dynamic Workflow child runs in its own VM by default and cannot see orchestrator files, with an optional shared-VM mode for the working tree and uncommitted changes."
 issues: []
 resources:
   - title: Methodology
@@ -72,7 +76,57 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Subagents
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Parent/child model; where agents run; messaging"
+  - id: cognition-devin-dynamic-workflows
+    title: "Cognition — Devin Dynamic Workflows"
+    href: https://docs.devin.ai/work-with-devin/dynamic-workflows
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where agents run; Separate VM; Shared VM"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "separate VM is the default; shared VM is optional"
+        evidence:
+          - resourceId: cognition-devin-dynamic-workflows
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "agents do not read one another's transcripts or live working trees; local children are separate conversations on the same machine"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: gemini-cli
     versions:
       - track: current

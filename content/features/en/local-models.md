@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Run against a model hosted on the operator's machine.
@@ -34,6 +34,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cline documents fully offline local-model operation with either Ollama or LM Studio and calls out hardware and tool-use constraints."
   - id: 6
     text: "Evidence checked 2026-08-28: OpenCode documents local Ollama discovery and explicit configuration for Ollama, vLLM, and other locally hosted OpenAI-compatible servers."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 connects to local models through Ollama, LM Studio, and OpenAI-compatible endpoints and permits assigning them to supported AI features."
 issues: []
 resources:
   - title: Methodology
@@ -84,7 +86,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Local models
+  - id: jetbrains-ai-custom-models
+    title: JetBrains AI Assistant — Use third-party and local models
+    href: https://www.jetbrains.com/help/ai-assistant/use-custom-models.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Connect a third-party or local provider; assign models to features
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: local provider and model must be installed, running, and assigned to a supported AI feature
+        evidence:
+          - resourceId: jetbrains-ai-custom-models
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

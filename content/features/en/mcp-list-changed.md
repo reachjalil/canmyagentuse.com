@@ -34,6 +34,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI v0.57.0 registers tool, resource, and prompt list-change notification handlers and refreshes each corresponding registry."
   - id: 3
     text: "Evidence checked 2026-08-29: goose v1.48.0 refreshes tools after `tools/list_changed`, but its exhaustive handler does not implement corresponding prompt- or resource-list refresh."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 refreshes cached tools after tools/list_changed, but equivalent prompt- and resource-list refresh handling is not established."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -63,7 +65,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Tool-list cache invalidation and client handler, lines 232-237 and 350-407"
+  - id: opencode-v1-18-25-mcp-list-changed
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L442-L471
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "watch; ToolListChangedNotificationSchema handler"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "support is proven only for tools/list_changed"
+          - type: protocol-revision
+            value: "prompt- and resource-list change notifications remain unknown"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-list-changed
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

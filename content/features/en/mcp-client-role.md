@@ -46,6 +46,10 @@ notes:
     text: "Evidence checked 2026-08-28: Zed documents that Zed Agent uses Zed-configured MCP servers directly and currently consumes their Tools and Prompts capabilities."
   - id: 9
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 configures local or remote MCP servers as extensions, negotiates client connections, and consumes their tools, prompts, resources, instructions, and client-directed capabilities."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 connects local or remote MCP servers, discovers their available tools, and exposes those capabilities to supported AI agents."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -131,7 +135,57 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "MCP extension model; MCP server installation and transports"
+  - id: jetbrains-ai-mcp-2026-2
+    title: JetBrains AI Assistant — Model Context Protocol
+    href: https://www.jetbrains.com/help/ai-assistant/mcp.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Connect to an MCP server; available tools
+  - id: opencode-v1-18-25-mcp-client
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L1-L17
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP SDK Client and transport imports; createClient; connectTransport"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "OpenCode acts as the MCP host/client connecting to external servers"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-client
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: JetBrains AI Assistant acts as an MCP host/client for configured servers
+        evidence:
+          - resourceId: jetbrains-ai-mcp-2026-2
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

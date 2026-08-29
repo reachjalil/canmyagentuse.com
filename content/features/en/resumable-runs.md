@@ -11,7 +11,7 @@ audience: Operators relying on long-running or mobile agent workflows.
 contentKind: feature
 status: published
 tags: [operations, reliability, resume, checkpoints]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: operations
 summary: Continue a previously saved product session.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor Agent CLI documents resuming the latest or a selected prior chat while loading its earlier context."
   - id: 5
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents local session persistence, account sync, `--continue`, `--resume`, and full-conversation restoration."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp stores past local conversations, lets users reopen them, and continues from prior context across sessions."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Idle hosted Devin sessions sleep without consuming usage and wake to continue when the operator sends another message."
 resources:
   - title: Methodology
     href: /methodology
@@ -87,7 +91,70 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Resuming a previous session
+  - id: warp-interacting-agents
+    title: "Warp — Interacting with agents"
+    href: https://docs.warp.dev/agents/local-agents/interacting-with-agents/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Staying in a conversation; managing past conversations"
+  - id: warp-cloud-conversation-resume
+    title: "Warp — Cloud-synced conversations"
+    href: https://docs.warp.dev/agents/local-agents/cloud-conversations/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managing cloud-synced conversations"
+  - id: cognition-devin-usage
+    title: "Cognition — Usage"
+    href: https://docs.devin.ai/admin/billing/usage
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Sleep and idle behavior"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "sleeping hosted session resumes on a new message; terminated sessions are final"
+        evidence:
+          - resourceId: cognition-devin-usage
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local history reopens from the Conversations menu or panel"
+          - type: policy
+            value: "cross-device persistence requires cloud conversation storage"
+        evidence:
+          - resourceId: warp-interacting-agents
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-cloud-conversation-resume
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

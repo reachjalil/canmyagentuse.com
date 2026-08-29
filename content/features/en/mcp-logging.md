@@ -32,6 +32,8 @@ notes:
     text: "VS Code source dispatches MCP notifications/message payloads to its structured MCP log translator."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 receives structured MCP logging notifications, forwards their data to subscribers, and renders or streams them in the CLI."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 handles MCP structured logging notifications and maps server, logger, level, and data fields into corresponding application log levels."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Logging handler, lines 350-407"
+  - id: opencode-v1-18-25-mcp-logging
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L442-L480
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "watch; LoggingMessageNotificationSchema; serverLog"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "structured server, logger, level, and data fields"
+          - type: runtime
+            value: "routed into OpenCode logs rather than a dedicated TUI panel"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-logging
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

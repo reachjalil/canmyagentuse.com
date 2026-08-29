@@ -11,7 +11,7 @@ audience: Engineers balancing subagent cost, speed, specialization, and quality.
 contentKind: feature
 status: published
 tags: [runtime, subagents, models, routing]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Choose or constrain each child agent's model independently of the parent.
@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI resolves subagent model and reasoning values from per-call overrides, subagent settings, agent definitions, then the parent session."
   - id: 6
     text: "Evidence checked 2026-08-28: VS Code resolves a child model from an explicit invocation parameter, a custom agent's model or fallback list, or the parent model, in that priority order."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp can assign an individual child a model different from its parent and exposes inherited and per-child model configuration before launch."
 issues: []
 resources:
   - title: Methodology
@@ -81,7 +83,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Select the model for a subagent
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Parent/child model; Approval mode"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "run-wide model configuration is inherited unless overridden per child"
+          - type: policy
+            value: "availability remains subject to plan and team controls"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-desktop
     versions:
       - track: current

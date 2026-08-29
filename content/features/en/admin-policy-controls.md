@@ -11,7 +11,7 @@ audience: Enterprise administrators, security teams, and platform owners.
 contentKind: feature
 status: published
 tags: [security, governance, policy, enterprise]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Centrally configure and enforce product settings for an organization.
@@ -38,6 +38,12 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Enterprise organizations can enforce capability, connector, tool, model, and effort restrictions through organization settings and custom roles. Anthropic explicitly documents model and effort enforcement across Claude chat on web and desktop; organization settings are the upper gate and a role cannot widen them."
   - id: 9
     text: "Evidence checked 2026-08-28: Google Workspace administrators can control access to gemini.google.com by organizational unit or configuration group, centrally set Gemini conversation-history retention, and enable or disable Gemini access to Workspace and other Google apps. These settings are specific to managed work or school accounts and do not describe personal Google accounts."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains organization administrators can centrally allow or block JetBrains AI Assistant for all organization users, but the current control is not a complete per-tool, per-model, and per-data policy matrix."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp administrators centrally enforce agent autonomy, command, directory, file, model, data-collection, indexing, and sharing policies."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
   - title: Methodology
@@ -146,7 +152,86 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Workspace and other Google app access
+  - id: jetbrains-ai-org-access
+    title: JetBrains — Enable or disable JetBrains AI for all organization users
+    href: https://sales.jetbrains.com/hc/en-gb/articles/14753675807506-Enable-or-disable-JetBrains-AI-for-all-users-in-your-organization
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Organization-wide allow or block control and propagation timing
+  - id: warp-admin-panel
+    title: "Warp — Admin Panel for teams"
+    href: https://docs.warp.dev/enterprise/team-management/admin-panel
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Settings enforcement; AI, Privacy, Code, Models, and Sharing settings"
+  - id: cognition-devin-security-profiles
+    title: "Cognition — Security Profiles"
+    href: https://docs.devin.ai/product-guides/security-profiles
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Bindings; mandatory enforcement; permissions and governance"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "enterprise-wide mandatory enforcement requires Enterprise"
+          - type: policy
+            value: "mandatory profiles intersect with lower-level profiles, which may tighten but not loosen restrictions"
+        evidence:
+          - resourceId: cognition-devin-security-profiles
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "availability and settings vary across team, Business, and Enterprise plans"
+          - type: policy
+            value: "organization-enforced settings cannot be overridden; Respect User Setting permits personal control"
+        evidence:
+          - resourceId: warp-admin-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains organization administration article observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: organization-wide access can be allowed or blocked and may take up to one hour to propagate; controls for other vendors' plugins are outside this setting
+        evidence:
+          - resourceId: jetbrains-ai-org-access
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

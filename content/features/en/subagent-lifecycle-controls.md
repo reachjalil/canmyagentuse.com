@@ -11,7 +11,7 @@ audience: Operators supervising multi-agent runs.
 contentKind: feature
 status: published
 tags: [runtime, subagents, supervision, cancellation]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: List, inspect, and control child-agent tasks.
@@ -26,6 +26,10 @@ notes:
     text: "Evidence checked 2026-08-28: ChatGPT Work exposes read-only Active and Done child lists; local Codex lets operators inspect child threads and ask the parent to steer, stop, or close them, with CLI thread switching through /agent."
   - id: 3
     text: "Evidence checked 2026-08-28: VS Code exposes each running child, current tool, elapsed time, prompt, full tool-call details, and returned result as a persistent read-only child chat; each child invocation is stateless and cannot receive follow-up messages."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp lists child runs with live state, opens each child conversation, and supports follow-up messages, cancellation, waiting, and replacement decisions."
+  - id: 53
+    text: "Evidence checked 2026-08-29: A Devin coordinator can message, monitor, sleep, terminate, and schedule reminders to revisit managed child sessions."
 issues: []
 resources:
   - title: Methodology
@@ -62,7 +66,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: What you see in chat
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Run state transitions; messaging; observability"
+  - id: cognition-devin-advanced-capabilities
+    title: "Cognition — Advanced Capabilities"
+    href: https://docs.devin.ai/work-with-devin/advanced-capabilities
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managed Devins; coordinator controls"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "follow-up message, status and ACU monitoring, sleep, terminate, and scheduled check-back controls"
+        evidence:
+          - resourceId: cognition-devin-advanced-capabilities
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "documented states include INPROGRESS, SUCCEEDED, FAILED, BLOCKED, ERROR, and CANCELLED"
+          - type: runtime
+            value: "parent can wait, follow up, spawn a replacement, or finish"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

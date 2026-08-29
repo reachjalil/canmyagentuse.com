@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - perception
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: perception
 summary: Capture a screen, window, or browser page for use as model input.
@@ -25,6 +25,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code Copilot Chat can capture the current integrated-browser viewport and attach it as image context. Arbitrary desktop capture is not established by the current page."
   - id: 3
     text: "Evidence checked 2026-08-28: Gemini CLI's optional browser agent can capture and analyze browser screenshots when a visual model is configured. The visual agent requires API-key or Vertex AI authentication and is unavailable with Sign in with Google."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin's hosted Computer Use loop captures screenshots of its remote desktop, identifies visual elements, acts, and captures the next screen state."
 issues: []
 resources:
   - title: Methodology
@@ -53,7 +55,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Browser agent; visual agent
+  - id: cognition-devin-computer-use
+    title: "Cognition — Computer Use"
+    href: https://docs.devin.ai/work-with-devin/computer-use
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Is Computer Use?; How Computer Use Works"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "screenshots cover Devin's hosted 1024×768 remote Linux desktop, not the separate Devin Desktop product"
+        evidence:
+          - resourceId: cognition-devin-computer-use
+            type: documented
+            observedAt: 2026-08-29
   - harness: openwork-desktop
     versions:
       - track: current

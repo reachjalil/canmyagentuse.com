@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: tools
 summary: Retrieve live web pages or APIs during a run.
@@ -35,6 +35,8 @@ notes:
     text: "Evidence checked 2026-08-28: Google documents Gemini CLI's `web_fetch` tool as retrieving and processing content from specific URLs, with URL approval and plan-mode confirmation controls."
   - id: 4
     text: "Evidence checked 2026-08-28: Microsoft documents VS Code's built-in `#web/fetch` agent tool as fetching content from a given web page, subject to URL request and response approvals."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
   - title: Methodology
@@ -104,7 +106,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Features; Usage; Content fetching"
+  - id: opencode-v1-18-25-tools-webfetch
+    title: "OpenCode v1.18.25 — Tools"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/tools.mdx#L238-L286
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Built-in — webfetch; websearch comparison"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "webfetch permission can be allow, ask, or deny"
+          - type: runtime
+            value: "retrieves a specified URL rather than controlling a browser"
+        evidence:
+          - resourceId: opencode-v1-18-25-tools-webfetch
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

@@ -32,6 +32,8 @@ notes:
     text: "Microsoft documentation broadly claims full MCP support, while the pinned VS Code source still declares 2025-11-25 as its latest protocol version."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 contains a selectable MCP 2026-07-28 client path, but ordinary Goose CLI extension sessions explicitly default to MCP 2025-11-25."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 pins MCP TypeScript SDK 1.29.0, whose latest supported revision is 2025-11-25 rather than the catalog row's 2026-07-28 revision."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -77,7 +79,45 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Modern and legacy protocol lifecycle selection, lines 667-706"
+  - id: opencode-v1-18-25-manifest
+    title: "OpenCode v1.18.25 — package manifest"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/package.json#L80-L85
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Pinned @modelcontextprotocol/sdk 1.29.0 dependency"
+  - id: mcp-sdk-v1-29-revisions
+    title: "MCP TypeScript SDK v1.29.0 — protocol versions"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/types.ts#L4-L6
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "LATEST_PROTOCOL_VERSION; SUPPORTED_PROTOCOL_VERSIONS"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "latest supported revision is 2025-11-25; catalog target 2026-07-28 is not listed"
+          - type: format
+            value: "older listed revisions are negotiated by SDK 1.29.0"
+        evidence:
+          - resourceId: opencode-v1-18-25-manifest
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-revisions
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

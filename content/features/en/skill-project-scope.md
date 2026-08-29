@@ -46,6 +46,8 @@ notes:
     text: "Evidence checked 2026-08-29: Copilot CLI discovers repository skills in `.github/skills`, `.claude/skills`, and `.agents/skills`."
   - id: 9
     text: "Evidence checked 2026-08-29: Codex CLI scans `.agents/skills` from the working directory through parents to the repository root."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers project-scoped Agent Skills under the current project's .agents/skills directory for supported integrated agents."
 issues: []
 resources:
   - title: Project-scoped Agent Skills reference
@@ -123,7 +125,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Where Codex loads local skills; REPO scopes"
+  - id: jetbrains-ai-agent-skills
+    title: JetBrains AI Assistant — Agent Skills
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Skill locations; Project directory
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: project skill discovery is documented for integrated Claude Agent and Codex
+          - type: format
+            value: project .agents/skills directory
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

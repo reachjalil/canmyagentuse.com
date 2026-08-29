@@ -11,7 +11,7 @@ audience: Engineers comparing model access and routing control.
 contentKind: feature
 status: published
 tags: [models, routing, control]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Choose the model or documented model class used for a run.
@@ -36,6 +36,14 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code exposes a language-model picker, automatic routing, and BYOK or local-model configuration for supported agent sessions."
   - id: 7
     text: "Evidence checked 2026-08-28: Cursor documents a model picker and curated selectable models with task, cost, speed, and context tradeoffs."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 exposes exact model selection in AI Chat and supports JetBrains-hosted, third-party, local, and Auto choices subject to configuration."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 selects an exact configured provider/model through /models, the --model flag, or persistent opencode.json configuration."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp exposes a model picker with named models, Auto routing, custom routers, and persistent per-profile defaults."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin's hosted model picker selects capability, Fusion, speed, and operating modes and remembers the chosen default across page reloads."
 issues: []
 resources:
   - title: Methodology
@@ -109,7 +117,111 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Defaults; Specifying model and key"
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains AI Assistant — Configure chat mode
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Select a model
+  - id: opencode-v1-18-25-models
+    title: "OpenCode v1.18.25 — Models"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/models.mdx#L18-L24
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Select a model; Loading models and precedence"
+  - id: warp-model-choice
+    title: "Warp — Agent model choice"
+    href: https://docs.warp.dev/agents/inference/model-choice/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Available models; How to change models; Agent Profiles"
+  - id: cognition-devin-release-notes-model-picker
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-07-24 Redesigned Model Picker; 2026-07-01 Persist Model Selection"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "hosted picker exposes capabilities and modes; underlying provider model names are not enumerated on the reviewed page"
+        evidence:
+          - resourceId: cognition-devin-release-notes-model-picker
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "availability can depend on plan, Zero Data Retention policy, and team-admin enablement"
+          - type: runtime
+            value: "selection persists and can be configured per Agent Profile"
+        evidence:
+          - resourceId: warp-model-choice
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "selected provider must be configured"
+          - type: format
+            value: "model identifiers use provider_id/model_id"
+        evidence:
+          - resourceId: opencode-v1-18-25-models
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: available choices depend on configured providers, locally installed models, and plan
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: aider
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Operators who need predictable long-session state.
 contentKind: feature
 status: published
 tags: [context, compaction, control]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Trigger, inspect, configure, or disable context compaction.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI exposes `/compact` with optional focus instructions and lets the operator cancel manual compaction."
   - id: 5
     text: "Evidence checked 2026-08-28: VS Code exposes `/compact`, optional preservation instructions, a context-control action, and a setting that disables automatic compaction."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 lets users configure a context-percentage threshold that trims message and tool attachments for local models, but does not document general history summarization controls."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp exposes slash commands that manually compact the active conversation, optionally fork first, and send a follow-up after summarization."
 resources:
   - title: Methodology
     href: /methodology
@@ -78,7 +82,70 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Compact conversation context
+  - id: jetbrains-ai-custom-models
+    title: JetBrains AI Assistant — Use third-party and local models
+    href: https://www.jetbrains.com/help/ai-assistant/use-custom-models.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Configure context window and message trimming
+  - id: warp-changelog-2026-compaction
+    title: "Warp — Changelog 2026"
+    href: https://docs.warp.dev/changelog/2026/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026.02.25 — /compact-and"
+  - id: warp-conversation-forking
+    title: "Warp — Conversation Forking"
+    href: https://docs.warp.dev/agents/local-agents/interacting-with-agents/conversation-forking/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Using the /fork-and-compact slash command"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: release
+          revision: "Warp v0.2026.02.25.08.24"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "/compact-and compacts then sends a follow-up; /fork-and-compact creates and compacts a fork"
+          - type: policy
+            value: "no setting to disable automatic compaction is established"
+        evidence:
+          - resourceId: warp-changelog-2026-compaction
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-conversation-forking
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: configurable trimming threshold applies to local-model message and tool attachments, not a general conversation-summary control
+        evidence:
+          - resourceId: jetbrains-ai-custom-models
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-desktop
     versions:
       - track: current

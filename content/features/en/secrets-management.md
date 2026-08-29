@@ -11,7 +11,7 @@ audience: Security engineers and teams connecting agents to real systems.
 contentKind: feature
 status: published
 tags: [security, secrets, credentials, redaction]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Store and provide credentials through a documented secrets feature.
@@ -30,6 +30,8 @@ notes:
     text: "Evidence checked 2026-08-28: Replit's Secrets tool encrypts app and account secrets with AES-256 at rest and TLS in transit and exposes linked values as environment variables to the app and Agent execution environment. Collaborators and non-owner organization members may still recover values by printing environment variables, which is an important disclosure boundary."
   - id: 5
     text: "Evidence checked 2026-08-28: Mistral organization administrators can connect shared apps once, review or add connector credentials, and make those connections available to Vibe workspaces while allowing, restricting, or blocking connector tools. The reviewed docs do not state credential encryption, masking, rotation, export prevention, or whether the model can read a stored credential, so support is partial."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp securely stores reusable MCP OAuth credentials on-device, supports API tokens through environment variables or headers, and scrubs shared server configuration secrets."
 resources:
   - title: Methodology
     href: /methodology
@@ -92,7 +94,36 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Organization app connections; Credentials; Workspace permissions
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Sharing MCP servers; Authentication"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "OAuth credentials are stored securely per device and can be revoked"
+          - type: transport
+            value: "tokens may be supplied through environment variables or authorization headers"
+          - type: policy
+            value: "shared configurations scrub sensitive environment values"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
   - harness: cursor
     versions:
       - track: current

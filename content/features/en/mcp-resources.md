@@ -49,6 +49,10 @@ notes:
     text: "Evidence checked 2026-08-28: Zed's current MCP documentation explicitly limits supported server features to Tools and Prompts, so MCP Resources are not supported on the reviewed Zed Agent path."
   - id: 10
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 implements paginated `resources/list` and URI-based `resources/read` and exposes them when the connected server declares resources."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 pages through resources and resource templates from connected servers and reads a selected resource URI."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp's local MCP client lists available server resources and current release notes explicitly document MCP resource reads respecting autonomy settings."
 issues: []
 resources:
   - id: anthropic-claude-code-mcp
@@ -147,7 +151,72 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "resources/list and resources/read, lines 806-865"
+  - id: opencode-v1-18-25-mcp-resources
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L690-L788
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP.resources; MCP.resourceTemplates; MCP.readResource"
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managing MCP servers; available tools and resources"
+  - id: warp-changelog-2026-mcp-resources
+    title: "Warp — Changelog 2026"
+    href: https://docs.warp.dev/changelog/2026/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026.03.25 resource reads respect autonomy settings"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local Warp app Agent"
+          - type: policy
+            value: "MCP resource reads are subject to Warp autonomy and approval settings"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-changelog-2026-mcp-resources
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "resources and resource templates are paginated"
+          - type: host-role
+            value: "reads are scoped to a connected MCP client and URI"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-resources
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Teams requiring least-privilege collaboration.
 contentKind: feature
 status: published
 tags: [collaboration, permissions, RBAC, teams]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: collaboration
 summary: Assign and enforce permissions through documented roles.
@@ -32,6 +32,10 @@ notes:
     text: "Evidence checked 2026-08-28: Mistral uses predefined roles at independent Organization and Workspace scopes, permits multiple additive roles, and supports assignments in the Admin Panel or Admin API. Workspace roles distinguish Vibe access from developer, contributor, observability, and administrative capabilities."
   - id: 7
     text: "Evidence checked 2026-08-28: Google Workspace supports administrator roles with a Gemini service privilege that can grant access to Gemini settings, while end-user access to gemini.google.com is assigned through organizational units or configuration groups rather than a Gemini-specific user-role system. This is partial product RBAC."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Managed Warp teams define Owner, Admin, and Member roles with distinct administrative and product permissions."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin Enterprise implements organization- and account-level RBAC with custom roles assembled from named permissions and assigned to users or identity-provider groups."
 resources:
   - title: Methodology
     href: /methodology
@@ -118,7 +122,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: User access by organizational unit or configuration group
+  - id: warp-roles-permissions
+    title: "Warp — Roles and permissions"
+    href: https://docs.warp.dev/enterprise/team-management/roles-and-permissions
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "User roles; Permission details; Settings enforcement"
+  - id: cognition-devin-rbac
+    title: "Cognition — Custom Roles and RBAC"
+    href: https://docs.devin.ai/enterprise/security-access/custom-roles
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and assigning roles; organization and account roles"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Devin Enterprise"
+          - type: auth
+            value: "role creation and assignment require the documented account or organization membership permissions"
+        evidence:
+          - resourceId: cognition-devin-rbac
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: "Owner alone transfers ownership; Admin otherwise shares management permissions; Members operate within admin policies"
+        evidence:
+          - resourceId: warp-roles-permissions
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, subagents]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Allow a child agent to delegate further work to another child agent."
@@ -29,6 +29,8 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI supports nested subagents with a default maximum depth of 6 and a configurable maximum of 256 for usage-based billing."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code disables child-to-child delegation by default but supports nested subagents behind `chat.subagents.allowInvocationsFromSubagents`, with a maximum depth of 5."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp explicitly limits orchestration to one parent-child level and states that child agents cannot spawn their own children."
 issues: []
 resources:
   - title: Methodology
@@ -64,7 +66,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Nested subagents
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "The parent/child model"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: no
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "applies to the documented orchestration model across local, cloud, and mixed execution"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: gemini-cli
     versions:
       - track: current

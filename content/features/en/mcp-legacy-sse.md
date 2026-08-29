@@ -44,6 +44,12 @@ notes:
     text: "Evidence checked 2026-08-28: Zed's pinned transport module exposes only stdio and a single-endpoint POST-based HTTP transport; it does not implement the superseded HTTP-plus-SSE client transport."
   - id: 8
     text: "Evidence checked 2026-08-29: goose v1.48.0 explicitly states that deprecated HTTP-plus-SSE transport is unsupported; its retained configuration variant exists only for file compatibility."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 continues to support legacy remote MCP servers using Server-Sent Events."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 retains the legacy MCP SSE client transport as the fallback after Streamable HTTP for configured remote servers."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp local agents connect to legacy MCP Server-Sent Events endpoints and retain current SSE configuration examples."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -129,7 +135,84 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "SSE explicitly unsupported, lines 159-196 and 440-466"
+  - id: jetbrains-ai-mcp-2026-2
+    title: JetBrains AI Assistant — Model Context Protocol
+    href: https://www.jetbrains.com/help/ai-assistant/mcp.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported transports; SSE server configuration
+  - id: opencode-v1-18-25-mcp-sse
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L269-L290
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "connectRemote; ordered StreamableHTTP and SSE transports"
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Streamable HTTP or SSE Server; SSE examples"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "legacy HTTP URL using Server-Sent Events"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "legacy HTTP plus Server-Sent Events"
+          - type: policy
+            value: "attempted after Streamable HTTP"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-sse
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: legacy HTTP endpoint using Server-Sent Events
+        evidence:
+          - resourceId: jetbrains-ai-mcp-2026-2
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Start a task on a schedule without a new human prompt.
@@ -27,6 +27,10 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor Automations run Cloud Agents on recurring preset or cron schedules, and Cloud Agent timer subscriptions can wake an existing conversation without another human prompt."
   - id: 4
     text: "Evidence checked 2026-08-28: Warp documents scheduled recurring tasks for cloud agents on its Automation Platform; this is a hosted automation surface, not a timer inside the default local Warp Agent session."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 tasks can start from a documented GitHub Actions cron workflow, but scheduling is supplied by the separately configured hosted integration."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin Scheduled Sessions create sessions automatically on a recurring cron frequency or one-time date and time; existing schedules remain supported while Automations are recommended for new workflows."
 issues: []
 resources:
   - id: xai-grok-bot-routines
@@ -75,7 +79,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: In the cloud, as a cloud agent
+  - id: opencode-v1-18-25-github-schedule
+    title: "OpenCode v1.18.25 — GitHub integration"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/github.mdx#L114-L163
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported Events; Schedule Example"
+  - id: cognition-devin-scheduled-sessions
+    title: "Cognition — Scheduled Sessions"
+    href: https://docs.devin.ai/product-guides/scheduled-sessions
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating a Scheduled Session; Schedule type; Managing Schedules"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "recurring cron or one-time hosted session"
+        evidence:
+          - resourceId: cognition-devin-scheduled-sessions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "scheduling is implemented by GitHub Actions cron rather than a local OpenCode scheduler"
+          - type: auth
+            value: "workflow requires configured model credentials and repository permissions"
+        evidence:
+          - resourceId: opencode-v1-18-25-github-schedule
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

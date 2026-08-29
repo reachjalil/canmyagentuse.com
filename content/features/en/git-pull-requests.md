@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: tools
 summary: Open or review pull requests through a documented integration.
@@ -39,6 +39,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code documents Cloud agent sessions that create a branch and pull request, plus local review and checkout controls for that result."
   - id: 5
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents a native `/review` command that runs its code-review agent against session changes."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 can create and review pull requests through its separately installed GitHub Actions integration rather than through local TUI-native PR handling."
 issues: []
 resources:
   - title: Methodology
@@ -137,7 +139,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Using Git commands in Shell; Change management"
+  - id: opencode-v1-18-25-github
+    title: "OpenCode v1.18.25 — GitHub integration"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/github.mdx#L6-L26
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Features; Installation; Supported Events"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "OpenCode GitHub agent runs inside GitHub Actions"
+          - type: auth
+            value: "requires the OpenCode GitHub App or an authorized GitHub token and workflow permissions"
+        evidence:
+          - resourceId: opencode-v1-18-25-github
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

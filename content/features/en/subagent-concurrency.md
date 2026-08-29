@@ -11,7 +11,7 @@ audience: Engineers comparing multi-agent throughput and coordination.
 contentKind: feature
 status: published
 tags: [runtime, subagents, concurrency, delegation]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Run multiple child-agent tasks concurrently with explicit queue and fan-out limits.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents plan-based concurrent-subagent limits from 2 to 32 and a usage-billing override capped at 32."
   - id: 5
     text: "Evidence checked 2026-08-28: VS Code explicitly documents spawning multiple subagents in parallel and provides examples that run several specialized reviewers concurrently."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp runs multiple children in parallel with fan-out/fan-in and a parallelism picker, but publishes no numeric concurrent-child or queue limit."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Managed Devins and Dynamic Workflows run multiple child sessions in parallel with wide fan-out, but the current pages publish no universal numeric concurrency or queue limit."
 issues: []
 resources:
   - title: Methodology
@@ -80,7 +84,72 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Parallel code analysis; orchestration patterns
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Fan-out / fan-in; Approval mode"
+  - id: cognition-devin-advanced-capabilities
+    title: "Cognition — Advanced Capabilities"
+    href: https://docs.devin.ai/work-with-devin/advanced-capabilities
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managed Devins; parallel team"
+  - id: cognition-devin-dynamic-workflows-concurrency
+    title: "Cognition — Devin Dynamic Workflows"
+    href: https://docs.devin.ai/work-with-devin/dynamic-workflows
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Parallel agent fan-out and combine stages"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "parallel managed sessions and wide workflow fan-out"
+          - type: policy
+            value: "no universal numeric concurrent-child or queue limit is documented"
+        evidence:
+          - resourceId: cognition-devin-advanced-capabilities
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-devin-dynamic-workflows-concurrency
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local children execute in parallel and approval exposes a parallelism setting"
+          - type: policy
+            value: "no numeric maximum concurrent-child or queued-child count is documented"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

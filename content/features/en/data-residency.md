@@ -11,7 +11,7 @@ audience: Compliance, security, and procurement teams with geographic requiremen
 contentKind: feature
 status: published
 tags: [security, privacy, residency, region]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Select or document geographic storage or processing regions.
@@ -24,6 +24,8 @@ notes:
     text: "Evidence checked 2026-08-28: Anthropic documents US storage for commercial Claude data and offers US-only inference to usage-based Enterprise organizations. The inference setting covers all Claude apps, including Claude Code and Desktop, but excludes storage, connectors, support, analytics, and other non-inference processing, so the catalog marks each applicable surface partial."
   - id: 3
     text: "Evidence checked 2026-08-28: Cursor Enterprise offers team-scoped US-only residency for supported model inference, content processing, storage, backups, and Cloud Agents, plus EU and Iceland inference-only coverage on request. Authentication, external integrations, some indexing, BYOK, shared links, and other listed paths remain outside the guarantee."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Cognition's dedicated hosted deployment stores customer data in a customer-dedicated tenant with a documented AWS deployment region, but no public selectable region menu is listed."
 resources:
   - title: Methodology
     href: /methodology
@@ -62,7 +64,45 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Data residency; US data residency; exceptions
+  - id: cognition-devin-enterprise-deployment
+    title: "Cognition — Enterprise Deployment"
+    href: https://docs.devin.ai/enterprise/deployment/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Customer Dedicated Deployment Architecture; Deployment Options"
+  - id: cognition-devin-cmk-region
+    title: "Cognition — Customer Managed Keys"
+    href: https://docs.devin.ai/enterprise/security-access/security/customer-managed-keys
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "AWS KMS key must use the same deployment region"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Customer Dedicated or Enterprise Assured deployment"
+          - type: format
+            value: "AWS deployment region is confirmed through the Cognition account team; no public selectable region list was found"
+        evidence:
+          - resourceId: cognition-devin-enterprise-deployment
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-devin-cmk-region
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

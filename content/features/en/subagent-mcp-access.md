@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, subagents]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Allow a child agent to use MCP tools or declare its own MCP servers."
@@ -25,6 +25,8 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code subagents inherit MCP tools by default unless restricted and can use `mcpServers` to reference parent-session servers or declare inline servers scoped to the child."
   - id: 2
     text: "Evidence checked 2026-08-28: VS Code custom agents can include individual MCP tools or complete `<server>/*` tool groups, and custom tool settings override defaults when the agent runs as a child."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin sessions can use installed MCP servers under a security-profile allowlist, and child sessions inherit the same profile chain as their parent."
 issues: []
 resources:
   - title: Methodology
@@ -54,7 +56,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Run a custom agent as a subagent
+  - id: cognition-devin-security-profiles
+    title: "Cognition — Security Profiles"
+    href: https://docs.devin.ai/product-guides/security-profiles
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP access; profile bindings and child inheritance"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "MCP access is inherited through the parent security-profile chain; independent per-child MCP declarations are not established"
+        evidence:
+          - resourceId: cognition-devin-security-profiles
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

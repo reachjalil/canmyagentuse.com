@@ -49,6 +49,8 @@ notes:
     text: "Evidence checked 2026-08-28: Zed explicitly lists MCP Prompts among the server features supported by Zed Agent."
   - id: 10
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 implements paginated `prompts/list` and `prompts/get`, lists extension prompts, and invokes selected templates with arguments."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 pages through prompt templates from connected MCP servers and retrieves a selected prompt with optional arguments."
 issues: []
 resources:
   - id: anthropic-claude-code-mcp
@@ -147,7 +149,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "prompts/list and prompts/get, lines 960-1027"
+  - id: opencode-v1-18-25-mcp-prompts
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L690-L779
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP.prompts; MCP.getPrompt"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "prompt lists are paginated"
+          - type: host-role
+            value: "retrieval is scoped to client, prompt name, and optional arguments"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-prompts
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

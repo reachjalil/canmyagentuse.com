@@ -32,6 +32,8 @@ notes:
     text: "VS Code documents MCP server sampling through the user's configured models, with first-use authorization and per-server model controls."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 advertises sampling and handles server-initiated sampling by invoking Goose's configured model provider and returning the result."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 explicitly leaves the MCP sampling client capability commented out in the released client options."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Automatic sampling and server-to-Goose model request flow, lines 11-27"
+  - id: opencode-v1-18-25-mcp-capabilities
+    title: "OpenCode v1.18.25 — MCP client capabilities"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L38-L50
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLIENT_OPTIONS capabilities; commented sampling entry"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: no
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "sampling capability is explicitly disabled in the released client options"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-capabilities
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

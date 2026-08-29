@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Pause before a tool action or file change until a person confirms.
@@ -47,6 +47,10 @@ notes:
     text: "Evidence checked 2026-08-28: Warp says local Agent users can review changes and approve actions before they execute."
   - id: 13
     text: "Evidence checked 2026-08-28: Replit Plan mode waits for plan approval before Agent changes project files, but this is an opt-in plan-level gate rather than a documented per-tool approval system."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant hosts integrated agents with approve, deny, and automatic authorization flows, while exact prompts and eligible actions vary by selected agent and mode."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin sessions pause for operator approval before requested blocked-network access and optional testing actions."
 issues: []
 resources:
   - title: Methodology
@@ -160,7 +164,57 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "allowed_to_edit creation and outside-chat confirmations; handle_shell_commands command confirmation"
+  - id: jetbrains-ai-agents
+    title: JetBrains AI Assistant — AI agents
+    href: https://www.jetbrains.com/help/ai-assistant/agents.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Authorize agent actions
+  - id: cognition-devin-release-notes-approvals
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-07-01 Network Access Requests; 2026-06-03 Pre-Approve Testing"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "documented gates cover network destinations and testing, not every file edit"
+        evidence:
+          - resourceId: cognition-devin-release-notes-approvals
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: approve, deny, and automatic authorization are host flows whose exact scope varies by integrated agent and mode
+        evidence:
+          - resourceId: jetbrains-ai-agents
+            type: documented
+            observedAt: 2026-08-29
   - harness: aider
     versions:
       - track: current

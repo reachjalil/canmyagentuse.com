@@ -11,7 +11,7 @@ audience: Security operations, compliance, and platform teams.
 contentKind: feature
 status: published
 tags: [security, audit, observability, enterprise]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Record security-relevant activity in an administrative audit log.
@@ -36,6 +36,10 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Enterprise audit logs cover more than 50 event types across deployments, identity, workspace administration, projects, secrets, connectors, domains, and Agent activity. Organization admins can search, filter, bulk export, and stream to Datadog, Splunk, S3, or HTTP; default portal retention is 30 days."
   - id: 8
     text: "Evidence checked 2026-08-28: Google Workspace provides Gemini usage reports and Reporting API audit data for active users, per-app usage patterns, and last-used timestamps, including chats with gemini.google.com. The reviewed documentation describes adoption telemetry rather than a security-event log of prompts, resources, tools, policy decisions, or administrator changes, so support is partial."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp records agent actions with full context for incident review when cloud conversation storage is enabled, but current docs do not establish a centralized exportable administrative audit-log interface."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin Enterprise exposes customer-facing security and administrative audit records with actor, action, organization, timestamp, data, filters, and pagination."
 issues: []
 resources:
   - title: Methodology
@@ -113,7 +117,74 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Organization and user reports; Gemini app chats; Reporting API audit data
+  - id: warp-security-overview
+    title: "Warp — Security overview"
+    href: https://docs.warp.dev/enterprise/security-and-compliance/security-overview
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Agent permissions — Visibility; responding to security incidents"
+  - id: cognition-devin-enterprise-audit-logs
+    title: "Cognition — List Audit Logs"
+    href: https://docs.devin.ai/api-reference/v3/audit-logs/enterprise-audit-logs
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Permissions; time filters; action; audit record fields"
+  - id: cognition-devin-rbac-audit-permission
+    title: "Cognition — Custom Roles and RBAC"
+    href: https://docs.devin.ai/enterprise/security-access/custom-roles
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Account-Level Roles — View Audit Logs"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Devin Enterprise"
+          - type: auth
+            value: "View Audit Logs in web administration or ManageEnterpriseSettings for the API"
+          - type: format
+            value: "paginated action, actor, organization, timestamp, and data records"
+        evidence:
+          - resourceId: cognition-devin-enterprise-audit-logs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-devin-rbac-audit-permission
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: "full-context action logging requires cloud conversation storage"
+          - type: format
+            value: "centralized fields, retention, filtering, export, and SIEM delivery are not established"
+        evidence:
+          - resourceId: warp-security-overview
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

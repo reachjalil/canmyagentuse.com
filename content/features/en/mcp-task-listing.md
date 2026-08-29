@@ -32,6 +32,8 @@ notes:
     text: "Pinned VS Code source implements paginated tasks/list requests in both the MCP client connection and host-side task dispatcher."
   - id: 2
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 does not advertise the MCP Tasks extension, and its exhaustive client and probe operations include no task polling or listing method."
+  - id: 51
+    text: "Evidence checked 2026-08-29: Because OpenCode v1.18.25 explicitly disables the complete MCP tasks client capability, the released client has no tasks/list utility."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -61,7 +63,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Exhaustive mcp-probe operation enum, lines 1400-1422"
+  - id: opencode-v1-18-25-mcp-capabilities
+    title: "OpenCode v1.18.25 — MCP client capabilities"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L38-L50
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLIENT_OPTIONS capabilities; commented tasks entry"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: no
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "the parent tasks capability is explicitly disabled, including task listing"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-capabilities
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

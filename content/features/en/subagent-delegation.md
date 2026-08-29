@@ -11,7 +11,7 @@ audience: Engineers comparing multi-agent execution.
 contentKind: feature
 status: published
 tags: [runtime, subagents, delegation]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Delegate a bounded task to another agent process.
@@ -37,6 +37,12 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI can automatically run built-in or custom agents as temporary subagents with separate context windows."
   - id: 8
     text: "Evidence checked 2026-08-28: VS Code documents the `agent/runSubagent` tool, built-in and custom child agents, autonomous child work, and final-result return to the main agent."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 lets primary agents invoke bounded subagents in distinct child sessions, automatically or manually, with parent-child session navigation."
+  - id: 52
+    text: "Evidence checked 2026-08-29: A local Warp parent agent can spawn bounded child Warp Agent conversations on the same machine after explicit orchestration approval."
+  - id: 53
+    text: "Evidence checked 2026-08-29: A hosted Devin coordinator decomposes a large task and delegates scoped prompts to managed child sessions while monitoring and compiling their work."
 issues: []
 resources:
   - id: openwork-subagents
@@ -98,7 +104,86 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Invoke a subagent
+  - id: opencode-v1-18-25-agents
+    title: "OpenCode v1.18.25 — Agents"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/agents.mdx#L35-L39
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Types — Subagents; Usage"
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Parent/child model; where agents run; Approval mode"
+  - id: cognition-devin-advanced-capabilities
+    title: "Cognition — Advanced Capabilities"
+    href: https://docs.devin.ai/work-with-devin/advanced-capabilities
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managed Devins"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "product-native managed Devin child sessions"
+        evidence:
+          - resourceId: cognition-devin-advanced-capabilities
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local-to-local parent and child Warp Agents run on the user's machine"
+          - type: policy
+            value: "child launch requires explicit approval through /orchestrate or an orchestration-containing /plan"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "primary agent creates a distinct child session"
+          - type: policy
+            value: "configured agent permissions determine child tool access"
+        evidence:
+          - resourceId: opencode-v1-18-25-agents
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

@@ -223,25 +223,23 @@ add a provider mark; use the catalog's original monogram fallback.
 Queue rewritten: 2026-08-29 for cycle 3. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
-1. `opencode` × remaining Phase-A and atomic MCP rows; in flight, excluding
-   completed Agent Skills and Agent Plugins cells.
-2. `warp` × remaining Phase-A and high-yield runtime/context/input/governance
-   rows; in flight, keeping local desktop and cloud-agent execution distinct.
-3. `devin-web` × remaining Phase-A and high-yield runtime/context/input/
-   governance rows; in flight, excluding Devin Desktop and Devin Local.
-4. `aider` × remaining Phase-A rows, honoring the current attempt cooldowns.
-5. `jetbrains-ai` × remaining Phase-A rows, excluding separate Junie, Claude
-   Agent, Codex, Copilot, and ACP-agent capabilities.
+1. `cline` × atomic MCP rows from a pinned current release and maintained
+   first-party source.
+2. `continue` × atomic MCP rows from a pinned current release and maintained
+   first-party source.
+3. `copilot-web` × remaining Phase-A rows, separating consumer Microsoft
+   Copilot from Microsoft 365 and GitHub Copilot products.
+4. `perplexity-web` × remaining Phase-A and hosted governance/input rows.
+5. `le-chat` × remaining Phase-A and hosted governance/input rows.
 6. `windsurf` × remaining Phase-A rows after deliberate product-identity
    review; do not merge Devin Desktop or Devin Local evidence by default.
-7. `copilot-web` × remaining Phase-A rows, separating consumer Microsoft
-   Copilot from Microsoft 365 and GitHub Copilot products.
-8. `chrome-webmcp-preview` × remaining Phase-A rows, scoped to the exact Chrome
+7. `chrome-webmcp-preview` × remaining Phase-A rows, scoped to the exact Chrome
    WebMCP origin-trial preview rather than generic Chrome or Gemini features.
-9. `cline` × atomic MCP rows from a pinned current release and maintained
-   first-party source.
-10. `continue` × atomic MCP rows from a pinned current release and maintained
-    first-party source.
+8. `openwork-desktop` × remaining runtime, collaboration, governance, and MCP
+   rows from a pinned first-party release.
+9. `aider` × remaining rows outside active attempt cooldowns.
+10. `jetbrains-ai`, `opencode`, `warp`, and `devin-web` × rows reopened by exact
+   first-party changelog evidence; otherwise honor the 30-day attempt cooldown.
 
 ## Ledger candidates
 
@@ -260,6 +258,12 @@ but do not edit the atlas.
   src2=https://developers.openai.com/codex/cli/
   issue=OpenAI's current documentation index identifies the terminal product as Codex CLI and does not establish a separate exact ChatGPT CLI product surface matching the catalog column.
   next=Obtain a current first-party product-identity statement for ChatGPT CLI or deliberately migrate or retire the ambiguous catalog column before sourcing product capabilities.
+
+- feature=data-retention-controls harness=jetbrains-ai first_seen=2026-08-29
+  src1=https://youtrack.jetbrains.com/projects/JUNIE/articles/SUPPORT-A-659/AI-Assistant-data-privacy-storage-and-transmission-what-information-is-sent-to-the-cloud-and-how-it-is-stored
+  src2=https://www.jetbrains.com/legal/docs/terms/product_data_collection/
+  issue=The current support article states no more than 30 days for opted-in detailed data while the June 2026 legal notice states one year for detailed code-related data.
+  next=Obtain a current authoritative JetBrains scope or version statement reconciling which retention term governs AI Assistant before authoring the cell.
 
 Use this record shape:
 

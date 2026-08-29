@@ -11,7 +11,7 @@ audience: Engineers who need predictable model behavior and reproducible runs.
 contentKind: feature
 status: published
 tags: [models, routing, reliability, observability]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Switch to another model after a documented failure condition.
@@ -28,6 +28,10 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code documents --fallback-model and the fallbackModel setting for automatically using an ordered fallback model or chain when the primary model is overloaded or unavailable."
   - id: 4
     text: "Evidence checked 2026-08-28: Cursor documents that Auto detects degraded output performance and automatically switches models. This is Auto-routing behavior rather than fallback for an explicitly pinned model."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 uses predefined fallback models when no model is assigned to a feature or the assigned choice is unavailable, without documenting a complete operator-controlled outage chain."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp automatically substitutes a predefined comparable fallback during provider outage or capacity failure and returns to the selected model when it recovers."
 issues: []
 resources:
   - title: Methodology
@@ -65,7 +69,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Auto
+  - id: jetbrains-ai-custom-models
+    title: JetBrains AI Assistant — Use third-party and local models
+    href: https://www.jetbrains.com/help/ai-assistant/use-custom-models.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Assign models to AI features; predefined fallback models
+  - id: warp-model-choice
+    title: "Warp — Agent model choice"
+    href: https://docs.warp.dev/agents/inference/model-choice/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Model fallback"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "fallback uses a predefined Warp chain rather than an operator-selected chain"
+          - type: runtime
+            value: "Warp automatically switches back when the original model recovers"
+        evidence:
+          - resourceId: warp-model-choice
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: JetBrains chooses predefined fallbacks when no assigned model is available; a user-defined ordered failure chain is not documented
+        evidence:
+          - resourceId: jetbrains-ai-custom-models
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

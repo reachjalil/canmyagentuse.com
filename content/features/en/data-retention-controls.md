@@ -11,7 +11,7 @@ audience: Privacy, compliance, and security teams evaluating agent data lifecycl
 contentKind: feature
 status: published
 tags: [security, privacy, retention, deletion]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Configure or document retention and deletion for covered product data.
@@ -30,6 +30,12 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini Apps personal accounts default to 18-month activity deletion and allow 3, 18, 36 months, indefinite retention, or manual deletion. Keep Activity-off and temporary chats remain for 72 hours, while human-reviewed material can remain for up to three years."
   - id: 5
     text: "Evidence checked 2026-08-28: Cursor Privacy Mode uses ZDR agreements for model providers and temporary encrypted file-content caches, but indexing may persist embeddings and metadata and safety investigations follow provider retention policies. No user-configurable retention period is documented on the reviewed page."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 documents retention and deletion controls for cloud-shared conversations, but not the complete lifecycle of local sessions, provider data, telemetry, caches, or backups."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp documents cloud-conversation deletion, account-deletion timing, shared-session expiry, and telemetry retention, but no general configurable retention period."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Cognition documents that data processed through hosted Devin is retained for the customer relationship unless the customer specifies otherwise, while feedback and interaction data may be retained as needed."
 issues: []
 resources:
   - title: Methodology
@@ -83,7 +89,108 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Privacy Mode; indexing; temporary cache
+  - id: opencode-v1-18-25-sharing
+    title: "OpenCode v1.18.25 — Share"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/share.mdx#L66-L104
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Disabled; Un-sharing; Privacy — Data retention"
+  - id: warp-cloud-conversations
+    title: "Warp — Cloud-synced conversations"
+    href: https://docs.warp.dev/agents/local-agents/cloud-conversations/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Privacy and data; Deleting conversations"
+  - id: warp-session-sharing-retention
+    title: "Warp — Agent Session Sharing"
+    href: https://docs.warp.dev/agents/local-agents/session-sharing/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Data retention and access"
+  - id: warp-security-retention
+    title: "Warp — Security overview"
+    href: https://docs.warp.dev/enterprise/security-and-compliance/security-overview
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Data handling and privacy — Data retention"
+  - id: cognition-devin-security
+    title: "Cognition — Security at Cognition"
+    href: https://docs.devin.ai/admin/security
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Privacy and Intellectual Property; data retention policy"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "documented vendor retention policy; no self-service numeric retention window or deletion schedule is established"
+        evidence:
+          - resourceId: cognition-devin-security
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "cloud-synced conversations can be permanently deleted; shared sessions expire after about one week; verified account deletion is processed within 30 days"
+          - type: policy
+            value: "collected telemetry is retained indefinitely and no general configurable period is documented"
+        evidence:
+          - resourceId: warp-cloud-conversations
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-session-sharing-retention
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-security-retention
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "shared conversations remain available until unshared; /unshare deletes the cloud-shared copy"
+          - type: format
+            value: "local sessions, provider retention, telemetry, caches, and backups remain unestablished"
+        evidence:
+          - resourceId: opencode-v1-18-25-sharing
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

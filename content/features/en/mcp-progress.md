@@ -32,6 +32,8 @@ notes:
     text: "VS Code source exposes and fires an event for MCP notifications/progress messages."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 handles MCP progress notifications, preserves their token and values, and updates CLI progress output or emits structured events."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 requests and receives MCP progress notifications during tool calls and uses matching updates to extend the request timeout."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,45 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "CLI progress handler, lines 350-407"
+  - id: opencode-v1-18-25-mcp-tool-adapter
+    title: "OpenCode v1.18.25 — MCP tool adapter"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/catalog.ts#L42-L67
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "convertTool; callTool progress options"
+  - id: mcp-sdk-v1-29-progress
+    title: "MCP TypeScript SDK v1.29.0 — progress handling"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/shared/protocol.ts#L111-L122
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "RequestOptions.onprogress and matching progress notification handling"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "progress is consumed for request timeout management"
+          - type: policy
+            value: "user-visible progress presentation is not established"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-tool-adapter
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-progress
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

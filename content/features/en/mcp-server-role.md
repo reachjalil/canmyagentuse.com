@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: Anthropic documents `claude mcp serve`, which runs Claude Code itself as an MCP server and exposes Claude Code tools to another MCP client."
   - id: 2
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 exposes bundled Auto Visualiser, Computer Controller, Memory, and Tutorial capabilities as MCP servers through `goose mcp`."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 includes an IDE MCP Server plugin that exposes a documented set of IDE capabilities to external MCP clients."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "goose mcp command and bundled servers, lines 57-103"
+  - id: jetbrains-ai-mcp-2026-2
+    title: JetBrains AI Assistant — Model Context Protocol
+    href: https://www.jetbrains.com/help/ai-assistant/mcp.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: IDE as an MCP server; supported IDE tools
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: support is scoped to the bundled IDE MCP Server plugin and its documented IDE tools
+        evidence:
+          - resourceId: jetbrains-ai-mcp-2026-2
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

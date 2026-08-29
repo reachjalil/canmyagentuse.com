@@ -618,3 +618,54 @@ The current OpenAI index maps terminal documentation to Codex CLI. It did not
 establish a distinct ChatGPT CLI surface, so the ambiguous catalog column
 remains unsourced and is parked for identity review rather than inheriting
 Codex evidence.
+
+## Cycle 3 discoveries — 2026-08-29
+
+### JetBrains AI Assistant 2026.2
+
+- https://www.jetbrains.com/help/ai-assistant/configure-project-rules.html
+- https://www.jetbrains.com/help/ai-assistant/agents.html
+- https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+- https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+- https://www.jetbrains.com/help/ai-assistant/supported-llms.html
+- https://www.jetbrains.com/help/ai-assistant/use-custom-models.html
+- https://www.jetbrains.com/help/ai-assistant/mcp.html
+- https://youtrack.jetbrains.com/projects/JUNIE/articles/SUPPORT-A-4167/Export-AI-Assistant-chat-history-to-Markdown
+- https://sales.jetbrains.com/hc/en-gb/articles/14753675807506-Enable-or-disable-JetBrains-AI-for-all-users-in-your-organization
+- https://www.jetbrains.com/legal/docs/terms/product_data_collection/
+
+### OpenCode v1.18.25
+
+- https://github.com/anomalyco/opencode/releases/tag/v1.18.25
+- https://github.com/anomalyco/opencode/tree/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs
+- https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts
+- https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/catalog.ts
+- https://github.com/modelcontextprotocol/typescript-sdk/tree/e12cbd7078db388152f6e839abdbe09ba01f3f32
+
+### Warp desktop Agent
+
+- https://docs.warp.dev/agents/capabilities/rules/
+- https://docs.warp.dev/agents/capabilities/mcp/
+- https://docs.warp.dev/agents/inference/model-choice/
+- https://docs.warp.dev/agents/local-agents/agent-context/images-as-context/
+- https://docs.warp.dev/agents/local-agents/interacting-with-agents/
+- https://docs.warp.dev/platform/orchestration/
+- https://docs.warp.dev/enterprise/team-management/admin-panel
+- https://docs.warp.dev/enterprise/security-and-compliance/security-overview
+- https://docs.warp.dev/changelog/2026/
+
+### Devin hosted web
+
+- https://docs.devin.ai/onboard-devin/agents-md
+- https://docs.devin.ai/product-guides/knowledge
+- https://docs.devin.ai/product-guides/scheduled-sessions
+- https://docs.devin.ai/work-with-devin/advanced-capabilities
+- https://docs.devin.ai/work-with-devin/dynamic-workflows
+- https://docs.devin.ai/product-guides/security-profiles
+- https://docs.devin.ai/admin/billing/usage
+- https://docs.devin.ai/enterprise/security-access/custom-roles
+- https://docs.devin.ai/api-reference/v3/audit-logs/enterprise-audit-logs
+- https://docs.devin.ai/enterprise/security-access/security/customer-managed-keys
+- https://docs.devin.ai/admin/security
+- https://docs.devin.ai/admin/billing/self-serve
+- https://docs.devin.ai/release-notes/overview

@@ -11,7 +11,7 @@ audience: Buyers, engineers, finance teams, and administrators comparing the tot
 contentKind: feature
 status: published
 tags: [operations, pricing, plans, billing]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: operations
 summary: Compare documented plan, seat, included-usage, credit, and overage pricing by exact product.
@@ -28,6 +28,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor publishes Hobby as free, Individual Pro at $20 monthly with higher Pro+ and Ultra usage tiers, Teams Standard at $40 per user monthly with a Premium tier, and custom Enterprise pricing. Included model usage, optional on-demand usage, taxes, and enterprise invoicing are separate boundaries."
   - id: 4
     text: "Evidence checked 2026-08-28: Gemini CLI's plans page identifies Free, Google AI Pro, Google AI Ultra, Google Developer Program, AI Studio pay-as-you-go, and Vertex AI paths and their usage or privacy distinctions, but delegates exact subscription amounts to linked plan pages."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Cognition publishes current USD monthly prices and billing terms for Devin Free, Pro, Max, and Teams self-serve plans."
 resources:
   - title: Methodology
     href: /methodology
@@ -64,7 +66,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Individual; team; API key
+  - id: cognition-devin-self-serve-pricing
+    title: "Cognition — Self-serve plans"
+    href: https://docs.devin.ai/admin/billing/self-serve
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Plan overview; seats; Teams minimum; quotas"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Free; Pro at $20 monthly; Max at $200 monthly; Teams with $80 monthly minimum, $40 full seats, and usage-based flex seats"
+          - type: format
+            value: "Enterprise pricing remains order-form based"
+        evidence:
+          - resourceId: cognition-devin-self-serve-pricing
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

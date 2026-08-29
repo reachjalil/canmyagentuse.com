@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: Persist instructions at user or project scope.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: ChatGPT desktop documents cross-chat custom instructions, while Codex CLI documents global and nested project AGENTS.md discovery with explicit precedence."
   - id: 3
     text: "Evidence checked 2026-08-28: Claude Code, Cursor, Gemini CLI, VS Code Copilot, GitHub Copilot CLI, Cline, Continue, OpenCode, Zed Agent, and Warp each document persistent user-, project-, workspace-, or path-scoped instruction files or rules."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 persists project-specific instructions as Markdown rules under .aiassistant/rules and applies them according to each rule's configured mode."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin Knowledge persists instructions across hosted sessions, supports repository or all-repository pinning, macros, and per-user enable or disable controls."
 issues: []
 resources:
   - title: Methodology
@@ -155,7 +159,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Rules; Rules Discovery; storage locations and activation"
+  - id: jetbrains-ai-project-rules
+    title: JetBrains AI Assistant — Configure project rules
+    href: https://www.jetbrains.com/help/ai-assistant/configure-project-rules.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Create a new project rule; configure when rules are applied
+  - id: cognition-devin-knowledge
+    title: "Cognition — Knowledge"
+    href: https://docs.devin.ai/product-guides/knowledge
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is Knowledge?; Macros; enable and disable; pinning"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "trigger-based automatic retrieval of repository-pinned or organization Knowledge"
+          - type: policy
+            value: "organization scope by default; enterprise-wide scope is available to enterprise accounts"
+        evidence:
+          - resourceId: cognition-devin-knowledge
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: persistent project Markdown rules under .aiassistant/rules
+        evidence:
+          - resourceId: jetbrains-ai-project-rules
+            type: documented
+            observedAt: 2026-08-29
   - harness: windsurf
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Teams sharing agent findings and work history.
 contentKind: feature
 status: published
 tags: [collaboration, sharing, permissions]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: collaboration
 summary: Share a conversation through a documented link or invitation.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor documents shareable links for web and mobile Background Agent runs so teammates can review diffs and provide feedback. The reviewed page does not specify recipient roles, expiration, revocation, or whether the complete execution transcript is exposed."
   - id: 6
     text: "Evidence checked 2026-08-28: Mistral's Vibe web product, formerly Le Chat at the same chat.mistral.ai entry point, can create a unique conversation link. Anyone with the link can view and reshare the snapshot; the link omits later additions, other conversations, and the author's username unless the author included it in the conversation."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp shares local agent conversations and live sessions by generated link with team, invitee, or public-link access controls."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin exposes a Share session action and a shareable permalink for every individual session message."
 resources:
   - title: Methodology
     href: /methodology
@@ -87,7 +91,72 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Shared conversations; link contents
+  - id: warp-session-sharing
+    title: "Warp — Agent Session Sharing"
+    href: https://docs.warp.dev/agents/local-agents/session-sharing/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Key capabilities; how it works; access"
+  - id: warp-cloud-conversation-sharing
+    title: "Warp — Cloud-synced conversations"
+    href: https://docs.warp.dev/agents/local-agents/cloud-conversations/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Sharing conversations; creating a share link"
+  - id: cognition-devin-release-notes-sharing
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-05-13 Share Session; 2026-04-08 Session Message Permalinks"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "session links and per-message permalinks"
+        evidence:
+          - resourceId: cognition-devin-release-notes-sharing
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "session content is uploaded to Warp servers and shared through a generated link"
+          - type: auth
+            value: "live viewers sign in; cloud-synced conversation links may allow anyone with the link"
+          - type: policy
+            value: "team administrators can disable invitations and link sharing"
+        evidence:
+          - resourceId: warp-session-sharing
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-cloud-conversation-sharing
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

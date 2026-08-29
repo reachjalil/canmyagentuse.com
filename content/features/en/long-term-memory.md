@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Persist notes across sessions.
@@ -27,6 +27,10 @@ notes:
     text: "Evidence checked 2026-08-28: Claude memory applies to chats on the web and Claude Desktop, while Claude Code separately documents repository-scoped, machine-local auto memory."
   - id: 4
     text: "Evidence checked 2026-08-28: Cursor documents project-scoped Memories that preserve generated rules across sessions and can be managed from Settings → Rules."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp Agent Memory persists facts and outcomes across conversations and machines, but access is limited to enabled design-partner teams in a research preview."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin Knowledge is retained across sessions, automatically recalls relevant items from trigger descriptions, and can suggest new or updated memories from chat feedback."
 issues: []
 resources:
   - id: xai-grok-bot-memory
@@ -69,7 +73,61 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: How memories are created; Manage memories
+  - id: warp-agent-memory-preview
+    title: "Warp — Agent Memory Research Preview"
+    href: https://docs.warp.dev/agents/agent-memory/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Key features; where Agent Memory runs"
+  - id: cognition-devin-knowledge
+    title: "Cognition — Knowledge"
+    href: https://docs.devin.ai/product-guides/knowledge
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is Knowledge?; Knowledge Suggestions; Tips and tricks"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "cross-session relevance-triggered retrieval rather than loading every item at session start"
+        evidence:
+          - resourceId: cognition-devin-knowledge
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: preview
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "Warp Agent Memory Research Preview documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: plan
+            value: "research preview for enabled design-partner teams"
+          - type: runtime
+            value: "supports local and cloud Warp agents; creation and retrieval are asynchronous"
+          - type: policy
+            value: "memory stores can be read-only or read-write and attached to selected agents"
+        evidence:
+          - resourceId: warp-agent-memory-preview
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

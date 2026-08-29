@@ -11,7 +11,7 @@ audience: Engineers evaluating long-running agent reliability.
 contentKind: feature
 status: published
 tags: [context, compaction, summarization, runtime]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Continue long sessions by automatically summarizing or pruning older context.
@@ -30,6 +30,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code documents automatic conversation-history compaction when the context window fills."
   - id: 5
     text: "Evidence checked 2026-08-28: Cursor documents automatic summarization of older messages when a conversation exceeds the selected model's context window."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp automatically summarizes a local agent conversation after it exceeds the selected model's context window so work can continue."
 resources:
   - title: Methodology
     href: /methodology
@@ -79,7 +81,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Message summarization
+  - id: warp-interacting-agents
+    title: "Warp — Interacting with agents"
+    href: https://docs.warp.dev/agents/local-agents/interacting-with-agents/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Context window management"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "automatic summarization occurs after context-window exhaustion"
+        evidence:
+          - resourceId: warp-interacting-agents
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

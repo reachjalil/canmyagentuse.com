@@ -42,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-28: Zed's pinned MCP initialization explicitly sets the client Roots capability to none."
   - id: 7
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 advertises MCP roots, returns the session working directory from `roots/list`, and emits `roots/list_changed` when it changes."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 advertises MCP roots and answers roots/list with the active workspace directory as a file URI."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -103,7 +105,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Advertisement, list request, change notification, and CLI working-directory root, lines 12-85"
+  - id: opencode-v1-18-25-mcp-roots
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L38-L81
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLIENT_OPTIONS capabilities; ListRootsRequestSchema handler"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP client supplies the active OpenCode directory"
+          - type: format
+            value: "root is returned as a file URI"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-roots
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

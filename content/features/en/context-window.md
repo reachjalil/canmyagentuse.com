@@ -11,7 +11,7 @@ audience: Engineers sizing long conversations, repositories, documents, and tool
 contentKind: feature
 status: published
 tags: [context, context-length, tokens, limits]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Record the documented context-window limit by product, model, and mode.
@@ -27,6 +27,8 @@ notes:
     text: "Evidence checked 2026-08-28: Anthropic documents 1 million-token Claude Code variants and plan/model eligibility; this is not a claim that every Claude Code session receives 1M context."
   - id: 3
     text: "Evidence checked 2026-08-28: Cursor documents a normal 200k-token context window and Max Mode up to the maximum supported by the selected model, including models with windows up to 1M."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 publishes exact context windows for its supported hosted models, ranging from 128k to 1 million tokens, and documents a configurable local-model context default of 64k."
 resources:
   - title: Methodology
     href: /methodology
@@ -52,7 +54,43 @@ resources:
     publisher: Cursor
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: jetbrains-ai-supported-models
+    title: JetBrains AI Assistant — Supported LLMs
+    href: https://www.jetbrains.com/help/ai-assistant/supported-llms.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported model table and context-window column
+  - id: jetbrains-ai-custom-models
+    title: JetBrains AI Assistant — Use third-party and local models
+    href: https://www.jetbrains.com/help/ai-assistant/use-custom-models.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Configure context window and message trimming for local models
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: published limits vary by selected model; supported hosted models span 128k to 1M tokens, while local-model context is configurable with a 64k default
+        evidence:
+          - resourceId: jetbrains-ai-supported-models
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: jetbrains-ai-custom-models
+            type: documented
+            observedAt: 2026-08-29
   - harness: gemini-web
     versions:
       - track: current

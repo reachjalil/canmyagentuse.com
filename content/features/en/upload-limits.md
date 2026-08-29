@@ -11,7 +11,7 @@ audience: Engineers sizing document and multimodal workloads.
 contentKind: feature
 status: published
 tags: [perception, uploads, limits, quota]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: perception
 summary: Record numeric attachment size, count, page, duration, storage, and rolling quotas.
@@ -36,6 +36,12 @@ notes:
     text: "Evidence checked 2026-08-28: Mistral's current Vibe documentation, which supersedes Le Chat at the same chat.mistral.ai entry point, documents Library uploads of up to 100 files at once and 100 MB per file. Ordinary chat file usage remains plan-limited without a public numeric allowance on the reviewed page."
   - id: 9
     text: "Evidence checked 2026-08-28: Claude Code documents a 30 MB maximum request-size failure, a PDF attachment boundary of 100 pages and 32 MB, and image dimension limits of 8,000 pixels for one image or 2,000 pixels when many images are in context. These are request and media boundaries, not a complete rolling or project quota."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 documents a 20 MB maximum for images attached to AI Chat, but the reviewed guide does not define the complete upload envelope for every supported attachment type."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp documents accepted image formats and limits of five images per request and twenty per conversation, but not a byte-size, storage, page, or rolling quota."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Cognition's 2026-04-08 hosted-product release notes document a 75 MB maximum per session attachment."
 issues: []
 resources:
   - title: Methodology
@@ -121,7 +127,84 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Request too large; image was too large; PDF errors
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains AI Assistant — Configure chat mode
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Attach files and images to a prompt
+  - id: warp-images-context
+    title: "Warp — Images as Context"
+    href: https://docs.warp.dev/agents/local-agents/agent-context/images-as-context/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Attaching images as context"
+  - id: cognition-devin-release-notes-uploads
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-04-08 Larger Attachment Uploads"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "maximum 75 MB per session attachment; count, page, storage, and rolling limits remain unestablished"
+        evidence:
+          - resourceId: cognition-devin-release-notes-uploads
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "jpg, jpeg, png, gif, and webp"
+          - type: runtime
+            value: "maximum 5 images per request and 20 per conversation; no byte-size or rolling-storage limit is documented"
+        evidence:
+          - resourceId: warp-images-context
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: the documented 20 MB limit applies to images; other attachment limits remain unestablished
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-web
     versions:
       - track: current

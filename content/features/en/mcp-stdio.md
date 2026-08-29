@@ -44,6 +44,12 @@ notes:
     text: "Evidence checked 2026-08-28: Zed documents local custom MCP servers configured with a command, arguments, and environment, and its pinned client uses a dedicated stdio transport."
   - id: 8
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 supports command-line MCP extensions, spawns the configured child process, and connects through standard input/output."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 supports local command-based MCP servers over stdio."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 creates the MCP SDK stdio client transport for enabled local server commands with project working directory and configured environment."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp launches local command-based MCP servers over stdio, including documented npx and Docker configurations."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -129,7 +135,86 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Command-line and stdio extension configuration, lines 149-164 and 266-365"
+  - id: jetbrains-ai-mcp-2026-2
+    title: JetBrains AI Assistant — Model Context Protocol
+    href: https://www.jetbrains.com/help/ai-assistant/mcp.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported transports; Stdio server configuration
+  - id: opencode-v1-18-25-mcp-stdio
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L340-L370
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "connectLocal; StdioClientTransport"
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding an MCP Server; command-based examples selecting stdio"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "local process over standard input and output"
+          - type: runtime
+            value: "Warp starts the command with the app and shuts it down on exit"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "stdio"
+          - type: runtime
+            value: "OpenCode starts the configured server command in the project environment"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-stdio
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: local server command over standard input and output
+        evidence:
+          - resourceId: jetbrains-ai-mcp-2026-2
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

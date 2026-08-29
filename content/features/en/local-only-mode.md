@@ -11,7 +11,7 @@ audience: Security-sensitive, air-gapped, and privacy-conscious teams.
 contentKind: feature
 status: published
 tags: [security, privacy, local, offline, air-gapped]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Run a documented workflow without a required network connection.
@@ -22,6 +22,8 @@ related: [local-models, sandbox-network, data-residency]
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot requires cloud data storage, authentication through a Cursor account, and a hosted computer; accounts using Legacy Privacy Mode must change to a supported data setting before the product can start."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 says supported workflows can use local Ollama or LM Studio models without cloud-based model services, but does not establish an application-wide offline or zero-network mode."
 issues: []
 resources:
   - title: Methodology
@@ -35,7 +37,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Before you begin
+  - id: jetbrains-ai-supported-models
+    title: JetBrains AI Assistant — Supported LLMs
+    href: https://www.jetbrains.com/help/ai-assistant/supported-llms.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Local models
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: applies to supported features assigned to a local model, not the entire application or every telemetry and update path
+        evidence:
+          - resourceId: jetbrains-ai-supported-models
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

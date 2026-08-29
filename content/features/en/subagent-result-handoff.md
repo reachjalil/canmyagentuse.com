@@ -11,7 +11,7 @@ audience: Engineers building auditable multi-agent workflows.
 contentKind: feature
 status: published
 tags: [runtime, subagents, handoff, provenance]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Return a child agent's findings or work to the parent.
@@ -32,6 +32,10 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor subagents return a final message to the parent and can leave work on shared or isolated branches; the reviewed page does not define typed result provenance."
   - id: 6
     text: "Evidence checked 2026-08-28: VS Code returns only a child's final result to the parent while retaining the prompt, full tool trace, and returned result in an inspectable read-only child chat; no typed result envelope is documented."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp children return final output and structured coordination messages to the parent, which can merge or summarize the results."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Dynamic Workflow children return JSON-Schema-constrained dictionaries, and isolated coding children hand off pushed git branches through structured output."
 issues: []
 resources:
   - title: Methodology
@@ -82,7 +86,57 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: What you see in chat; invoke a subagent
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Parent/child model; messaging; fan-out / fan-in"
+  - id: cognition-devin-dynamic-workflows
+    title: "Cognition — Devin Dynamic Workflows"
+    href: https://docs.devin.ai/work-with-devin/dynamic-workflows
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Authoring model; separate VM branch handoff"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "JSON Schema structured result and git branch handoff"
+        evidence:
+          - resourceId: cognition-devin-dynamic-workflows
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "children send results, status, questions, and decisions; fan-in workflows merge returned work"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

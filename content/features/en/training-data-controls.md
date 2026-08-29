@@ -11,7 +11,7 @@ audience: Privacy, legal, security, and procurement teams.
 contentKind: feature
 status: published
 tags: [security, privacy, training, data-use]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Control or document model-training and service-improvement use of product content.
@@ -30,6 +30,12 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini Apps' Keep Activity setting controls whether future personal-account chats train Google's AI models. Turning it off stops training unless the user submits feedback, while service delivery and safety processing—including possible human review—continue."
   - id: 5
     text: "Evidence checked 2026-08-28: Cursor Privacy Mode prevents Customer Data from being used for Cursor training and uses zero-data-retention agreements with model providers. Safety classifiers and triggered abuse investigations are documented exceptions, and turning Privacy Mode off permits broader storage and training use."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant detailed code-data collection and JetBrains model training are controlled by opt-in or opt-out settings and organization policy that vary by license; third-party model policies remain separate."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp users and paid-team administrators can disable user-content collection for service improvement, with documented Zero Data Retention provider treatment for supported models."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Paid Devin plans can opt out of model training and enable provider Zero Data Retention; Teams require an administrator, while Enterprise training requires express prior written consent."
 issues: []
 resources:
   - title: Methodology
@@ -75,7 +81,99 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Privacy Mode
+  - id: jetbrains-ai-product-data
+    title: JetBrains — Product Data Collection and Usage Notice
+    href: https://www.jetbrains.com/legal/docs/terms/product_data_collection/
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Version 1.5; detailed code-related data; AI training and settings
+  - id: warp-security-overview
+    title: "Warp — Security overview"
+    href: https://docs.warp.dev/enterprise/security-and-compliance/security-overview
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Zero Data Retention; Disabling telemetry"
+  - id: warp-admin-privacy-controls
+    title: "Warp — Admin Panel for teams"
+    href: https://docs.warp.dev/enterprise/team-management/admin-panel
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Privacy settings — user-generated content collection"
+  - id: cognition-devin-security
+    title: "Cognition — Security at Cognition"
+    href: https://docs.devin.ai/admin/security
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How data is used to improve Devin"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "paid self-serve opt-out; Teams administrator control; Enterprise requires express prior written consent"
+          - type: policy
+            value: "opting out also enables Zero Data Retention with model providers"
+        evidence:
+          - resourceId: cognition-devin-security
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "individual users can disable collection; paid-team admins can enforce it"
+          - type: plan
+            value: "Business and Enterprise default disabled while other paid teams default enabled"
+          - type: policy
+            value: "provider-retained model exceptions are disabled by default for Enterprise until enabled"
+        evidence:
+          - resourceId: warp-security-overview
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: warp-admin-privacy-controls
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains Product Data Collection and Usage Notice version 1.5, 2026-06-01
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: detailed code-related collection and JetBrains model training choices vary by commercial license and organization policy; third-party provider processing is governed separately
+        evidence:
+          - resourceId: jetbrains-ai-product-data
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

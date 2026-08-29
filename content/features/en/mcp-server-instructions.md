@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code's MCP guide explicitly describes the server `instructions` field as useful context for deferred MCP tool discovery; the reviewed page does not define how every instruction is surfaced or prioritized."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 retains server initialization instructions and incorporates them into extension information used to build agent context."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 retrieves non-empty server initialization instructions after connection and retains them with server tool metadata."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Server instructions consumed into ExtensionInfo, lines 1746-1758"
+  - id: opencode-v1-18-25-mcp-instructions
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L390-L400
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "getInstructions; MCP.instructions projection"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "instructions are consumed from the connected server initialize result"
+          - type: format
+            value: "empty instructions are discarded"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-instructions
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

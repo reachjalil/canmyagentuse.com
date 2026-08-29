@@ -11,7 +11,7 @@ audience: Security engineers and operators supervising delegated actions.
 contentKind: feature
 status: published
 tags: [runtime, subagents, approvals, permissions, security]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Control child-agent tools, inherited permissions, and approval behavior.
@@ -28,6 +28,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI subagents can receive explicitly scoped tools, isolated MCP servers, and subagent-specific policy files; other agents remain unavailable to descendants."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code coordinator agents can allowlist callable children, and each custom child can restrict built-in, extension, and MCP tools; the reviewed docs do not define a separate child approval ledger."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp requires explicit approval before children launch and lets operators inspect or adjust model, environment, host, and parallelism configuration."
 issues: []
 resources:
   - title: Methodology
@@ -63,7 +65,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Restrict which subagents an agent can use; coordinator and worker pattern
+  - id: warp-orchestration
+    title: "Warp — Multi-agent orchestration"
+    href: https://docs.warp.dev/platform/orchestration/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Approval mode"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "/orchestrate and orchestration proposed by /plan wait for approval; per-child overrides remain possible"
+        evidence:
+          - resourceId: warp-orchestration
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

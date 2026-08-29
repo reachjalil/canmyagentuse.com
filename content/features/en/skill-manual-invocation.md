@@ -50,6 +50,8 @@ notes:
     text: "Evidence checked 2026-08-29: ChatGPT desktop supports explicit named skill selection through `@`."
   - id: 11
     text: "Evidence checked 2026-08-29: Codex CLI supports explicit skill invocation through `/skills` or `$` mentions."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 lets users invoke an installed Agent Skill explicitly by naming it as $skill-name in chat with a supported integrated agent."
 issues: []
 resources:
   - title: Agent Skills manual invocation reference
@@ -127,7 +129,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "How ChatGPT and Codex use skills"
+  - id: jetbrains-ai-agent-skills
+    title: JetBrains AI Assistant — Agent Skills
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Use an Agent Skill; manual invocation
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: manual skill invocation is documented for integrated Claude Agent and Codex
+          - type: format
+            value: reference the skill as $skill-name in chat
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

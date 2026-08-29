@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: Perplexity's web session export supports PDF, Markdown, and DOCX, and its asset workflow supports downloading documents, spreadsheets, presentations, and HTML apps in documented formats."
   - id: 6
     text: "Evidence checked 2026-08-29: Codex CLI can write the final message from a non-interactive run to a file, including a JSON response constrained by a supplied JSON Schema; this is not a complete run or workspace archive."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin can download schema-constrained structured output and inline HTML, PDF, and SVG attachments from the session UI."
 issues: []
 resources:
   - title: Methodology
@@ -93,7 +95,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: What file types are supported; Export and share
+  - id: cognition-devin-release-notes-artifacts
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-03-13 Structured Output Modal; 2026-03-27 Inline File Previews"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "structured-output and session-attachment downloads; no complete workspace or provenance archive"
+        evidence:
+          - resourceId: cognition-devin-release-notes-artifacts
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current

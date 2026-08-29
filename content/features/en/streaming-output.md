@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: Show text or tool events as they arrive during a run.
@@ -25,6 +25,8 @@ notes:
     text: "Evidence checked 2026-08-28: Codex CLI, Claude Code, Gemini CLI, GitHub Copilot CLI, and Cline document progressive or structured streaming output for non-interactive and CLI workflows."
   - id: 3
     text: "Evidence checked 2026-08-28: OpenCode exposes server and global Server-Sent Event streams, and Devin's web progress view shows shell commands, edits, and browser activity while a session runs."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp displays thinking states, tool calls, planning, terminal activity, and output while a local agent run is active."
 issues: []
 resources:
   - title: Methodology
@@ -93,7 +95,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Progress Tab; Reviewing Devin's work in real time
+  - id: warp-session-sharing
+    title: "Warp — Agent Session Sharing"
+    href: https://docs.warp.dev/agents/local-agents/session-sharing/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Watching Agent activity"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local actions unfold live; shared viewers receive the activity in real time through Warp servers"
+        evidence:
+          - resourceId: warp-session-sharing
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

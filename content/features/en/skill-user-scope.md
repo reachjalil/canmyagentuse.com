@@ -50,6 +50,8 @@ notes:
     text: "Evidence checked 2026-08-29: ChatGPT desktop exposes Personal and System skills in its Skills sidebar beyond a single project."
   - id: 11
     text: "Evidence checked 2026-08-29: Codex CLI discovers user, administrator, and bundled system skills outside the current repository."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers reusable skills from IDE-level, global, and configured local directories for its supported integrated agents."
 issues: []
 resources:
   - title: User-scoped Agent Skills reference
@@ -135,7 +137,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "ChatGPT desktop Skills sidebar; Where Codex loads local skills"
+  - id: jetbrains-ai-agent-skills
+    title: JetBrains AI Assistant — Agent Skills
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Skill locations; IDE and Global directories
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: user-level skill discovery is documented for integrated Claude Agent and Codex
+          - type: format
+            value: IDE, global, and configured local skill directories
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

@@ -42,6 +42,10 @@ notes:
     text: "Evidence checked 2026-08-28: Zed documents prompting the user through the standard MCP OAuth flow when a remote server has no configured Authorization header."
   - id: 7
     text: "Evidence checked 2026-08-29: goose v1.48.0 implements OAuth for protected Streamable HTTP servers, including challenge detection, refresh, browser fallback, PKCE, registration, and pre-registered clients."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 handles OAuth for protected remote MCP servers, including browser authorization, dynamic client registration, configured credentials, token storage, and logout."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp completes browser-based OAuth for protected MCP servers, stores credentials securely on-device, reuses them, and supports revocation."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -119,7 +123,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "OAuth challenge, refresh, fallback, and step-up, lines 488-535 and 1105-1299"
+  - id: opencode-v1-18-25-mcp-oauth
+    title: "OpenCode v1.18.25 — MCP servers"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/mcp-servers.mdx#L167-L275
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "OAuth; Automatic; Pre-registered; Authenticating; Disabling OAuth"
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Authentication in MCP servers"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "browser-based OAuth; reauthentication on a new machine; revocation in the MCP Servers pane"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "browser authorization with dynamic registration or configured client credentials"
+          - type: policy
+            value: "OAuth may be disabled per server"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-oauth
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

@@ -58,6 +58,8 @@ notes:
     text: "Evidence checked 2026-08-29: GitHub documents creating, discovering, loading, invoking, and controlling Agent Skills in Copilot CLI."
   - id: 15
     text: "Evidence checked 2026-08-29: the ChatGPT desktop app supports standalone and plugin-bundled Agent Skills and exposes them in its Skills sidebar."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers Agent Skills for its integrated Claude Agent and Codex agent, with project, IDE, global, and custom local directories."
 issues: []
 resources:
   - id: openai-chatgpt-skills
@@ -187,7 +189,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Availability paragraphs; Skills sidebar"
+  - id: jetbrains-ai-agent-skills
+    title: JetBrains AI Assistant — Agent Skills
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported agents; skill locations; use skills
 support:
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: support is documented for integrated Claude Agent and Codex, not every JetBrains AI Assistant mode
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: windsurf
     versions:
       - track: current

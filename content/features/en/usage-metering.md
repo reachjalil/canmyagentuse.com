@@ -11,7 +11,7 @@ audience: Engineers and administrators controlling agent spend.
 contentKind: feature
 status: published
 tags: [operations, usage, cost, metering]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: operations
 summary: Inspect documented product usage such as requests, tokens, or cost.
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI exposes `/usage` as a built-in informational command for current usage, and its model picker and credit-limit controls document session-level consumption boundaries."
   - id: 5
     text: "Evidence checked 2026-08-28: VS Code's agent-session context control reports total AI credits consumed by the current session alongside context-token usage."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp reports per-turn and conversation credits together with tool calls, context use, files changed, diffs, and account totals."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Devin reports per-session and account consumption through actions, VM time, bandwidth, ACUs, quota, remaining credits, and enterprise organization totals."
 resources:
   - title: Methodology
     href: /methodology
@@ -74,7 +78,61 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Manage session context
+  - id: warp-credits
+    title: "Warp — Credits and billing"
+    href: https://docs.warp.dev/support-and-community/plans-and-billing/credits
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tracking usage; credit calculation"
+  - id: cognition-devin-usage
+    title: "Cognition — Usage"
+    href: https://docs.devin.ai/admin/billing/usage
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What counts toward usage; FAQs and account views"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "Enterprise ACUs or self-serve quota plus prepaid on-demand credits"
+          - type: plan
+            value: "per-session use is broadly visible; account-wide views vary by self-serve or Enterprise administration"
+        evidence:
+          - resourceId: cognition-devin-usage
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "ordinary shell commands do not consume Warp credits"
+          - type: policy
+            value: "consumption varies with model, tokens, context, tools, and task complexity"
+        evidence:
+          - resourceId: warp-credits
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

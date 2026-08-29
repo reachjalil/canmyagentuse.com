@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Keep a run going after the operator leaves the session.
@@ -31,6 +31,8 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Agent supports plan-limited background tasks in isolated task threads, but the reviewed page does not explicitly promise continuation after the browser is closed."
   - id: 6
     text: "Evidence checked 2026-08-28: Warp can hand work to Oz cloud agents that run in the background on hosted or customer infrastructure."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Cognition's hosted batch guide explicitly starts parallel Devin sessions on separate machines, permits closing the laptop, and returns completed pull requests later."
 issues: []
 resources:
   - title: Methodology
@@ -83,7 +85,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Oz cloud agents
+  - id: cognition-devin-background-batch
+    title: "Cognition — Test 8 Untested Modules in One Night"
+    href: https://docs.devin.ai/use-cases/gallery/batch-test-coverage
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Launch parallel sessions; close your laptop; return to pull requests"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "hosted managed Devin sessions continue on separate cloud machines"
+        evidence:
+          - resourceId: cognition-devin-background-batch
+            type: documented
+            observedAt: 2026-08-29
   - harness: openwork-desktop
     versions:
       - track: current

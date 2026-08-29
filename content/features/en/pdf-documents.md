@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - perception
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: perception
 summary: Upload a PDF for use as model input.
@@ -42,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code accepts attached PDFs and documents a maximum of 100 pages and 32 MB, with password-protected and invalid PDFs rejected."
   - id: 10
     text: "Evidence checked 2026-08-28: Gemini CLI custom commands encode supported PDF paths referenced with @{...} and inject them as multimodal input."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin sessions accept PDF attachments for prompt use, and current web release notes document inline PDF rendering."
 issues: []
 resources:
   - id: xai-grok-files-faq
@@ -132,7 +134,43 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "get_images_message PDF capability checks and application/pdf message construction"
+  - id: cognition-devin-attachments
+    title: "Cognition — Upload an attachment"
+    href: https://docs.devin.ai/api-reference/v1/attachments/upload-files-for-devin-to-work-with
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upload an attachment; How to Use Uploaded Files"
+  - id: cognition-devin-pdf-preview
+    title: "Cognition — Recent Updates"
+    href: https://docs.devin.ai/release-notes/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "2026-03-27 Inline File Previews"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "PDF session attachment with inline web preview; no public page-count limit was located"
+        evidence:
+          - resourceId: cognition-devin-attachments
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-devin-pdf-preview
+            type: documented
+            observedAt: 2026-08-29
   - harness: aider
     versions:
       - track: current

@@ -44,6 +44,12 @@ notes:
     text: "Evidence checked 2026-08-28: Zed documents a single remote MCP endpoint, while its pinned HTTP transport sends JSON-RPC with POST and accepts JSON or request-scoped SSE responses."
   - id: 8
     text: "Evidence checked 2026-08-29: goose CLI v1.48.0 offers remote Streamable HTTP extensions and constructs a Streamable HTTP MCP client for the configured URI."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 supports connecting remote MCP servers through Streamable HTTP."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 attempts Streamable HTTP first for configured remote MCP servers, carrying configured headers and OAuth state."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp local agents connect to MCP servers over Streamable HTTP with optional custom headers."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -129,7 +135,84 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Remote Extension Streamable HTTP choice and configuration, lines 149-164 and 266-365"
+  - id: jetbrains-ai-mcp-2026-2
+    title: JetBrains AI Assistant — Model Context Protocol
+    href: https://www.jetbrains.com/help/ai-assistant/mcp.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported transports; HTTP stream server configuration
+  - id: opencode-v1-18-25-mcp-http
+    title: "OpenCode v1.18.25 — MCP client implementation"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L236-L284
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "connectRemote; StreamableHTTP transport"
+  - id: warp-mcp
+    title: "Warp — Model Context Protocol"
+    href: https://docs.warp.dev/agents/capabilities/mcp/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding an MCP Server; Streamable HTTP configuration examples"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "Streamable HTTP URL with optional headers"
+        evidence:
+          - resourceId: warp-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "Streamable HTTP"
+          - type: auth
+            value: "configured headers or the OpenCode MCP OAuth provider may be attached"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-http
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: Streamable HTTP remote server endpoint
+        evidence:
+          - resourceId: jetbrains-ai-mcp-2026-2
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

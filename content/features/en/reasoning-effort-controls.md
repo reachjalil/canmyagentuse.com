@@ -11,7 +11,7 @@ audience: Engineers balancing latency, cost, and task quality.
 contentKind: feature
 status: published
 tags: [models, reasoning, latency, cost]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Choose a documented reasoning depth, effort, or budget for a run.
@@ -24,6 +24,8 @@ notes:
     text: "Evidence checked 2026-08-28: ChatGPT Work on the web and ChatGPT desktop expose a reasoning control beneath the composer; Codex CLI exposes reasoning effort through /model, with documented Low through Ultra levels when supported."
   - id: 2
     text: "Evidence checked 2026-08-28: Claude web and desktop expose effort and extended-thinking controls; Claude Code documents per-session and configured effort levels, subject to model support."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp exposes named model variants with documented Low through Max reasoning-effort choices."
 resources:
   - title: Methodology
     href: /methodology
@@ -49,7 +51,34 @@ resources:
     publisher: Anthropic
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: warp-model-choice
+    title: "Warp — Agent model choice"
+    href: https://docs.warp.dev/agents/inference/model-choice/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Available models and reasoning-level tables"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "available effort choices depend on the selected model family"
+          - type: format
+            value: "effort is represented through named model variants and model IDs"
+        evidence:
+          - resourceId: warp-model-choice
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

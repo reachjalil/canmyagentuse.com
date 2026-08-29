@@ -11,7 +11,7 @@ audience: Teams preserving, auditing, migrating, or analyzing agent work.
 contentKind: feature
 status: published
 tags: [collaboration, portability, export, provenance]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: collaboration
 summary: Export conversation history in a documented format.
@@ -32,6 +32,12 @@ notes:
     text: "Evidence checked 2026-08-28: Perplexity sessions expose an Export action for a session answer in PDF, Markdown, or DOCX. The reviewed page does not establish a bulk account export or guarantee that every turn and attachment in the session is included, so this is partial conversation-export support."
   - id: 6
     text: "Evidence checked 2026-08-28: Mistral documents a dedicated Vibe export tool that downloads all personal Vibe data stored on its servers at request time. The page does not enumerate whether every conversation, attachment, model field, tool event, or other run-provenance field is included, and it does not state the archive format."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains publishes an official read-only workaround script that extracts saved AI Assistant workspace chat XML to Markdown, rather than a built-in or restorable general export surface."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 documents per-session JSON export, optional sensitive-data sanitization, and import from exported JSON or a share URL."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp can copy a complete AI conversation to the clipboard, but current docs specify no durable file format, structured schema, or restore path."
 resources:
   - title: Methodology
     href: /methodology
@@ -92,7 +98,82 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Thread definition; Continue a Thread Anywhere; Export a Thread"
+  - id: jetbrains-ai-chat-export
+    title: JetBrains — Export AI Assistant chat history to Markdown
+    href: https://youtrack.jetbrains.com/projects/JUNIE/articles/SUPPORT-A-4167/Export-AI-Assistant-chat-history-to-Markdown
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Official workspace_chat_parser.py workaround and generated chat_history.md
+  - id: opencode-v1-18-25-cli-export
+    title: "OpenCode v1.18.25 — CLI"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/cli.mdx#L466-L496
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "export; import"
+  - id: warp-block-actions
+    title: "Warp — Block Actions"
+    href: https://docs.warp.dev/terminal/blocks/block-actions
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Copy Input / Output of Block"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "clipboard copy of prompt, output, both, or complete conversation; no Markdown, JSON, archive, or replay schema"
+        evidence:
+          - resourceId: warp-block-actions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "per-session JSON; optional --sanitize redaction; matching JSON and share-URL import"
+        evidence:
+          - resourceId: opencode-v1-18-25-cli-export
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains support article observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: official workaround exports saved workspace chat XML to Markdown with messages and text attachments; it is not a built-in bulk or restorable export
+        evidence:
+          - resourceId: jetbrains-ai-chat-export
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

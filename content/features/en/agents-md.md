@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [interfaces, instructions]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Discover and apply the cross-agent AGENTS.md convention at repository scope."
@@ -46,6 +46,14 @@ notes:
     text: "Evidence checked 2026-08-28: Windsurf documents root AGENTS.md files as always-on workspace rules."
   - id: 8
     text: "Evidence checked 2026-08-28: Zed documents project AGENTS.md as an automatically loaded project instruction file."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 documents AGENTS.md project instructions for integrated Junie, Codex, and GitHub Copilot agents, but not for every AI Chat mode."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 loads repository-root AGENTS.md instructions, discovers them upward from the current directory, and includes them in model context."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp automatically applies uppercase AGENTS.md rules from the project root and current directory, with best-effort rules from edited subdirectories."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin discovers AGENTS.md in the project root or other project locations and reads the file before it starts coding."
 issues: []
 resources:
   - title: AGENTS.md root instructions reference
@@ -123,7 +131,107 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Automatic inclusion; personal and system locations; Granular Guidance"
+  - id: jetbrains-ai-agents
+    title: JetBrains AI Assistant — AI agents
+    href: https://www.jetbrains.com/help/ai-assistant/agents.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Supported features comparison; project instructions
+  - id: opencode-v1-18-25-rules
+    title: "OpenCode v1.18.25 — Rules"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/rules.mdx#L6-L18
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Initialize; Types — Project"
+  - id: warp-rules
+    title: "Warp — Rules for agents"
+    href: https://docs.warp.dev/agents/capabilities/rules/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Project Rules; Rules precedence"
+  - id: cognition-devin-agents-md
+    title: "Cognition — AGENTS.md"
+    href: https://docs.devin.ai/onboard-devin/agents-md
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "AGENTS.md; Creating an AGENTS.md File"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers: []
+        evidence:
+          - resourceId: cognition-devin-agents-md
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "filename must be uppercase AGENTS.md"
+          - type: policy
+            value: "WARP.md takes precedence when both files exist in the same directory"
+        evidence:
+          - resourceId: warp-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "project-root AGENTS.md applied while working in the project or its descendants"
+        evidence:
+          - resourceId: opencode-v1-18-25-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: AGENTS.md is documented for integrated Junie, Codex, and GitHub Copilot agents, not every AI Chat mode
+        evidence:
+          - resourceId: jetbrains-ai-agents
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

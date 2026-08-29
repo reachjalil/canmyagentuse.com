@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [interfaces, instructions]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Load persistent or path-scoped instructions from a documented product rule format."
@@ -37,6 +37,14 @@ notes:
     text: "Evidence checked 2026-08-28: Continue loads persistent workspace rules from .continue/rules and supports glob-scoped rule frontmatter."
   - id: 8
     text: "Evidence checked 2026-08-28: Windsurf loads workspace Markdown rules from .windsurf/rules with always-on, glob, model-decision, or manual activation."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 loads project Markdown rules from .aiassistant/rules and supports always, manual, model-decision, file-pattern, and disabled modes."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 loads persistent local files, glob patterns, and remote instruction URLs through the product-native opencode.json instructions field."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp provides persistent Global Rules and repository-scoped Project Rules with documented automatic injection and current-directory, root, and global precedence."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin Review discovers path-scoped REVIEW.md instructions and administrator-configured review globs, but this native-rules behavior is not established for ordinary Agent sessions."
 issues: []
 resources:
   - title: Methodology
@@ -106,7 +114,111 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Rules scope table
+  - id: jetbrains-ai-project-rules
+    title: JetBrains AI Assistant — Configure project rules
+    href: https://www.jetbrains.com/help/ai-assistant/configure-project-rules.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Create a new project rule; configure when rules are applied
+  - id: opencode-v1-18-25-rules
+    title: "OpenCode v1.18.25 — Rules"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/rules.mdx#L107-L147
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Custom Instructions; Referencing External Files"
+  - id: warp-rules
+    title: "Warp — Rules for agents"
+    href: https://docs.warp.dev/agents/capabilities/rules/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Global Rules; Project Rules; Rules precedence"
+  - id: cognition-devin-review-rules
+    title: "Cognition — Devin Review"
+    href: https://docs.devin.ai/work-with-devin/devin-review
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Instruction Files; Custom Review Rules; REVIEW.md"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Devin Review only; not established for general hosted Agent sessions"
+          - type: format
+            value: "directory-scoped **/REVIEW.md plus administrator-configured review-context globs"
+        evidence:
+          - resourceId: cognition-devin-review-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "Global Rules in Warp Drive or Settings; Project Rules in AGENTS.md or legacy WARP.md"
+          - type: policy
+            value: "current-subdirectory rules override root rules, which override Global Rules"
+        evidence:
+          - resourceId: warp-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "project or global opencode.json instructions array with local paths, globs, or HTTPS URLs"
+        evidence:
+          - resourceId: opencode-v1-18-25-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: project Markdown files under .aiassistant/rules with selectable activation modes
+        evidence:
+          - resourceId: jetbrains-ai-project-rules
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

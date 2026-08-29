@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: Return JSON or schema-constrained output through a documented product feature.
@@ -29,6 +29,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor Agent CLI documents `json` and `stream-json` output formats for programmatic use in print mode."
   - id: 5
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents `--output-format=json` as JSONL with one JSON object per line for programmatic execution."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin Dynamic Workflow agent calls accept a JSON Schema and return a dictionary constrained to that schema."
 issues: []
 resources:
   - title: Methodology
@@ -71,7 +73,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: --output-format
+  - id: cognition-devin-dynamic-workflows
+    title: "Cognition — Devin Dynamic Workflows"
+    href: https://docs.devin.ai/work-with-devin/dynamic-workflows
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Authoring model; agent schema parameter"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "JSON Schema constrained object or dictionary"
+        evidence:
+          - resourceId: cognition-devin-dynamic-workflows
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

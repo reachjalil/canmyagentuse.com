@@ -11,7 +11,7 @@ audience: Operators diagnosing truncation, compaction, and unexpectedly expensiv
 contentKind: feature
 status: published
 tags: [context, tokens, observability]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: models-context
 summary: Inspect consumed or remaining context budget during a conversation or run.
@@ -28,6 +28,8 @@ notes:
     text: "Evidence checked 2026-08-28: VS Code's context-window control reports token count, percentage usage, category breakdown, and session AI credits for agent chats."
   - id: 4
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents `/context` as a token-usage visualization and breakdown of the current context window."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Warp shows a context-window usage bar and percentage breakdown for system prompt, tools, history, input, images, and other content."
 resources:
   - title: Methodology
     href: /methodology
@@ -69,7 +71,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Checking your context usage
+  - id: warp-interacting-agents
+    title: "Warp — Interacting with agents"
+    href: https://docs.warp.dev/agents/local-agents/interacting-with-agents/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Context window management; usage breakdown"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "indicator appears at 20 percent usage, progresses toward the limit, and updates after a model switch and next message"
+        evidence:
+          - resourceId: warp-interacting-agents
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-desktop
     versions:
       - track: current

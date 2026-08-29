@@ -32,6 +32,8 @@ notes:
     text: "VS Code source sends notifications/cancelled when a pending MCP request is cancelled and cancels pending requests when it receives the same notification."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0 sends `notifications/cancelled` with the request ID when an in-flight MCP request times out or is cancelled locally."
+  - id: 51
+    text: "Evidence checked 2026-08-29: Aborting an OpenCode v1.18.25 MCP tool execution propagates the signal to the pinned SDK, which sends notifications/cancelled for the in-flight request."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,45 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Cancellable request and notifications/cancelled path, lines 729-798"
+  - id: opencode-v1-18-25-mcp-tool-adapter
+    title: "OpenCode v1.18.25 — MCP tool adapter"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/catalog.ts#L42-L67
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "convertTool; callTool signal option"
+  - id: mcp-sdk-v1-29-cancellation
+    title: "MCP TypeScript SDK v1.29.0 — cancellation handling"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/shared/protocol.ts#L1166-L1218
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "AbortSignal listener and cancellation notification construction"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "cancellation uses notifications/cancelled for an in-flight request"
+          - type: runtime
+            value: "initiated through OpenCode's tool abort signal"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-tool-adapter
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-cancellation
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

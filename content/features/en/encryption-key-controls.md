@@ -11,7 +11,7 @@ audience: Security and compliance teams evaluating cryptographic control.
 contentKind: feature
 status: published
 tags: [security, encryption, keys, enterprise]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: security-privacy
 summary: Record documented encryption key ownership, scope, rotation, and revocation.
@@ -24,6 +24,8 @@ notes:
     text: "Evidence checked 2026-08-28: Eligible Claude Enterprise organizations can replace Anthropic's default encryption for covered chats, projects, and files with a customer key in AWS KMS, Google Cloud KMS, or Azure Key Vault. The customer controls the key and cloud-provider audit logs record Anthropic key operations; the overview delegates the exact coverage and limitations to the implementation docs."
   - id: 3
     text: "Evidence checked 2026-08-28: Cursor Enterprise offers customer-managed encryption keys for embeddings and Cloud Agent data stored in Cursor infrastructure, with customer-controlled rotation and access. The feature does not establish customer-key coverage for every prompt, third-party model request, external integration, or local artifact."
+  - id: 53
+    text: "Evidence checked 2026-08-29: Hosted Devin encrypts customer data with Cognition-managed keys by default, while Enterprise Assured customers can provide an AWS KMS key for session data and VM snapshots."
 resources:
   - title: Methodology
     href: /methodology
@@ -49,7 +51,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Data encryption; customer-managed encryption keys
+  - id: cognition-devin-customer-managed-keys
+    title: "Cognition — Customer Managed Keys"
+    href: https://docs.devin.ai/enterprise/security-access/security/customer-managed-keys
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; How It Works; Key Management"
 support:
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Devin hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: "provider-managed at-rest keys by default; customer-owned AWS KMS key can be rotated, disabled, or revoked"
+          - type: plan
+            value: "customer-managed keys require Enterprise Assured"
+        evidence:
+          - resourceId: cognition-devin-customer-managed-keys
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

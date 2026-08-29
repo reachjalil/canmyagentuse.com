@@ -36,6 +36,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor's protocol capability table explicitly lists MCP Elicitation as supported server-initiated requests for additional user information."
   - id: 4
     text: "Evidence checked 2026-08-29: goose v1.48.0 advertises MCP elicitation and documents form-mode structured input in the CLI, including accept or cancel behavior and a timeout."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 explicitly leaves the MCP elicitation client capability commented out in the released client options."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -73,7 +75,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Automatic form-mode elicitation and CLI interaction, lines 11-52"
+  - id: opencode-v1-18-25-mcp-capabilities
+    title: "OpenCode v1.18.25 — MCP client capabilities"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/opencode/src/mcp/index.ts#L38-L50
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLIENT_OPTIONS capabilities; commented elicitation entry"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: no
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "elicitation capability is explicitly disabled in the released client options"
+        evidence:
+          - resourceId: opencode-v1-18-25-mcp-capabilities
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

@@ -14,7 +14,7 @@ tags:
   - perception
   - image
   - uploads
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: perception
 summary: Attach, paste, or select an image for use as model input.
@@ -50,6 +50,12 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code accepts image drag-and-drop, clipboard paste, and image paths and documents analysis of screenshots, diagrams, mockups, and multiple images."
   - id: 12
     text: "Evidence checked 2026-08-28: Gemini CLI custom commands encode supported image paths, including PNG and JPEG examples, and inject them as multimodal input through @{...}."
+  - id: 50
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 accepts images in AI Chat through attachment selection, paste, drag-and-drop, or IDE references, subject to model compatibility and a 20 MB image limit."
+  - id: 51
+    text: "Evidence checked 2026-08-29: OpenCode v1.18.25 accepts images dragged into the terminal and adds their visual content to the model prompt as reference material."
+  - id: 52
+    text: "Evidence checked 2026-08-29: Local Warp Agent conversations accept images through upload, paste, or drag-and-drop and send them as visual context."
 issues: []
 resources:
   - id: xai-grok-files-faq
@@ -160,7 +166,88 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Images"
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains AI Assistant — Configure chat mode
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Attach files and images to a prompt
+  - id: opencode-v1-18-25-image-input
+    title: "OpenCode v1.18.25 — Intro"
+    href: https://github.com/anomalyco/opencode/blob/cb7d8b2f5e44876ef98b661dc10590c915af3a9f/packages/web/src/content/docs/index.mdx#L249-L266
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Usage — Add features; drag-and-drop image tip"
+  - id: warp-images-context
+    title: "Warp — Images as Context"
+    href: https://docs.warp.dev/agents/local-agents/agent-context/images-as-context/
+    kind: docs
+    publisher: "Warp"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Attaching images as context; model behavior"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [52]
+        target:
+          kind: dated-documentation
+          revision: "current Warp documentation, last updated through 2026-08-27"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "jpg, jpeg, png, gif, and webp"
+          - type: runtime
+            value: "up to 5 images per request and 20 per conversation; Warp may resize images"
+        evidence:
+          - resourceId: warp-images-context
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [51]
+        target:
+          kind: release
+          revision: "OpenCode v1.18.25, tag commit cb7d8b2f5e44876ef98b661dc10590c915af3a9f"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "terminal drag-and-drop"
+          - type: runtime
+            value: "useful interpretation depends on a selected model that accepts images"
+        evidence:
+          - resourceId: opencode-v1-18-25-image-input
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: selected model must support image input
+          - type: format
+            value: attach, paste, drag-and-drop, or reference an image; maximum documented image size is 20 MB
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: aider
     versions:
       - track: current
