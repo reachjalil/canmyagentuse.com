@@ -28,6 +28,12 @@ notes:
     text: "Evidence checked 2026-08-28: Anthropic documents model selectors in Claude web and desktop and /model, --model, environment, and settings-based selection in Claude Code."
   - id: 4
     text: "Evidence checked 2026-08-28: Gemini CLI exposes Auto, Pro, Flash, Flash-Lite, and manual model selection through /model and --model."
+  - id: 5
+    text: "Evidence checked 2026-08-28: GitHub Copilot CLI exposes per-session, repository, global, command-line, and automatic model selection with documented precedence."
+  - id: 6
+    text: "Evidence checked 2026-08-28: VS Code exposes a language-model picker, automatic routing, and BYOK or local-model configuration for supported agent sessions."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Cursor documents a model picker and curated selectable models with task, cost, speed, and context tradeoffs."
 issues: []
 resources:
   - title: Methodology
@@ -69,6 +75,30 @@ resources:
     publisher: Google
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: github-copilot-cli-model-selection
+    title: GitHub — Copilot CLI command reference
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: /model and --model
+  - id: microsoft-vscode-language-models
+    title: Microsoft — AI language models in VS Code
+    href: https://code.visualstudio.com/docs/agent-customization/language-models
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Model picker, automatic selection, and BYOK
+  - id: cursor-model-selection-guide
+    title: Cursor — Selecting models
+    href: https://docs.cursor.com/guides/selecting-models
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Model selection guidance
 support:
   - harness: chatgpt-web
     versions:
@@ -204,6 +234,57 @@ support:
             value: model choice is fully managed by the product; neither members nor administrators receive a model picker
         evidence:
           - resourceId: xai-grok-bot-team-models
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI command reference
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: /model selects for the current session or persists at repository or global scope; --model selects at startup and auto enables product routing
+        evidence:
+          - resourceId: github-copilot-cli-model-selection
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current VS Code language-model documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: available models depend on provider access, Copilot plan, organization policy, configured BYOK providers, and agent-harness compatibility
+        evidence:
+          - resourceId: microsoft-vscode-language-models
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Cursor model-selection documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: selectable model inventory, pricing, and Max Mode availability depend on the current Cursor plan and provider availability
+        evidence:
+          - resourceId: cursor-model-selection-guide
             type: documented
             observedAt: 2026-08-28
 ---

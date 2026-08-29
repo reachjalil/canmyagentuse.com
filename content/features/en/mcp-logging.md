@@ -27,13 +27,40 @@ aliases: ["logging/message"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "VS Code source dispatches MCP notifications/message payloads to its structured MCP log translator."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: microsoft-vscode-mcp-connection-source
+    title: Microsoft VS Code — MCP server connection implementation
+    href: https://github.com/microsoft/vscode/blob/a39698f7e6ecc255f6e9cf752d1c6d01faf308da/src/vs/workbench/contrib/mcp/common/mcpServerConnection.ts
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: handleServerNotification notifications/message and handleLoggingNotification
+support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: VS Code source commit a39698f7
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: the handler implements structured notifications/message logging; MCP 2026-07-28 retains this notification with revised per-request log-level semantics
+        evidence:
+          - resourceId: microsoft-vscode-mcp-connection-source
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Receive structured log messages emitted by an MCP server.

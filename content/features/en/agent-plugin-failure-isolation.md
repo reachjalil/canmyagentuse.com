@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: "Reject invalid components narrowly without disabling valid components in the same package."
-specLabel: Agent Plugins failure isolation
+specLabel: Agent Plugins 1.0
 specification:
   id: agent-plugins
   revision: "1.0.0"
@@ -27,15 +27,42 @@ aliases: ["plugin failure isolation"]
 parent: plugins
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Claude Code documents component-scoped validation behavior: invalid frontmatter affects that file, and invalid hooks JSON loads the plugin without those hooks."
 issues: []
 resources:
   - title: Agent Plugins failure isolation reference
     href: https://agent-plugins.org/specification/1.0
     kind: spec
-support: []
+  - id: anthropic-claude-code-plugin-validation
+    title: Anthropic — Create and distribute a Claude Code plugin marketplace
+    href: https://code.claude.com/docs/en/plugin-marketplaces
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Validate plugins and marketplaces — read the validation results
+support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code plugin marketplace documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: invalid skill, agent, or command frontmatter is scoped to that component, and invalid hooks JSON loads the plugin without those hooks; manifest-level failures remain fatal
+        evidence:
+          - resourceId: anthropic-claude-code-plugin-validation
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Reject invalid components narrowly without disabling valid components in the same package.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

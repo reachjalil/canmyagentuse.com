@@ -5,10 +5,11 @@ export type Locale = (typeof LOCALES)[number];
 export const SITE = {
   name: "Can My Agent Use",
   shortName: "canmyagentuse",
-  tagline: "Can my agent use this?",
-  positioning: "Compatibility answers for engineers choosing an agent product.",
+  tagline: "Compare AI agent capabilities",
+  positioning:
+    "Evidence-backed compatibility answers for choosing an AI agent product.",
   description:
-    "Check whether a chat, desktop, or CLI agent product supports a capability. Every published answer links to public evidence.",
+    "Compare capabilities across chat, desktop, and CLI AI agents. Every published answer links to dated public evidence.",
   url: "https://canmyagentuse.com",
   defaultLocale: "en" as const,
   locales: LOCALES,

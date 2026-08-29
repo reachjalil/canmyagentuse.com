@@ -1,12 +1,12 @@
 ---
 title: Streaming output
-description: Show tokens and tool events as they arrive, with current OpenWork Desktop evidence.
+description: Show text or tool events as they arrive during a run.
 slug: streaming-output
 locale: en
 seoTitle: "Streaming output — Can My Agent Use"
 socialTitle: Streaming output
-socialDescription: Streaming-output support by exact harness surface, with dated public evidence.
-llmSummary: OpenWork Desktop subscribes to the OpenCode event stream over SSE and renders live session progress, tool activity, todos, and permission requests.
+socialDescription: Compare live text, tool-event, progress, and status output.
+llmSummary: Streaming output displays text or tool events before a run completes. Event types, ordering, transport, and structured output are qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -15,12 +15,16 @@ tags:
 updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
-summary: Show tokens and tool events as they arrive.
+summary: Show text or tool events as they arrive during a run.
 specLabel: Common product term
 highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop's documented host mode subscribes to OpenCode SSE events for live session updates."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Codex CLI, Claude Code, Gemini CLI, GitHub Copilot CLI, and Cline document progressive or structured streaming output for non-interactive and CLI workflows."
+  - id: 3
+    text: "Evidence checked 2026-08-28: OpenCode exposes server and global Server-Sent Event streams, and Devin's web progress view shows shell commands, edits, and browser activity while a session runs."
 issues: []
 resources:
   - title: Methodology
@@ -33,7 +37,184 @@ resources:
     publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: openai-codex-streaming
+    title: OpenAI — Codex non-interactive mode
+    href: https://learn.chatgpt.com/docs/non-interactive-mode
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Basic usage; JSON output
+  - id: anthropic-claude-code-streaming
+    title: Anthropic — Claude Code CLI reference
+    href: https://code.claude.com/docs/en/cli-usage
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: output-format; include-partial-messages
+  - id: google-gemini-cli-streaming
+    title: Google — Gemini CLI release notes
+    href: https://github.com/google-gemini/gemini-cli/blob/main/docs/changelogs/index.md
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Stream JSON output
+  - id: github-copilot-cli-streaming
+    title: GitHub — Copilot CLI command reference
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: --stream; --output-format
+  - id: cline-cli-streaming
+    title: Cline — CLI reference
+    href: https://docs.cline.bot/cli/cli-reference
+    kind: docs
+    publisher: Cline
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: JSON output format
+  - id: opencode-event-stream
+    title: OpenCode — Server
+    href: https://opencode.ai/docs/server/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Events
+  - id: cognition-devin-live-progress
+    title: Cognition — Devin session tools
+    href: https://docs.devin.ai/work-with-devin/devin-session-tools
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Progress Tab; Reviewing Devin's work in real time
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code CLI reference
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: print mode supports stream-json; include-partial-messages adds partial streaming events
+          - type: runtime
+            value: hook and subagent events require separate flags when those details are needed
+        evidence:
+          - resourceId: anthropic-claude-code-streaming
+            type: documented
+            observedAt: 2026-08-28
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Codex non-interactive documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: codex exec streams human-readable progress to stderr; --json emits newline-delimited JSON events for messages, commands, file changes, MCP, web, and plan updates
+        evidence:
+          - resourceId: openai-codex-streaming
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: release
+          revision: Gemini CLI v0.11.0 or later
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: --output-format stream-json emits real-time JSONL events for monitoring headless agent progress
+        evidence:
+          - resourceId: google-gemini-cli-streaming
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI reference
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: streaming is on by default for progressive response display; JSON output uses one object per line
+        evidence:
+          - resourceId: github-copilot-cli-streaming
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Cline CLI documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: --json emits one JSON object per line and marks in-progress messages with partial=true
+        evidence:
+          - resourceId: cline-cli-streaming
+            type: documented
+            observedAt: 2026-08-28
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode server documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: /event provides a Server-Sent Events stream beginning with server.connected; /global/event provides global events
+        evidence:
+          - resourceId: opencode-event-stream
+            type: documented
+            observedAt: 2026-08-28
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Devin web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: the web progress view exposes live shell commands, code edits, and browser activity; a structured external event transport is not established
+        evidence:
+          - resourceId: cognition-devin-live-progress
+            type: documented
+            observedAt: 2026-08-28
   - harness: openwork-desktop
     versions:
       - track: current

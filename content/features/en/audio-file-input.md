@@ -1,12 +1,12 @@
 ---
-title: Audio file upload and understanding
-description: Upload recorded audio for transcription, analysis, or other documented model context.
+title: Audio file input
+description: Upload recorded audio for use as model input.
 slug: audio-file-input
 locale: en
 seoTitle: Audio file input compatibility — Can My Agent Use
-socialTitle: Audio file upload and understanding
-socialDescription: Compare recorded-audio upload, transcription, speaker, timing, and duration support.
-llmSummary: Audio-file input covers recorded uploads and is separate from realtime voice; evidence should distinguish transcript-only processing from timing, speaker, acoustic, or native audio understanding.
+socialTitle: Audio file input
+socialDescription: Compare recorded-audio uploads, transcription support, and file limits.
+llmSummary: Audio file input covers recorded uploads and is separate from realtime voice. Transcription, timestamps, speaker labels, and acoustic analysis are recorded as qualifiers only when documented.
 audience: Engineers comparing recorded-audio and meeting workflows.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [perception, audio, uploads, transcription]
 updated: 2026-08-28
 published: 2026-08-28
 category: perception
-summary: Upload recorded audio and expose its supported speech, timing, speaker, or acoustic content.
+summary: Upload recorded audio for use as model input.
 specLabel: Common product term
 aliases: [audio input, audio upload, recording attachment, speech transcription]
 parent: file-inputs
@@ -26,6 +26,10 @@ notes:
     text: "Evidence checked 2026-08-28: Grok Bot lists audio among common supported inputs and documents a 25 MB per-audio-file limit, but the reviewed page does not specify transcript, speaker, timing, or acoustic fidelity."
   - id: 3
     text: "Evidence checked 2026-08-28: Gemini Apps accept audio uploads and document total audio-duration limits of 10 minutes without a Google AI plan or 3 hours with Google AI Pro or Ultra. The reviewed page does not define diarization, timestamp, transcript, or acoustic-understanding fidelity."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Perplexity web file uploads accept MPEG, WAV, AIFF, OGG, FLAC, and MP3 audio, automatically transcribe spoken content, and can identify and label speakers. The general file-upload page documents a 40 MB per-file limit."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Gemini CLI custom commands encode a supported audio path referenced with @{...} and inject it as multimodal input. The reviewed page does not enumerate audio formats or establish transcript, timestamp, diarization, or acoustic-analysis fidelity."
 issues: []
 resources:
   - title: Methodology
@@ -55,6 +59,22 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Upload and analyze files; upload limits
+  - id: perplexity-file-uploads
+    title: Perplexity Help Center — File uploads
+    href: https://www.perplexity.ai/help-center/en/articles/10354807-file-uploads
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Audio files; supported file types and size
+  - id: gemini-cli-custom-commands
+    title: Gemini CLI — Custom commands
+    href: https://geminicli.com/docs/cli/custom-commands/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Injecting file content with @{...}; multimodal support
 support:
   - harness: grok-web
     versions:
@@ -76,7 +96,7 @@ support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation
@@ -93,7 +113,7 @@ support:
   - harness: gemini-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -109,6 +129,44 @@ support:
             value: accepted audio formats, diarization, timestamps, transcript fidelity, and native acoustic semantics are not established by the reviewed page
         evidence:
           - resourceId: google-gemini-upload-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: direct audio uploads are automatically transcribed; the documented formats are MPEG, WAV, AIFF, OGG, FLAC, and MP3, with a 40 MB general per-file limit
+          - type: runtime
+            value: speaker identification and labels are documented, but timestamps and non-speech acoustic or prosody fidelity are not established
+        evidence:
+          - resourceId: perplexity-file-uploads
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Gemini CLI custom-command documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: supported audio files referenced with @{...} inside a custom command are encoded and injected as multimodal input
+          - type: runtime
+            value: accepted audio formats, ordinary-prompt attachment methods, transcripts, timestamps, diarization, and acoustic semantics are not established by the reviewed page
+        evidence:
+          - resourceId: gemini-cli-custom-commands
             type: documented
             observedAt: 2026-08-28
 ---

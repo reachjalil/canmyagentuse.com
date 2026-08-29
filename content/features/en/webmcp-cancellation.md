@@ -27,7 +27,9 @@ aliases: ["AbortSignal"]
 parent: webmcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: Chrome's WebMCP Imperative API documentation exposes AbortSignal for canceling pending execution and passes a cancellation signal into the tool callback; Chrome 153 separately changed registration abort so unregistering no longer breaks in-flight work."
 issues: []
 resources:
   - id: webmcp-draft
@@ -37,7 +39,38 @@ resources:
     publisher: W3C Web Machine Learning Community Group
     evidenceType: documented
     reviewedAt: 2026-08-28
-support: []
+  - id: chrome-webmcp-imperative-cancellation
+    title: Chrome for Developers — WebMCP Imperative API
+    href: https://developer.chrome.com/docs/ai/webmcp/imperative-api
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Unregister tools, handle tool cancellation, and execute tool
+support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: yes
+        stage: experimental
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-28
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental origin trial and local testing requires the enable-webmcp-testing flag
+          - type: protocol-revision
+            value: Chrome 153 separates tool unregistration from cancellation of in-flight execution; execution cancellation remains exposed through AbortSignal
+        evidence:
+          - resourceId: webmcp-draft
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: chrome-webmcp-imperative-cancellation
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Cancel pending tool registration or execution through abort signals and lifecycle rules.

@@ -26,6 +26,10 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code exposes /compact with an optional preservation instruction and also accepts durable compact instructions in CLAUDE.md."
   - id: 3
     text: "Evidence checked 2026-08-28: Gemini CLI exposes /compress and a model.compressionThreshold setting whose documented default is 0.5."
+  - id: 4
+    text: "Evidence checked 2026-08-28: GitHub Copilot CLI exposes `/compact` with optional focus instructions and lets the operator cancel manual compaction."
+  - id: 5
+    text: "Evidence checked 2026-08-28: VS Code exposes `/compact`, optional preservation instructions, a context-control action, and a setting that disables automatic compaction."
 resources:
   - title: Methodology
     href: /methodology
@@ -58,6 +62,22 @@ resources:
     publisher: Google
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: github-copilot-cli-context-management
+    title: GitHub — Managing context in Copilot CLI
+    href: https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Compaction
+  - id: microsoft-vscode-session-context
+    title: Microsoft — Manage agent sessions in VS Code
+    href: https://code.visualstudio.com/docs/agents/run/sessions/manage-sessions
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Compact conversation context
 support:
   - harness: chatgpt-desktop
     versions:
@@ -111,6 +131,40 @@ support:
             type: documented
             observedAt: 2026-08-28
           - resourceId: google-gemini-cli-settings
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI context-management documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: /compact accepts optional focus instructions and manual compaction can be canceled with Escape; the automatic threshold itself is not documented as configurable
+        evidence:
+          - resourceId: github-copilot-cli-context-management
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current VS Code agent-session documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: /compact accepts preservation instructions and automatic compaction can be disabled; threshold selection and retained-item pinning are not documented
+        evidence:
+          - resourceId: microsoft-vscode-session-context
             type: documented
             observedAt: 2026-08-28
 ---

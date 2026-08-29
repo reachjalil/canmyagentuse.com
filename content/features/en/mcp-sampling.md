@@ -27,13 +27,40 @@ aliases: ["sampling/createMessage"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "VS Code documents MCP server sampling through the user's configured models, with first-use authorization and per-server model controls."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: microsoft-vscode-mcp-guide
+    title: Microsoft VS Code — MCP developer guide
+    href: https://code.visualstudio.com/api/extension-guides/ai/mcp#_sampling
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Sampling
+support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: VS Code documentation dated 2026-07-29
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: the user authorizes a server's first sampling request and can restrict which configured models that server may use
+        evidence:
+          - resourceId: microsoft-vscode-mcp-guide
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Handle server requests for model sampling through the client.

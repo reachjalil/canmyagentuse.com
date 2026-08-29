@@ -1,12 +1,12 @@
 ---
 title: Terminal commands
-description: Run shell commands in a project environment, with current-track evidence for selected coding harnesses.
+description: Propose or run shell commands in a project environment.
 slug: terminal
 locale: en
 seoTitle: Terminal command compatibility — Can My Agent Use
 socialTitle: Can my agent run terminal commands?
-socialDescription: Current-track terminal access by agent harness, with dated public evidence.
-llmSummary: Terminal support means the harness can propose or execute shell commands in its project environment. Selected current-track cells are sourced; all others remain unknown.
+socialDescription: Compare terminal command support by exact product surface.
+llmSummary: Terminal command support lets a product propose or execute shell commands in a project environment. Approval, shell, sandbox, working directory, and persistence are qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -34,6 +34,22 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork's OpenCode-backed runtime includes shell execution, with permission requests surfaced in the desktop app and policy controlled by the host."
   - id: 7
     text: "Evidence checked 2026-08-28: Grok Bot's persistent cloud computer includes a command line and filesystem; local-computer commands are a separate capability controlled by a desktop approval policy."
+  - id: 8
+    text: "Evidence checked 2026-08-28: GitHub Copilot CLI can run shell tools in the current repository or directory, with potentially destructive commands gated by its permission system."
+  - id: 9
+    text: "Evidence checked 2026-08-28: Cline's built-in Bash tool runs commands in a persistent shell session and can be approval-gated by settings or policy."
+  - id: 10
+    text: "Evidence checked 2026-08-28: Continue Agent mode exposes `run_terminal_command`, which runs commands from the workspace root after the tool-permission step unless configured Automatic."
+  - id: 11
+    text: "Evidence checked 2026-08-28: OpenCode's built-in Bash tool lets the model execute shell commands in the project environment, subject to configurable allow, ask, or deny permissions."
+  - id: 12
+    text: "Evidence checked 2026-08-28: Zed's native Agent is documented as able to run code in the project, and its permission system includes a terminal tool."
+  - id: 13
+    text: "Evidence checked 2026-08-28: Warp Agent runs commands and interprets results in the local app; the same agent is also available through Warp Agent CLI."
+  - id: 14
+    text: "Evidence checked 2026-08-28: Devin executes shell commands in its hosted development environment and exposes the complete command history and outputs in the session UI."
+  - id: 15
+    text: "Evidence checked 2026-08-28: Aider includes a user-invoked `/run` command for executing shell commands and optionally adding output to chat, but the cited reference does not establish an autonomous model tool for proposing and running commands."
 issues: []
 resources:
   - id: anthropic-cli-terminal
@@ -85,6 +101,69 @@ resources:
     publisher: xAI
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: github-copilot-cli-terminal
+    title: GitHub — Allowing and denying tool use in Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: cline-tools-terminal
+    title: Cline — Tools reference
+    href: https://docs.cline.bot/tools-reference/all-cline-tools
+    kind: docs
+    publisher: Cline
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: bash
+  - id: continue-agent-terminal
+    title: Continue — How Agent mode works
+    href: https://docs.continue.dev/features/agent/how-it-works
+    kind: docs
+    publisher: Continue
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What Tools Are Available in Agent Mode
+  - id: opencode-tools-terminal
+    title: OpenCode — Tools
+    href: https://opencode.ai/docs/tools/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: bash
+  - id: zed-agent-terminal
+    title: Zed — AI quick start
+    href: https://zed.dev/docs/ai/quick-start
+    kind: docs
+    publisher: Zed Industries
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Use the Zed Agent
+  - id: warp-agent-terminal
+    title: Warp — Getting started with Warp
+    href: https://docs.warp.dev/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: In the Warp app
+  - id: devin-session-terminal
+    title: Devin — Session tools
+    href: https://docs.devin.ai/work-with-devin/devin-session-tools
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Shell and Terminal
+  - id: aider-run-command
+    title: Aider — In-chat commands
+    href: https://aider.chat/docs/usage/commands.html
+    kind: docs
+    publisher: Aider
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: /run
 support:
   - harness: claude-cli
     versions:
@@ -159,6 +238,142 @@ support:
         qualifiers: []
         evidence:
           - resourceId: vscode-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: shell execution is scoped by repository or working-directory permissions and potentially destructive commands require approval unless pre-authorized
+        evidence:
+          - resourceId: github-copilot-cli-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Cline documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: approval, auto-approval, or disablement depends on Cline settings and policy
+        evidence:
+          - resourceId: cline-tools-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current Continue documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: terminal execution is available in Agent mode, not read-only Plan mode, and depends on model tool-use support and tool policy
+        evidence:
+          - resourceId: continue-agent-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: the Bash tool can be allowed, approval-gated, or denied through permission rules
+        evidence:
+          - resourceId: opencode-tools-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [12]
+        target:
+          kind: dated-documentation
+          revision: current Zed documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: terminal calls remain subject to Zed Agent profiles, tool permissions, and workspace trust
+        evidence:
+          - resourceId: zed-agent-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [13]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: the local Agent documents review and approval controls before actions execute
+        evidence:
+          - resourceId: warp-agent-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Devin documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: commands run in Devin's hosted development environment rather than the operator's local terminal
+        evidence:
+          - resourceId: devin-session-terminal
+            type: documented
+            observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: partial
+        noteIds: [15]
+        target:
+          kind: dated-documentation
+          revision: current Aider documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the documented /run command is invoked by the person; this evidence does not establish an autonomous agent shell tool
+        evidence:
+          - resourceId: aider-run-command
             type: documented
             observedAt: 2026-08-28
   - harness: openwork-desktop

@@ -140,4 +140,4 @@ support:
 
 Allow a child agent to delegate further work to another child agent.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

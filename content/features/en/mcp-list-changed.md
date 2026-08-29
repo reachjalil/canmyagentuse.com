@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code explicitly supports MCP `list_changed` notifications and refreshes available tools, prompts, and resources without reconnecting."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Gemini CLI v0.57.0 registers tool, resource, and prompt list-change notification handlers and refreshes each corresponding registry."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,6 +45,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: MCP list_changed notifications
+  - id: google-gemini-cli-mcp-client-source
+    title: Google Gemini CLI v0.57.0 — MCP client implementation
+    href: https://github.com/google-gemini/gemini-cli/blob/6b0ae9a6c37aa117cc8b070d8b41c5bb4fa6d253/packages/core/src/tools/mcp-client.ts
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: registerNotificationHandlers and refreshTools, refreshResources, refreshPrompts
 support:
   - harness: claude-cli
     versions:
@@ -57,6 +67,23 @@ support:
         qualifiers: []
         evidence:
           - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: release
+          revision: Gemini CLI v0.57.0
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: evidence covers the tool, resource, and prompt list_changed notification handlers in the v0.57.0 MCP client
+        evidence:
+          - resourceId: google-gemini-cli-mcp-client-source
             type: documented
             observedAt: 2026-08-28
 ---

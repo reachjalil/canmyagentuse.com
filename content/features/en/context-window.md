@@ -1,12 +1,12 @@
 ---
-title: Context window and effective input limit
-description: Identify the maximum context budget the exact harness can actually use, including model, mode, and product-level caps.
+title: Context window
+description: Record the context-window limit available in the documented product, model, and mode.
 slug: context-window
 locale: en
-seoTitle: Context window and input limit comparison — Can My Agent Use
-socialTitle: Context window and effective input limit
+seoTitle: Context window comparison — Can My Agent Use
+socialTitle: Context window
 socialDescription: Compare advertised and effective context budgets by exact harness, model, and mode.
-llmSummary: Context-window records distinguish a model's advertised token capacity from the effective input budget available in one harness after output reservations, system instructions, tools, files, and product caps.
+llmSummary: Context-window records distinguish published model capacity from the limit documented for a particular product and mode. Usable input can be lower because of output reservations, instructions, tools, files, and product caps.
 audience: Engineers sizing long conversations, repositories, documents, and tool schemas.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [context, context-length, tokens, limits]
 updated: 2026-08-28
 published: 2026-08-28
 category: models-context
-summary: Record the advertised and effective maximum input budget by model and harness mode.
+summary: Record the documented context-window limit by product, model, and mode.
 specLabel: Measured product property
 aliases: [context length, token limit, input token limit, context size, long context]
 parent: models-and-context

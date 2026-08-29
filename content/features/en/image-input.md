@@ -1,12 +1,12 @@
 ---
-title: Image upload and paste
-description: Attach, paste, or select an image and make its visual content available to the model, with current Grok Web and Grok Bot evidence.
+title: Image input
+description: Attach, paste, or select an image for use as model input.
 slug: image-input
 locale: en
-seoTitle: "Image upload and paste compatibility — Can My Agent Use"
-socialTitle: Image upload and paste
-socialDescription: Current image-input support for Grok Web and Grok Bot, including surface-specific attachment limits.
-llmSummary: Grok Web and Grok Bot accept images as message context. Grok Bot allows pasting or attaching images and documents a six-attachment, 25 MB-per-image desktop boundary; other cells remain unknown until reviewed.
+seoTitle: "Image input compatibility — Can My Agent Use"
+socialTitle: Image input
+socialDescription: Compare image attachment, paste, upload, and file-limit support.
+llmSummary: Image input means a product accepts attached, pasted, or selected images as model input. Supported methods, formats, limits, and surfaces are recorded as qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -17,7 +17,7 @@ tags:
 updated: 2026-08-28
 published: 2026-08-28
 category: perception
-summary: Attach, paste, or select an image whose visual content reaches the model.
+summary: Attach, paste, or select an image for use as model input.
 specLabel: Common product term
 aliases: [image input, image attachment, image upload, paste image, vision input]
 parent: file-inputs
@@ -36,6 +36,18 @@ notes:
     text: "Evidence checked 2026-08-28: Google documents photo and image uploads among Gemini Apps file inputs on the web, subject to the shared per-prompt and per-file upload limits."
   - id: 6
     text: "Evidence checked 2026-08-28: Cursor Agent can read PNG, JPEG, GIF, WebP, and SVG files and place them in conversation context for a vision-capable model."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Perplexity web accepts JPEG, HEF, and PNG images up to 40 MB and uses multimodal models to identify images and interpret graphics and captions."
+  - id: 8
+    text: "Evidence checked 2026-08-28: Microsoft Copilot web accepts PNG, JPEG, PJP, and JFIF uploads and documents prompts that ask Copilot to describe and analyze the attached image."
+  - id: 9
+    text: "Evidence checked 2026-08-28: Mistral's current Vibe Work documentation, which supersedes Le Chat at chat.mistral.ai, accepts PNG, JPEG, WebP, and GIF uploads and interprets photos, diagrams, screenshots, and scanned pages."
+  - id: 10
+    text: "Evidence checked 2026-08-28: VS Code Copilot Chat accepts image context for vision-capable models. Current GitHub documentation lists JPEG, PNG, GIF, WebP, HEIC, and HEIF and says image attachments are available on all Copilot plans."
+  - id: 11
+    text: "Evidence checked 2026-08-28: Claude Code accepts image drag-and-drop, clipboard paste, and image paths and documents analysis of screenshots, diagrams, mockups, and multiple images."
+  - id: 12
+    text: "Evidence checked 2026-08-28: Gemini CLI custom commands encode supported image paths, including PNG and JPEG examples, and inject them as multimodal input through @{...}."
 issues: []
 resources:
   - id: xai-grok-files-faq
@@ -82,6 +94,62 @@ resources:
     publisher: Cursor
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: perplexity-image-uploads
+    title: Perplexity Help Center — Uploading images
+    href: https://www.perplexity.ai/help-center/en/articles/10354840-uploading-images-on-perplexity
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Uploading images; formats and maximum size
+  - id: microsoft-copilot-file-upload
+    title: Microsoft Support — File upload in Microsoft Copilot
+    href: https://support.microsoft.com/en-US/microsoft-copilot/file-upload-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported file formats; how to use file upload
+  - id: mistral-vibe-files
+    title: Mistral Docs — Work with Files and Canvas
+    href: https://docs.mistral.ai/vibe/work/files-and-canvas
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported formats; analyzing images
+  - id: mistral-vibe-overview
+    title: Mistral Docs — Vibe overview
+    href: https://docs.mistral.ai/vibe
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Le Chat is now Vibe; product entry point
+  - id: github-copilot-images
+    title: GitHub Docs — Asking GitHub Copilot questions in your IDE
+    href: https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/chat-with-copilot/chat-in-ide?tool=vscode
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Using images in Copilot Chat
+  - id: anthropic-claude-code-images
+    title: Claude Code Docs — Common workflows
+    href: https://code.claude.com/docs/en/common-workflows
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Work with images
+  - id: gemini-cli-custom-commands
+    title: Gemini CLI — Custom commands
+    href: https://geminicli.com/docs/cli/custom-commands/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Injecting file content with @{...}; multimodal support
 support:
   - harness: chatgpt-web
     versions:
@@ -238,12 +306,127 @@ support:
           - resourceId: xai-grok-bot-files
             type: documented
             observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: JPEG, HEF, and PNG can be attached or dragged into desktop web and are interpreted by multimodal models, including graphics and captions
+          - type: runtime
+            value: maximum image size is 40 MB; animation, metadata, and exact resolution handling are not established
+        evidence:
+          - resourceId: perplexity-image-uploads
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Microsoft Copilot web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: supported image uploads are PNG, JPEG, PJP, and JFIF; the file-upload workflow documents asking Copilot to describe or analyze the image
+          - type: runtime
+            value: each file is limited to 50 MB and up to 20 files can be added to one conversation
+        evidence:
+          - resourceId: microsoft-copilot-file-upload
+            type: documented
+            observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Mistral Vibe web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: PNG, JPEG, WebP, and GIF uploads can be interpreted as photos, diagrams, screenshots, or scanned pages
+          - type: policy
+            value: Le Chat is now Vibe at the same chat.mistral.ai entry point; this claim is scoped to the documented Work upload path
+        evidence:
+          - resourceId: mistral-vibe-files
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: mistral-vibe-overview
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot Chat documentation for VS Code
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: JPEG, PNG, GIF, WebP, HEIC, and HEIF images can be pasted, dragged, or added from the VS Code Explorer when the selected model supports image input
+          - type: plan
+            value: image attachments are documented as available on all Copilot plans and enabled by default
+        evidence:
+          - resourceId: github-copilot-images
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code workflow documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: images can be dragged into the Claude Code window, pasted with the documented terminal shortcut, or referenced by path and are analyzed as visual context
+          - type: runtime
+            value: multiple images, diagrams, screenshots, and mockups are documented; accepted formats and complete model-specific limits are not listed on the workflow page
+        evidence:
+          - resourceId: anthropic-claude-code-images
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [12]
+        target:
+          kind: dated-documentation
+          revision: current Gemini CLI custom-command documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: supported image files, with PNG and JPEG given as examples, are encoded and injected as multimodal input when referenced with @{...} in a custom command
+          - type: runtime
+            value: this evidence establishes custom-command file injection, not every ordinary-prompt attachment or clipboard path
+        evidence:
+          - resourceId: gemini-cli-custom-commands
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 This row asks whether an image selected, dragged, or pasted into the exact harness is interpreted as visual model context. Merely uploading the file to storage, extracting only its filename, or making it available to an unrelated tool does not establish image input.
 
 Evidence should record accepted formats, per-file and per-message limits, animation handling, resolution or detail controls, whether metadata is stripped, and whether availability changes by model, plan, or client. Screenshot capture is a separate capability because it concerns acquiring the current interface rather than supplying an existing image.
 
-The Grok Web and Grok Bot desktop claims are scoped independently because their attachment limits and runtime behavior differ. Image input does not by itself establish screenshot capture, computer use, image generation, or reliable interpretation of every image format.
-
-All other harness cells remain **unknown** until a dated note and public source support a more specific status. Use the Markdown and JSON twins if you are an agent reading this site.
+Image input does not by itself establish screenshot capture, computer use, image generation, or reliable interpretation of every image format.

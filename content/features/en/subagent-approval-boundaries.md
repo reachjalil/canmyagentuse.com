@@ -1,12 +1,12 @@
 ---
-title: Subagent approval and permission boundaries
-description: Define whether child agents inherit, request, consume, or exceed the parent's tool approvals and permissions.
+title: Subagent permissions
+description: Define which tools and permissions a child agent receives and how it requests approval.
 slug: subagent-approval-boundaries
 locale: en
-seoTitle: Subagent approval and permission boundaries — Can My Agent Use
-socialTitle: Subagent approval and permission boundaries
-socialDescription: Compare child-agent approval ownership, inherited grants, least privilege, and escalation behavior.
-llmSummary: Subagent approval boundaries define how child tools obtain authority; a parent approval should not be assumed to cover every child, descendant, resource, or later action.
+seoTitle: Subagent permissions compatibility — Can My Agent Use
+socialTitle: Subagent permissions
+socialDescription: Compare child-agent tool permissions, inherited grants, and approval behavior.
+llmSummary: Subagent permissions describe which tools and grants a child receives and how child actions obtain approval. Inheritance, restrictions, and escalation behavior are qualifiers.
 audience: Security engineers and operators supervising delegated actions.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [runtime, subagents, approvals, permissions, security]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: Control inherited grants, approval prompts, least privilege, escalation, and descendant authority.
+summary: Control child-agent tools, inherited permissions, and approval behavior.
 specLabel: Common product term
 aliases: [child approvals, delegated permissions, subagent least privilege]
 parent: subagents
@@ -168,6 +168,6 @@ support:
             observedAt: 2026-08-28
 ---
 
-This row asks how authority crosses a delegation boundary. A child may inherit every parent grant, receive a reduced tool set, prompt the operator directly, ask the parent to broker an action, or be unable to escalate. Each design changes accountability and prompt-injection risk.
+This row asks which tools and permissions a child receives and how its actions obtain approval. A child may inherit parent permissions, receive a reduced tool set, prompt the operator, ask the parent to broker an action, or be unable to request more access.
 
 Evidence should cover one-time and persistent approvals, resource and command scope, MCP and connector credentials, filesystem and network access, nested descendants, denial propagation, audit identity, and whether the operator can review a combined action plan before fan-out.

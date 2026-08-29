@@ -1,12 +1,12 @@
 ---
 title: Computer use
-description: Interact with a visual interface using screenshots, clicks, typing, and navigation, with current-track evidence for selected harnesses.
+description: Interact with a visual interface using screenshots, clicks, typing, and navigation.
 slug: computer-use
 locale: en
 seoTitle: Computer use compatibility — Can My Agent Use
 socialTitle: Can my agent use a computer interface?
-socialDescription: Current-track visual interaction support by exact harness surface, with dated public evidence.
-llmSummary: Computer use covers screenshot-informed interaction with a GUI. ChatGPT web has a conditional cloud browser; Cursor and VS Code expose narrower browser tools. Unreviewed surfaces stay unknown.
+socialDescription: Compare screenshot-informed visual interaction by exact product surface.
+llmSummary: Computer use is screenshot-informed interaction with a graphical interface through input actions. Browser-only and general desktop control are recorded separately.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -30,6 +30,10 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork Desktop's first-party browser can open pages, click, fill forms, read page content, and take screenshots; OpenWork explicitly distinguishes this from general operating-system control."
   - id: 5
     text: "Evidence checked 2026-08-28: Grok Bot exposes a persistent hosted computer with browser and desktop tools. The operator can watch clicks, typing, and navigation, take over sensitive steps, and let work continue after closing the preview."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Devin's hosted session exposes a full desktop environment and native Computer Use for browser and desktop-app testing, including Electron applications."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Replit Agent visually clicks, navigates, enters mock data, and validates applications in a real browser preview; it does not establish general operating-system control."
 issues: []
 resources:
   - id: openai-cloud-browser
@@ -67,6 +71,22 @@ resources:
     publisher: xAI
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: devin-computer-use
+    title: Devin — Computer Use
+    href: https://docs.devin.ai/work-with-devin/computer-use
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Desktop and Electron application testing
+  - id: replit-app-testing-computer-use
+    title: Replit — App Testing
+    href: https://docs.replit.com/features/agent/app-testing
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Testing process and key capabilities
 support:
   - harness: chatgpt-web
     versions:
@@ -163,6 +183,46 @@ support:
             value: one Bot can run one computer-use task on its screen at a time; sensitive steps should use operator takeover
         evidence:
           - resourceId: xai-grok-bot-computer
+            type: documented
+            observedAt: 2026-08-28
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current Devin Computer Use documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: computer use runs inside Devin's hosted desktop environment rather than on the operator's local computer
+          - type: policy
+            value: authentication, MFA, and CAPTCHA steps can require operator takeover
+        evidence:
+          - resourceId: devin-computer-use
+            type: documented
+            observedAt: 2026-08-28
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Replit Agent App Testing documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: visual interaction is limited to the Replit project browser preview and does not include general desktop-app or operating-system control
+          - type: plan
+            value: App Testing is enabled for Economy or Power mode and disabled in Lite mode
+          - type: policy
+            value: currently limited to Full Stack JavaScript and Streamlit Python web applications
+        evidence:
+          - resourceId: replit-app-testing-computer-use
             type: documented
             observedAt: 2026-08-28
 ---

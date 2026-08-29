@@ -19,26 +19,193 @@ specLabel: Common product term
 aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: Individual Claude Free, Pro, and Max users can request an account export containing conversation and user data from either Claude web or Desktop. Team and Enterprise exports require the Primary Owner, the email link expires after 24 hours, and exported data cannot be re-imported into another personal account."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Google Takeout can export Gemini chats, generated media, uploads, and Gems, with one-time or recurring archives, multiple delivery destinations, and ZIP or TGZ output. The reviewed page does not establish a replayable run schema containing model, tool, approval, and subagent provenance."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Cursor documents a Markdown export action for locally stored Agent chat history. Background Agent chats use a separate remote history and are not established as part of the same export."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Perplexity sessions expose an Export action for a session answer in PDF, Markdown, or DOCX. The reviewed page does not establish a bulk account export or guarantee that every turn and attachment in the session is included, so this is partial conversation-export support."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Mistral documents a dedicated Vibe export tool that downloads all personal Vibe data stored on its servers at request time. The page does not enumerate whether every conversation, attachment, model field, tool event, or other run-provenance field is included, and it does not state the archive format."
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-  - title: OpenAI — Exporting ChatGPT history and data
-    href: https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpthistory-and-data
-    kind: docs
-    publisher: OpenAI
-    reviewedAt: 2026-08-28
-  - title: Anthropic — Export Claude data
-    href: https://support.anthropic.com/en/articles/9450526-how-can-i-export-my-claude-data
+  - id: anthropic-export-data
+    title: Anthropic Help Center — Export your Claude data
+    href: https://support.claude.com/en/articles/9450526-export-your-claude-data
     kind: docs
     publisher: Anthropic
+    evidenceType: documented
     reviewedAt: 2026-08-28
-  - title: OpenAI — Exporting ChatGPT history and data
-    href: https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data
+    locator: Export availability; download link; import limitations
+  - id: google-gemini-export
+    title: Google Gemini Apps Help — Download your Gemini Apps data
+    href: https://support.google.com/gemini/answer/16920332?hl=en
     kind: docs
-    publisher: OpenAI
+    publisher: Google
+    evidenceType: documented
     reviewedAt: 2026-08-28
-support: []
+    locator: Select data; archive format; delivery
+  - id: cursor-chat-history-export
+    title: Cursor Docs — Chat history
+    href: https://docs.cursor.com/en/agent/chat/history
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Managing chats; Background Agents
+  - id: perplexity-session-export
+    title: Perplexity Help Center — What is a Session?
+    href: https://www.perplexity.ai/help-center/en/articles/10354769-what-is-a-thread
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Sharing your Sessions and more actions; Export
+  - id: mistral-vibe-overview
+    title: Mistral Docs — Vibe overview
+    href: https://docs.mistral.ai/vibe
+    kind: docs
+    publisher: Mistral
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Le Chat rename; chat.mistral.ai entry point
+  - id: mistral-vibe-data-export
+    title: Mistral Help Center — How do I export my data from Vibe?
+    href: https://help.mistral.ai/en/articles/347623-how-do-i-export-my-data-from-vibe
+    kind: docs
+    publisher: Mistral
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Dedicated export tool; stored data scope
+support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Claude data export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: Free, Pro, and Max users can export their own conversation and account data; Team and Enterprise organization exports are restricted to the Primary Owner
+          - type: runtime
+            value: export is requested in Settings and delivered by an authenticated email link that expires after 24 hours
+          - type: policy
+            value: exported data cannot be re-imported into another personal Claude account
+        evidence:
+          - resourceId: anthropic-export-data
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Claude Desktop data export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: Free, Pro, and Max users can initiate their own conversation and account-data export from Claude Desktop; Team and Enterprise exports require the Primary Owner
+          - type: runtime
+            value: the export arrives through an authenticated email link that expires after 24 hours and cannot be imported into another personal account
+        evidence:
+          - resourceId: anthropic-export-data
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Gemini Apps export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Google Takeout can export Gemini chats, generated media, uploads, and Gems as a one-time or recurring ZIP or TGZ archive
+          - type: transport
+            value: delivery options include an email download link, Google Drive, Dropbox, OneDrive, or Box; exports may take hours or days and can be split by archive size
+          - type: policy
+            value: exporting does not delete source data
+        evidence:
+          - resourceId: google-gemini-export
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Cursor chat-history documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: local Agent chats can be exported as Markdown
+          - type: runtime
+            value: chat history is stored in a local SQLite database; Background Agent chats are stored separately in a remote database and are not documented as part of this export
+        evidence:
+          - resourceId: cursor-chat-history-export
+            type: documented
+            observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity session-export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: the session interface can export an answer as PDF, Markdown, or DOCX
+          - type: runtime
+            value: the reviewed documentation does not establish a bulk account export or guarantee that the export contains every session turn, attachment, source field, and execution detail
+        evidence:
+          - resourceId: perplexity-session-export
+            type: documented
+            observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: partial
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Vibe data-export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: a dedicated export tool downloads all personal Vibe data stored on Mistral servers at the time of the request
+          - type: format
+            value: the reviewed page does not state the download format or enumerate conversation, attachment, model, tool, approval, or provenance fields
+          - type: runtime
+            value: Le Chat is now Vibe and chat.mistral.ai remains the web entry point
+        evidence:
+          - resourceId: mistral-vibe-overview
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: mistral-vibe-data-export
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 This row asks whether the product documents a conversation-export feature. A manual copy-and-paste action does not count as product-supported export.

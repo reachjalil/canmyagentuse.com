@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Track every important Agent Skills behavior independently.
-specLabel: Agent Skills
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: living

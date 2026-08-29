@@ -1,12 +1,12 @@
 ---
-title: Text and office document input
-description: Upload word-processing, presentation, spreadsheet, plain-text, or rich-text files as useful model context.
+title: Document input
+description: Upload text, word-processing, presentation, or spreadsheet files for use as model input.
 slug: office-document-input
 locale: en
 seoTitle: Office document input compatibility — Can My Agent Use
-socialTitle: Text and office document input
+socialTitle: Document input
 socialDescription: Compare upload and parsing of word-processing, presentation, spreadsheet, and text files.
-llmSummary: Office-document input asks whether uploaded text, word-processing, presentation, or spreadsheet content reaches the model with documented fidelity; filenames alone do not count.
+llmSummary: Document input means uploaded text, word-processing, presentation, or spreadsheet content is available as model input. Supported formats and extraction fidelity are qualifiers.
 audience: Engineers comparing document-heavy knowledge workflows.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [perception, documents, uploads]
 updated: 2026-08-28
 published: 2026-08-28
 category: perception
-summary: Upload common text, word-processing, presentation, and spreadsheet formats as model context.
+summary: Upload common document formats for use as model input.
 specLabel: Common product term
 aliases: [document upload, DOCX input, spreadsheet upload, presentation upload]
 parent: file-inputs
@@ -28,6 +28,12 @@ notes:
     text: "Evidence checked 2026-08-28: Claude accepts DOCX, CSV, TXT, HTML, ODT, RTF, EPUB, JSON, and XLSX on its web and desktop surfaces; XLSX requires code execution. Non-PDF documents are handled as extracted text, so layout and embedded-image fidelity are not established."
   - id: 4
     text: "Evidence checked 2026-08-28: Gemini Apps document uploads for documents, spreadsheets, notebooks, and code folders or repositories, but the reviewed help page does not enumerate every office extension or promise formula, chart, presentation, comment, or embedded-object fidelity."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Perplexity Enterprise file connectors support Google Docs, Slides, and Sheets plus DOCX, XLSX, PPTX, XLS, CSV, RTF, ODT, Markdown, JSON, and TXT. The reviewed direct-upload page describes textual-file uploads without enumerating those office extensions, so this cell is limited to the connector path."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Microsoft Copilot web accepts DOCX, XLSX, PPTX, CSV, TXT, JSON, and Markdown uploads and can analyze and extract information from them."
+  - id: 8
+    text: "Evidence checked 2026-08-28: Mistral's current Vibe Work documentation, which supersedes Le Chat at chat.mistral.ai, accepts Word, PowerPoint, Excel, CSV, ODT, RTF, ODS, Numbers, and other document formats and reads their content as task context."
 issues: []
 resources:
   - title: Methodology
@@ -65,6 +71,38 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Types of files you can upload
+  - id: perplexity-file-connectors
+    title: Perplexity Help Center — Introduction to File Connectors
+    href: https://www.perplexity.ai/help-center/en/articles/10672063-introduction-to-file-connectors-for-enterprise-organizations
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported file formats
+  - id: microsoft-copilot-file-upload
+    title: Microsoft Support — File upload in Microsoft Copilot
+    href: https://support.microsoft.com/en-US/microsoft-copilot/file-upload-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported file formats; file analysis
+  - id: mistral-vibe-files
+    title: Mistral Docs — Work with Files and Canvas
+    href: https://docs.mistral.ai/vibe/work/files-and-canvas
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported formats; querying text documents; analyzing spreadsheets
+  - id: mistral-vibe-overview
+    title: Mistral Docs — Vibe overview
+    href: https://docs.mistral.ai/vibe
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Le Chat is now Vibe; product entry point
 support:
   - harness: grok-web
     versions:
@@ -143,7 +181,7 @@ support:
   - harness: gemini-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [4]
         target:
           kind: hosted-observation
@@ -157,6 +195,72 @@ support:
             value: the reviewed page does not enumerate every office extension or establish formula, chart, slide, comment, macro, or embedded-object fidelity
         evidence:
           - resourceId: google-gemini-upload-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Enterprise file connectors support Google Docs, Slides, and Sheets plus DOCX, XLSX, PPTX, XLS, CSV, RTF, ODT, Markdown, JSON, and TXT
+          - type: plan
+            value: this documented path is scoped to File Connectors for Enterprise organizations; the reviewed direct-upload page does not enumerate local Office extensions
+          - type: runtime
+            value: formula, macro, slide-layout, comment, and embedded-object fidelity is not established
+        evidence:
+          - resourceId: perplexity-file-connectors
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Microsoft Copilot web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: documented web uploads include DOCX, XLSX, PPTX, CSV, TXT, JSON, and Markdown and can be analyzed, extracted, summarized, and queried with follow-up prompts
+          - type: runtime
+            value: each file is limited to 50 MB and up to 20 files can be attached in one conversation
+          - type: runtime
+            value: macro, formula, chart, slide-layout, comment, and embedded-object fidelity is not established
+        evidence:
+          - resourceId: microsoft-copilot-file-upload
+            type: documented
+            observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Mistral Vibe web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: supported uploads include DOCX, DOC, PPTX, PPT, XLSX, XLS, CSV, ODT, RTF, ODS, and Numbers; Word files, presentations, and spreadsheets can be queried from their uploaded content
+          - type: policy
+            value: Le Chat is now Vibe at the same chat.mistral.ai entry point; this claim is scoped to the Work upload path
+          - type: runtime
+            value: complete formula, macro, chart, comment, tracked-change, layout, and embedded-object fidelity is not established
+        evidence:
+          - resourceId: mistral-vibe-files
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: mistral-vibe-overview
             type: documented
             observedAt: 2026-08-28
 ---

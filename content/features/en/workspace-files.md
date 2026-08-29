@@ -1,12 +1,12 @@
 ---
 title: Workspace files
-description: Read and edit files in a user-selected project workspace, with current-track evidence for selected desktop and CLI harnesses.
+description: Read or edit files in a user-selected project workspace.
 slug: workspace-files
 locale: en
 seoTitle: Workspace file compatibility — Can My Agent Use
 socialTitle: Can my agent use workspace files?
-socialDescription: Current-track workspace file access by agent harness, with dated public evidence.
-llmSummary: Workspace file access means reading or changing files inside a user-selected local project. Selected current-track cells are sourced; all others remain unknown.
+socialDescription: Compare workspace file access by exact product surface.
+llmSummary: Workspace file access means reading or changing files inside a user-selected project. Local or hosted scope, permissions, sandboxing, and persistence are qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -16,7 +16,7 @@ tags:
 updated: 2026-08-28
 published: 2026-08-28
 category: tools
-summary: Read and edit files inside a user-selected local project.
+summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
@@ -36,6 +36,24 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork Desktop selects a project folder, runs its host stack against that workspace, and routes workspace file access through the OpenWork server and OpenCode runtime."
   - id: 8
     text: "Evidence checked 2026-08-28: Grok Bot provides a durable `/workspace` directory on its hosted computer and lets Bots read files saved there by other Bots. The directory and its contents are shared across all Bots on the account, not selected as an isolated local project."
+  - id: 9
+    text: "Evidence checked 2026-08-28: GitHub Copilot CLI reads files in the current repository or directory and can edit them, with writes governed by its tool-permission system."
+  - id: 10
+    text: "Evidence checked 2026-08-28: Cline provides built-in tools for reading files, searching a workspace, editing or writing files, and applying patches."
+  - id: 11
+    text: "Evidence checked 2026-08-28: Continue Agent mode exposes read, create, and edit tools for files in the project; Plan mode restricts the session to read-only tools."
+  - id: 12
+    text: "Evidence checked 2026-08-28: OpenCode's built-in tools read codebase files and edit, create, overwrite, or patch files relative to the project."
+  - id: 13
+    text: "Evidence checked 2026-08-28: Zed's native Agent is documented as able to read, edit, and search code in the open project."
+  - id: 14
+    text: "Evidence checked 2026-08-28: Aider accepts source files or a repository as its working context, reads related code, and edits or creates files requested in the session."
+  - id: 15
+    text: "Evidence checked 2026-08-28: Warp Agent writes and refactors code across the local codebase and includes a file tree and code editor for reviewing changes."
+  - id: 16
+    text: "Evidence checked 2026-08-28: Devin works in a hosted VS Code environment loaded with the user's repositories and performs code edits there; this is not direct access to an arbitrary local folder."
+  - id: 17
+    text: "Evidence checked 2026-08-28: Replit Agent writes code and sets up a hosted project in the Project Editor, including projects imported from GitHub or uploaded files; the workspace is Replit-hosted rather than an arbitrary local directory."
 issues: []
 resources:
   - id: anthropic-desktop-files
@@ -95,6 +113,76 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Shared computer files
+  - id: github-copilot-cli-files
+    title: GitHub — Allowing and denying tool use in Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: cline-tools-files
+    title: Cline — Tools reference
+    href: https://docs.cline.bot/tools-reference/all-cline-tools
+    kind: docs
+    publisher: Cline
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: editor, read_files, and apply_patch
+  - id: continue-agent-files
+    title: Continue — How Agent mode works
+    href: https://docs.continue.dev/features/agent/how-it-works
+    kind: docs
+    publisher: Continue
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What Built-in Tools Are Available
+  - id: opencode-tools-files
+    title: OpenCode — Tools
+    href: https://opencode.ai/docs/tools/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: edit, write, read, and apply_patch
+  - id: zed-agent-files
+    title: Zed — AI quick start
+    href: https://zed.dev/docs/ai/quick-start
+    kind: docs
+    publisher: Zed Industries
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Use the Zed Agent
+  - id: aider-workspace-files
+    title: Aider — Usage
+    href: https://aider.chat/docs/usage.html
+    kind: docs
+    publisher: Aider
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Adding files and making changes
+  - id: warp-agent-files
+    title: Warp — Getting started with Warp
+    href: https://docs.warp.dev/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: In the Warp app
+  - id: devin-session-files
+    title: Devin — Session tools
+    href: https://docs.devin.ai/work-with-devin/devin-session-tools
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Devin IDE
+  - id: replit-project-editor-files
+    title: Replit — Project Editor
+    href: https://docs.replit.com/learn/projects-and-artifacts/project-editor
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-28
 support:
   - harness: claude-desktop
     versions:
@@ -188,6 +276,159 @@ support:
           - resourceId: vscode-files
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: access is scoped to the current repository or directory, and file writes require approval unless a matching permission is saved or pre-granted
+        evidence:
+          - resourceId: github-copilot-cli-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current Cline documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: tool availability and approval behavior depend on settings and policy
+        evidence:
+          - resourceId: cline-tools-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Continue documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: create and edit tools require Agent mode and model tool-use support; Plan mode is read-only
+        evidence:
+          - resourceId: continue-agent-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [12]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: read and edit behavior can be allowed, approval-gated, or denied through permission rules
+        evidence:
+          - resourceId: opencode-tools-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [13]
+        target:
+          kind: dated-documentation
+          revision: current Zed documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: file operations remain subject to Agent profiles, tool permissions, and workspace trust
+        evidence:
+          - resourceId: zed-agent-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: dated-documentation
+          revision: current Aider documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: files can be named explicitly, added during chat, or discovered from the repository; Aider recommends limiting explicitly added files
+        evidence:
+          - resourceId: aider-workspace-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [15]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: the local Agent documents review and approval controls before actions execute
+        evidence:
+          - resourceId: warp-agent-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [16]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Devin documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Devin edits repositories loaded into its hosted VS Code environment, not arbitrary local folders on the operator's computer
+        evidence:
+          - resourceId: devin-session-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [17]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Replit Agent documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Agent operates in a Replit-hosted project; local code must be imported from GitHub or uploaded before Agent can use it
+        evidence:
+          - resourceId: replit-project-editor-files
+            type: documented
+            observedAt: 2026-08-28
   - harness: openwork-desktop
     versions:
       - track: current
@@ -226,6 +467,6 @@ support:
             observedAt: 2026-08-28
 ---
 
-This row asks whether a harness can directly read or change files inside a local project that the user has opened or selected. It does not imply unrestricted access to the whole computer, cloud drives, or files outside the tool's permission boundary.
+This row asks whether a product can directly read or change files inside a project workspace that the user selected or the product provisioned. It does not imply unrestricted access to the whole computer, cloud drives, or files outside the tool's permission boundary.
 
-Desktop support is marked partial when file access is supplied through a separately installed extension or MCP server. The current track is the only reviewed track in this first evidence wave.
+Local versus hosted storage, separately installed extensions, MCP-backed access, read-only behavior, and permission boundaries are recorded as qualifiers.

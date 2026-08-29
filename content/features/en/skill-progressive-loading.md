@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: "Load skill metadata first and defer full instructions or resources until relevant."
-specLabel: Agent Skills progressive loading
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: "living"
@@ -140,4 +140,4 @@ support:
 
 Load skill metadata first and defer full instructions or resources until relevant.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

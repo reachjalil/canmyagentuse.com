@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: "Load the published portable plugin.json manifest and its core components."
-specLabel: Agent Plugins portable manifest
+specLabel: Agent Plugins 1.0
 specification:
   id: agent-plugins
   revision: "1.0.0"

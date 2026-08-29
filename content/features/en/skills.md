@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Recognize, discover, and load reusable instruction packages centered on SKILL.md.
-specLabel: Agent Skills core
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: living

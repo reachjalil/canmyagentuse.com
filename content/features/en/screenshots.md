@@ -1,12 +1,12 @@
 ---
 title: Screenshots
-description: Capture the current screen or window as context, with qualified OpenWork Browser evidence.
+description: Capture a screen, window, or browser page for use as model input.
 slug: screenshots
 locale: en
 seoTitle: "Screenshots — Can My Agent Use"
 socialTitle: Screenshots
-socialDescription: Screenshot support by exact harness surface, with dated public evidence.
-llmSummary: OpenWork Desktop's first-party OpenWork Browser can capture screenshots while automating web pages. This does not establish arbitrary desktop screenshot capture.
+socialDescription: Compare screenshot capture scope by exact product surface.
+llmSummary: Screenshot support captures a screen, window, or browser page for use as model input. Browser-only and arbitrary desktop capture are distinct qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -15,12 +15,16 @@ tags:
 updated: 2026-08-28
 published: 2026-08-28
 category: perception
-summary: Capture the current screen or window as context.
+summary: Capture a screen, window, or browser page for use as model input.
 specLabel: Common product term
 highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: the first-party OpenWork Browser can take screenshots during browser-control tasks; arbitrary desktop capture is not documented."
+  - id: 2
+    text: "Evidence checked 2026-08-28: VS Code Copilot Chat can capture the current integrated-browser viewport and attach it as image context. Arbitrary desktop capture is not established by the current page."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Gemini CLI's optional browser agent can capture and analyze browser screenshots when a visual model is configured. The visual agent requires API-key or Vertex AI authentication and is unavailable with Sign in with Google."
 issues: []
 resources:
   - title: Methodology
@@ -33,6 +37,22 @@ resources:
     publisher: OpenWork
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: vscode-chat-context
+    title: Visual Studio Code — Add context to chat
+    href: https://code.visualstudio.com/docs/chat/copilot-chat-context
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Add browser context
+  - id: gemini-cli-browser-agent
+    title: Gemini CLI — Subagents
+    href: https://geminicli.com/docs/core/subagents/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Browser agent; visual agent
 support:
   - harness: openwork-desktop
     versions:
@@ -49,6 +69,46 @@ support:
             value: browser screenshots only; arbitrary desktop capture is not established
         evidence:
           - resourceId: openwork-screenshots
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: partial
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: 2026-08-26 VS Code chat-context documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the integrated browser can capture its current viewport and attach it as an image to Chat
+          - type: runtime
+            value: arbitrary desktop, application-window, and multi-monitor capture is not established by the current reviewed page
+        evidence:
+          - resourceId: vscode-chat-context
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Gemini CLI browser-agent documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the optional browser agent gains an analyze_screenshot tool that captures a browser screenshot and sends it to a configured vision model
+          - type: plan
+            value: requires API-key or Vertex AI authentication and is unavailable with Sign in with Google
+          - type: runtime
+            value: browser-only capture does not establish arbitrary desktop, application-window, or multi-monitor screenshot support
+        evidence:
+          - resourceId: gemini-cli-browser-agent
             type: documented
             observedAt: 2026-08-28
 ---

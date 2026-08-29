@@ -30,6 +30,10 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code automatically presents MCP elicitation requests and supports both structured form mode and URL mode, with an optional Elicitation hook for automated responses."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Gemini CLI v0.57.0's MCP client registers only the roots client capability and contains no elicitation request handler, so it does not advertise the classic `elicitation/create` capability."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Cursor's protocol capability table explicitly lists MCP Elicitation as supported server-initiated requests for additional user information."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,6 +47,22 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Respond to MCP elicitation requests
+  - id: google-gemini-cli-mcp-client-source
+    title: Google Gemini CLI v0.57.0 — MCP client implementation
+    href: https://github.com/google-gemini/gemini-cli/blob/6b0ae9a6c37aa117cc8b070d8b41c5bb4fa6d253/packages/core/src/tools/mcp-client.ts
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: connectToMcpServer client capability registration and request handlers
+  - id: cursor-mcp-docs
+    title: Cursor — Model Context Protocol
+    href: https://prod.cursor.com/docs/mcp
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Protocol and extension support — Elicitation
 support:
   - harness: claude-cli
     versions:
@@ -59,6 +79,40 @@ support:
             value: an Elicitation hook may be configured to auto-respond instead of showing the interactive dialog
         evidence:
           - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Cursor MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the documentation confirms elicitation generally but does not enumerate form-mode, URL-mode, or automation-hook behavior
+        evidence:
+          - resourceId: cursor-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: no
+        noteIds: [2]
+        target:
+          kind: release
+          revision: Gemini CLI v0.57.0
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: this finding covers the classic elicitation/create client capability; MCP 2026-07-28 multi-round-trip semantics are not claimed
+        evidence:
+          - resourceId: google-gemini-cli-mcp-client-source
             type: documented
             observedAt: 2026-08-28
 ---

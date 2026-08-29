@@ -1,12 +1,12 @@
 ---
-title: Rate limit and quota disclosure
-description: Publish request, token, run, concurrency, upload, tool, and rolling usage limits with reset and retry behavior.
+title: Rate limits and quotas
+description: Document request, token, concurrency, or other product usage limits.
 slug: rate-limit-disclosure
 locale: en
-seoTitle: Agent harness rate limits and quotas — Can My Agent Use
-socialTitle: Rate limit and quota disclosure
-socialDescription: Compare request, token, concurrency, upload, tool, and rolling quotas plus reset behavior.
-llmSummary: Rate-limit records identify numeric limits, scope, reset windows, shared pools, headers or meters, and boundary behavior; vague “fair use” language is partial.
+seoTitle: Rate limits and quotas — Can My Agent Use
+socialTitle: Rate limits and quotas
+socialDescription: Compare documented request, token, concurrency, and usage limits.
+llmSummary: Rate limits and quotas are documented product usage boundaries; their scope and reset period are recorded as qualifiers.
 audience: Engineers planning production and high-volume agent workflows.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [operations, rate-limits, quotas, concurrency]
 updated: 2026-08-28
 published: 2026-08-28
 category: operations
-summary: Record numeric request, token, run, concurrency, upload, and tool quotas with reset behavior.
+summary: Record documented product usage limits and reset periods.
 specLabel: Measured product property
 aliases: [quota, usage cap, fair use limit, concurrency limit]
 parent: usage-and-reliability
@@ -24,6 +24,8 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor documents two monthly usage pools, real-time remaining allowance, a billing-cycle reset with no rollover, editor notification at the boundary, and optional on-demand usage. The numeric included allowance varies by plan and is not stated on the reviewed page."
   - id: 2
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents plan-based concurrent-subagent limits of 2, 4, 8, 16, or 32, a global session-tree maximum of 32, and rejection of new child requests until capacity becomes available. These are subagent quotas, not the complete request, token, tool, or premium-request envelope."
+  - id: 3
+    text: "Evidence checked 2026-08-28: OpenAI publishes plan- and model-specific estimated local-message ranges per five-hour window for ChatGPT Work and Codex, documents that local and cloud tasks share the window, notes additional weekly limits, and describes credit-based continuation. The ranges vary with task complexity and are not hard per-message guarantees."
 resources:
   - title: Methodology
     href: /methodology
@@ -44,11 +46,82 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Subagent limits
+  - id: openai-work-pricing-limits
+    title: OpenAI — ChatGPT Work and Codex pricing and usage limits
+    href: https://learn.chatgpt.com/docs/pricing
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Usage limits; what happens at the limit; current limits
 support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 ChatGPT Work usage-limit documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: local messages and cloud chats share a five-hour allowance; additional weekly limits may apply, and Enterprise or Edu flexible pricing can scale through credits
+          - type: runtime
+            value: documented plan and model tables are estimated ranges because task size, context, reasoning, tools, retrieval, caching, and local versus cloud execution change consumption
+          - type: policy
+            value: an active turn may finish at the boundary subject to fair use; eligible plans can buy credits, switch models, or use separately billed API-key sessions
+        evidence:
+          - resourceId: openai-work-pricing-limits
+            type: documented
+            observedAt: 2026-08-28
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 ChatGPT desktop usage-limit documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: local desktop tasks share the five-hour ChatGPT Work and Codex allowance with cloud chats; additional weekly limits may apply
+          - type: runtime
+            value: ChatGPT Voice on desktop has a separate plan-dependent rolling five-hour allowance, while tasks started through Voice still consume the shared Codex task budget
+          - type: policy
+            value: the published local-message and voice-minute ranges are estimates rather than fixed per-message guarantees
+        evidence:
+          - resourceId: openai-work-pricing-limits
+            type: documented
+            observedAt: 2026-08-28
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Codex CLI usage-limit documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: ChatGPT-authenticated local messages share a five-hour allowance with cloud chats and may have additional weekly limits; model-specific estimated ranges are published by plan
+          - type: runtime
+            value: /status exposes remaining limits during the session; an active turn may finish at the boundary subject to fair use
+          - type: auth
+            value: API-key sessions are billed independently at API rates and are not part of the ChatGPT-plan allowance
+        evidence:
+          - resourceId: openai-work-pricing-limits
+            type: documented
+            observedAt: 2026-08-28
   - harness: cursor
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation
@@ -69,7 +142,7 @@ support:
   - harness: copilot-cli
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation

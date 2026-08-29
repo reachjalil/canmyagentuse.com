@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: "Resolve and execute optional scripts included with an Agent Skill under explicit runtime policy."
-specLabel: Agent Skills scripts
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: "living"
@@ -148,4 +148,4 @@ support:
 
 Resolve and execute optional scripts included with an Agent Skill under explicit runtime policy.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

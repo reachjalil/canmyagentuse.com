@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: "Discover personal or global skills outside the current project."
-specLabel: User-scoped Agent Skills
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: "living"
@@ -142,4 +142,4 @@ support:
 
 Discover personal or global skills outside the current project.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

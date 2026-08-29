@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: "Load portable Agent Skills contained in an Agent Plugins package."
-specLabel: Agent Plugins packaged skills
+specLabel: Agent Plugins 1.0
 specification:
   id: agent-plugins
   revision: "1.0.0"

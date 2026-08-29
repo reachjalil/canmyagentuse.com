@@ -26,19 +26,15 @@ notes:
     text: "Evidence checked 2026-08-28: ChatGPT Work can create documents, presentations, spreadsheets, and PDFs in a task; the web surface supports review and download, while the desktop app provides artifact previews and local file access. Neither reviewed page establishes a complete workspace archive with checksums and provenance."
   - id: 3
     text: "Evidence checked 2026-08-28: Claude can create and download XLSX, PPTX, DOCX, and PDF files on its web and desktop surfaces, subject to a 30 MB file limit. The reviewed page does not establish complete run-provenance or workspace-archive export."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Gemini Apps on the web can export responses to Google Docs or Gmail, tables to Google Sheets, and supported code to Colab or Replit; availability varies by account and destination."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Perplexity's web session export supports PDF, Markdown, and DOCX, and its asset workflow supports downloading documents, spreadsheets, presentations, and HTML apps in documented formats."
 issues: []
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-  - id: xai-grok-bot-files
-    title: xAI — Grok Bot files and results
-    href: https://docs.x.ai/grok-bot/files-and-results
-    kind: docs
-    publisher: xAI
-    evidenceType: documented
-    reviewedAt: 2026-08-28
-    locator: Preview generated work
   - id: openai-artifacts-viewer
     title: OpenAI — Artifacts and previews in ChatGPT Work
     href: https://learn.chatgpt.com/docs/artifacts-viewer
@@ -47,6 +43,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Create files; review and download; preview capabilities
+  - id: xai-grok-bot-files
+    title: xAI — Grok Bot files and results
+    href: https://docs.x.ai/grok-bot/files-and-results
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Preview generated work
   - id: anthropic-create-edit-files
     title: Anthropic Help Center — Create and edit files with Claude
     href: https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude
@@ -55,11 +59,35 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Supported file types; download files
+  - id: google-gemini-export-responses
+    title: Google — Export responses from Gemini Apps
+    href: https://support.google.com/gemini/answer/14184041?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Export responses to Google Workspace; Export code
+  - id: perplexity-session-export
+    title: Perplexity — What is a session?
+    href: https://www.perplexity.ai/help-center/en/articles/10354769-what-is-a-thread
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: More actions; Export
+  - id: perplexity-assets-export
+    title: Perplexity — Creating assets overview
+    href: https://www.perplexity.ai/help-center/en/articles/12528830-creating-assets-with-perplexity-overview
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What file types are supported; Export and share
 support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation
@@ -78,7 +106,7 @@ support:
   - harness: chatgpt-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation
@@ -97,7 +125,7 @@ support:
   - harness: chatgpt-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation
@@ -116,7 +144,7 @@ support:
   - harness: claude-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -135,7 +163,7 @@ support:
   - harness: claude-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -151,8 +179,51 @@ support:
           - resourceId: anthropic-create-edit-files
             type: documented
             observedAt: 2026-08-28
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Gemini Apps web export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: responses can be exported to Docs or Gmail, tables to Sheets, Python to Colab, and supported code to Replit
+          - type: plan
+            value: export options vary by account type, Workspace policy, destination service, response type, and Gemini app
+          - type: policy
+            value: exported content becomes subject to the destination service's terms and policies
+        evidence:
+          - resourceId: google-gemini-export-responses
+            type: documented
+            observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web export documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: session answers can be exported as PDF, Markdown, or DOCX; assets can be downloaded as DOCX, PDF, XLSX, PPTX, or HTML according to asset type
+          - type: policy
+            value: the reviewed pages do not establish a complete project archive, checksums, or reproducible provenance bundle
+        evidence:
+          - resourceId: perplexity-session-export
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: perplexity-assets-export
+            type: documented
+            observedAt: 2026-08-28
 ---
 
-This row covers outputs that exist beyond rendered chat: files, patches, commits, repositories, notebooks, documents, slides, spreadsheets, archives, images, audio, video, and structured result bundles. A screenshot or copied code block is only partial when the original artifact has richer structure.
+Artifact export means the product lets the user save or download a generated file or other documented output beyond the visible chat text. It does not imply conversation export, repository transfer, or a complete workspace archive; those are separate claims.
 
-Evidence should record download and API paths, git or cloud-storage transfer, archive structure, original versus converted formats, metadata and citations, checksums, size limits, expiry, access control, provenance from sub-agents, and whether an export remains usable without the originating harness.
+Evidence should record the export path, available formats, conversion behavior, size limits, expiry, and access controls. Metadata, citations, checksums, and re-import support are qualifiers only when the product documents them.

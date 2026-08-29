@@ -1,12 +1,12 @@
 ---
-title: Subagent context isolation and inheritance
-description: Control which conversation, instructions, files, memory, tools, and secrets a child agent receives.
+title: Subagent context
+description: Define which conversation, instructions, files, memory, and tools a child agent receives.
 slug: subagent-context-isolation
 locale: en
-seoTitle: Subagent context isolation compatibility — Can My Agent Use
-socialTitle: Subagent context isolation and inheritance
-socialDescription: Compare selective context inheritance, isolation boundaries, and child-agent context budgets.
-llmSummary: Subagent context isolation means the harness defines and controls what a child inherits; fresh context, full cloning, selected attachments, shared memory, and summary-only handoff are distinct modes.
+seoTitle: Subagent context compatibility — Can My Agent Use
+socialTitle: Subagent context
+socialDescription: Compare child-agent context, inheritance, isolation, and context-window behavior.
+llmSummary: Subagent context describes what a child receives from its parent. Fresh context, copied history, selected files, shared memory, and task-only context are recorded as distinct qualifiers.
 audience: Engineers evaluating multi-agent correctness, privacy, and token cost.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [runtime, subagents, context, isolation, security]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: Define and control the conversation, instructions, files, memory, tools, and secrets inherited by a child.
+summary: Define which conversation, instructions, files, memory, and tools a child receives.
 specLabel: Common product term
 aliases: [child context, subagent isolation, context inheritance]
 parent: subagents

@@ -129,6 +129,7 @@ export const QUALIFIER_TYPES = [
   "policy",
   "region",
   "auth",
+  "format",
   "transport",
   "protocol-revision",
   "host-role",

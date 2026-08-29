@@ -1,12 +1,12 @@
 ---
-title: Subagent lifecycle controls
-description: List, inspect, pause, resume, cancel, retry, and set timeouts for child-agent tasks.
+title: Subagent management
+description: List, inspect, pause, resume, cancel, or retry child-agent tasks.
 slug: subagent-lifecycle-controls
 locale: en
-seoTitle: Subagent lifecycle controls compatibility — Can My Agent Use
-socialTitle: Subagent lifecycle controls
-socialDescription: Compare listing, inspection, cancellation, pause, resume, retry, and timeout controls for child agents.
-llmSummary: Subagent lifecycle controls cover operator and parent visibility into active children plus supported cancel, pause, resume, retry, and timeout actions.
+seoTitle: Subagent management compatibility — Can My Agent Use
+socialTitle: Subagent management
+socialDescription: Compare listing, inspection, cancellation, pause, resume, retry, and timeout behavior for child agents.
+llmSummary: Subagent management covers visibility into active children and documented cancel, pause, resume, retry, or limit behavior. Each operation is recorded separately as a qualifier.
 audience: Operators supervising multi-agent runs.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [runtime, subagents, supervision, cancellation]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: List, inspect, pause, resume, cancel, retry, and time-limit child-agent tasks.
+summary: List, inspect, and control child-agent tasks.
 specLabel: Common product term
 aliases: [subagent cancellation, child task control, agent supervision]
 parent: subagents

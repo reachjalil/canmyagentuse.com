@@ -1,12 +1,12 @@
 ---
-title: Video upload and understanding
-description: Upload or select a video whose frames, audio, timing, or transcript become available to the model.
+title: Video input
+description: Upload or select a video for use as model input.
 slug: video-input
 locale: en
-seoTitle: Video upload and understanding compatibility — Can My Agent Use
-socialTitle: Video upload and understanding
+seoTitle: Video input compatibility — Can My Agent Use
+socialTitle: Video input
 socialDescription: Compare direct video upload, supported formats, duration limits, and what parts of a video reach the model.
-llmSummary: Video input means an uploaded video contributes model context through frames, audio, transcript, timing, or a documented combination; file storage or link fetching alone is insufficient.
+llmSummary: Video input means an uploaded video contributes model context. Frame, audio, transcript, timing, and format behavior are recorded as qualifiers only when documented.
 audience: Engineers comparing multimodal video workflows.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [perception, video, uploads, multimodal]
 updated: 2026-08-28
 published: 2026-08-28
 category: perception
-summary: Upload a video and expose documented visual, audio, transcript, and timing information to the model.
+summary: Upload or select a video for use as model input.
 specLabel: Common product term
 aliases: [video input, video attachment, video upload, video understanding]
 parent: file-inputs
@@ -27,6 +27,10 @@ notes:
     text: "Evidence checked 2026-08-28: Grok Bot lists video among common supported inputs and documents a 200 MB per-video limit, but it does not describe which frames, audio, transcript, timing, or metadata reach the model."
   - id: 3
     text: "Evidence checked 2026-08-28: Gemini Apps accept video uploads up to 2 GB and document total video-duration limits of 5 minutes without a Google AI plan or 1 hour with Google AI Pro or Ultra. The reviewed page does not define frame sampling, timecode, or audio-visual alignment semantics."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Perplexity web accepts common video containers and automatically transcribes spoken content, but its documentation explicitly says visual scenes in video are not indexed or searchable. This is transcript-oriented input rather than documented visual-video understanding."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Gemini CLI custom commands encode a supported video path referenced with @{...} and inject it as multimodal input. The reviewed page does not enumerate containers, codecs, duration, frame sampling, timecodes, or audio-visual alignment."
 issues: []
 resources:
   - title: Methodology
@@ -56,11 +60,27 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Upload and analyze files; upload limits
+  - id: perplexity-file-uploads
+    title: Perplexity Help Center — File uploads
+    href: https://www.perplexity.ai/help-center/en/articles/10354807-file-uploads
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Video files; supported file types
+  - id: gemini-cli-custom-commands
+    title: Gemini CLI — Custom commands
+    href: https://geminicli.com/docs/cli/custom-commands/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Injecting file content with @{...}; multimodal support
 support:
   - harness: grok-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation
@@ -77,7 +97,7 @@ support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation
@@ -94,7 +114,7 @@ support:
   - harness: gemini-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -112,10 +132,48 @@ support:
           - resourceId: google-gemini-upload-files
             type: documented
             observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [4]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: MP4, MPEG, MOV, AVI, FLV, MPG, WebM, WMV, and 3GPP uploads are accepted and spoken content is automatically transcribed
+          - type: runtime
+            value: visual scenes in video are explicitly not indexed or searchable, so this does not establish frame-based or temporal visual understanding
+          - type: runtime
+            value: the general file-upload page documents a 40 MB per-file limit
+        evidence:
+          - resourceId: perplexity-file-uploads
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Gemini CLI custom-command documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: supported video files referenced with @{...} inside a custom command are encoded and injected as multimodal input
+          - type: runtime
+            value: accepted containers, codecs, limits, frame sampling, timecodes, temporal reasoning, audio handling, and ordinary-prompt attachment methods are not established by the reviewed page
+        evidence:
+          - resourceId: gemini-cli-custom-commands
+            type: documented
+            observedAt: 2026-08-28
 ---
 
-This row asks whether an uploaded or selected video contributes content to the model. Evidence must say what “video understanding” means for that harness: sampled frames, native temporal input, extracted audio, generated transcript, metadata, or some combination.
+This row asks whether an uploaded or selected video contributes content to the model. Evidence should record whether the product uses sampled frames, native temporal input, extracted audio, a generated transcript, metadata, or some combination when that behavior is documented.
 
 Record accepted containers and codecs, maximum bytes and duration, frame or sampling policy, audio handling, timecode awareness, resolution changes, model and plan restrictions, processing latency, and whether links are supported in addition to local uploads. A harness that accepts a video only for storage, sharing, or an unrelated editing tool remains unsupported for this row.
-
-Testing should include questions that require temporal order, scene changes, audio-visual alignment, small on-screen text, and time-specific citations; a good transcript answer alone does not prove visual or temporal understanding.

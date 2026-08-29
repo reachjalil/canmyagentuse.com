@@ -34,6 +34,16 @@ notes:
     text: "Evidence checked 2026-08-28: xAI documents custom MCP connectors in Grok Web, including server URL and authentication setup, tool discovery, and making the server's tools available in conversations."
   - id: 3
     text: "Evidence checked 2026-08-28: Anthropic documents Claude Code connecting to local and remote MCP servers, discovering their tools, prompts, and resources, and managing those servers through `claude mcp`."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Google documents Gemini CLI connecting to configured MCP servers as a client, discovering tools, prompts, and resources, and executing server-provided tools."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Cursor documents its editor and CLI connecting to MCP servers and consuming protocol capabilities exposed by those servers."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Cline documents its desktop extension connecting to configured local or remote MCP servers and using their exposed capabilities."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Continue documents MCP servers as an Agent-mode integration for connecting the editor extension to external tools, systems, databases, and context."
+  - id: 8
+    text: "Evidence checked 2026-08-28: Zed documents that Zed Agent uses Zed-configured MCP servers directly and currently consumes their Tools and Prompts capabilities."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -71,6 +81,46 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Add MCP servers; use MCP resources and prompts
+  - id: google-gemini-cli-mcp-docs
+    title: Google — MCP servers with Gemini CLI
+    href: https://geminicli.com/docs/tools/mcp-server/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What is an MCP server; core integration architecture
+  - id: cursor-mcp-docs
+    title: Cursor — Model Context Protocol
+    href: https://prod.cursor.com/docs/mcp
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What is MCP; how it works
+  - id: cline-mcp-docs
+    title: Cline — Model Context Protocol
+    href: https://docs.cline.bot/mcp/mcp-overview
+    kind: docs
+    publisher: Cline
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: What MCP gives you; add servers
+  - id: continue-mcp-docs
+    title: Continue — Model Context Protocol
+    href: https://docs.continue.dev/customize/deep-dives/mcp
+    kind: docs
+    publisher: Continue
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: How MCP works in Continue
+  - id: zed-mcp-docs
+    title: Zed — Model Context Protocol
+    href: https://zed.dev/docs/ai/mcp
+    kind: docs
+    publisher: Zed Industries
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported Features; Agent Path Support
 support:
   - harness: claude-cli
     versions:
@@ -87,6 +137,40 @@ support:
             value: configured server scope, enterprise managed configuration, tool permissions, and server health determine which MCP capabilities are available in a session
         evidence:
           - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Cursor MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: configured server enablement, tool approval, enterprise allowlists, and server health determine which capabilities are available
+        evidence:
+          - resourceId: cursor-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: Gemini CLI MCP documentation updated 2026-06-18
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: configured server enablement, workspace trust, tool confirmation, and server health determine which capabilities are available
+        evidence:
+          - resourceId: google-gemini-cli-mcp-docs
             type: documented
             observedAt: 2026-08-28
   - harness: grok-web
@@ -129,6 +213,57 @@ support:
             observedAt: 2026-08-28
           - resourceId: agent-plugins-grok-bot-client
             type: listed
+            observedAt: 2026-08-28
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current Cline MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: configured server enablement, tool approval, enterprise controls, and server health determine which capabilities are available
+        evidence:
+          - resourceId: cline-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Continue MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: MCP servers are available in Agent mode and depend on the active Continue configuration and server health
+        evidence:
+          - resourceId: continue-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current Zed MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: claim is scoped to Zed Agent using Zed-configured MCP servers directly, not external agents forwarded through ACP
+        evidence:
+          - resourceId: zed-mcp-docs
+            type: documented
             observedAt: 2026-08-28
 ---
 

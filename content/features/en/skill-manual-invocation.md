@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: "Let a user or agent explicitly select and activate a named skill."
-specLabel: Agent Skills manual invocation
+specLabel: Agent Skills specification
 specification:
   id: agent-skills
   revision: "living"
@@ -142,4 +142,4 @@ support:
 
 Let a user or agent explicitly select and activate a named skill.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

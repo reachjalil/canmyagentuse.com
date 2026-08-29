@@ -1,12 +1,12 @@
 ---
-title: Plugin marketplace and installation
-description: Discover, install, update, and remove extensions through a registry or marketplace, with current Grok Bot evidence.
+title: Plugin marketplace
+description: Discover and install extensions through a documented registry or marketplace.
 slug: plugin-marketplace
 locale: en
-seoTitle: "Plugin marketplace and installation compatibility — Can My Agent Use"
-socialTitle: Plugin marketplace and installation
-socialDescription: Current marketplace discovery and installation support for Grok Bot connectors and packaged skills.
-llmSummary: Grok Bot's Settings → Plugins area includes Marketplace discovery and installation for supported connectors and packaged skills, plus a Yours area for installed plugins and private skills. Team policy can require or block entries.
+seoTitle: "Plugin marketplace compatibility — Can My Agent Use"
+socialTitle: Plugin marketplace
+socialDescription: Compare marketplace discovery, installation, update, and removal support.
+llmSummary: A plugin marketplace is a documented registry or marketplace for discovering and installing extensions. Update, removal, private-extension, and organization-policy behavior are qualifiers.
 audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [interfaces, plugins]
 updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
-summary: "Discover, install, update, and remove extensions through a registry or marketplace."
+summary: "Discover and install extensions through a documented registry or marketplace."
 specLabel: Common product term
 aliases: ["plugin registry"]
 parent: plugins
@@ -55,6 +55,6 @@ support:
             observedAt: 2026-08-28
 ---
 
-Discover, install, update, and remove extensions through a registry or marketplace.
+Discover and install extensions through a documented registry or marketplace.
 
-The Grok Bot cell establishes its in-product discovery and installation flow. It does not imply that every listed plugin is available to every plan or organization, that all plugins use one portable format, or that Can My Agent Use reviewed third-party packages.
+Update, removal, private-extension, and organization-policy behavior are qualifiers. A marketplace listing does not prove that every extension is available to every account, that all extensions use one portable format, or that the catalog has reviewed third-party packages.

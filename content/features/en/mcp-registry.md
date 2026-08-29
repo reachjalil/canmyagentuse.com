@@ -27,13 +27,40 @@ aliases: ["MCP Registry"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "VS Code can browse and install MCP server metadata from an administrator-configured registry and can restrict access to registry-listed servers."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: microsoft-vscode-enterprise-mcp-registry
+    title: Microsoft VS Code — Configure MCP server access and custom registries
+    href: https://code.visualstudio.com/docs/enterprise/ai-settings#_configure-a-custom-mcp-registry
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Configure a custom MCP registry
+support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: VS Code documentation dated 2026-08-26
+          observedAt: 2026-08-28
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: an administrator configures the registry with McpGalleryServiceUrl; registry-only policy can restrict installs to its catalog
+        evidence:
+          - resourceId: microsoft-vscode-enterprise-mcp-registry
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Discover MCP servers and metadata through the official registry model.

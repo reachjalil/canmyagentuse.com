@@ -30,11 +30,12 @@ const SOCIAL_SURFACES = ["web", "desktop", "cli"] as const;
 const SYSTEM_CARDS: SocialCard[] = [
   {
     canonicalPath: "/",
-    eyebrow: "Independent compatibility catalog",
-    title: "Can my agent use this?",
+    eyebrow: "Independent AI agent compatibility catalog",
+    title: "Know what your AI agent can actually do.",
     description:
-      "Look up a capability. Compare exact harness surfaces. Leave with the public evidence.",
-    meta: "Lookup · compare · cite",
+      "Pick a capability, compare exact products, and check the public evidence behind every answer.",
+    meta: "Independent research · unknown stays unknown",
+    variant: "home",
   },
   {
     canonicalPath: "/features",

@@ -1,12 +1,12 @@
 ---
 title: Web fetch
-description: "Retrieve live web pages or APIs during a run. Compatibility evidence is published only after review."
+description: Retrieve live web pages or APIs during a run.
 slug: web-fetch
 locale: en
 seoTitle: "Web fetch — Can My Agent Use"
 socialTitle: Web fetch
-socialDescription: "Retrieve live web pages or APIs during a run. Unreviewed cells remain unknown."
-llmSummary: "Web fetch: Retrieve live web pages or APIs during a run. Unreviewed harness cells remain unknown until dated public evidence exists."
+socialDescription: Compare live web-page and API retrieval during a run.
+llmSummary: Web fetch retrieves current web pages or API responses during a run. Authentication, network policy, rendering, and source attribution are qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published

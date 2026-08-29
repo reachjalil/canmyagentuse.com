@@ -96,4 +96,4 @@ support:
 
 Allow a child agent to use MCP tools or declare its own MCP servers.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

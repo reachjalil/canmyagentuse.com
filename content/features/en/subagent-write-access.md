@@ -85,4 +85,4 @@ support:
 
 Allow a child agent to create or modify project files.
 
-This row remains unknown until exact, dated evidence covers this behavior.
+Support is recorded only when exact, dated evidence covers this behavior.

@@ -33,6 +33,16 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code lists and reads MCP resources, exposes them through `@` mentions, and fetches referenced resources into conversation context."
   - id: 2
     text: "Evidence checked 2026-08-28: Microsoft's VS Code MCP developer guide states that VS Code implements MCP tools, prompts, and resources; the end-user skill is scoped to GitHub Copilot's local VS Code agent surface."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Gemini CLI fetches `resources/list`, exposes resource URIs through `@` completion, calls `resources/read`, and injects the result into conversation context."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Cursor's protocol capability table explicitly lists MCP Resources as supported structured data sources that can be read and referenced."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Cline's pinned desktop client requests `resources/list` and displays resource metadata, but the reviewed MCP client surface does not read resource contents into agent context."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Continue's pinned desktop client lists resources, reads a selected resource, and injects text contents through its MCP context provider; non-text contents are rejected and resource-template support is experimental."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Zed's current MCP documentation explicitly limits supported server features to Tools and Prompts, so MCP Resources are not supported on the reviewed Zed Agent path."
 issues: []
 resources:
   - id: anthropic-claude-code-mcp
@@ -51,6 +61,54 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: MCP implementation overview
+  - id: google-gemini-cli-mcp-docs
+    title: Google — MCP servers with Gemini CLI
+    href: https://geminicli.com/docs/tools/mcp-server/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Working with MCP resources
+  - id: cursor-mcp-docs
+    title: Cursor — Model Context Protocol
+    href: https://prod.cursor.com/docs/mcp
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Protocol and extension support — Resources
+  - id: cline-mcp-client-source
+    title: Cline source — MCP desktop client at 27350f2
+    href: https://github.com/cline/cline/blob/27350f243c2a31c97b4e38fa700e009a2f61adae/apps/vscode/src/services/mcp/McpHub.ts
+    kind: docs
+    publisher: Cline
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: fetchResourcesList and fetchServerCapabilities
+  - id: continue-mcp-client-source
+    title: Continue source — MCP desktop client at 5522c6f
+    href: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/context/mcp/MCPConnection.ts
+    kind: docs
+    publisher: Continue
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: listResources and getResource
+  - id: continue-mcp-context-source
+    title: Continue source — MCP context provider at 5522c6f
+    href: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/context/providers/MCPContextProvider.ts
+    kind: docs
+    publisher: Continue
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: resource read and text-content conversion
+  - id: zed-mcp-docs
+    title: Zed — Model Context Protocol
+    href: https://zed.dev/docs/ai/mcp
+    kind: docs
+    publisher: Zed Industries
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported Features
 support:
   - harness: claude-cli
     versions:
@@ -84,6 +142,94 @@ support:
             value: claim is scoped to GitHub Copilot's local VS Code agent surface, not every Copilot product surface
         evidence:
           - resourceId: vscode-mcp-developer-guide
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current Cursor MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: exact resource availability, URI schemes, and media types depend on the connected server
+        evidence:
+          - resourceId: cursor-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: Gemini CLI MCP documentation updated 2026-06-18
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: exact resource availability, URI schemes, and media types depend on the connected server
+        evidence:
+          - resourceId: google-gemini-cli-mcp-docs
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: Cline source commit 27350f243c2a observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the reviewed desktop client lists resources and resource templates for display but does not evidence resources/read or resource-content injection into agent context
+        evidence:
+          - resourceId: cline-mcp-client-source
+            type: documented
+            observedAt: 2026-08-28
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: Continue source commit 5522c6f44ca0 observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: Continue currently accepts text resource contents only; its resource-template path is experimental and supports a query placeholder
+        evidence:
+          - resourceId: continue-mcp-client-source
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: continue-mcp-context-source
+            type: documented
+            observedAt: 2026-08-28
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Zed MCP documentation observed 2026-08-28
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: status is scoped to Zed Agent's direct use of Zed-configured MCP servers
+        evidence:
+          - resourceId: zed-mcp-docs
             type: documented
             observedAt: 2026-08-28
 ---

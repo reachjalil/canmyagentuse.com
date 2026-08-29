@@ -1,12 +1,12 @@
 ---
-title: Prompt and context cache reuse
-description: Reuse eligible repeated prompt prefixes or context so later requests avoid equivalent fresh processing.
+title: Prompt caching
+description: Reuse eligible repeated prompt content across requests under documented caching behavior.
 slug: prompt-cache-reuse
 locale: en
 seoTitle: Prompt and context caching compatibility — Can My Agent Use
-socialTitle: Prompt and context cache reuse
+socialTitle: Prompt caching
 socialDescription: Compare automatic and persistent reuse of eligible repeated context across harnesses.
-llmSummary: Prompt-cache reuse means eligible repeated context can receive documented latency or billing reuse; ordinary browser, HTTP, file, or retrieval caching does not count.
+llmSummary: Prompt caching reuses eligible repeated prompt content under documented latency or billing behavior. Browser, HTTP, file, and retrieval caching do not count.
 audience: Engineers comparing latency and token cost for repeated large contexts.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [context, prompt-caching, latency, cost]
 updated: 2026-08-28
 published: 2026-08-28
 category: models-context
-summary: Reuse eligible repeated prompt context with documented latency or billing semantics.
+summary: Reuse eligible repeated prompt content under documented caching behavior.
 specLabel: Common product term
 aliases: [prompt caching, context caching, cached input, prefix caching]
 parent: models-and-context

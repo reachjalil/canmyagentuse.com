@@ -1,12 +1,12 @@
 ---
-title: Model fallback visibility and control
-description: Detect, configure, or prevent a run from switching to another model after capacity, policy, or service failures.
+title: Model fallback
+description: Switch to another model after a capacity, policy, or service failure.
 slug: model-fallback
 locale: en
-seoTitle: Model fallback visibility and control — Can My Agent Use
-socialTitle: Model fallback visibility and control
-socialDescription: Compare fallback routing, disclosure, opt-out, and retry behavior across harnesses.
-llmSummary: Model fallback covers documented switching after capacity, policy, or service failures; automatic routing is partial when the selected model and reason are not visible.
+seoTitle: Model fallback compatibility — Can My Agent Use
+socialTitle: Model fallback
+socialDescription: Compare documented fallback routing, disclosure, configuration, and retry behavior.
+llmSummary: Model fallback is documented switching to another model after a capacity, policy, or service failure. Disclosure, configuration, and opt-out behavior are recorded as qualifiers.
 audience: Engineers who need predictable model behavior and reproducible runs.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [models, routing, reliability, observability]
 updated: 2026-08-28
 published: 2026-08-28
 category: models-context
-summary: Detect, configure, or prevent fallback to another model during a run.
+summary: Switch to another model after a documented failure condition.
 specLabel: Common product term
 aliases: [model failover, automatic model routing, fallback model]
 parent: models-and-context
@@ -49,7 +49,7 @@ support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation

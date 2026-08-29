@@ -163,6 +163,7 @@ export const featureSchema = seoSchema("feature")
       });
     }
     if (
+      feature.status === "published" &&
       feature.capabilityKind === "atomic" &&
       !feature.resources.some((resource) => /^https:\/\//.test(resource.href))
     ) {

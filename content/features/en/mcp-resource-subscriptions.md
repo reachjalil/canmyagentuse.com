@@ -27,13 +27,51 @@ aliases: ["resources/subscribe"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "VS Code documents real-time resource updates and its source implements the legacy resources/subscribe, resources/unsubscribe, and notifications/resources/updated flow."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: microsoft-vscode-mcp-guide
+    title: Microsoft VS Code — MCP developer guide
+    href: https://code.visualstudio.com/api/extension-guides/ai/mcp
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Resources — resource updates
+  - id: microsoft-vscode-mcp-connection-source
+    title: Microsoft VS Code — MCP server connection implementation
+    href: https://github.com/microsoft/vscode/blob/a39698f7e6ecc255f6e9cf752d1c6d01faf308da/src/vs/workbench/contrib/mcp/common/mcpServerConnection.ts
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: subscribe, unsubscribe, and notifications/resources/updated handling
+support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: VS Code docs and source commit a39698f7
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: the inspected implementation uses the 2025-11-25 resources/subscribe flow; MCP 2026-07-28 replaces it with subscriptions/listen
+        evidence:
+          - resourceId: microsoft-vscode-mcp-guide
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: microsoft-vscode-mcp-connection-source
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Subscribe to resource changes and receive update notifications.

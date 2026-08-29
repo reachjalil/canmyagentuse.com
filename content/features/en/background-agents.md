@@ -1,12 +1,12 @@
 ---
 title: Background agents
-description: Keep a run going after the operator leaves the session, with conditional OpenWork Cloud evidence.
+description: Keep a run going after the operator leaves the session.
 slug: background-agents
 locale: en
 seoTitle: "Background agents — Can My Agent Use"
 socialTitle: Background agents
-socialDescription: Background-agent support by exact harness surface, with dated public evidence.
-llmSummary: OpenWork Desktop can connect to hosted OpenWork Cloud workers for remote agent execution. This cell is conditional because it depends on the hosted worker and subscription layer, not the default local desktop process alone.
+socialDescription: Compare background execution by exact product surface.
+llmSummary: Background agents continue running after the operator leaves the active session. Hosting, subscription, duration, and notification behavior are qualifiers.
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
@@ -23,6 +23,14 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork Desktop can connect to hosted OpenWork Cloud workers; the background-run claim is conditional on that remote worker and an active Cloud subscription."
   - id: 2
     text: "Evidence checked 2026-08-28: Grok Bot runs from a persistent cloud computer, continues when the desktop preview or operator laptop is closed, and can run scheduled routines in the background."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Cursor Desktop can start Cloud Agents in isolated hosted VMs that do not require the local machine to remain connected."
+  - id: 4
+    text: "Evidence checked 2026-08-28: VS Code can hand a task to a cloud agent on GitHub infrastructure, after which the operator can close VS Code and return later to the pull request."
+  - id: 5
+    text: "Evidence checked 2026-08-28: Replit Agent supports plan-limited background tasks in isolated task threads, but the reviewed page does not explicitly promise continuation after the browser is closed."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Warp can hand work to Oz cloud agents that run in the background on hosted or customer infrastructure."
 issues: []
 resources:
   - title: Methodology
@@ -43,6 +51,38 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Watch computer work
+  - id: cursor-cloud-background
+    title: Cursor — Cloud Agents
+    href: https://cursor.com/docs/cloud-agent
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Why use Cloud Agents and how to access
+  - id: vscode-cloud-background
+    title: Microsoft — Agent sessions and where agents run
+    href: https://code.visualstudio.com/learn/foundations/agent-sessions-and-where-agents-run
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Cloud agents
+  - id: replit-background-tasks
+    title: Replit — Agent task system
+    href: https://docs.replit.com/core-concepts/agent/task-system
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Background-task availability and task states
+  - id: warp-cloud-background
+    title: Warp — Getting started with Warp and Oz
+    href: https://docs.warp.dev/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Oz cloud agents
 support:
   - harness: openwork-desktop
     versions:
@@ -80,6 +120,80 @@ support:
             value: an eligible SuperGrok or Cursor plan is required
         evidence:
           - resourceId: xai-grok-bot-background
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: partial
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Cursor Cloud Agents documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Cursor Desktop starts a separate Cloud Agent VM; the default local desktop agent is not itself detached
+          - type: plan
+            value: a paid Cursor plan and connected source-control account are required
+        evidence:
+          - resourceId: cursor-cloud-background
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: partial
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current VS Code cloud-agent documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: continuation after closing VS Code is supplied by a cloud session on GitHub infrastructure rather than the local Copilot process
+          - type: policy
+            value: availability depends on eligible account, repository, and organization settings
+        evidence:
+          - resourceId: vscode-cloud-background
+            type: documented
+            observedAt: 2026-08-28
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Replit Agent task-system documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: Core supports one active background task and Pro supports up to ten
+          - type: runtime
+            value: background task isolation and queuing are documented, but continuation after closing the web session is not explicitly stated
+        evidence:
+          - resourceId: replit-background-tasks
+            type: documented
+            observedAt: 2026-08-28
+  - harness: warp
+    versions:
+      - track: current
+        status: partial
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current Warp and Oz documentation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: background execution is provided by an Oz cloud agent on Warp-hosted or customer infrastructure rather than the default local Warp agent
+        evidence:
+          - resourceId: warp-cloud-background
             type: documented
             observedAt: 2026-08-28
 ---

@@ -55,6 +55,6 @@ support:
             observedAt: 2026-08-28
 ---
 
-A native desktop or CLI process is not automatically local-only. This row requires a documented workflow in which model inference, required tools, storage, authentication, policy evaluation, and necessary control-plane functions remain available without sending task content to a hosted service.
+A native desktop or CLI process is not automatically offline. This row requires a documented workflow that can complete without a network connection after any stated installation or model-download prerequisites.
 
-Evidence should record initial and recurring sign-in, license checks, model downloads, updates, telemetry, crash reports, remote connectors, disabled features, offline duration, DNS and network behavior, and the steps required for an air-gapped installation. Partial support is appropriate when the core run is local but setup or optional features require the cloud.
+Evidence should record installation and model downloads, recurring sign-in or license checks, updates, telemetry, remote connectors, disabled features, offline duration, and the steps required for an air-gapped installation. Data locality without offline operation belongs in the relevant privacy qualifier rather than being treated as the same claim.

@@ -37,6 +37,25 @@ describe("social cards", () => {
     expect(svg).toContain("UNKNOWN");
   });
 
+  it("gives the homepage a focused question-to-source story", () => {
+    const svg = renderSocialCardSvg({
+      ...card,
+      canonicalPath: "/",
+      eyebrow: "Independent AI agent compatibility catalog",
+      title: "Know what your AI agent can actually do.",
+      description:
+        "Pick a capability, compare exact products, and check the public evidence behind every answer.",
+      meta: "Independent research · unknown stays unknown",
+      variant: "home",
+    });
+
+    expect(svg).toContain("FROM QUESTION TO SOURCE");
+    expect(svg).toContain("Can it use MCP tools?");
+    expect(svg).toContain("open the public source");
+    expect(svg).toContain("INDEPENDENT · EVIDENCE-LED");
+    expect(svg).not.toContain("MATRIX CELL STATUS");
+  });
+
   it("groups the four main provider families by exact surface", () => {
     const svg = renderSocialCardSvg({
       ...card,

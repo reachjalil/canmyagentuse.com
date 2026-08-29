@@ -1,12 +1,12 @@
 ---
-title: Structured subagent result handoff
-description: Return child findings, citations, artifacts, diffs, status, and errors to the parent without flattening everything into untraceable prose.
+title: Subagent results
+description: Return a child agent's findings or work to the parent.
 slug: subagent-result-handoff
 locale: en
-seoTitle: Structured subagent result handoff — Can My Agent Use
-socialTitle: Structured subagent result handoff
-socialDescription: Compare how child-agent results, files, citations, diffs, errors, and provenance return to the parent.
-llmSummary: Result handoff asks whether a parent receives structured child status and artifacts with provenance; a free-form text summary is a narrower form of support.
+seoTitle: Subagent results compatibility — Can My Agent Use
+socialTitle: Subagent results
+socialDescription: Compare how child-agent summaries, files, citations, diffs, status, and errors return to the parent.
+llmSummary: Subagent results describe what a child returns to its parent. Text summaries, files, citations, diffs, status, errors, and structured result objects are recorded as separate qualifiers.
 audience: Engineers building auditable multi-agent workflows.
 contentKind: feature
 status: published
@@ -14,7 +14,7 @@ tags: [runtime, subagents, handoff, provenance]
 updated: 2026-08-28
 published: 2026-08-28
 category: runtime
-summary: Return structured child status, findings, citations, files, diffs, and errors to the parent.
+summary: Return a child agent's findings or work to the parent.
 specLabel: Common product term
 aliases: [child result, agent handoff, subagent artifacts]
 parent: subagents
@@ -86,7 +86,7 @@ support:
   - harness: chatgpt-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -103,7 +103,7 @@ support:
   - harness: chatgpt-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: dated-documentation
@@ -120,7 +120,7 @@ support:
   - harness: codex-cli
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: dated-documentation
@@ -137,7 +137,7 @@ support:
   - harness: gemini-cli
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [4]
         target:
           kind: dated-documentation
@@ -154,7 +154,7 @@ support:
   - harness: cursor
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [5]
         target:
           kind: dated-documentation
@@ -171,7 +171,7 @@ support:
   - harness: vscode-copilot
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [6]
         target:
           kind: dated-documentation
@@ -188,7 +188,7 @@ support:
   - harness: claude-cli
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: dated-documentation
@@ -205,7 +205,7 @@ support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation
@@ -223,6 +223,6 @@ support:
             observedAt: 2026-08-28
 ---
 
-This row asks what crosses the child-to-parent boundary. A plain prose summary may be useful, but it can lose status, sources, files, patches, tool output, uncertainty, and failure details. Structured handoff preserves enough provenance for the parent and operator to verify and act on the result.
+This row asks what a child agent returns to its parent. A plain text summary counts as a result; files, patches, citations, status, tool output, and structured objects are additional result forms recorded as qualifiers.
 
-Evidence should identify supported result types, size limits, streaming versus final delivery, partial results after cancellation, error representation, duplicate or late completion handling, and whether created artifacts remain addressable outside the child's private workspace.
+Evidence should identify documented result types, size limits, streaming versus final delivery, partial results after cancellation, error representation, and whether created files remain available outside the child's workspace. A typed result envelope is not required for support.

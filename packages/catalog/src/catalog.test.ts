@@ -189,6 +189,17 @@ describe("feature terminology provenance", () => {
 
     expect(result.success).toBe(true);
   });
+
+  it("allows an unsourced atomic draft to remain in research", () => {
+    const result = featureSchema.safeParse({
+      ...feature,
+      status: "draft",
+      resources: [{ title: "Methodology", href: "/methodology", kind: "note" }],
+      support: [],
+    });
+
+    expect(result.success).toBe(true);
+  });
 });
 
 describe("paths", () => {

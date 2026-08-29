@@ -1,12 +1,12 @@
 ---
-title: File upload limits and quota visibility
-description: Document and expose per-file, per-message, per-project, duration, page, and rolling upload limits.
+title: File upload limits
+description: Document file size, count, duration, page, project, or rolling upload limits.
 slug: upload-limits
 locale: en
 seoTitle: File upload limits comparison — Can My Agent Use
-socialTitle: File upload limits and quota visibility
+socialTitle: File upload limits
 socialDescription: Compare file size, count, duration, page, project, and rolling upload limits by exact harness and plan.
-llmSummary: Upload-limit records capture numeric size, count, page, duration, frequency, and storage quotas with their scope; accepting one test file does not establish the full operational envelope.
+llmSummary: File upload limits record documented size, count, page, duration, frequency, and storage limits with their scope. Accepting one test file does not establish every limit.
 audience: Engineers sizing document and multimodal workloads.
 contentKind: feature
 status: published
@@ -28,6 +28,14 @@ notes:
     text: "Evidence checked 2026-08-28: Claude chats accept up to 20 files with a 500 MB per-file limit, images must be no larger than 8,000 by 8,000 pixels, and project files have a separate 30 MB limit. The reviewed documentation does not expose a complete rolling upload or storage quota."
   - id: 4
     text: "Evidence checked 2026-08-28: Gemini Apps accept up to 10 files in one prompt; videos can be up to 2 GB and other supported files up to 100 MB. Total video and audio duration varies by plan, and code folders or repositories have separate file-count and size limits."
+  - id: 6
+    text: "Evidence checked 2026-08-28: Perplexity's general web file-upload page documents a 40 MB per-file limit. Enterprise session, repository, and project documentation instead lists 50 MB per file, with plan-specific file-count, weekly-upload, and total persistent-file quotas."
+  - id: 7
+    text: "Evidence checked 2026-08-28: Microsoft Copilot web allows up to 20 files in one conversation and limits each uploaded file to 50 MB."
+  - id: 8
+    text: "Evidence checked 2026-08-28: Mistral's current Vibe documentation, which supersedes Le Chat at the same chat.mistral.ai entry point, documents Library uploads of up to 100 files at once and 100 MB per file. Ordinary chat file usage remains plan-limited without a public numeric allowance on the reviewed page."
+  - id: 9
+    text: "Evidence checked 2026-08-28: Claude Code documents a 30 MB maximum request-size failure, a PDF attachment boundary of 100 pages and 32 MB, and image dimension limits of 8,000 pixels for one image or 2,000 pixels when many images are in context. These are request and media boundaries, not a complete rolling or project quota."
 issues: []
 resources:
   - title: Methodology
@@ -65,11 +73,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: File upload limits
+  - id: perplexity-file-uploads
+    title: Perplexity Help Center — File uploads
+    href: https://www.perplexity.ai/help-center/en/articles/10354807-file-uploads
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: File size
+  - id: perplexity-enterprise-file-limits
+    title: Perplexity Help Center — Enterprise file limits
+    href: https://www.perplexity.ai/help-center/en/articles/12009761-enterprise-file-limits
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Enterprise file limits by session, repository, project, and plan
+  - id: microsoft-copilot-file-upload
+    title: Microsoft Support — File upload in Microsoft Copilot
+    href: https://support.microsoft.com/en-US/microsoft-copilot/file-upload-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Supported file formats; file count and size
+  - id: mistral-vibe-libraries
+    title: Mistral Docs — Add context with Libraries
+    href: https://docs.mistral.ai/vibe/work/libraries
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Uploading documents; limits and processing
+  - id: mistral-vibe-overview
+    title: Mistral Docs — Vibe overview
+    href: https://docs.mistral.ai/vibe
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Le Chat is now Vibe; product entry point
+  - id: anthropic-claude-code-errors
+    title: Claude Code Docs — Error reference
+    href: https://code.claude.com/docs/en/errors
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Request too large; image was too large; PDF errors
 support:
   - harness: grok-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [1]
         target:
           kind: hosted-observation
@@ -86,7 +142,7 @@ support:
   - harness: grok-bot-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [2]
         target:
           kind: hosted-observation
@@ -105,7 +161,7 @@ support:
   - harness: claude-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -124,7 +180,7 @@ support:
   - harness: claude-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [3]
         target:
           kind: hosted-observation
@@ -143,7 +199,7 @@ support:
   - harness: gemini-web
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [4]
         target:
           kind: hosted-observation
@@ -159,6 +215,94 @@ support:
             value: rolling account quota, project storage, and remaining-quota visibility are not fully documented on the reviewed page
         evidence:
           - resourceId: google-gemini-upload-files
+            type: documented
+            observedAt: 2026-08-28
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Perplexity web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: general file uploads are limited to 40 MB per file; Enterprise documentation lists 50 MB per file and up to 30 files in a session
+          - type: plan
+            value: Enterprise Pro and Max publish separate weekly, repository, project, personal-repository, and total persistent-file quotas
+          - type: policy
+            value: the generic and Enterprise pages publish different per-file limits, so deployments should apply the exact account and surface limit rather than assuming one universal maximum
+        evidence:
+          - resourceId: perplexity-file-uploads
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: perplexity-enterprise-file-limits
+            type: documented
+            observedAt: 2026-08-28
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Microsoft Copilot web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: up to 20 files per conversation and 50 MB per uploaded file
+          - type: policy
+            value: rolling, storage, page, duration, and remaining-quota limits are not established by the reviewed page
+        evidence:
+          - resourceId: microsoft-copilot-file-upload
+            type: documented
+            observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Mistral Vibe web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Libraries allow up to 100 files in one upload and 100 MB per file
+          - type: plan
+            value: ordinary chat files are available on all plans but plan-based usage limits are not numerically published on the reviewed page
+          - type: policy
+            value: Le Chat is now Vibe at the same chat.mistral.ai entry point; the numeric limits in this cell are specifically for the Library path
+        evidence:
+          - resourceId: mistral-vibe-libraries
+            type: documented
+            observedAt: 2026-08-28
+          - resourceId: mistral-vibe-overview
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code error documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: 30 MB maximum request-size boundary; attached PDFs are limited to 100 pages and 32 MB
+          - type: runtime
+            value: one image can be up to 8,000 pixels on its longest edge, or 2,000 pixels when many images are in context
+          - type: policy
+            value: rolling usage, project storage, and remaining quota are not documented by the reviewed page
+        evidence:
+          - resourceId: anthropic-claude-code-errors
             type: documented
             observedAt: 2026-08-28
 ---
