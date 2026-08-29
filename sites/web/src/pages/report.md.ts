@@ -5,22 +5,21 @@ import { markdownResponse } from "../lib/security";
 export const GET: APIRoute = () =>
   markdownResponse(
     generatedPageMarkdown({
-      title: "Report a catalog issue",
+      title: "Suggest a catalog correction",
       path: "/report",
       description:
-        "Prepare a structured correction for one capability and one exact product surface.",
-      body: `Can My Agent Use accepts structured corrections for one capability and one exact product at a time.
+        "Submit a structured correction for editorial review and receive a trackable receipt.",
+      body: `Can My Agent Use accepts structured corrections for an exact compatibility cell, product, capability, evidence record, methodology rule, or missing catalog entry.
 
-Use the interactive [report builder](/report) to prepare a report. Include:
+Use the interactive [correction form](/report) to submit a proposal. Include:
 
-- the capability and exact product;
-- the current or preview catalog record;
-- the date observed;
-- the observed behavior;
-- the smallest proposed correction;
-- a public evidence URL when one exists.
+- the capability, product, exact surface, and current or preview track when applicable;
+- the proposed Supported, Partial, Unsupported, Unknown, or Not applicable status;
+- a bounded explanation and public HTTPS sources;
+- reproduction steps and affected version, plan, platform, and surface when material;
+- any provider affiliation and optional private contact permission.
 
-A community report starts a review. It does not change a support state without reviewed evidence. Do not include private account details, customer data, tokens, or private beta material.
+A valid submission receives a CMAU receipt. It enters a moderated queue with received, triaged, needs-more-information, accepted, partially-accepted, declined, duplicate, and superseded states. It never updates the catalog automatically. Public receipt history never exposes contact details, network identifiers, or private moderation metadata. Do not include account secrets, customer data, tokens, private screenshots, or private beta material.
 `,
     })
   );

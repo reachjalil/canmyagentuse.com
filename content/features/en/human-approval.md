@@ -19,6 +19,8 @@ summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: Gemini Spark is designed to request review and confirmation before covered external actions such as sending communications, modifying data, making purchases, submitting forms, or editing shared Workspace files, and can require browser takeover for passwords or payment details."
   - id: 80
     text: "Evidence checked 2026-08-29: Claude web Cowork surfaces approval controls, requires explicit permission before permanent file deletion, and lets users steer or redirect active work."
   - id: 79
@@ -248,7 +250,46 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "When is user approval required?"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How Spark helps you keep you & your info safe; Supervise important & sensitive tasks; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark is described as experimental and in early development"
+          - type: plan
+            value: "requires Google AI Pro or Ultra"
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, and Keep Activity; unavailable to work or school accounts"
+          - type: region
+            value: "unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: policy
+            value: "approval behavior is action-class dependent; Google explicitly says Spark can perform bulk actions on private Google Tasks without confirmation"
+          - type: runtime
+            value: "take-control mode is used for sensitive input such as passwords or payment details"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: claude-web
     versions:
       - track: current

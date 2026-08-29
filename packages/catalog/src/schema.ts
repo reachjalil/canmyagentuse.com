@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { LOCALES } from "./site.ts";
 import {
+  ASSESSMENT_BASES,
+  ASSESSMENT_CONFIDENCES,
   CONTENT_KINDS,
   CAPABILITY_KINDS,
   EVIDENCE_TYPES,
@@ -84,6 +86,10 @@ export const versionCellSchema = z.object({
   qualifiers: z.array(supportQualifierSchema).default([]),
   evidence: z.array(evidenceReferenceSchema).default([]),
   stage: z.enum(SUPPORT_STAGES).optional(),
+  assessmentBasis: z.enum(ASSESSMENT_BASES).optional(),
+  confidence: z.enum(ASSESSMENT_CONFIDENCES).optional(),
+  assessedAt: dateStampSchema.optional(),
+  humanVerificationDesired: z.boolean().optional(),
 });
 
 export const featureRelationSchema = z.object({
@@ -152,14 +158,6 @@ export const featureSchema = seoSchema("feature")
         code: "custom",
         message: "A capability family cannot itself have a parent.",
         path: ["parent"],
-      });
-    }
-    if (feature.capabilityKind === "family" && feature.support.length > 0) {
-      context.addIssue({
-        code: "custom",
-        message:
-          "Family support is derived from atomic children; do not author support rows on a family.",
-        path: ["support"],
       });
     }
     if (

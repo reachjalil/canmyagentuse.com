@@ -9,7 +9,6 @@ import {
   featurePath,
   formatPercent,
   resolveMetadata,
-  sourcedShare,
   techArticleJsonLd,
   SUPPORT_STATUS_LABELS,
 } from "@canmyagentuse/catalog";
@@ -44,7 +43,6 @@ const { Content } = await render(feature);
 const metadata = resolveMetadata(feature.data);
 const harnessData = harnesses.map((entry) => entry.data);
 const columns = expandFeatureSupport(feature.data, harnessData);
-const coverage = sourcedShare(columns);
 const currentSupport = currentSupportSnapshot(columns);
 const supportSnippet = currentSupportSnippet(feature.data.title, currentSupport);
 const graph = capabilityNode(feature.data.slug, features.map((entry) => entry.data));
@@ -109,7 +107,7 @@ const terminologyReference = feature.data.specification
           <p class="term-basis">
             <strong>Terminology basis:</strong>{" "}
             {feature.data.capabilityKind === "family" ? (
-              <>Catalog grouping. This organizes related questions and is not itself a compatibility claim.</>
+              <>Catalog grouping with an optional broad practical assessment. Exact standard-format behaviors remain independent child checks.</>
             ) : terminologyReference ? (
               <>
                 {feature.data.specLabel}.{" "}
@@ -119,26 +117,28 @@ const terminologyReference = feature.data.specification
               <>{feature.data.specLabel}</>
             )}
           </p>
-          {feature.data.capabilityKind === "atomic" ? <p class="feature-verdict">{supportSnippet}</p> : null}
+          {(feature.data.capabilityKind === "atomic" || feature.data.support.length > 0) ? <p class="feature-verdict">{supportSnippet}</p> : null}
           <p class="feature-formats">
             <a href={featureMarkdownPath(feature.data.slug)}>Markdown</a>
             {" · "}
             <a href={`/api/v1/features/${feature.data.slug}.json`}>JSON</a>
+            {" · "}
+            <a href={`/report?targetType=feature&feature=${feature.data.slug}`}>Suggest a correction</a>
           </p>
         </div>
-        {feature.data.capabilityKind === "atomic" ? <aside class="coverage-stat">
-          <span>Current products reviewed</span>
-          <strong>{currentSupport.sourced}<small>/{currentSupport.total}</small></strong>
+        {(feature.data.capabilityKind === "atomic" || feature.data.support.length > 0) ? <aside class="coverage-stat">
+          <span>{feature.data.capabilityKind === "family" ? "Broad product assessments" : "Current product assessments"}</span>
+          <strong>{currentSupport.assessed}<small>/{currentSupport.total}</small></strong>
           <dl class="coverage-stat__counts">
             <div data-status="yes"><dt>Supported</dt><dd>{currentSupport.counts.yes}</dd></div>
             <div data-status="partial"><dt>Partial</dt><dd>{currentSupport.counts.partial}</dd></div>
             <div data-status="no"><dt>Unsupported</dt><dd>{currentSupport.counts.no}</dd></div>
           </dl>
-          <p>{formatPercent(coverage)} of all current and preview tracks are sourced.</p>
+          <p>{currentSupport.directEvidence}/{currentSupport.total} have direct reviewed evidence ({formatPercent(currentSupport.total === 0 ? 0 : currentSupport.directEvidence / currentSupport.total)}).</p>
         </aside> : <aside class="coverage-stat">
           <span>Atomic capabilities</span>
           <strong>{graph?.children.length ?? 0}</strong>
-          <p>Family support is derived per product. No umbrella yes/no value is authored.</p>
+          <p>No broad product assessment has been authored for this grouping yet. Child progress remains independent.</p>
         </aside>}
       </div>
       <div class="feature-navigation">
@@ -170,7 +170,8 @@ const terminologyReference = feature.data.specification
           </details>
         ) : null}
       </div>
-      {feature.data.capabilityKind === "atomic" ? <VersionMatrix feature={feature.data} harnesses={harnessData} /> : (
+      {(feature.data.capabilityKind === "atomic" || feature.data.support.length > 0) ? <VersionMatrix feature={feature.data} harnesses={harnessData} /> : null}
+      {feature.data.capabilityKind === "family" ? (
         <section class="feature-explainer" aria-labelledby="family-progress-title">
           <p class="eyebrow">Product support cells</p>
           <h2 id="family-progress-title">Family progress by product</h2>
@@ -190,7 +191,7 @@ const terminologyReference = feature.data.specification
           <h3>Atomic capabilities</h3>
           <ul>{graph?.children.map((child) => <li><a href={`/features/${child.slug}`}>{child.title}</a> — {child.summary}</li>)}</ul>
         </section>
-      )}
+      ) : null}
       <section class="feature-explainer" aria-labelledby="feature-explainer-title">
         <p class="eyebrow">Definition and scope</p>
         <h2 id="feature-explainer-title">What this capability means</h2>

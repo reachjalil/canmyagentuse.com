@@ -4,8 +4,8 @@ export function currentSupportSnippet(
   title: string,
   snapshot: CurrentSupportSnapshot
 ): string {
-  if (snapshot.sourced === 0) {
-    return `${title}: no reviewed current support evidence across ${snapshot.total} cataloged products yet.`;
+  if (snapshot.assessed === 0) {
+    return `${title}: no current status assessments across ${snapshot.total} cataloged products yet; 0 have direct reviewed evidence.`;
   }
 
   const { yes, partial, no, unknown, na } = snapshot.counts;
@@ -17,5 +17,5 @@ export function currentSupportSnippet(
   ];
   if (na > 0) parts.push(`${na} not applicable`);
 
-  return `${title}: ${parts.join(", ")} across ${snapshot.total} cataloged products.`;
+  return `${title}: ${parts.join(", ")} across ${snapshot.total} cataloged products; ${snapshot.directEvidence} have direct reviewed evidence.`;
 }

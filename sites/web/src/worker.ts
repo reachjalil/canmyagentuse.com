@@ -13,6 +13,9 @@ import { isRuntimeCatalogDocument } from "./lib/request-routing";
 
 export interface CatalogWorkerEnv {
   ASSETS: Fetcher;
+  CORRECTIONS_DB?: D1Database;
+  CORRECTIONS_HASH_SALT?: string;
+  CORRECTIONS_ADMIN_TOKEN?: string;
   PUBLIC_SITE_URL?: string;
   CF_VERSION_METADATA?: {
     id: string;

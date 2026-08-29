@@ -20,6 +20,8 @@ aliases: [download artifacts, generated files, file export]
 parent: collaboration-and-portability
 related: [conversation-export, git-pull-requests, subagent-result-handoff]
 notes:
+  - id: 54
+    text: "Evidence checked 2026-08-29: personal-account Cowork can create or modify Office documents and PDFs, display generated files in an Output folder, offer Preview and Download for each file, and download multiple outputs together as a ZIP archive. Consumer Cowork is preview-only and requires an eligible Microsoft 365 subscription."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot can return documents, spreadsheets, slide decks, folders, screenshots, logs, and other generated files as conversation cards that the operator can preview and save; the reviewed page does not establish full workspace archive or provenance export."
   - id: 2
@@ -103,7 +105,55 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "2026-03-13 Structured Output Modal; 2026-03-27 Inline File Previews"
+  - id: microsoft-copilot-cowork-personal-preview-2026-08
+    title: "Get started with Cowork (preview)"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-cowork"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "For personal accounts (preview); What you can do with Cowork; Review files and results; Limitations"
+  - id: microsoft-copilot-web-unification-2026-08
+    title: "Updates to Copilot and the Microsoft Copilot app"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/learning/changes-microsoft-copilot-app"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Details by account type — If you use Microsoft Copilot with a personal account; Privacy and Data"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [54]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web Cowork for personal accounts, August 2026 preview documentation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: preview
+            value: "Cowork for personal accounts is currently in preview"
+          - type: plan
+            value: "requires an eligible Microsoft 365 subscription"
+          - type: auth
+            value: "requires a personal Microsoft account"
+          - type: runtime
+            value: "Cowork mode in the browser at m365.cloud.microsoft, documented as part of the updated unified Copilot web app"
+          - type: format
+            value: "individual generated files can be downloaded; multiple outputs can be downloaded as one ZIP archive"
+        evidence:
+          - resourceId: microsoft-copilot-cowork-personal-preview-2026-08
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-web-unification-2026-08
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: devin-web
     versions:
       - track: current

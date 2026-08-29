@@ -20,6 +20,8 @@ aliases: [resume agent, reconnect run, run checkpoint, session recovery]
 parent: usage-and-reliability
 related: [background-agents, conversation-export]
 notes:
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork sessions persist so users can leave, reopen from another Claude surface, monitor, answer, and redirect work while cloud execution continues."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 documents --restore-chat-history to reload messages from the previous local chat-history file and continue the conversation."
   - id: 79
@@ -213,7 +215,40 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Every run is a full conversation"
+  - id: anthropic-claude-desktop-cycle6-resumable-runs
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "persistent cloud Cowork session started or viewed in Claude Desktop"
+          - type: policy
+            value: "runs using local resources require Desktop to stay connected"
+          - type: format
+            value: "reopen, monitor, answer questions, and steer the same session"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-resumable-runs
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

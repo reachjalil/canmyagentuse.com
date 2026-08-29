@@ -20,6 +20,8 @@ aliases: [parallel subagents, agent fan-out, concurrent child agents]
 parent: subagents
 related: [subagent-delegation, nested-subagents, subagent-context-isolation]
 notes:
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork coordinates multiple subagents working simultaneously on separate parts of a complex task."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Pro supports up to ten concurrent Agent background tasks, while Core runs one at a time and queues additional accepted tasks."
   - id: 73
@@ -40,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-29: Warp runs multiple children in parallel with fan-out/fan-in and a parallelism picker, but publishes no numeric concurrent-child or queue limit."
   - id: 53
     text: "Evidence checked 2026-08-29: Managed Devins and Dynamic Workflows run multiple child sessions in parallel with wide fan-out, but the current pages publish no universal numeric concurrency or queue limit."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
   - id: replit-agent-task-system-current
@@ -146,7 +150,72 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Parallel agent fan-out and combine stages"
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: anthropic-claude-desktop-cycle6-subagent-concurrency
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork mode in Claude Desktop"
+          - type: plan
+            value: "paid Claude plans"
+          - type: format
+            value: "parallel subagent work; no numeric ceiling is documented"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-subagent-concurrency
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: replit-agent
     versions:
       - track: current
@@ -368,6 +437,34 @@ support:
           - resourceId: vscode-subagents
             type: documented
             observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; external orchestration, community wrappers, model-side role prompts, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "Aider's architect/editor model handoff stays inside one CLI editing loop and is not a spawned child-agent lifecycle"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 This row requires two or more child-agent executions whose active intervals overlap. Sequential delegation, concurrent ordinary tool calls, and detached shell commands do not establish concurrent subagents.

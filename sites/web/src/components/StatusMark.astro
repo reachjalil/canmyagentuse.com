@@ -8,14 +8,26 @@ import {
 interface Props {
   status: SupportStatus;
   noteIds?: number[];
+  assessmentLabel?: string;
+  showAssessmentMarker?: boolean;
 }
 
-const { status, noteIds = [] } = Astro.props;
+const {
+  status,
+  noteIds = [],
+  assessmentLabel,
+  showAssessmentMarker = false,
+} = Astro.props;
 const label = SUPPORT_STATUS_LABELS[status];
 ---
 
-<span class={`status-${status}`}>
-  <abbr title={label}>{SUPPORT_STATUS_MARK[status]}</abbr>
+<span class={`status-${status}`} aria-label={assessmentLabel ? `${label}. ${assessmentLabel}` : label}>
+  <abbr title={label} aria-hidden="true">{SUPPORT_STATUS_MARK[status]}</abbr>
+  {
+    showAssessmentMarker ? (
+      <span class="assessment-marker" aria-hidden="true" title={assessmentLabel}>○</span>
+    ) : null
+  }
   {
     noteIds.length > 0 ? (
       <sup class="font-mono text-[0.65rem]">

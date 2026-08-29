@@ -114,6 +114,7 @@ function humanize(value: string): string {
           <nav class="harness-profile__actions" aria-label="Harness profile actions">
             <a class="harness-action harness-action--primary" href="#capability-support">View capability support ↓</a>
             <a class="harness-action" href={`/compare?a=${harness.data.slug}`}>Compare this product →</a>
+            <a class="harness-action" href={`/report?targetType=harness&harness=${harness.data.slug}`}>Suggest a product correction →</a>
           </nav>
         </div>
         <div class="harness-profile__provider">
@@ -308,12 +309,14 @@ function humanize(value: string): string {
                           <ul>{row.qualifiers.map((qualifier) => <li><b>{humanize(qualifier.type)}</b>: {qualifier.value}</li>)}</ul>
                         ) : <span>No additional condition recorded.</span>}
                         <a href={`/features/${row.feature.slug}#assertion-ledger-title`}>Evidence and notes →</a>
+                        <a href={`/report?targetType=cell&feature=${row.feature.slug}&harness=${harness.data.slug}&track=current&status=${row.current?.status ?? "unknown"}&permalink=${encodeURIComponent(`https://canmyagentuse.com/harnesses/${harness.data.slug}#capability-support`)}`}>Suggest a correction →</a>
                       </>
                     ) : (
                       <>
                         <strong>No reviewed current evidence</strong>
                         <span>This remains unknown; it is not an unsupported claim.</span>
                         <a href={`/features/${row.feature.slug}`}>Open capability record →</a>
+                        <a href={`/report?targetType=cell&feature=${row.feature.slug}&harness=${harness.data.slug}&track=current&status=unknown&permalink=${encodeURIComponent(`https://canmyagentuse.com/harnesses/${harness.data.slug}#capability-support`)}`}>Suggest a correction →</a>
                       </>
                     )}
                   </td>
@@ -331,6 +334,7 @@ function humanize(value: string): string {
           <a href={`/compare?a=${harness.data.slug}`}>Compare</a>
           <a href="/methodology">Methodology</a>
           <a href="/harness-guide">Evaluation guide</a>
+          <a href={`/report?targetType=harness&harness=${harness.data.slug}`}>Suggest a correction</a>
           <a href="/contribute">Contribute evidence</a>
         </nav>
       </footer>

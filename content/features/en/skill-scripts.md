@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 85
+    text: "Evidence checked 2026-08-29: Gemini Spark skill packages accept Python and shell scripts under an explicit runtime policy that blocks scripts requiring Internet access and prevents external website actions or requests."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code skills can bundle executable scripts, reference them relative to the skill directory, and run them through Claude Code's permission-governed tools."
   - id: 2
@@ -50,6 +52,8 @@ notes:
     text: "Evidence checked 2026-08-29: ChatGPT desktop standalone skills may include executable scripts whose behavior depends on the active environment and permissions."
   - id: 11
     text: "Evidence checked 2026-08-29: Codex CLI skills support optional executable scripts for deterministic behavior or external tooling under runtime permissions."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
   - title: Agent Skills scripts reference
@@ -135,7 +139,78 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Skill directory; Create a skill; Distribute skills with plugins"
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: google-gemini-web-skills
+    title: "Google Gemini Apps Help — Create & manage skills for Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094296?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upload a file; Upload requirements — Supported file types; Security restrictions"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [85]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark Skills web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark only"
+          - type: plan
+            value: "requires Google AI Pro or Ultra"
+          - type: auth
+            value: "requires a personal account, age 18 or over, and Keep Activity; unavailable to work or school accounts"
+          - type: region
+            value: "unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: format
+            value: "documented script file types are .py and .sh"
+          - type: policy
+            value: "scripts requiring Internet access are unsupported and scripts cannot perform actions or requests on external websites; runtime versions and dependency installation are not documented"
+        evidence:
+          - resourceId: google-gemini-web-skills
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: claude-cli
     versions:
       - track: current
@@ -329,6 +404,34 @@ support:
             value: "execution depends on the active environment, permissions, and declared dependencies"
         evidence:
           - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; similarly named prompts, community wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: format
+            value: "absence claim is specific to Agent Skills packages centered on SKILL.md and their standard discovery, loading, supporting-file, script, invocation, and scope behaviors"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
 ---

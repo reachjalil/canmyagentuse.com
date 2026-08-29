@@ -19,6 +19,10 @@ summary: Show text or tool events as they arrive during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 902
+    text: "Evidence checked 2026-08-29: Gemini Spark's web work panel reports a task's completed, current, and planned steps while it works and surfaces relevant skills, Connected Apps, and files used or created."
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork streams task progress, approach, and intermediate activity, but Anthropic does not promise token-by-token output streaming."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 streams model responses in the CLI by default and exposes --stream and --no-stream controls."
   - id: 73
@@ -141,7 +145,77 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Task progress and monitoring"
+  - id: anthropic-claude-desktop-cycle6-streaming-output
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Monitor a task & check its progress; Check the progress & steps completed in a thread; Planning info"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [902]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark is experimental and in early development"
+          - type: plan
+            value: "requires Google AI Pro or Ultra"
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, and Keep Activity; unavailable to work or school accounts"
+          - type: region
+            value: "unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: format
+            value: "visual work-panel progress is documented; no structured event export is established"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork mode in Claude Desktop"
+          - type: format
+            value: "incremental progress rather than a documented token stream"
+          - type: plan
+            value: "paid Claude plans"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-streaming-output
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

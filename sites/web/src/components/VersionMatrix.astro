@@ -1,11 +1,16 @@
 ---
 import {
+  ASSESSMENT_BASIS_LABELS,
+  ASSESSMENT_CONFIDENCE_LABELS,
   HARNESS_SURFACE_LABELS,
   SUPPORT_STATUS_LABELS,
   TRACK_LABELS,
+  assessmentBasisForVersion,
+  assessmentConfidenceForVersion,
   currentSupportSnapshot,
   expandFeatureSupport,
   groupHarnesses,
+  hasDirectReviewedEvidence,
   type FeatureData,
   type HarnessData,
   type VersionCell,
@@ -25,7 +30,6 @@ const columnMap = new Map(columns.map((column) => [column.harness.slug, column])
 const currentCells = columns
   .map((column) => column.versions.find((version) => version.track === "current"))
   .filter((version): version is VersionCell => Boolean(version));
-const sourcedCurrent = currentCells.filter((version) => version.status !== "unknown").length;
 const snapshot = currentSupportSnapshot(columns);
 const statusCounts = ["yes", "partial", "no", "unknown", "na"].map((status) => ({
   status,
@@ -33,7 +37,7 @@ const statusCounts = ["yes", "partial", "no", "unknown", "na"].map((status) => (
 }));
 
 function evidenceLabel(version: VersionCell) {
-  if (version.status === "unknown") return "No source reviewed";
+  if (version.status === "unknown") return "Insufficient information";
   const date = version.target?.observedAt ?? version.evidence?.[0]?.observedAt;
   if (version.target?.kind === "release") return version.target.revision;
   if (version.target?.kind === "hosted-observation") {
@@ -44,21 +48,61 @@ function evidenceLabel(version: VersionCell) {
   }
   return date ? `Checked ${date}` : "Evidence recorded";
 }
+
+function assessmentLabel(version: VersionCell) {
+  const basis = assessmentBasisForVersion(version);
+  const confidence = assessmentConfidenceForVersion(version);
+  if (!basis) return "No responsible assessment yet";
+  return [
+    ASSESSMENT_BASIS_LABELS[basis],
+    confidence ? ASSESSMENT_CONFIDENCE_LABELS[confidence] : "",
+  ].filter(Boolean).join(" · ");
+}
+
+function correctionHref(harness: HarnessData, version: VersionCell) {
+  const params = new URLSearchParams({
+    targetType: "cell",
+    feature: feature.slug,
+    harness: harness.slug,
+    track: version.track,
+    status: version.status,
+    assessment: version.noteIds
+      .map((id) => feature.notes.find((note) => note.id === id)?.text)
+      .filter(Boolean)
+      .join(" "),
+    sources: (version.evidence ?? [])
+      .map((item) => feature.resources.find((resource) => resource.id === item.resourceId)?.href)
+      .filter(Boolean)
+      .join("\n"),
+    assessedAt:
+      version.assessedAt ??
+      version.target?.observedAt ??
+      version.evidence?.[0]?.observedAt ??
+      "",
+    permalink: `https://canmyagentuse.com/features/${feature.slug}#cell-${harness.slug}-${version.track}`,
+  });
+  return `/report?${params.toString()}`;
+}
 ---
 
 <section class="support-summary mt-8" data-matrix aria-labelledby="support-summary-title">
   <header class="support-summary__header">
     <div>
-      <p class="eyebrow">Current evidence by product</p>
+      <p class="eyebrow">Current assessment by product</p>
       <h2 id="support-summary-title">Can my agent use {feature.title}?</h2>
       <p>
-        Read across for the answer. {sourcedCurrent} of {currentCells.length} current product
-        columns have reviewed evidence; unreviewed does not mean unsupported.
+        {snapshot.assessed} checks assessed · {snapshot.counts.yes} supported ·{" "}
+        {snapshot.counts.partial} partial · {snapshot.counts.no} unsupported ·{" "}
+        {snapshot.counts.unknown} unknown.
+      </p>
+      <p>
+        {snapshot.directEvidence} of {currentCells.length} checks have direct reviewed evidence.
+        Other assessments show their basis and confidence when opened.
       </p>
     </div>
     <div class="support-summary__actions">
       <a href="#known-issues">Known issues ({feature.issues.length})</a>
-      <a class="support-summary__report" href={`/report?feature=${feature.slug}`}>Report an issue</a>
+      <a class="support-summary__report" href={`/report?targetType=feature&feature=${feature.slug}`}>Suggest a correction</a>
     </div>
   </header>
 
@@ -105,31 +149,59 @@ function evidenceLabel(version: VersionCell) {
                   </header>
                   <div class="support-column__records">
                     {(column?.versions ?? []).map((version) => (
-                      <div
+                      <details
                         class="support-record"
+                        id={`cell-${harness.slug}-${version.track}`}
                         data-status={version.status}
                         data-track={version.track}
-                        title={`${harness.title}, ${TRACK_LABELS[version.track] ?? version.track}: ${SUPPORT_STATUS_LABELS[version.status]}${version.qualifiers?.length ? `. Conditions: ${version.qualifiers.map((item) => `${item.type}=${item.value}`).join("; ")}` : ""}`}
                       >
-                        <div class="support-record__status">
-                          <StatusMark status={version.status} noteIds={version.noteIds} />
-                          <strong>{SUPPORT_STATUS_LABELS[version.status]}</strong>
+                        <summary
+                          title={`${harness.title}, ${TRACK_LABELS[version.track] ?? version.track}: ${SUPPORT_STATUS_LABELS[version.status]}${version.qualifiers?.length ? `. Conditions: ${version.qualifiers.map((item) => `${item.type}=${item.value}`).join("; ")}` : ""}`}
+                        >
+                          <div class="support-record__status">
+                            <StatusMark
+                              status={version.status}
+                              noteIds={version.noteIds}
+                              assessmentLabel={assessmentLabel(version)}
+                              showAssessmentMarker={version.status !== "unknown" && !hasDirectReviewedEvidence(version)}
+                            />
+                            <strong>{SUPPORT_STATUS_LABELS[version.status]}</strong>
+                          </div>
+                          <span>{evidenceLabel(version)}</span>
+                          <small>
+                            {TRACK_LABELS[version.track] ?? version.track}
+                            {version.qualifiers?.length
+                              ? ` · ${version.qualifiers.length} ${version.qualifiers.length === 1 ? "condition" : "conditions"}`
+                              : " record"}
+                          </small>
+                        </summary>
+                        <div class="support-record__details">
+                          <p><strong>{SUPPORT_STATUS_LABELS[version.status]}</strong> — {assessmentLabel(version)}</p>
+                          {version.qualifiers?.length ? (
+                            <ul>
+                              {version.qualifiers.map((item) => <li><strong>{item.type}:</strong> {item.value}</li>)}
+                            </ul>
+                          ) : null}
+                          {(version.evidence ?? []).length ? (
+                            <p>
+                              {(version.evidence ?? []).map((item, index) => {
+                                const resource = feature.resources.find((candidate) => candidate.id === item.resourceId);
+                                return resource ? <><a href={resource.href}>{resource.title}</a>{index < (version.evidence?.length ?? 0) - 1 ? " · " : ""}</> : null;
+                              })}
+                            </p>
+                          ) : null}
+                          <a class="support-record__correction" href={correctionHref(harness, version)}>
+                            Suggest a correction
+                          </a>
                         </div>
-                        <span>{evidenceLabel(version)}</span>
-                        <small>
-                          {TRACK_LABELS[version.track] ?? version.track}
-                          {version.qualifiers?.length
-                            ? ` · ${version.qualifiers.length} ${version.qualifiers.length === 1 ? "condition" : "conditions"}`
-                            : " record"}
-                        </small>
-                      </div>
+                      </details>
                     ))}
                   </div>
                   <a
                     class="support-column__report"
-                    href={`/report?feature=${feature.slug}&harness=${harness.slug}&track=current`}
+                    href={`/report?targetType=cell&feature=${feature.slug}&harness=${harness.slug}&track=current`}
                   >
-                    Report this result
+                    Suggest a correction
                   </a>
                 </article>
               );
@@ -142,8 +214,8 @@ function evidenceLabel(version: VersionCell) {
 
   <footer class="support-summary__footer">
     <p>
-      <strong>Unknown</strong> means no public evidence has been reviewed for that product and
-      capability. It does not mean unsupported.
+      <strong>Unknown</strong> means there is not enough information for a responsible assessment.
+      An outlined dot marks an editorial assessment; it keeps the primary support color unchanged.
     </p>
     <a href="/methodology">How statuses are assigned</a>
   </footer>
@@ -347,7 +419,17 @@ function evidenceLabel(version: VersionCell) {
     border: 1px solid rgb(18 16 14 / 16%);
     background: var(--status-bg);
     color: var(--status-ink);
+  }
+
+  .support-record summary {
+    min-height: 6.7rem;
     padding: 0.55rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .support-record summary::-webkit-details-marker {
+    display: none;
   }
 
   .support-record + .support-record { margin-top: 0.3rem; }
@@ -365,8 +447,8 @@ function evidenceLabel(version: VersionCell) {
 
   .support-record__status strong { font-size: 0.78rem; }
 
-  .support-record > span,
-  .support-record > small {
+  .support-record summary > span,
+  .support-record summary > small {
     display: block;
     margin-top: 0.42rem;
     font-family: var(--font-mono);
@@ -374,9 +456,49 @@ function evidenceLabel(version: VersionCell) {
     line-height: 1.35;
   }
 
-  .support-record > small {
+  .support-record summary > small {
     margin-top: 0.22rem;
     opacity: 0.76;
+  }
+
+  .support-record__details {
+    border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+    background: color-mix(in srgb, var(--status-bg) 86%, #fff);
+    padding: 0.55rem;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  .support-record__details p,
+  .support-record__details ul {
+    margin: 0;
+  }
+
+  .support-record__details ul {
+    padding-left: 1rem;
+  }
+
+  .support-record__details > * + * {
+    margin-top: 0.55rem;
+  }
+
+  .support-record__details a {
+    color: inherit;
+  }
+
+  .support-record__correction {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    border: 1px solid currentColor;
+    padding: 0.3rem 0.45rem;
+    font-weight: 600;
+    text-underline-offset: 0.14rem;
+  }
+
+  :global(.assessment-marker) {
+    margin-left: 0.18rem;
+    font-size: 0.72em;
   }
 
   .support-column__report {

@@ -19,6 +19,12 @@ summary: Search file names, text, or symbols across a workspace.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 903
+    text: "Evidence checked 2026-08-29: Gemini Spark can search connected Google Drive for files, read file contents, inspect metadata, and view recent documents from the Gemini web task workflow."
+  - id: 902
+    text: "Evidence checked 2026-08-29: Copilot Notebooks for consumer Microsoft 365 subscribers can search by reference name while assembling a Notebook and can answer questions, summarize information, identify themes, and draw insights across the curated Notebook reference set. The sources do not establish a general full-text, symbol, or arbitrary OneDrive-wide search API."
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork searches and analyzes files in explicitly connected local folders."
   - id: 77
     text: "Evidence checked 2026-08-29: ChatGPT web's sidebar search locates prior chats, projects, images, and documents from one account-wide surface and supports content-type filters."
   - id: 75
@@ -232,7 +238,123 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Get started; Indexing your codebase"
+  - id: anthropic-claude-desktop-cycle6-workspace-search
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
+  - id: microsoft-copilot-notebook-references-2026-06
+    title: "Add references to your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/Microsoft-365-Copilot/add-references-to-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability note; How to add references to your notebook; About references in a shared notebook"
+  - id: microsoft-copilot-notebook-insights-2026-06
+    title: "Get answers and insights about your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/get-answers-and-insights-about-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Ask Copilot about the contents in your notebook; Reference limits and supported file types"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Workspace actions can Gemini Spark perform? — Docs, Sheets, Slides & Drive"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [903]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "search scope is connected Google Drive rather than a local source tree; symbol-index behavior is not established"
+          - type: plan
+            value: "requires Google AI Pro or Ultra through Gemini Spark"
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, Keep Activity, and a connected Google Workspace app"
+          - type: region
+            value: "Spark is unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: experimental
+            value: "Gemini Spark is experimental and in early development"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [902]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web personal-subscription Notebooks documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal, Family, or Premium subscription and applicable OneDrive service"
+          - type: auth
+            value: "signed-in personal Microsoft account"
+          - type: runtime
+            value: "search and semantic retrieval are scoped to a curated Copilot Notebook; no arbitrary source-code symbol search or complete OneDrive-wide index is established"
+          - type: feature-flag
+            value: "some Notebook capabilities are rolling out gradually"
+        evidence:
+          - resourceId: microsoft-copilot-notebook-references-2026-06
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-notebook-insights-2026-06
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Claude Desktop Cowork with local folder access"
+          - type: policy
+            value: "search is restricted to folders the user connected"
+          - type: format
+            value: "local file discovery and content analysis"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-workspace-search
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: chatgpt-web
     versions:
       - track: current

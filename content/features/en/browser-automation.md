@@ -19,6 +19,8 @@ summary: Control a browser for navigation, clicks, forms, and page reading.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: Gemini Spark in the Gemini web app can open a remote browser, navigate websites, interact with pages such as by adding items to a cart, and hand browser control to the user."
   - id: 78
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork can navigate, click, and fill forms in a built-in browser or the user's Chrome browser, with availability tied to Cowork and connector or computer-use configuration."
   - id: 77
@@ -172,7 +174,44 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "How Copilot Tasks works; browser-based tasks"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need; Monitor & take over a task; Delete remote browser & computer data; Remote browser & computer"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark is described as an experimental feature in early development"
+          - type: plan
+            value: "requires a Google AI Pro or Ultra subscription"
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, and Keep Activity enabled; unavailable to work or school accounts"
+          - type: region
+            value: "available where Gemini Apps are supported except the European Economic Area, Nigeria, Switzerland, and the United Kingdom"
+          - type: runtime
+            value: "the supported web-app path uses Spark's separate hosted remote browser; local Chrome auto browse is a distinct Gemini-in-Chrome surface and is not included in this claim"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: claude-desktop
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [audio input, audio upload, recording attachment, speech transcription]
 parent: file-inputs
 related: [video-input, realtime-voice, upload-limits]
 notes:
+  - id: 6
+    text: "Evidence checked 2026-08-29: Microsoft current Copilot Notebook reference documentation identifies audio as a standard source that Copilot Chat can add to a Notebook for grounded responses, and the same page explicitly says Notebooks are available to Microsoft 365 Personal, Family, and Premium subscribers. It does not document audio containers, duration, transcription, timestamps, diarization, or acoustic-analysis fidelity for consumer Notebooks."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents direct audio uploads in Grok chats and describes transcription and interpretation of audio and video inputs; detailed formats, timing, diarization, and duration limits are not stated on the reviewed FAQ page."
   - id: 2
@@ -75,7 +77,44 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Injecting file content with @{...}; multimodal support
+  - id: microsoft-copilot-notebook-references-2026-06
+    title: "Add references to your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/Microsoft-365-Copilot/add-references-to-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability note; How to add references to your notebook; About references in a shared notebook"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: "Microsoft Copilot Notebook references documentation, last updated June 2026"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "consumer Copilot Notebooks require Microsoft 365 Personal, Family, or Premium and applicable OneDrive service"
+          - type: auth
+            value: "signed-in personal Microsoft account"
+          - type: runtime
+            value: "audio is documented as a Notebook reference source; ordinary free-chat audio attachment support is not established"
+          - type: format
+            value: "the reviewed current page does not enumerate audio extensions, codec, duration, transcription, timestamps, or speaker labeling"
+          - type: feature-flag
+            value: "some Notebook functionality is rolling out gradually"
+        evidence:
+          - resourceId: microsoft-copilot-notebook-references-2026-06
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: grok-web
     versions:
       - track: current

@@ -53,7 +53,7 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition documents that data processed through hosted Devin is retained for the customer relationship unless the customer specifies otherwise, while feedback and interaction data may be retained as needed."
   - id: 60
-    text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot retains conversation activity for 18 months by default, permits individual or full-history deletion, and automatically deletes uploaded files after up to 18 months."
+    text: "Evidence checked 2026-08-29: the updated Microsoft Copilot app for individuals supports deleting individual chats, all activity history, and saved memories; the reviewed current-app pages do not restate the older app's 18-month duration."
   - id: 61
     text: "Evidence checked 2026-08-29: Grok.com users can delete selected conversations, all history, or the account; deleted and Private Chat conversations are removed within 30 days subject to de-identification and legal or safety exceptions."
 issues: []
@@ -238,13 +238,21 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Privacy and Intellectual Property; data retention policy"
   - id: microsoft-copilot-privacy-faq
-    title: "Microsoft — Privacy FAQ for Microsoft Copilot"
-    href: https://support.microsoft.com/en-us/Microsoft-Copilot/privacy-faq-for-microsoft-copilot
+    title: "Microsoft Copilot for individuals — privacy controls"
+    href: https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls
     kind: docs
     publisher: Microsoft
     evidenceType: documented
     reviewedAt: 2026-08-29
-    locator: "Conversation History; file uploads and retention"
+    locator: "Chat history; Personalization and memory"
+  - id: microsoft-copilot-current-activity-history
+    title: "Microsoft Copilot for individuals — activity history"
+    href: https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Manage your activity history; delete all activity history"
   - id: spacexai-grok-consumer-faq
     title: "SpaceXAI — Consumer FAQs"
     href: https://x.ai/legal/faq
@@ -454,11 +462,14 @@ support:
         environmentProfile: hosted-default
         qualifiers:
           - type: policy
-            value: "conversation activity defaults to 18 months; users can delete individual conversations or all history"
+            value: "users can delete individual conversations or all activity history in the current individual app"
           - type: policy
-            value: "uploaded files are stored for up to 18 months and then automatically deleted"
+            value: "saved memories can be deleted independently; the current pages do not publish the older app's 18-month duration"
         evidence:
           - resourceId: microsoft-copilot-privacy-faq
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-current-activity-history
             type: documented
             observedAt: 2026-08-29
   - harness: devin-web

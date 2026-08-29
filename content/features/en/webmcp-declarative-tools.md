@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: Chrome documents this WebMCP behavior through its origin-trial developer surface; availability is experimental and must not be read as stable browser-wide support."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native WebMCP browser API or page-tool implementation."
 issues: []
 resources:
   - id: webmcp-draft
@@ -46,6 +48,38 @@ resources:
     publisher: Google Chrome
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
 support:
   - harness: chrome-webmcp-preview
     versions:
@@ -67,6 +101,36 @@ support:
           - resourceId: chrome-webmcp-docs
             type: documented
             observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; browser extensions, community wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "local terminal CLI is neither a WebMCP user agent nor a page-provided browser agent"
+          - type: protocol-revision
+            value: "WebMCP draft 2026-08-26 terminology was checked against the complete stable implementation surface"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 Expose semantic HTML forms as structured tools through WebMCP annotations.

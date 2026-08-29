@@ -20,6 +20,8 @@ specLabel: Common product term
 parent: instructions
 highlight: false
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: Copilot Notebooks, which Microsoft expressly makes available to Microsoft 365 Personal, Family, and Premium subscribers, let a user save editable Notebook instructions governing response language, format, focus, tone, and other preferences. The evidence establishes Notebook-scoped instructions, not an account-wide instruction applied to every ordinary consumer chat."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 persists coding conventions in arbitrary Markdown or text files loaded read-only with --read or /read and can automatically load them from user- or project-scoped configuration."
   - id: 77
@@ -251,7 +253,42 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Describe the job once; automation instructions"
+  - id: microsoft-copilot-notebook-custom-instructions-2026-02
+    title: "Provide custom instructions for your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/Microsoft-365-Copilot/provide-custom-instructions-for-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability notes; Provide specific guidelines for Copilot"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: "Microsoft Copilot Notebook custom-instruction documentation, last updated February 2026"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal, Family, or Premium subscription"
+          - type: auth
+            value: "signed-in personal Microsoft account with the required OneDrive service"
+          - type: runtime
+            value: "instructions persist at Copilot Notebook scope; ordinary account-wide chat scope is not established"
+          - type: feature-flag
+            value: "Microsoft says some described Notebook features are rolling out gradually"
+        evidence:
+          - resourceId: microsoft-copilot-notebook-custom-instructions-2026-02
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

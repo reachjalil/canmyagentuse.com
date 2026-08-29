@@ -3,6 +3,7 @@ import {
   HARNESS_SURFACES,
   type HarnessSurface,
   SUPPORT_STATUSES,
+  hasDirectReviewedEvidence,
   type SupportStatus,
   type VersionCell,
 } from "./status.ts";
@@ -26,7 +27,9 @@ export interface MatrixCell {
 
 export interface CurrentSupportSnapshot {
   total: number;
+  assessed: number;
   sourced: number;
+  directEvidence: number;
   counts: Record<SupportStatus, number>;
 }
 
@@ -80,6 +83,10 @@ export function expandFeatureSupport(
           qualifiers: explicit.qualifiers,
           evidence: explicit.evidence,
           stage: explicit.stage,
+          assessmentBasis: explicit.assessmentBasis,
+          confidence: explicit.confidence,
+          assessedAt: explicit.assessedAt,
+          humanVerificationDesired: explicit.humanVerificationDesired,
         };
       }
       if (track === "current" && override?.status) {
@@ -123,16 +130,22 @@ export function statusFor(
 export function sourcedShare(columns: readonly HarnessColumn[]): number {
   const versions = columns.flatMap((column) => column.versions);
   if (versions.length === 0) return 0;
-  return (
-    versions.filter((version) => version.status !== "unknown").length /
-    versions.length
-  );
+  return versions.filter(hasDirectReviewedEvidence).length / versions.length;
 }
 
 export function currentSupportSnapshot(
   columns: readonly HarnessColumn[]
 ): CurrentSupportSnapshot {
-  const current = columns.map((column) => currentStatus(column.versions));
+  const currentVersions = columns.map(
+    (column) =>
+      column.versions.find((version) => version.track === "current") ??
+      column.versions[0] ?? {
+        track: "current",
+        status: "unknown" as const,
+        noteIds: [],
+      }
+  );
+  const current = currentVersions.map((version) => version.status);
   const counts = Object.fromEntries(
     SUPPORT_STATUSES.map((status) => [
       status,
@@ -142,7 +155,9 @@ export function currentSupportSnapshot(
 
   return {
     total: current.length,
-    sourced: current.length - counts.unknown,
+    assessed: current.length - counts.unknown,
+    sourced: currentVersions.filter(hasDirectReviewedEvidence).length,
+    directEvidence: currentVersions.filter(hasDirectReviewedEvidence).length,
     counts,
   };
 }

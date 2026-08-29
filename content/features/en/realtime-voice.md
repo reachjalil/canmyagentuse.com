@@ -19,6 +19,8 @@ summary: Speak and listen over a live audio session.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 80
+    text: "Evidence checked 2026-08-29: Google's current Gemini Live help explicitly states that Gemini Live is not available in the Gemini web app."
   - id: 79
     text: "Evidence checked 2026-08-29: ChatGPT Desktop Chat supports spoken input and audible responses; Live can listen and speak concurrently and allows natural interruption."
   - id: 77
@@ -81,7 +83,36 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Web availability; transcription; Autosend behavior
+  - id: google-gemini-live-web-exclusion
+    title: "Google Gemini Apps Help — Talk naturally with Gemini Live"
+    href: "https://support.google.com/gemini/answer/15274899?co=GENIE.Platform%3DAndroid&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: no
+        noteIds: [80]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Live web-availability documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the exclusion applies to the Gemini web app at gemini.google.com; Gemini mobile Live and Gemini in Chrome Live are adjacent surfaces and do not transfer"
+        evidence:
+          - resourceId: google-gemini-live-web-exclusion
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: chatgpt-desktop
     versions:
       - track: current

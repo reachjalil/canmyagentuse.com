@@ -20,6 +20,8 @@ aliases: [child result, agent handoff, subagent artifacts]
 parent: subagents
 related: [subagent-delegation, artifact-export, streaming-output]
 notes:
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork consolidates parallel subagent workstreams into the parent task deliverable, although no manual handoff-payload interface is documented."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop receives a child task's result or error in the parent task-tool part, renders it inline in the parent transcript, and links to the child session when available."
   - id: 76
@@ -44,6 +46,8 @@ notes:
     text: "Evidence checked 2026-08-29: Warp children return final output and structured coordination messages to the parent, which can merge or summarize the results."
   - id: 53
     text: "Evidence checked 2026-08-29: Dynamic Workflow children return JSON-Schema-constrained dictionaries, and isolated coding children hand off pushed git branches through structured output."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
   - id: openwork-v01839-subagent-result
@@ -150,7 +154,72 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Authoring model; separate VM branch handoff"
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: anthropic-claude-desktop-cycle6-subagent-result-handoff
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork mode in Claude Desktop"
+          - type: format
+            value: "parallel workstreams consolidate into the parent result"
+          - type: policy
+            value: "individual handoff payloads are not a separate user control"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-subagent-result-handoff
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: provisional
+        assessedAt: 2026-08-29
+        humanVerificationDesired: true
   - harness: openwork-desktop
     versions:
       - track: current
@@ -394,6 +463,34 @@ support:
           - resourceId: xai-grok-bot-collaboration
             type: documented
             observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; external orchestration, community wrappers, model-side role prompts, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "Aider's architect/editor model handoff stays inside one CLI editing loop and is not a spawned child-agent lifecycle"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 This row asks what a child agent returns to its parent. A plain text summary counts as a result; files, patches, citations, status, tool output, and structured objects are additional result forms recorded as qualifiers.

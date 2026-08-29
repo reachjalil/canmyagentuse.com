@@ -20,6 +20,8 @@ aliases: [model failover, automatic model routing, fallback model]
 parent: models-and-context
 related: [model-selection, resumable-runs]
 notes:
+  - id: 53
+    text: "Evidence checked 2026-08-29: When a Google AI subscriber reaches a Gemini Apps model-usage limit, Google documents that the conversation can continue with Flash-Lite."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents automatic model failover for Grok Bot and says usage analytics show the model that actually served each request, including failovers. Users and administrators cannot choose models or disable fallback."
   - id: 2
@@ -85,7 +87,40 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Model fallback"
+  - id: google-gemini-web-usage-limits
+    title: "Google Gemini Apps Help — Gemini Apps limits & upgrades for Google AI subscribers"
+    href: "https://support.google.com/gemini/answer/16275805?hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "More info about limits — What you can do when you reach a usage limit"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [53]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web limits documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "fallback is documented for Google AI subscribers"
+          - type: runtime
+            value: "trigger is exhaustion of a five-hour or weekly model limit; configuration and opt-out behavior are not documented"
+          - type: policy
+            value: "capacity and usage limits may change without notice"
+        evidence:
+          - resourceId: google-gemini-web-usage-limits
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: warp
     versions:
       - track: current

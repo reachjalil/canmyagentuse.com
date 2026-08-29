@@ -20,6 +20,8 @@ summary: Propose or execute shell commands in a project environment.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork executes shell commands inside an isolated hosted environment; local developer tools require separately granted Desktop access."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp CLI exposes Bash among its documented tools and remote orb threads provide a shared tmux terminal on the same filesystem as the agent."
   - id: 18
@@ -220,7 +222,40 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Just start chatting; What to expect"
+  - id: anthropic-claude-desktop-cycle6-terminal
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork mode in Claude Desktop"
+          - type: policy
+            value: "hosted shell isolation; local tools require explicit access"
+          - type: format
+            value: "agent-executed shell commands rather than a general interactive terminal panel"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-terminal
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: amp-cli
     versions:
       - track: current

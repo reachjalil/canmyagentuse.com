@@ -19,6 +19,10 @@ summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 902
+    text: "Evidence checked 2026-08-29: personal-account Cowork can create and edit Word documents, Excel spreadsheets, PowerPoint presentations, and PDFs in a task, and Microsoft expressly describes tasks that produce multiple output files downloadable together. The documentation does not promise coordinated source-controlled changes or atomic edits across arbitrary local files."
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork reads, creates, edits, organizes, and saves multiple files within folders the user explicitly connects."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 accepts multiple source paths at launch, can add multiple files during chat, and edits those files within one coding task."
   - id: 76
@@ -158,7 +162,75 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Examples of coding capabilities — Multi-file and repo-wide changes; Complex workflows"
+  - id: anthropic-claude-desktop-cycle6-multi-file-edit
+    title: "Get started with Claude Cowork"
+    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current capability, permissions, and workflow sections"
+  - id: microsoft-copilot-cowork-personal-preview-2026-08
+    title: "Get started with Cowork (preview)"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-cowork"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "For personal accounts (preview); What you can do with Cowork; Review files and results; Limitations"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [902]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web Cowork for personal accounts, August 2026 preview documentation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: preview
+            value: "Cowork for personal accounts is preview"
+          - type: plan
+            value: "eligible Microsoft 365 subscription"
+          - type: auth
+            value: "personal Microsoft account"
+          - type: runtime
+            value: "hosted Cowork task and cloud files; no arbitrary local project or source-control transaction is established"
+        evidence:
+          - resourceId: microsoft-copilot-cowork-personal-preview-2026-08
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork with a connected local folder"
+          - type: policy
+            value: "read and write access is limited to user-approved folders"
+          - type: format
+            value: "coordinated multi-file and document operations"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-multi-file-edit
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

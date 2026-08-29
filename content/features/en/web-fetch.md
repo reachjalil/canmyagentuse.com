@@ -19,6 +19,12 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 903
+    text: "Evidence checked 2026-08-29: Gemini Spark retrieves information from live websites it interacts with through its remote browser, while Deep Research performs real-time multi-source research with Google Search included by default."
+  - id: 902
+    text: "Evidence checked 2026-08-29: the updated Microsoft Copilot web app for individuals can search the public web for current information, ground a response in top web results, include linked citations, and let a signed-in personal-account user turn web search off. The reviewed current-app privacy page is scoped to signed-in Microsoft accounts, so anonymous behavior is not asserted."
+  - id: 901
+    text: "Evidence checked 2026-08-29: Claude Desktop retrieves and analyzes supplied webpages through Web search and web fetch, returning linked citations."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 documents /web URL ingestion, which scrapes a current webpage, converts its text to Markdown, and adds it to the active chat."
   - id: 80
@@ -236,7 +242,128 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Built-in — webfetch; websearch comparison"
+  - id: anthropic-claude-desktop-cycle6-web-fetch
+    title: "Enable and use web search"
+    href: "https://support.claude.com/en/articles/10684626-enable-and-use-web-search"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Web fetch and direct links"
+  - id: microsoft-copilot-individual-privacy-controls-2026-08
+    title: "Microsoft Copilot for individuals: your privacy controls and choices"
+    href: "https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Important; Personalization and memory; Chat history; Web search"
+  - id: microsoft-copilot-individual-transparency-2026-08
+    title: "Transparency Note for Microsoft Copilot (for individuals)"
+    href: "https://support.microsoft.com/en-us/privacy/microsoft-copilot/transparency-note"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "System behavior; Use cases; Limitations — Dependence on Internet connectivity"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Monitor & take over a task; What Gemini Spark can use to work on your tasks; Remote browser & computer"
+  - id: google-gemini-web-deep-research
+    title: "Google Gemini Apps Help — Use Deep Research in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/15719111?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Start a Deep Research report"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [903]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web research and Spark documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "live browser and page retrieval is established; arbitrary raw API-response retrieval is not"
+          - type: auth
+            value: "Deep Research requires sign-in and age 18 or over; the Spark browser path additionally requires a personal account and Keep Activity"
+          - type: plan
+            value: "Deep Research is available with plan-dependent limits; the Spark browser path requires Google AI Pro or Ultra"
+          - type: experimental
+            value: "the direct browser-backed proof uses experimental Gemini Spark"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: google-gemini-web-deep-research
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [902]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web for individuals, updated app available 2026-08-18"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "current privacy-control documentation is scoped to a signed-in personal Microsoft account"
+          - type: runtime
+            value: "public-web search and source-grounded summaries; API retrieval and arbitrary authenticated-page fetching are not established"
+        evidence:
+          - resourceId: microsoft-copilot-individual-privacy-controls-2026-08
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-individual-transparency-2026-08
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [901]
+        target:
+          kind: dated-documentation
+          revision: "Current official Anthropic documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Web search in Claude or a Cowork research workflow"
+          - type: policy
+            value: "Team and Enterprise owners must enable Web search"
+          - type: format
+            value: "direct URL content retrieval with cited results"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cycle6-web-fetch
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

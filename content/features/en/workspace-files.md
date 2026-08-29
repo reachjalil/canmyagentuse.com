@@ -20,6 +20,10 @@ summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: The Gemini web app accepts a selected code folder or GitHub repository as chat context, while Gemini Spark tasks can read and update hosted task files and create or edit connected Drive documents, spreadsheets, and presentations."
+  - id: 80
+    text: "Evidence checked 2026-08-29: consumer Copilot provides hosted file workspaces in Cowork tasks and Copilot Notebooks. Cowork accepts uploaded or OneDrive files, manages authorized OneDrive files, and separates task Input and Output folders; Notebooks let Personal, Family, or Premium subscribers curate uploaded files, OneDrive files or folders, and other references for grounded work. Cowork cannot access arbitrary files that remain only on the local device."
   - id: 79
     text: "Evidence checked 2026-08-29: ChatGPT Desktop Work can open an existing Project or a local folder, accept selected files and context, and use local files after the user grants access."
   - id: 77
@@ -251,7 +255,103 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Developer tools; write; edit; access control"
+  - id: microsoft-copilot-cowork-personal-preview-2026-08
+    title: "Get started with Cowork (preview)"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-cowork"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "For personal accounts (preview); What you can do with Cowork; Review files and results; Limitations"
+  - id: microsoft-copilot-notebook-references-2026-06
+    title: "Add references to your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/Microsoft-365-Copilot/add-references-to-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability note; How to add references to your notebook; About references in a shared notebook"
+  - id: google-gemini-web-file-upload
+    title: "Google Gemini Apps Help — Upload & analyze files in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/14903178?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upload files & code — In the Gemini web app; File types & upload limits"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Create a task; Check files Gemini read or updated; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web file and Spark documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "hosted or imported task files and connected Google Drive content; no local filesystem synchronization is established"
+          - type: format
+            value: "one code folder or GitHub repository can contain up to 5,000 files and total 100 MB"
+          - type: plan
+            value: "the write and update path is Gemini Spark and requires Google AI Pro or Ultra"
+          - type: auth
+            value: "Spark requires a personal account, age 18 or over, and Keep Activity; the Workspace Connected App must be connected for Drive actions"
+          - type: experimental
+            value: "the read and update task workflow is provided by experimental Gemini Spark"
+        evidence:
+          - resourceId: google-gemini-web-file-upload
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [80]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web personal-account Cowork and Notebooks documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Cowork requires an eligible Microsoft 365 subscription; Notebooks require Microsoft 365 Personal, Family, or Premium and the applicable OneDrive service"
+          - type: auth
+            value: "personal Microsoft account"
+          - type: runtime
+            value: "hosted task or Notebook workspace backed by uploads, OneDrive, and connected cloud services; Cowork cannot directly access local-only files"
+          - type: preview
+            value: "Cowork for personal accounts is preview"
+          - type: feature-flag
+            value: "some documented Notebook capabilities are rolling out"
+        evidence:
+          - resourceId: microsoft-copilot-cowork-personal-preview-2026-08
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-notebook-references-2026-06
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: chatgpt-desktop
     versions:
       - track: current

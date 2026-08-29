@@ -1,6 +1,8 @@
 import { MACHINE_PATHS } from "./paths.ts";
 import { SITE } from "./site.ts";
 import {
+  ASSESSMENT_BASES,
+  ASSESSMENT_CONFIDENCES,
   EVIDENCE_TYPES,
   CAPABILITY_KINDS,
   ENVIRONMENT_PROFILE_IDS,
@@ -382,6 +384,11 @@ export function catalogOpenApi() {
         Status: { type: "string", enum: SUPPORT_STATUSES },
         SupportStage: { type: "string", enum: SUPPORT_STAGES },
         EvidenceType: { type: "string", enum: EVIDENCE_TYPES },
+        AssessmentBasis: { type: "string", enum: ASSESSMENT_BASES },
+        AssessmentConfidence: {
+          type: "string",
+          enum: ASSESSMENT_CONFIDENCES,
+        },
         Target: {
           type: "object",
           required: ["kind", "revision"],
@@ -423,6 +430,10 @@ export function catalogOpenApi() {
             qualifiers: { type: "array", items: reference("Qualifier") },
             evidence: { type: "array", items: reference("EvidenceReference") },
             stage: reference("SupportStage"),
+            assessmentBasis: reference("AssessmentBasis"),
+            confidence: reference("AssessmentConfidence"),
+            assessedAt: { type: "string", format: "date" },
+            humanVerificationDesired: { type: "boolean" },
           },
         },
         SupportRow: {
@@ -633,12 +644,45 @@ export function catalogOpenApi() {
         },
         CoverageSlice: {
           type: "object",
-          required: ["total", "sourced", "unknown", "share"],
+          required: [
+            "total",
+            "assessed",
+            "assessedShare",
+            "sourced",
+            "directEvidence",
+            "directEvidenceShare",
+            "unknown",
+            "share",
+            "supported",
+            "partial",
+            "unsupported",
+            "notApplicable",
+            "compatible",
+            "compatibleShareOfAssessed",
+          ],
           properties: {
             total: { type: "integer", minimum: 0 },
+            assessed: { type: "integer", minimum: 0 },
+            assessedShare: { type: "number", minimum: 0, maximum: 1 },
             sourced: { type: "integer", minimum: 0 },
+            directEvidence: { type: "integer", minimum: 0 },
+            directEvidenceShare: {
+              type: "number",
+              minimum: 0,
+              maximum: 1,
+            },
             unknown: { type: "integer", minimum: 0 },
             share: { type: "number", minimum: 0, maximum: 1 },
+            supported: { type: "integer", minimum: 0 },
+            partial: { type: "integer", minimum: 0 },
+            unsupported: { type: "integer", minimum: 0 },
+            notApplicable: { type: "integer", minimum: 0 },
+            compatible: { type: "integer", minimum: 0 },
+            compatibleShareOfAssessed: {
+              type: "number",
+              minimum: 0,
+              maximum: 1,
+            },
           },
         },
         CoverageReport: {

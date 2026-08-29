@@ -20,35 +20,37 @@ export const GET: APIRoute = async () => {
     harnesses.map((entry) => entry.data)
   );
   const lines = [
-    `${report.totals.sourced} of ${report.totals.total} current-track cells have published evidence (${formatPercent(report.totals.share)}).`,
+    `${report.totals.assessed} of ${report.totals.total} current-track cells have a public status assessment (${formatPercent(report.totals.assessedShare)}).`,
+    `${report.totals.compatible} assessed applicable cells are supported or partial (${formatPercent(report.totals.compatibleShareOfAssessed)} among assessed).`,
+    `${report.totals.directEvidence} cells have direct reviewed evidence (${formatPercent(report.totals.directEvidenceShare)}).`,
     "",
     "Coverage measures catalog research completeness. It is never a product score. Unknown means insufficient evidence, not unsupported.",
     "",
     "## By surface",
     "",
-    "| Surface | Harnesses | Sourced | Unknown | Share |",
-    "| --- | ---: | ---: | ---: | ---: |",
+    "| Surface | Harnesses | Assessed | Compatible / assessed | Direct evidence | Unknown |",
+    "| --- | ---: | ---: | ---: | ---: | ---: |",
     ...report.surfaces.map(
       (surface) =>
-        `| ${HARNESS_SURFACE_LABELS[surface.surface]} | ${surface.harnesses} | ${surface.sourced} | ${surface.unknown} | ${formatPercent(surface.share)} |`
+        `| ${HARNESS_SURFACE_LABELS[surface.surface]} | ${surface.harnesses} | ${surface.assessed}/${surface.total} (${formatPercent(surface.assessedShare)}) | ${surface.compatible}/${surface.assessed - surface.notApplicable} (${formatPercent(surface.compatibleShareOfAssessed)}) | ${surface.directEvidence}/${surface.total} (${formatPercent(surface.directEvidenceShare)}) | ${surface.unknown} |`
     ),
     "",
     "## By capability",
     "",
-    "| Capability | Sourced | Unknown | Share |",
-    "| --- | ---: | ---: | ---: |",
+    "| Capability | Assessed | Compatible / assessed | Direct evidence | Unknown |",
+    "| --- | ---: | ---: | ---: | ---: |",
     ...report.features.map(
       (feature) =>
-        `| [${feature.title}](${featureMarkdownPath(feature.slug)}) | ${feature.sourced}/${feature.total} | ${feature.unknown} | ${formatPercent(feature.share)} |`
+        `| [${feature.title}](${featureMarkdownPath(feature.slug)}) | ${feature.assessed}/${feature.total} (${formatPercent(feature.assessedShare)}) | ${feature.compatible}/${feature.assessed - feature.notApplicable} (${formatPercent(feature.compatibleShareOfAssessed)}) | ${feature.directEvidence}/${feature.total} (${formatPercent(feature.directEvidenceShare)}) | ${feature.unknown} |`
     ),
     "",
     "## By harness",
     "",
-    "| Harness | Surface | Sourced | Unknown | Share |",
-    "| --- | --- | ---: | ---: | ---: |",
+    "| Harness | Surface | Assessed | Compatible / assessed | Direct evidence | Unknown |",
+    "| --- | --- | ---: | ---: | ---: | ---: |",
     ...report.harnesses.map(
       (harness) =>
-        `| [${harness.title}](${harnessMarkdownPath(harness.slug)}) | ${HARNESS_SURFACE_LABELS[harness.surface]} | ${harness.sourced}/${harness.total} | ${harness.unknown} | ${formatPercent(harness.share)} |`
+        `| [${harness.title}](${harnessMarkdownPath(harness.slug)}) | ${HARNESS_SURFACE_LABELS[harness.surface]} | ${harness.assessed}/${harness.total} (${formatPercent(harness.assessedShare)}) | ${harness.compatible}/${harness.assessed - harness.notApplicable} (${formatPercent(harness.compatibleShareOfAssessed)}) | ${harness.directEvidence}/${harness.total} (${formatPercent(harness.directEvidenceShare)}) | ${harness.unknown} |`
     ),
   ];
   return markdownResponse(

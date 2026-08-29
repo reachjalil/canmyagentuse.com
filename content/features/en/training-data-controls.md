@@ -43,7 +43,7 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Paid Devin plans can opt out of model training and enable provider Zero Data Retention; Teams require an administrator, while Enterprise training requires express prior written consent."
   - id: 60
-    text: "Evidence checked 2026-08-29: Signed-in consumer Microsoft Copilot lets users opt future conversation and voice activity out of generative-model training while retaining independent memory personalization controls."
+    text: "Evidence checked 2026-08-29: the updated signed-in Microsoft Copilot app for individuals says prompts, responses, and uploaded-file contents are not used to train foundation models; optional feedback is handled separately."
   - id: 61
     text: "Evidence checked 2026-08-29: Signed-in Grok.com users can disable Improve the Model for future conversations, while Private Chat content is excluded from model training."
 issues: []
@@ -156,13 +156,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How data is used to improve Devin"
   - id: microsoft-copilot-privacy-controls
-    title: "Microsoft — Copilot privacy controls"
-    href: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+    title: "Microsoft Copilot for individuals — activity history"
+    href: https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history
     kind: docs
     publisher: Microsoft
     evidenceType: documented
     reviewedAt: 2026-08-29
-    locator: "Control whether conversations are used for model training"
+    locator: "Important; Manage your activity history; foundation-model training policy"
   - id: spacexai-grok-consumer-faq
     title: "SpaceXAI — Consumer FAQs"
     href: https://x.ai/legal/faq
@@ -265,9 +265,9 @@ support:
         environmentProfile: hosted-default
         qualifiers:
           - type: auth
-            value: "training controls are available to signed-in personal-account users"
+            value: "the current policy applies to individuals signed in with a personal Microsoft account"
           - type: policy
-            value: "opt-out excludes future conversation activity from model training but not every general product, safety, advertising, security, or compliance use"
+            value: "prompts, responses, and uploaded-file contents are excluded from foundation-model training; voluntarily submitted feedback is treated separately"
         evidence:
           - resourceId: microsoft-copilot-privacy-controls
             type: documented

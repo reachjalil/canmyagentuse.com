@@ -130,13 +130,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What is Knowledge?; Knowledge Suggestions; Tips and tricks"
   - id: microsoft-copilot-privacy-controls
-    title: "Microsoft — Copilot privacy controls"
-    href: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+    title: "Microsoft Copilot for individuals — privacy controls"
+    href: https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls
     kind: docs
     publisher: Microsoft
     evidenceType: documented
     reviewedAt: 2026-08-29
-    locator: "Disable personalization and memory; control what Copilot remembers"
+    locator: "Personalization and memory"
 support:
   - harness: replit-agent
     versions:

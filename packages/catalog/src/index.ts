@@ -10,7 +10,7 @@ export {
   catalogApiIndex,
   catalogApiLinkset,
 } from "./api-catalog.ts";
-export { buildCoverageReport } from "./coverage.ts";
+export { buildCoverageReport, coverageSlice } from "./coverage.ts";
 export type { CoverageReport, CoverageSlice } from "./coverage.ts";
 export {
   buildCapabilityProgress,
@@ -166,6 +166,10 @@ export { LOCALES, SITE } from "./site.ts";
 export type { Locale, SiteConfig } from "./site.ts";
 export {
   AGENT_KINDS,
+  ASSESSMENT_BASES,
+  ASSESSMENT_BASIS_LABELS,
+  ASSESSMENT_CONFIDENCES,
+  ASSESSMENT_CONFIDENCE_LABELS,
   CAPABILITY_KINDS,
   CONTENT_KINDS,
   EVIDENCE_TYPES,
@@ -183,10 +187,15 @@ export {
   SUPPORT_STAGE_LABELS,
   TARGET_KINDS,
   TRACK_LABELS,
+  assessmentBasisForVersion,
+  assessmentConfidenceForVersion,
+  hasDirectReviewedEvidence,
   isSupportStatus,
 } from "./status.ts";
 export type {
   AgentKind,
+  AssessmentBasis,
+  AssessmentConfidence,
   CapabilityKind,
   CatalogNote,
   CatalogResource,

@@ -29,11 +29,18 @@
   "version_metadata": {
     "binding": "CF_VERSION_METADATA"
   },
+  "d1_databases": [
+    {
+      "binding": "CORRECTIONS_DB",
+      "database_name": "canmyagentuse-corrections",
+      "database_id": "f5462f60-9610-4f93-8eb9-63dbc9cde1a6",
+      "migrations_dir": "migrations"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
   }
-  // Bindings for later (do not uncomment until a route needs them):
+  // Binding for later (do not uncomment until a route needs it):
   // "kv_namespaces": [{ "binding": "CATALOG_CACHE", "id": "<kv-id>" }]
-  // "d1_databases": [{ "binding": "CATALOG_DB", "database_name": "canmyagentuse", "database_id": "<d1-id>" }]
 }

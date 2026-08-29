@@ -6,38 +6,76 @@ import { publishedCollection } from "../lib/collections";
 
 const features = await publishedCollection("features");
 const harnesses = await publishedCollection("harnesses");
-const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
 ---
 
 <BaseLayout
-  title={`Report an issue | ${SITE.name}`}
-  description="Prepare a structured report about an incorrect, incomplete, or stale compatibility result."
+  title={`Suggest a correction | ${SITE.name}`}
+  description="Submit a structured, evidence-aware catalog correction for editorial review and receive a trackable receipt."
   canonicalPath="/report"
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
     <main id="main" class="shell py-8">
       <p class="eyebrow">Catalog correction</p>
-      <h1 class="text-4xl font-semibold tracking-tight">Report an issue</h1>
+      <h1 class="text-4xl font-semibold tracking-tight">Suggest a correction</h1>
       <p class="report-lede">
-        Describe one result for one capability and one exact product. Public reports start a
-        review. They do not change a support state without evidence.
+        Propose one bounded change. The queue records the current catalog snapshot,
+        your proposed status and sources, material conditions, and any declared
+        affiliation. Submissions never update the catalog automatically.
       </p>
 
-      <div class="report-layout mt-8" data-report-builder data-issue-tracker={issueTracker}>
-        <form class="report-form" data-report-form>
+      <div class="report-layout mt-8">
+        <form class="report-form" data-correction-form>
+          <input name="startedAt" type="hidden" />
+          <input name="submittedStatus" type="hidden" />
+          <input name="submittedAssessment" type="hidden" />
+          <input name="submittedSources" type="hidden" />
+          <input name="catalogPermalink" type="hidden" />
+          <label class="honeypot" aria-hidden="true">
+            Website
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+
           <div class="report-form__row">
             <label>
-              Capability
-              <select name="feature" required>
-                <option value="">Choose a capability</option>
-                {features.map((feature) => <option value={feature.data.slug}>{feature.data.title}</option>)}
+              Correction target
+              <select name="targetType" required>
+                <option value="cell">Exact compatibility cell</option>
+                <option value="feature">Capability definition or page</option>
+                <option value="harness">Product identity or page</option>
+                <option value="evidence">Evidence or source record</option>
+                <option value="methodology">Methodology</option>
+                <option value="missing-harness">Missing product</option>
+                <option value="missing-feature">Missing capability</option>
+                <option value="general">Other catalog issue</option>
               </select>
             </label>
             <label>
-              Product
-              <select name="harness" required>
-                <option value="">Choose a product</option>
+              Proposed status
+              <select name="proposedStatus" required>
+                <option value="yes">Supported</option>
+                <option value="partial">Partial</option>
+                <option value="no">Unsupported</option>
+                <option value="unknown">Unknown</option>
+                <option value="na">Not applicable</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="report-form__row">
+            <label>
+              Capability
+              <select name="feature">
+                <option value="">Choose when applicable</option>
+                {features.map((feature) => (
+                  <option value={feature.data.slug}>{feature.data.title}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Product and exact surface
+              <select name="harness">
+                <option value="">Choose when applicable</option>
                 {harnesses.map((harness) => (
                   <option value={harness.data.slug}>
                     {harness.data.title} ({harness.data.surface})
@@ -49,244 +87,222 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
 
           <div class="report-form__row report-form__row--three">
             <label>
-              Record
-              <select name="track" required>
+              Track
+              <select name="track">
                 <option value="current">Current</option>
                 <option value="preview">Preview</option>
               </select>
             </label>
             <label>
-              Report type
-              <select name="kind" required>
-                <option value="Incorrect status">Incorrect status</option>
-                <option value="Missing condition">Missing condition</option>
-                <option value="Known product issue">Known product issue</option>
-                <option value="Stale source">Stale source</option>
-                <option value="Other correction">Other correction</option>
-              </select>
+              Date observed
+              <input name="observedAt" type="date" />
             </label>
             <label>
-              Date observed
-              <input name="observedAt" type="date" required />
+              Product version
+              <input name="version" maxlength="160" placeholder="Version or dated release" />
             </label>
           </div>
 
           <label>
-            What did you observe?
+            Explanation
             <textarea
-              name="observed"
-              rows="5"
+              name="explanation"
+              rows="6"
+              minlength="20"
+              maxlength="6000"
               required
-              placeholder="State the behavior, error, missing control, or limit. Include the plan, platform, region, policy, and setup when they matter."
+              placeholder="Explain the smallest status or catalog change you propose and why. Distinguish a product limitation from an evidence gap."
             ></textarea>
           </label>
 
           <label>
-            What should the catalog say?
+            Public source URLs <span>Up to five HTTPS links, one per line</span>
             <textarea
-              name="expected"
+              name="sourceUrls"
               rows="4"
-              required
-              placeholder="Describe the smallest correction you think is needed."
+              placeholder="https://docs.example.com/exact-page"
             ></textarea>
           </label>
 
           <label>
-            Public evidence URL <span>Optional</span>
-            <input
-              name="evidenceUrl"
-              type="url"
-              inputmode="url"
-              placeholder="https://docs.example.com/..."
-            />
+            Reproduction steps <span>Optional</span>
+            <textarea
+              name="reproductionSteps"
+              rows="5"
+              maxlength="6000"
+              placeholder="Give a minimal, safe reproduction. Do not include tokens, private screenshots, customer data, or private beta material."
+            ></textarea>
           </label>
 
-          <div class="report-form__notice">
-            Do not include account details, private screenshots, tokens, customer data, or private
-            beta material. Use a public source when one exists.
+          <div class="report-form__row report-form__row--four">
+            <label>Plan <input name="plan" maxlength="160" placeholder="Free, Pro, Enterprise…" /></label>
+            <label>Platform <input name="platform" maxlength="160" placeholder="macOS, Windows, web…" /></label>
+            <label>Surface <input name="surface" maxlength="160" placeholder="Chat, Cowork, CLI…" /></label>
+            <label>
+              Affiliation
+              <select name="affiliation">
+                <option value="none">No affiliation</option>
+                <option value="provider-employee">Provider employee</option>
+                <option value="provider-contractor">Provider contractor</option>
+                <option value="provider-partner">Provider partner</option>
+                <option value="customer">Customer</option>
+                <option value="researcher">Researcher</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
           </div>
 
-          <button class="report-form__submit" type="submit">Build report</button>
+          <label>
+            Affiliation details <span>Optional</span>
+            <input name="affiliationDetails" maxlength="500" />
+          </label>
+
+          <div class="report-form__row">
+            <label>
+              Contact email <span>Optional and never published</span>
+              <input name="contact" type="email" maxlength="254" autocomplete="email" />
+            </label>
+            <label class="report-form__checkbox">
+              <input name="permissionToContact" type="checkbox" />
+              The editorial team may contact me about this correction.
+            </label>
+          </div>
+
+          <div class="report-form__notice">
+            The server sanitizes text, validates source URLs, limits submission size
+            and frequency, hashes network identifiers for abuse controls, and
+            records a moderation event. Contact details remain private. Accepted
+            changes receive a public editorial history; every valid submission
+            receives a CMAU receipt.
+          </div>
+
+          <button class="report-form__submit" type="submit" data-submit-correction>
+            Submit for editorial review
+          </button>
+          <p class="report-form__status" data-form-status aria-live="polite"></p>
         </form>
 
         <aside class="report-guide">
-          <h2>What happens next</h2>
+          <h2>Review workflow</h2>
           <ol>
-            <li><span>01</span><p>The builder creates a reviewable Markdown report.</p></li>
-            <li><span>02</span><p>Open the public issue tracker when it is configured, or copy the draft.</p></li>
-            <li><span>03</span><p>A maintainer checks the exact product, conditions, and source.</p></li>
-            <li><span>04</span><p>The catalog changes only after the evidence is reviewed.</p></li>
+            <li><span>01</span><p>Received — the queue stores the proposal and current catalog snapshot.</p></li>
+            <li><span>02</span><p>Triaged — an editor checks scope, sources, affiliation, duplication, and spam signals.</p></li>
+            <li><span>03</span><p>The editor may request more information or decide the proposal.</p></li>
+            <li><span>04</span><p>Accepted changes are implemented through normal evidence review, validation, and deployment.</p></li>
           </ol>
           <p>
-            Read the <a href="/methodology">status and evidence rules</a> before reporting a broad
-            product claim.
+            Review states are received, triaged, needs more information,
+            accepted, partially accepted, declined, duplicate, or superseded.
+          </p>
+          <p class="mt-4">
+            Read the <a href="/methodology">status and assessment rules</a>.
           </p>
         </aside>
       </div>
 
-      <section class="report-output mt-8" data-report-output hidden aria-live="polite">
-        <div>
-          <p class="eyebrow">Review before sharing</p>
-          <h2>Issue report draft</h2>
-          <p data-tracker-state></p>
-        </div>
-        <textarea rows="18" readonly data-report-draft aria-label="Generated issue report"></textarea>
-        <div class="report-output__actions">
-          <button type="button" data-copy-report>Copy report</button>
-          <button type="button" data-download-report>Download Markdown</button>
-          <a href="#" target="_blank" rel="noreferrer" data-open-tracker hidden>Open issue tracker</a>
-        </div>
-        <p class="report-output__status" data-copy-status></p>
+      <section class="receipt mt-8" data-receipt hidden aria-live="polite">
+        <p class="eyebrow">Correction received</p>
+        <h2 data-receipt-id></h2>
+        <p data-receipt-message></p>
+        <a data-receipt-link href="#">Open receipt and editorial history</a>
       </section>
     </main>
   </SiteChrome>
 </BaseLayout>
 
 <script>
-  const root = document.querySelector("[data-report-builder]");
-  const form = root?.querySelector("[data-report-form]");
-  const output = document.querySelector("[data-report-output]");
-  const draft = output?.querySelector("[data-report-draft]");
-  const trackerLink = output?.querySelector("[data-open-tracker]");
-  const trackerState = output?.querySelector("[data-tracker-state]");
-  const copyStatus = output?.querySelector("[data-copy-status]");
-  const trackerBase = root?.getAttribute("data-issue-tracker") ?? "";
+  const form = document.querySelector("[data-correction-form]");
+  const status = document.querySelector("[data-form-status]");
+  const submit = document.querySelector("[data-submit-correction]");
+  const receipt = document.querySelector("[data-receipt]");
+  const receiptId = receipt?.querySelector("[data-receipt-id]");
+  const receiptMessage = receipt?.querySelector("[data-receipt-message]");
+  const receiptLink = receipt?.querySelector("[data-receipt-link]");
   const params = new URLSearchParams(window.location.search);
 
-  const setSelect = (name: string) => {
-    const value = params.get(name);
-    const select = form?.querySelector(`[name="${name}"]`);
-    if (value && select instanceof HTMLSelectElement) select.value = value;
+  const setField = (name: string, value: string | null) => {
+    if (!value || !(form instanceof HTMLFormElement)) return;
+    const field = form.elements.namedItem(name);
+    if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+      field.value = value;
+    } else if (field instanceof HTMLSelectElement) {
+      if ([...field.options].some((option) => option.value === value)) field.value = value;
+    }
   };
 
-  setSelect("feature");
-  setSelect("harness");
-  setSelect("track");
+  setField("startedAt", new Date().toISOString());
+  setField("observedAt", new Date().toISOString().slice(0, 10));
+  for (const name of ["targetType", "feature", "harness", "track", "proposedStatus"]) {
+    setField(name, params.get(name));
+  }
+  setField("submittedStatus", params.get("status"));
+  setField("submittedAssessment", params.get("assessment"));
+  setField("submittedSources", params.get("sources"));
+  setField("catalogPermalink", params.get("permalink"));
+  setField("observedAt", params.get("assessedAt"));
 
-  const optionText = (data: FormData, name: string) => {
-    const select = form?.querySelector(`[name="${name}"]`);
-    if (!(select instanceof HTMLSelectElement)) return String(data.get(name) ?? "");
-    return select.selectedOptions[0]?.textContent?.trim() ?? String(data.get(name) ?? "");
-  };
-
-  const makeDraft = (data: FormData) => {
-    const capability = optionText(data, "feature");
-    const product = optionText(data, "harness");
-    const featureSlug = String(data.get("feature") ?? "");
-    const evidenceUrl = String(data.get("evidenceUrl") ?? "").trim();
-    const lines = [
-      `# ${String(data.get("kind") ?? "Correction")}: ${capability} on ${product}`,
-      "",
-      `- Capability: ${capability}`,
-      `- Product: ${product}`,
-      `- Catalog record: ${String(data.get("track") ?? "current")}`,
-      `- Date observed: ${String(data.get("observedAt") ?? "")}`,
-      `- Catalog page: https://canmyagentuse.com/features/${featureSlug}`,
-      evidenceUrl ? `- Public evidence: ${evidenceUrl}` : "- Public evidence: Not provided",
-      "",
-      "## Observed behavior",
-      "",
-      String(data.get("observed") ?? "").trim(),
-      "",
-      "## Suggested correction",
-      "",
-      String(data.get("expected") ?? "").trim(),
-      "",
-      "## Reporter check",
-      "",
-      "- [ ] This report does not contain private account or customer data.",
-      "- [ ] I named one exact product and capability.",
-      "- [ ] I included material plan, platform, policy, region, and setup conditions.",
-    ];
-    return lines.join("\n");
-  };
-
-  if (form instanceof HTMLFormElement && output instanceof HTMLElement && draft instanceof HTMLTextAreaElement) {
-    form.addEventListener("submit", (event) => {
+  if (form instanceof HTMLFormElement) {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (!(submit instanceof HTMLButtonElement)) return;
+      submit.disabled = true;
+      if (status) status.textContent = "Submitting securely…";
+      if (receipt instanceof HTMLElement) receipt.hidden = true;
       const data = new FormData(form);
-      const report = makeDraft(data);
-      const title = `${String(data.get("kind") ?? "Correction")}: ${optionText(data, "feature")} on ${optionText(data, "harness")}`;
-      draft.value = report;
-      output.hidden = false;
-
-      if (trackerBase && trackerLink instanceof HTMLAnchorElement) {
-        try {
-          const trackerUrl = new URL(trackerBase);
-          trackerUrl.searchParams.set("title", title);
-          trackerUrl.searchParams.set("body", report);
-          trackerLink.href = trackerUrl.toString();
-          trackerLink.hidden = false;
-          if (trackerState) trackerState.textContent = "Review the draft, then open the public issue tracker.";
-        } catch {
-          trackerLink.hidden = true;
-          if (trackerState) trackerState.textContent = "The issue tracker address is invalid. Copy or download the draft.";
+      const payload: Record<string, unknown> = Object.fromEntries(data.entries());
+      payload.permissionToContact = data.has("permissionToContact");
+      try {
+        const response = await fetch("/api/v1/corrections", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = (await response.json()) as {
+          id?: string;
+          message?: string;
+          statusUrl?: string;
+          error?: string;
+          details?: string[];
+        };
+        if (!response.ok) {
+          const details = Array.isArray(result.details) ? ` ${result.details.join(" ")}` : "";
+          throw new Error(`${result.error ?? "The correction was not accepted."}${details}`);
         }
-      } else {
-        if (trackerLink instanceof HTMLAnchorElement) trackerLink.hidden = true;
-        if (trackerState) trackerState.textContent = "No public issue tracker is configured yet. Copy or download the draft.";
+        if (status) status.textContent = "Submission recorded.";
+        if (receiptId) receiptId.textContent = result.id ?? "Correction received";
+        if (receiptMessage) receiptMessage.textContent = result.message ?? "Queued for review.";
+        if (receiptLink instanceof HTMLAnchorElement) receiptLink.href = result.statusUrl ?? "/report";
+        if (receipt instanceof HTMLElement) {
+          receipt.hidden = false;
+          receipt.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } catch (error) {
+        if (status) {
+          status.textContent =
+            error instanceof Error ? error.message : "The correction could not be submitted.";
+        }
+      } finally {
+        submit.disabled = false;
       }
-
-      output.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
-
-  output?.querySelector("[data-copy-report]")?.addEventListener("click", async () => {
-    if (!(draft instanceof HTMLTextAreaElement)) return;
-    try {
-      await navigator.clipboard.writeText(draft.value);
-      if (copyStatus) copyStatus.textContent = "Report copied.";
-    } catch {
-      draft.focus();
-      draft.select();
-      if (copyStatus) copyStatus.textContent = "Copy is blocked in this browser. The report text is selected.";
-    }
-  });
-
-  output?.querySelector("[data-download-report]")?.addEventListener("click", () => {
-    if (!(draft instanceof HTMLTextAreaElement)) return;
-    const blob = new Blob([draft.value], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "canmyagentuse-issue-report.md";
-    anchor.click();
-    URL.revokeObjectURL(url);
-  });
 </script>
 
 <style>
   .report-lede {
-    max-width: 46rem;
+    max-width: 52rem;
     margin: 0.8rem 0 0;
     color: var(--color-muted);
     font-size: 1.05rem;
   }
-
-  .report-layout {
-    display: grid;
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .report-form,
-  .report-guide,
-  .report-output {
+  .report-layout { display: grid; gap: 1rem; align-items: start; }
+  .report-form, .report-guide, .receipt {
     border: 1px solid var(--color-line);
     background: var(--color-paper);
     padding: 1rem;
   }
-
-  .report-form {
-    display: grid;
-    gap: 0.9rem;
-  }
-
-  .report-form__row {
-    display: grid;
-    gap: 0.9rem;
-  }
-
+  .report-form { display: grid; gap: 0.9rem; }
+  .report-form__row { display: grid; gap: 0.9rem; }
   .report-form label {
     display: grid;
     gap: 0.3rem;
@@ -295,14 +311,8 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
     font-size: 0.68rem;
     text-transform: uppercase;
   }
-
-  .report-form label span {
-    font-size: 0.58rem;
-    text-transform: none;
-  }
-
-  .report-form :where(input, select, textarea),
-  .report-output textarea {
+  .report-form label span { font-size: 0.58rem; text-transform: none; }
+  .report-form :where(input, select, textarea) {
     width: 100%;
     border: 1px solid var(--color-line);
     border-radius: 0;
@@ -314,10 +324,16 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
     line-height: 1.45;
     text-transform: none;
   }
-
   .report-form :where(input, select) { min-height: 2.7rem; }
   .report-form textarea { resize: vertical; }
-
+  .report-form__checkbox {
+    grid-template-columns: auto 1fr !important;
+    align-content: center;
+    align-items: center;
+    text-transform: none !important;
+  }
+  .report-form__checkbox input { width: 1.1rem; min-height: 1.1rem; }
+  .honeypot { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .report-form__notice {
     border-left: 0.25rem solid var(--color-partial);
     background: color-mix(in srgb, var(--color-paper) 75%, var(--color-partial));
@@ -325,13 +341,12 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
     color: var(--color-muted);
     font-size: 0.76rem;
   }
-
-  .report-form__submit,
-  .report-output__actions :where(button, a) {
+  .report-form__submit {
     display: inline-flex;
     min-height: 2.7rem;
     align-items: center;
     justify-content: center;
+    justify-self: start;
     border: 1px solid var(--color-ink);
     border-radius: 0;
     background: var(--color-ink);
@@ -339,25 +354,11 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
     padding: 0.55rem 0.8rem;
     cursor: pointer;
     font-weight: 500;
-    text-decoration: none;
   }
-
-  .report-form__submit { justify-self: start; }
-
-  .report-guide h2,
-  .report-output h2 {
-    margin: 0;
-    font-size: 1.2rem;
-  }
-
-  .report-guide ol {
-    display: grid;
-    gap: 0.7rem;
-    margin: 1rem 0;
-    padding: 0;
-    list-style: none;
-  }
-
+  .report-form__submit:disabled { cursor: wait; opacity: 0.6; }
+  .report-form__status { min-height: 1.2rem; margin: 0; color: var(--color-muted); font-size: 0.8rem; }
+  .report-guide h2, .receipt h2 { margin: 0; font-size: 1.2rem; }
+  .report-guide ol { display: grid; gap: 0.7rem; margin: 1rem 0; padding: 0; list-style: none; }
   .report-guide li {
     display: grid;
     grid-template-columns: 2.2rem 1fr;
@@ -365,46 +366,14 @@ const issueTracker = import.meta.env.PUBLIC_ISSUE_TRACKER_URL?.trim() ?? "";
     border-top: 1px solid var(--color-line);
     padding-top: 0.6rem;
   }
-
-  .report-guide li span {
-    color: var(--color-copper-deep);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-  }
-
-  .report-guide p {
-    margin: 0;
-    color: var(--color-muted);
-    font-size: 0.8rem;
-    line-height: 1.5;
-  }
-
-  .report-output[hidden] { display: none; }
-  .report-output > div:first-child p:last-child { color: var(--color-muted); }
-  .report-output textarea { margin-top: 1rem; font-family: var(--font-mono); font-size: 0.74rem; }
-
-  .report-output__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-  }
-
-  .report-output__actions button:nth-child(2) {
-    background: transparent;
-    color: var(--color-ink);
-  }
-
-  .report-output__status {
-    min-height: 1.2rem;
-    margin: 0.5rem 0 0;
-    color: var(--color-muted);
-    font-size: 0.75rem;
-  }
-
+  .report-guide li span { color: var(--color-copper-deep); font-family: var(--font-mono); font-size: 0.72rem; }
+  .report-guide p { margin: 0; color: var(--color-muted); font-size: 0.8rem; line-height: 1.5; }
+  .receipt[hidden] { display: none; }
+  .receipt h2 { margin-top: 0.4rem; font-family: var(--font-mono); font-size: 1.8rem; }
   @media (min-width: 760px) {
-    .report-layout { grid-template-columns: minmax(0, 1fr) 18rem; }
+    .report-layout { grid-template-columns: minmax(0, 1fr) 19rem; }
     .report-form__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .report-form__row--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .report-form__row--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   }
 </style>

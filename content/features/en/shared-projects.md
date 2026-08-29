@@ -20,6 +20,10 @@ aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: Shared Gems are multi-person Gemini workspaces containing persistent Gem instructions and uploaded files, with Viewer and Editor access, optional expiry, and ownership transfer."
+  - id: 82
+    text: "Evidence checked 2026-08-29: Microsoft describes Copilot Notebooks as AI-powered workspaces containing chats, files, pages, links, references, and instructions, but explicitly says Notebook sharing is not yet available for Microsoft 365 Personal, Family, or Premium subscribers. This no is limited to the consumer surface documented Notebook workspace and does not deny separate one-page sharing or ordinary conversation-link sharing."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop can expose a live local workspace to trusted collaborators through scoped credentials and can open one hosted workspace in Desktop for multiple organization members."
   - id: 77
@@ -115,7 +119,86 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Workspace access; member management
+  - id: microsoft-copilot-notebook-sharing-2026-06
+    title: "Share a Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/microsoft-365-copilot/share-a-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability notes immediately before the sharing steps"
+  - id: microsoft-copilot-notebooks-get-started-2026-04
+    title: "Get started with Microsoft Copilot Notebooks"
+    href: "https://support.microsoft.com/en-US/Microsoft-365-Copilot/get-started-with-microsoft-365-copilot-notebooks"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Introduction; Why use Copilot Notebooks?"
+  - id: google-gemini-web-shared-gems
+    title: "Google Gemini Apps Help — Share a Gem from Gemini Apps"
+    href: "https://support.google.com/gemini/answer/16504957?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Share a Gem; Share access to files uploaded to the shared Gem; Transfer ownership; Gem access levels; Work or school users"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web shared-Gem documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "the owner must be signed in; depending on account policy, public or anyone-with-link access can allow recipients without sign-in"
+          - type: policy
+            value: "Viewer and Editor roles, optional access expiry, and ownership transfer are documented; work or school sharing follows Drive sharing policy and can be disabled by a Workspace administrator"
+          - type: format
+            value: "shared Gems with uploads support device files or Google Drive files; NotebookLM notebooks cannot be sources for shared Gems"
+          - type: runtime
+            value: "shared context includes Gem instructions and uploaded files and is distinct from a public chat link"
+        evidence:
+          - resourceId: google-gemini-web-shared-gems
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: no
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: "Microsoft Copilot Notebook sharing documentation, last updated June 2026"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal, Family, and Premium consumer subscribers"
+          - type: auth
+            value: "personal Microsoft account"
+          - type: runtime
+            value: "Copilot Notebook workspace sharing; individual Copilot Page and conversation-link sharing are separate capabilities"
+        evidence:
+          - resourceId: microsoft-copilot-notebook-sharing-2026-06
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: microsoft-copilot-notebooks-get-started-2026-04
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: openwork-desktop
     versions:
       - track: current

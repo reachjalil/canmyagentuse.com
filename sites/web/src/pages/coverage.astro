@@ -39,9 +39,10 @@ const harnessRows = report.harnesses.toSorted(
       <p class="eyebrow">Catalog completeness</p>
       <h1 class="text-4xl font-semibold tracking-tight">Catalog coverage</h1>
       <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
-        {report.totals.sourced} of {report.totals.total} current-track cells have
-        moved off unknown. This is research completeness only: it does not rank
-        support quality, product capability, popularity, or conformance.
+        {report.totals.assessed} of {report.totals.total} current-track cells have a
+        responsible public status assessment; {report.totals.directEvidence} have
+        direct reviewed evidence. These are research-completeness measures, not
+        rankings of product quality, popularity, or conformance.
       </p>
       <div class="trust-banner mt-6">
         <strong>Unknown is a deliberate result.</strong> It means this catalog
@@ -50,19 +51,31 @@ const harnessRows = report.harnesses.toSorted(
       </div>
 
       <section class="coverage-overview mt-8" aria-labelledby="coverage-overview-title">
-        <div class="coverage-dial">
-          <span id="coverage-overview-title">Current-track sourced share</span>
-          <strong>{formatPercent(report.totals.share)}</strong>
-          <small>{report.totals.unknown} explicit unknown cells remain</small>
+        <div class="coverage-dials">
+          <div class="coverage-dial">
+            <span id="coverage-overview-title">Assessed status share</span>
+            <strong>{formatPercent(report.totals.assessedShare)}</strong>
+            <small>{report.totals.unknown} unknown cells remain</small>
+          </div>
+          <div class="coverage-dial coverage-dial--secondary">
+            <span>Compatible among assessed</span>
+            <strong>{formatPercent(report.totals.compatibleShareOfAssessed)}</strong>
+            <small>{report.totals.compatible} supported or partial assessments</small>
+          </div>
+          <div class="coverage-dial coverage-dial--secondary">
+            <span>Direct reviewed evidence</span>
+            <strong>{formatPercent(report.totals.directEvidenceShare)}</strong>
+            <small>{report.totals.directEvidence} documentation, test, attestation, or listing contracts</small>
+          </div>
         </div>
         <div class="coverage-surface-grid">
           {report.surfaces.map((surface) => (
             <article>
               <header><strong>{HARNESS_SURFACE_LABELS[surface.surface]}</strong><span>{surface.harnesses} surfaces</span></header>
-              <div class="coverage-meter" aria-label={`${surface.sourced} of ${surface.total} current-track cells sourced`}>
-                <span style={`width:${surface.share * 100}%`} />
+              <div class="coverage-meter" aria-label={`${surface.assessed} of ${surface.total} current-track cells assessed`}>
+                <span style={`width:${surface.assessedShare * 100}%`} />
               </div>
-              <p><b>{surface.sourced}</b> sourced · {surface.unknown} unknown</p>
+              <p><b>{surface.assessed}</b> assessed · {surface.directEvidence} direct evidence · {surface.unknown} unknown</p>
             </article>
           ))}
         </div>
@@ -75,14 +88,15 @@ const harnessRows = report.harnesses.toSorted(
         </div>
         <div class="table-scroll">
           <table class="data-table coverage-table">
-            <thead><tr><th>Capability</th><th>Sourced</th><th>Unknown</th><th>Coverage</th></tr></thead>
+            <thead><tr><th>Capability</th><th>Assessed</th><th>Compatible among assessed</th><th>Direct evidence</th><th>Unknown</th></tr></thead>
             <tbody>
               {featureRows.map((row) => (
                 <tr>
                   <td><a href={`/features/${row.slug}`}>{row.title}</a></td>
-                  <td>{row.sourced} / {row.total}</td>
+                  <td>{row.assessed} / {row.total} ({formatPercent(row.assessedShare)})</td>
+                  <td>{row.compatible} / {row.assessed - row.notApplicable} ({formatPercent(row.compatibleShareOfAssessed)})</td>
+                  <td><span class="mini-meter"><i style={`width:${row.directEvidenceShare * 100}%`} /></span><small>{row.directEvidence} · {formatPercent(row.directEvidenceShare)}</small></td>
                   <td>{row.unknown}</td>
-                  <td><span class="mini-meter"><i style={`width:${row.share * 100}%`} /></span><small>{formatPercent(row.share)}</small></td>
                 </tr>
               ))}
             </tbody>
@@ -97,15 +111,16 @@ const harnessRows = report.harnesses.toSorted(
         </div>
         <div class="table-scroll">
           <table class="data-table coverage-table">
-            <thead><tr><th>Product column</th><th>Type</th><th>Sourced</th><th>Unknown</th><th>Coverage</th></tr></thead>
+            <thead><tr><th>Product column</th><th>Type</th><th>Assessed</th><th>Compatible among assessed</th><th>Direct evidence</th><th>Unknown</th></tr></thead>
             <tbody>
               {harnessRows.map((row) => (
                 <tr>
                   <td><a href={`/harnesses/${row.slug}`}>{row.title}</a></td>
                   <td>{HARNESS_SURFACE_LABELS[row.surface]}</td>
-                  <td>{row.sourced} / {row.total}</td>
+                  <td>{row.assessed} / {row.total} ({formatPercent(row.assessedShare)})</td>
+                  <td>{row.compatible} / {row.assessed - row.notApplicable} ({formatPercent(row.compatibleShareOfAssessed)})</td>
+                  <td><span class="mini-meter"><i style={`width:${row.directEvidenceShare * 100}%`} /></span><small>{row.directEvidence} · {formatPercent(row.directEvidenceShare)}</small></td>
                   <td>{row.unknown}</td>
-                  <td><span class="mini-meter"><i style={`width:${row.share * 100}%`} /></span><small>{formatPercent(row.share)}</small></td>
                 </tr>
               ))}
             </tbody>
@@ -115,3 +130,8 @@ const harnessRows = report.harnesses.toSorted(
     </main>
   </SiteChrome>
 </BaseLayout>
+
+<style>
+  .coverage-dials { display: grid; gap: 0.55rem; }
+  .coverage-dial--secondary strong { font-size: clamp(2.1rem, 5vw, 3.3rem); }
+</style>

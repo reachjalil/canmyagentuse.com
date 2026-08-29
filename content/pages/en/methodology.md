@@ -1,29 +1,33 @@
 ---
 title: Methodology
-description: How compatibility cells are defined, sourced, dated, reviewed, and left unknown when evidence is insufficient.
+description: How compatibility cells are assessed, sourced, dated, corrected, and kept separate from direct evidence coverage.
 slug: methodology
 locale: en
 seoTitle: Methodology | Can My Agent Use
 socialTitle: Methodology
-socialDescription: Support cells stay unknown until a dated, sourced note exists.
-llmSummary: A support assertion is feature revision × exact harness surface target × environment profile. Unknown is the default; every other status requires dated notes, typed evidence, and public resources.
+socialDescription: Best-effort compatibility assessments stay decisive, dated, transparent, and open to reviewed corrections.
+llmSummary: A support assertion is feature revision × exact harness surface target × environment profile. Status, assessment basis, confidence, and direct evidence coverage are separate.
 audience: Contributors and readers evaluating a support cell.
 contentKind: page
 status: published
 tags:
   - methodology
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
-summary: Evidence rules for moving a cell off unknown.
+summary: Editorial assessment, evidence, confidence, and correction rules.
 ---
 
-A support assertion answers one narrow question for a **capability revision × exact product target × environment profile**. A rendered cell may be `yes`, `partial`, `no`, `unknown`, or `na`.
+A support assertion answers one narrow question for a **capability revision × exact product target × environment profile**. Can My Agent Use publishes best-effort compatibility assessments using official documentation, first-party signals, maintained source code, demonstrations, industry knowledge, credible reporting, and careful editorial inference. Assessments may be corrected as products change or better evidence becomes available.
 
-- `yes` means current public documentation demonstrates the row’s capability without a material limit.
-- `partial` means the capability exists with a documented plan, platform, transport, rollout, environment, or interaction limit.
-- `no` requires an explicit current source saying the capability is unsupported. Silence is not evidence of no.
-- `unknown` is the default whenever evidence has not been reviewed or remains ambiguous.
-- `na` means the row does not apply to that kind of harness and still needs public evidence.
+A rendered cell uses one primary status:
+
+- **Supported** (`yes`) means our current assessment is that the complete capability works on the named surface. Official documentation, maintained first-party source, an official demonstration, or a strong editorial inference with no meaningful contradiction can establish support.
+- **Partial** means the product capability itself has a material limit—for example a plan, platform, preview, scope, transport, adapter, or provider-specific subset. Partial never means merely that our research is incomplete.
+- **Unsupported** (`no`) requires explicit current non-support or an exact, exhaustive product/source boundary. Silence is not evidence of no.
+- **Unknown** is reserved for genuine uncertainty after reasonable equivalent terminology, architecture, demonstrations, maintained source, and credible reports have been considered.
+- **Not applicable** (`na`) is a quiet neutral state for a capability that does not apply to the product surface and still needs an explained basis.
+
+Green means our current assessment is that the capability is supported. Open a cell to see the evidence and reasoning. Think we got it wrong? Submit a correction for review.
 
 ## Terminology and admission policy
 
@@ -37,17 +41,17 @@ Every published atomic entry must link at least one public specification or firs
 
 Names should be short and recognizable. Avoid evaluative adjectives such as “accountable,” “safe,” or “controlled”; avoid combining several behaviors into one invented capability; and do not turn a desirable procurement question into a feature until public sources establish the term. If a useful distinction has no external vocabulary yet, keep it in research notes or a proposed test rather than publishing a compatibility row.
 
-Broad pages labeled **Catalog grouping** are internal navigation aids, not standards or standalone compatibility claims. Group progress is derived from child rows for each exact product; no umbrella yes/no value is authored. “Atomic” describes the catalog's internal granularity, not an industry designation.
+Broad pages labeled **Catalog grouping** organize related atomic checks. A family may also carry a clearly labeled broad practical assessment—for example whether a product can use reusable skills through a native or provider-specific mechanism. That broad answer does not imply every standard-format child capability. Child progress remains derived independently. “Atomic” describes the catalog's internal granularity, not an industry designation.
 
 For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support because those are separately named protocol features. Product documentation—not an internally invented checklist—determines whether non-protocol concepts deserve separate rows.
 
 ## Evidence contract
 
-Every non-unknown cell is authored as a version entry with one or more note IDs, an explicit target, an environment profile, structured qualifiers, and typed evidence references. Each evidence reference resolves to a stable resource ID and records when it was reviewed. The resource list links to public vendor documentation, release notes, maintained first-party repositories, or the relevant open-standard documentation.
+Every non-unknown cell is authored as a version entry with one or more note IDs, an explicit target, an environment profile, structured qualifiers, and typed evidence references. Each evidence reference resolves to a stable resource ID and records when it was reviewed. New editorial assessments can also record an explicit assessment basis, confidence, assessment date, and whether human verification is still desired. Legacy records derive these labels from their typed evidence until they are refreshed.
 
 Targets are versioned releases when a stable release is public. Continuously deployed web products use a dated hosted observation. When only current local-product documentation is available, the record says `dated-documentation` rather than pretending a particular binary was reproduced.
 
-Evidence classes stay separate: **documented**, **vendor-attested**, **listed**, **tested**, **reported**, **inferred**, and **not found** do not carry the same authority. Catalog v1 publishes documentation and listing evidence. The public test registry contains proposed definitions only; Can My Agent Use has not executed runtime conformance tests against these harnesses.
+Evidence classes stay separate: **documented**, **vendor-attested**, **listed**, **tested**, **reported**, **inferred**, and **not found** do not carry the same authority. Assessment basis is also explicit: verified testing, official documentation, maintained source, official demonstration, another first-party signal, credible reporting, or editorial inference. Confidence is recorded separately as verified, high-confidence, or provisional. None of these creates a weaker shade of green: the primary color communicates compatibility, while the detail explains why.
 
 Plan, policy, region, authorization, transport, protocol revision, role, feature flag, runtime, preview, and vendor-extension limits remain structured qualifiers. They are not folded into prose and lost when the matrix is rendered.
 
@@ -61,18 +65,32 @@ Every measured value should identify the exact harness, model or mode, plan, env
 
 Prompt caching is tracked only where first-party documentation names cache reuse, controls, or telemetry separately. File upload is kept separate from model-visible understanding because product documentation commonly distinguishes accepting a file from interpreting its contents. These distinctions keep a paperclip icon, a provider model card, or a generic caching statement from becoming a broader compatibility claim than the evidence supports.
 
-Do not source a claim from rumors, search snippets without a stable page, community recollection, private beta screens, or screenshots of interfaces that are not public. When a document describes a model or API rather than the named harness, it does not automatically prove harness support.
+Do not source a claim from rumors, search snippets without a stable page, anonymous recollection, or private beta material. Public provider demonstrations, maintained source, release announcements, reproducible observations, and multiple credible reports can support an editorial assessment when the exact surface and limits are clear. When a document describes a model or API rather than the named harness, it does not automatically prove harness support.
 
-Community reports can surface an investigation or contradiction, but do not change a definitive support state without authoritative or reproducible corroboration. When sources conflict, the contradiction stays public instead of being smoothed into a color.
+Community and first-hand reports can surface an investigation or support a careful provisional assessment, but a single submission never changes a status automatically. When sources conflict, the contradiction stays public instead of being smoothed into a color.
 
 ## Tracks and coverage
 
 Tracks (`current`, `preview`) are catalog version stacks. They are not a claim that a vendor publishes channels with those names, and evidence for current never fills preview automatically.
 
-The feature-page percentage is the share of published product tracks that have moved off unknown. It measures catalog coverage. It does not measure usage, adoption, quality, or market share. The first review covers MCP tools, MCP Apps, workspace files, terminal access, computer use, and skills for a small set of products. All other cells stay unknown until reviewed.
+Compatibility assessment and direct evidence coverage are reported separately:
+
+- **Assessed coverage** is the share moved responsibly off unknown.
+- **Compatible among assessed** is the share of assessed, applicable cells marked supported or partial.
+- **Direct reviewed evidence** is the share backed by reviewed documentation, testing, vendor attestation, or an authoritative listing.
+
+The legacy machine fields `sourced` and `share` remain aliases for direct reviewed evidence so historical consumers do not accidentally count editorial inference toward the direct-evidence percentage. None of these metrics measures usage, adoption, quality, market share, or provider endorsement.
 
 ## Corrections
 
-Public documentation changes. A correction should supersede the affected statement, update the review date, preserve a clear explanation of the documented limit, and replace stale resource links without erasing the reason for the change. Contributors should follow `CONTRIBUTING.md`; the shared schema rejects non-unknown cells without targets, environment profiles, notes, and typed evidence.
+Think an assessment is wrong or outdated? Suggest a correction. We review submissions before changing the catalog.
+
+[Suggest a methodology correction](/report?targetType=methodology), [request a missing product](/report?targetType=missing-harness), or [request a missing capability](/report?targetType=missing-feature).
+
+Each correction is tied to one exact feature, product surface, and track. The form captures the current assessment snapshot, proposed status, explanation, supporting URLs, optional reproduction steps, affected version/plan/platform, affiliation disclosure, optional contact details, and publication permission. Submissions enter a moderation queue; they never update the catalog automatically and unreviewed links or material are never published as facts.
+
+The moderation record keeps a unique request ID, received timestamp, abuse indicators, review state, reviewer decision and rationale, and resulting catalog change or no-change outcome. Review states are `received`, `triaged`, `needs-more-information`, `accepted`, `partially-accepted`, `declined`, `duplicate`, and `superseded`. Contact details stay private. A claimed provider affiliation is recorded but is not treated as official until verified.
+
+Accepted corrections update the canonical assessment date, basis, confidence, sources, and reasoning while preserving the previous status and correction request ID in editorial history. Declined requests retain a private rationale so the same claim does not need to be re-evaluated from scratch.
 
 The product deliberately does not publish a synthetic harness score, fabricated market-share figure, or unsourced editorial capability. Useful operational metrics are evidence freshness, sourced-cell coverage, contradiction age, revision pinning, source diversity, review latency, and future conformance-test coverage.

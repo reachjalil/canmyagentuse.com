@@ -19,6 +19,10 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-29: Gemini Spark uses a product-provided remote computer to run code and can retain remote code-execution files and data across sessions until the user deletes them or turns off Spark."
+  - id: 83
+    text: "Evidence checked 2026-08-29: Microsoft says consumer Copilot can run code to complete complex calculations and generate graphs. The documentation does not describe a general-purpose user-visible runtime, supported languages, isolation, network access, persistence, or arbitrary code execution."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 documents /run for local code or shell-command execution and optional output ingestion; /test and configured auto-test commands can run code after edits and feed failures back for repair."
   - id: 73
@@ -215,7 +219,77 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "What to expect"
+  - id: microsoft-copilot-individual-transparency-2026-08
+    title: "Transparency Note for Microsoft Copilot (for individuals)"
+    href: "https://support.microsoft.com/en-us/privacy/microsoft-copilot/transparency-note"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "System behavior; Use cases; Limitations — Dependence on Internet connectivity"
+  - id: google-gemini-web-spark-tasks
+    title: "Google Gemini Apps Help — Use Gemini Spark to manage your tasks & workflows in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Delete remote browser & computer data — Delete remote code execution data; Remote browser & computer"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark is experimental and in early development"
+          - type: plan
+            value: "requires Google AI Pro or Ultra"
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, and Keep Activity; unavailable to work or school accounts"
+          - type: region
+            value: "unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: runtime
+            value: "hosted remote-computer environment; languages, runtime versions, dependency catalog, resource limits, and isolation boundary are not enumerated"
+          - type: policy
+            value: "remote execution history and files persist until deleted or Spark is turned off"
+        evidence:
+          - resourceId: google-gemini-web-spark-tasks
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: "Microsoft Copilot web for individuals, Transparency Note dated 2026-08-18"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "the Transparency Note applies to individuals signed in with a personal Microsoft account"
+          - type: runtime
+            value: "documented for complex calculations and graph generation; no general shell, language matrix, sandbox contract, or persistent runtime is established"
+        evidence:
+          - resourceId: microsoft-copilot-individual-transparency-2026-08
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

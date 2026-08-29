@@ -20,6 +20,8 @@ aliases: [regional processing, data location, EU data residency]
 parent: data-security-controls
 related: [local-only-mode, data-retention-controls]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: Eligible Workspace administrators can select United States or Europe residency for Gemini App prompts and responses at rest and, where the edition includes it, during processing."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider's policy says its Services are hosted in the United States and international-user information transfers there for storage and processing, while permitting onward transfers; selected model endpoints remain separate."
   - id: 79
@@ -128,7 +130,42 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "AWS KMS key must use the same deployment region"
+  - id: google-workspace-gemini-app-data-regions
+    title: "Google Workspace Help — Data covered by data regions"
+    href: "https://knowledge.workspace.google.com/admin/compliance/data-covered-by-data-regions?hl=en"
+    kind: docs
+    publisher: "Google Workspace"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; What are covered data and services? — Gemini App row; What about other services and data types?"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Google Workspace Gemini App data-regions documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Enterprise data regions are included with Frontline Plus, Enterprise Plus, or the Data Regions add-on; fundamental coverage is also listed for qualifying Frontline, Business, Education, and Enterprise Essentials editions; processing coverage varies by edition"
+          - type: region
+            value: "selectable geographic location is the United States or Europe"
+          - type: format
+            value: "covered Gemini App data is prompts and responses"
+          - type: policy
+            value: "logs, cached content, and other data types not specifically listed are outside the data-regions claim"
+        evidence:
+          - resourceId: google-workspace-gemini-app-data-regions
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

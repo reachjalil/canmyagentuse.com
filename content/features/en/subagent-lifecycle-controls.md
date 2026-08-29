@@ -34,6 +34,8 @@ notes:
     text: "Evidence checked 2026-08-29: Warp lists child runs with live state, opens each child conversation, and supports follow-up messages, cancellation, waiting, and replacement decisions."
   - id: 53
     text: "Evidence checked 2026-08-29: A Devin coordinator can message, monitor, sleep, terminate, and schedule reminders to revisit managed child sessions."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
   - id: openwork-v01839-subagent-run
@@ -102,6 +104,38 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Managed Devins; coordinator controls"
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
 support:
   - harness: openwork-desktop
     versions:
@@ -263,6 +297,34 @@ support:
           - resourceId: vscode-subagents
             type: documented
             observedAt: 2026-08-28
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; external orchestration, community wrappers, model-side role prompts, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "Aider's architect/editor model handoff stays inside one CLI editing loop and is not a spawned child-agent lifecycle"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 This row tracks supervision of child-agent executions after delegation. At minimum, evidence should show how active and queued children are identified and whether cancellation propagates to their tools and descendants.

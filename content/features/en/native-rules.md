@@ -21,6 +21,8 @@ parent: instructions
 related: []
 highlight: false
 notes:
+  - id: 77
+    text: "Evidence checked 2026-08-29: the product-native Instructions surface in a Copilot Notebook stores persistent guidance that Copilot follows for that hosted workspace. It is a Microsoft-specific Notebook setting, not a repository rule file, path-scoped rule, or portable instruction format."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 documents .rules as the highest-priority compatible project instruction file for native Zed Agent, while reusable Rules have otherwise moved to Skills and always-on Rules to Instructions."
   - id: 75
@@ -166,7 +168,42 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Instruction Files; Custom Review Rules; REVIEW.md"
+  - id: microsoft-copilot-notebook-custom-instructions-2026-02
+    title: "Provide custom instructions for your Microsoft Copilot Notebook"
+    href: "https://support.microsoft.com/en-us/Microsoft-365-Copilot/provide-custom-instructions-for-your-microsoft-365-copilot-notebook"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability notes; Provide specific guidelines for Copilot"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: "Microsoft Copilot Notebook instruction documentation, last updated February 2026"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal, Family, or Premium subscription"
+          - type: auth
+            value: "signed-in personal Microsoft account"
+          - type: runtime
+            value: "product-native Notebook Instructions UI only; no file discovery, path matching, or precedence contract"
+          - type: feature-flag
+            value: "some Notebook capabilities are rolling out gradually"
+        evidence:
+          - resourceId: microsoft-copilot-notebook-custom-instructions-2026-02
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: zed-agent
     versions:
       - track: current

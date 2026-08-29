@@ -5,6 +5,7 @@ import { parse } from "yaml";
 import {
   buildCoverageReport,
   buildMatrix,
+  coverageSlice,
   featureSchema,
   harnessSchema,
   specificationSchema,
@@ -45,12 +46,36 @@ async function collection<T>(
 
 function combinedSlice(slices: readonly CoverageSlice[]): CoverageSlice {
   const total = slices.reduce((sum, item) => sum + item.total, 0);
-  const sourced = slices.reduce((sum, item) => sum + item.sourced, 0);
+  const assessed = slices.reduce((sum, item) => sum + item.assessed, 0);
+  const directEvidence = slices.reduce(
+    (sum, item) => sum + item.directEvidence,
+    0
+  );
+  const supported = slices.reduce((sum, item) => sum + item.supported, 0);
+  const partial = slices.reduce((sum, item) => sum + item.partial, 0);
+  const unsupported = slices.reduce((sum, item) => sum + item.unsupported, 0);
+  const notApplicable = slices.reduce(
+    (sum, item) => sum + item.notApplicable,
+    0
+  );
+  const compatible = supported + partial;
+  const compatibleDenominator = assessed - notApplicable;
   return {
     total,
-    sourced,
-    unknown: total - sourced,
-    share: total === 0 ? 0 : sourced / total,
+    assessed,
+    assessedShare: total === 0 ? 0 : assessed / total,
+    sourced: directEvidence,
+    directEvidence,
+    directEvidenceShare: total === 0 ? 0 : directEvidence / total,
+    unknown: total - assessed,
+    share: total === 0 ? 0 : directEvidence / total,
+    supported,
+    partial,
+    unsupported,
+    notApplicable,
+    compatible,
+    compatibleShareOfAssessed:
+      compatibleDenominator === 0 ? 0 : compatible / compatibleDenominator,
   };
 }
 
@@ -115,16 +140,7 @@ const families = [...familyMembers].map(([family, members]) => ({
 const previewVersions = buildMatrix(atomicFeatures, harnesses).flatMap((cell) =>
   cell.versions.filter((version) => version.track === "preview")
 );
-const previewSourced = previewVersions.filter(
-  (version) => version.status !== "unknown"
-).length;
-const preview: CoverageSlice = {
-  total: previewVersions.length,
-  sourced: previewSourced,
-  unknown: previewVersions.length - previewSourced,
-  share:
-    previewVersions.length === 0 ? 0 : previewSourced / previewVersions.length,
-};
+const preview = coverageSlice(previewVersions);
 const zeroOrOneSourcedFeatures = report.features
   .filter((feature) => feature.sourced <= 1)
   .toSorted(
@@ -149,6 +165,8 @@ if (process.argv.includes("--json")) {
     .map((harness) => [
       harness.slug,
       harness.surface,
+      String(harness.assessed),
+      percent(harness.assessedShare),
       String(harness.sourced),
       String(harness.total),
       percent(harness.share),
@@ -161,6 +179,8 @@ if (process.argv.includes("--json")) {
     .map((family) => [
       family.family,
       String(family.features.length),
+      String(family.assessed),
+      percent(family.assessedShare),
       String(family.sourced),
       String(family.total),
       percent(family.share),
@@ -169,14 +189,36 @@ if (process.argv.includes("--json")) {
   process.stdout.write(
     [
       "Catalog coverage (published current track)",
-      `Total: ${report.totals.sourced}/${report.totals.total} sourced (${percent(report.totals.share)}); ${report.totals.features} atomic features × ${report.totals.harnesses} harnesses`,
-      `Preview: ${preview.sourced}/${preview.total} sourced (${percent(preview.share)})`,
+      `Total: ${report.totals.assessed}/${report.totals.total} assessed (${percent(report.totals.assessedShare)}); ${report.totals.directEvidence}/${report.totals.total} direct evidence (${percent(report.totals.directEvidenceShare)}); ${report.totals.features} atomic features × ${report.totals.harnesses} harnesses`,
+      `Preview: ${preview.assessed}/${preview.total} assessed (${percent(preview.assessedShare)}); ${preview.directEvidence}/${preview.total} direct evidence (${percent(preview.directEvidenceShare)})`,
       "",
       "Harnesses (ascending coverage)",
-      table(["Harness", "Surface", "Sourced", "Total", "Share"], harnessRows),
+      table(
+        [
+          "Harness",
+          "Surface",
+          "Assessed",
+          "Assessed %",
+          "Direct",
+          "Total",
+          "Direct %",
+        ],
+        harnessRows
+      ),
       "",
       "Capability families (ascending coverage)",
-      table(["Family", "Features", "Sourced", "Total", "Share"], familyRows),
+      table(
+        [
+          "Family",
+          "Features",
+          "Assessed",
+          "Assessed %",
+          "Direct",
+          "Total",
+          "Direct %",
+        ],
+        familyRows
+      ),
       "",
       "Features with 0 or 1 sourced current-track cells",
       table(

@@ -193,13 +193,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Copy Input / Output of Block"
   - id: microsoft-copilot-activity-export
-    title: "Microsoft — Manage Copilot activity history in the privacy dashboard"
-    href: https://support.microsoft.com/en-us/privacy/manage-your-copilot-activity-history-in-the-privacy-dashboard
+    title: "Microsoft Copilot for individuals — activity history"
+    href: https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history
     kind: docs
     publisher: Microsoft
     evidenceType: documented
     reviewedAt: 2026-08-29
-    locator: "Export all Copilot Chat activity history"
+    locator: "Manage your activity history; export all Copilot activity history"
   - id: spacexai-grok-consumer-faq
     title: "SpaceXAI — Consumer FAQs"
     href: https://x.ai/legal/faq

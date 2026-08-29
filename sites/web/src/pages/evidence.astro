@@ -58,7 +58,7 @@ const evidenceClasses = [...new Set(records.map((record) => record.evidenceType 
       <section class="mt-10" aria-labelledby="sources-title">
         <div class="section-heading">
           <div><p class="eyebrow">Reviewed records</p><h2 id="sources-title">Sources</h2></div>
-          <p><a href="/api/v1/evidence.json">JSON ledger</a></p>
+          <p><a href="/api/v1/evidence.json">JSON ledger</a> · <a href="/report?targetType=evidence">Suggest an evidence correction</a></p>
         </div>
         <form class="filter-toolbar" data-evidence-filters>
           <label>Search sources<input type="search" name="q" placeholder="Title, publisher, capability…" /></label>

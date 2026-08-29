@@ -20,6 +20,8 @@ aliases: [pricing, subscription cost, seat price, credits, overage pricing]
 parent: usage-and-reliability
 related: [usage-metering, rate-limit-disclosure]
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-29: Google support documents the personal-account Gemini plan ladder and relative included usage across no plan, AI Plus, AI Pro, and AI Ultra, but the reviewed support pages delegate exact subscription prices to plan selection and Google One."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp publishes monthly Megawatt and Gigawatt prices, included agent and orb usage, pay-as-you-go terms, credit expiry, overage behavior, and Enterprise pricing."
   - id: 70
@@ -112,7 +114,51 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Individual plan prices and comparison"
+  - id: google-gemini-web-usage-limits
+    title: "Google Gemini Apps Help — Gemini Apps limits & upgrades for Google AI subscribers"
+    href: "https://support.google.com/gemini/answer/16275805?hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Gemini app access and limits; Usage limits; Feature availability"
+  - id: google-gemini-web-manage-plan
+    title: "Google Gemini Apps Help — Manage your Google AI plan from Gemini Apps"
+    href: "https://support.google.com/gemini/answer/14517446?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upgrade to a Google AI plan in Gemini Apps; Change your plan; Cancel your plan"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web plan documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "the reviewed plan documentation applies to personal Google Accounts; work and school plans are a separate Workspace boundary"
+          - type: plan
+            value: "no plan has standard limits, Google AI Plus has 2x standard limits, Google AI Pro has 4x, and AI Ultra has 5x or 20x AI Pro depending on the subscription"
+          - type: policy
+            value: "the reviewed support pages do not publish exact currency, billing cadence, taxes, promotions, or Workspace seat pricing"
+        evidence:
+          - resourceId: google-gemini-web-usage-limits
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: google-gemini-web-manage-plan
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: amp-cli
     versions:
       - track: current

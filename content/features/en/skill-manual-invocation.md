@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 85
+    text: "Evidence checked 2026-08-29: A Gemini web user can explicitly invoke a named Gemini Spark skill in a task by entering slash and selecting the skill."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop lets users choose a named local or OpenWork Connect skill from the composer or slash menu and inserts an explicit skill token that is expanded into the model prompt."
   - id: 75
@@ -58,6 +60,8 @@ notes:
     text: "Evidence checked 2026-08-29: Codex CLI supports explicit skill invocation through `/skills` or `$` mentions."
   - id: 50
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 lets users invoke an installed Agent Skill explicitly by naming it as $skill-name in chat with a supported integrated agent."
+  - id: 84
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
   - id: openwork-v01839-skill-selection
@@ -175,7 +179,76 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: Use an Agent Skill; manual invocation
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: google-gemini-web-skills
+    title: "Google Gemini Apps Help — Create & manage skills for Gemini Apps"
+    href: "https://support.google.com/gemini/answer/17094296?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Use skills for a task; Manage Gemini's automatic use of a skill"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [85]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Spark Skills web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: experimental
+            value: "Gemini Spark only"
+          - type: plan
+            value: "requires Google AI Pro or Ultra"
+          - type: auth
+            value: "requires age 18 or over, a personal account, and Keep Activity; unavailable to work or school accounts"
+          - type: region
+            value: "unavailable in the EEA, Nigeria, Switzerland, and the UK"
+          - type: runtime
+            value: "the documented web syntax is `/`; the `@` alternative documented for the Mac app is not transferred"
+        evidence:
+          - resourceId: google-gemini-web-skills
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: openwork-desktop
     versions:
       - track: current
@@ -429,6 +502,34 @@ support:
             value: "implicit invocation remains separately available and can be disabled per skill"
         evidence:
           - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [84]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; similarly named prompts, community wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: format
+            value: "absence claim is specific to Agent Skills packages centered on SKILL.md and their standard discovery, loading, supporting-file, script, invocation, and scope behaviors"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
 ---

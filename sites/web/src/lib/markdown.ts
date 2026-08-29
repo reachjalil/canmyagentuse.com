@@ -164,6 +164,9 @@ export function featureMarkdown(input: {
   const graph = capabilityNode(feature.slug, features);
   if (feature.capabilityKind === "family") {
     const progress = buildCapabilityProgress(feature.slug, features, harnesses);
+    const broadSupport = currentSupportSnapshot(
+      expandFeatureSupport(feature, harnesses)
+    );
     const childLines = (graph?.children ?? []).map(
       (child) =>
         `- [${child.title}](${featureMarkdownPath(child.slug)}) — ${child.summary}`
@@ -181,9 +184,27 @@ export function featureMarkdown(input: {
       markdownPath: featureMarkdownPath(feature.slug),
       llmSummary: feature.llmSummary,
       body: [
-        "Terminology basis: Catalog grouping. This organizes related compatibility questions and is not itself a support claim.",
+        "Terminology basis: Catalog grouping with an optional broad practical assessment. Exact standard-format behaviors remain independent child checks.",
         "",
         body.trim(),
+        ...(feature.support.length > 0
+          ? [
+              "",
+              "## Broad practical assessment",
+              "",
+              currentSupportSnippet(feature.title, broadSupport),
+              "",
+              `- Assessed current products: ${broadSupport.assessed} of ${broadSupport.total}`,
+              `- Direct reviewed evidence: ${broadSupport.directEvidence} of ${broadSupport.total}`,
+              `- Supported: ${broadSupport.counts.yes}`,
+              `- Partial: ${broadSupport.counts.partial}`,
+              `- Unsupported: ${broadSupport.counts.no}`,
+              `- Unknown: ${broadSupport.counts.unknown}`,
+              `- Not applicable: ${broadSupport.counts.na}`,
+              "",
+              featureAssertions(feature, harnesses),
+            ]
+          : []),
         "",
         "## Atomic capabilities",
         "",
@@ -191,7 +212,7 @@ export function featureMarkdown(input: {
         "",
         "## Current family progress by product",
         "",
-        "Family support is derived from atomic child records. No umbrella compatibility value is authored.",
+        "Child progress is derived from atomic records and remains independent of any broad practical assessment.",
         "",
         ...progressLines,
       ].join("\n"),
@@ -215,7 +236,8 @@ export function featureMarkdown(input: {
     "",
     currentSupportSnippet(feature.title, currentSupport),
     "",
-    `- Reviewed current products: ${currentSupport.sourced} of ${currentSupport.total}`,
+    `- Assessed current products: ${currentSupport.assessed} of ${currentSupport.total}`,
+    `- Direct reviewed evidence: ${currentSupport.directEvidence} of ${currentSupport.total}`,
     `- Supported: ${currentSupport.counts.yes}`,
     `- Partial: ${currentSupport.counts.partial}`,
     `- Unsupported: ${currentSupport.counts.no}`,

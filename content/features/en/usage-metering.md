@@ -20,6 +20,10 @@ aliases: [cost meter, token usage, spend dashboard, usage dashboard]
 parent: usage-and-reliability
 related: [prompt-cache-telemetry, context-usage-visibility, rate-limit-disclosure]
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-29: Gemini web exposes a Usage Limits view and near-limit or exhausted-limit notifications with refresh timing, and Deep Research reports remaining daily research requests when the user is near that feature's limit."
+  - id: 83
+    text: "Evidence checked 2026-08-29: Microsoft documents plan-specific consumer AI credits and feature-use limits, including Copilot Chat, Pages, Agents, Vision, and Voice, and tells users to inspect limit and credit status through Microsoft Account Services and subscriptions. This is account and plan metering, not per-conversation token, tool, or monetary-cost telemetry."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 reports sent and received tokens and, when pricing metadata exists, estimated cost for the current message and accumulated CLI session."
   - id: 73
@@ -132,7 +136,84 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "What counts toward usage; FAQs and account views"
+  - id: microsoft-copilot-consumer-ai-credits-2026-07
+    title: "AI credits and limits for Microsoft 365 subscriptions"
+    href: "https://support.microsoft.com/en-US/Microsoft-365-Copilot/ai-credits-and-limits-for-microsoft-365-subscriptions"
+    kind: docs
+    publisher: "Microsoft"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Limits and credits for each plan; How do I manage my feature limits and AI credits?"
+  - id: google-gemini-web-usage-limits
+    title: "Google Gemini Apps Help — Gemini Apps limits & upgrades for Google AI subscribers"
+    href: "https://support.google.com/gemini/answer/16275805?hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "More info about limits — How to tell if you're close to a limit & when it refreshes; To view your usage limits"
+  - id: google-gemini-web-deep-research
+    title: "Google Gemini Apps Help — Use Deep Research in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/15719111?co=GENIE.Platform%3DDesktop&hl=en"
+    kind: docs
+    publisher: "Google"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "About Deep Research models & limits"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini web usage documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "the general usage-limits article is scoped to personal Google Accounts"
+          - type: runtime
+            value: "reports compute-based five-hour and weekly allowance state plus Deep Research daily requests remaining; no token or dollar meter is documented"
+          - type: plan
+            value: "limits vary among no plan, Google AI Plus, Google AI Pro, and Google AI Ultra"
+        evidence:
+          - resourceId: google-gemini-web-usage-limits
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: google-gemini-web-deep-research
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: "Microsoft consumer Copilot AI credits and limits, last updated July 2026"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal, Family, and Premium have different feature limits and AI-credit allowances; benefits are limited to the subscription owner"
+          - type: auth
+            value: "status is inspected in the signed-in Microsoft account Services and subscriptions page"
+          - type: runtime
+            value: "account-level feature and credit status; no run-level tokens, latency, tool usage, or cost breakdown is documented"
+        evidence:
+          - resourceId: microsoft-copilot-consumer-ai-credits-2026-07
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

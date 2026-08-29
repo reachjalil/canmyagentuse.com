@@ -122,6 +122,50 @@ export const EVIDENCE_TYPES = [
 
 export type EvidenceType = (typeof EVIDENCE_TYPES)[number];
 
+/** Why the editorial team assigned a compatibility status. */
+export const ASSESSMENT_BASES = [
+  "verified-testing",
+  "official-documentation",
+  "maintained-source",
+  "official-demonstration",
+  "first-party-signal",
+  "credible-reporting",
+  "editorial-inference",
+] as const;
+
+export type AssessmentBasis = (typeof ASSESSMENT_BASES)[number];
+
+export const ASSESSMENT_BASIS_LABELS = {
+  "verified-testing": "verified by testing",
+  "official-documentation": "confirmed in official documentation",
+  "maintained-source": "confirmed in maintained first-party source code",
+  "official-demonstration": "demonstrated by the provider",
+  "first-party-signal": "supported by a first-party signal",
+  "credible-reporting": "supported by credible reporting",
+  "editorial-inference": "high-confidence editorial assessment",
+} as const satisfies Record<AssessmentBasis, string>;
+
+export const ASSESSMENT_CONFIDENCES = [
+  "verified",
+  "high",
+  "provisional",
+] as const;
+
+export type AssessmentConfidence = (typeof ASSESSMENT_CONFIDENCES)[number];
+
+export const ASSESSMENT_CONFIDENCE_LABELS = {
+  verified: "Verified",
+  high: "High-confidence assessment",
+  provisional: "Provisional assessment",
+} as const satisfies Record<AssessmentConfidence, string>;
+
+export const DIRECT_REVIEW_EVIDENCE_TYPES = [
+  "documented",
+  "tested",
+  "vendor-attested",
+  "listed",
+] as const satisfies readonly EvidenceType[];
+
 export const QUALIFIER_TYPES = [
   "preview",
   "experimental",
@@ -167,6 +211,54 @@ export interface VersionCell {
   qualifiers?: SupportQualifier[];
   evidence?: EvidenceReference[];
   stage?: SupportStage;
+  assessmentBasis?: AssessmentBasis;
+  confidence?: AssessmentConfidence;
+  assessedAt?: string;
+  humanVerificationDesired?: boolean;
+}
+
+export function assessmentBasisForVersion(
+  version: VersionCell
+): AssessmentBasis | undefined {
+  if (version.assessmentBasis) return version.assessmentBasis;
+  const evidenceTypes = new Set(version.evidence?.map((item) => item.type));
+  if (evidenceTypes.has("tested")) return "verified-testing";
+  if (evidenceTypes.has("documented")) return "official-documentation";
+  if (evidenceTypes.has("vendor-attested") || evidenceTypes.has("listed")) {
+    return "first-party-signal";
+  }
+  if (evidenceTypes.has("reported")) return "credible-reporting";
+  if (evidenceTypes.has("inferred") || evidenceTypes.has("not-found")) {
+    return "editorial-inference";
+  }
+  return undefined;
+}
+
+export function assessmentConfidenceForVersion(
+  version: VersionCell
+): AssessmentConfidence | undefined {
+  if (version.confidence) return version.confidence;
+  const basis = assessmentBasisForVersion(version);
+  if (basis === "verified-testing") return "verified";
+  if (
+    basis === "official-documentation" ||
+    basis === "maintained-source" ||
+    basis === "official-demonstration" ||
+    basis === "first-party-signal"
+  ) {
+    return "high";
+  }
+  return basis ? "provisional" : undefined;
+}
+
+export function hasDirectReviewedEvidence(version: VersionCell): boolean {
+  return Boolean(
+    version.evidence?.some((item) =>
+      (DIRECT_REVIEW_EVIDENCE_TYPES as readonly EvidenceType[]).includes(
+        item.type
+      )
+    )
+  );
 }
 
 export interface SupportRow {

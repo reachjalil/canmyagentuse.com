@@ -25,6 +25,10 @@ import { featureSchema, harnessSchema, specificationSchema } from "./schema.ts";
 import { validateCatalogRelations } from "./relations.ts";
 import { searchCatalog } from "./search.ts";
 import { SITE } from "./site.ts";
+import {
+  assessmentBasisForVersion,
+  assessmentConfidenceForVersion,
+} from "./status.ts";
 
 const updated = new Date("2026-08-28T00:00:00.000Z");
 
@@ -298,7 +302,9 @@ describe("matrix", () => {
     expect(sourcedShare(column ? [column] : [])).toBe(0.5);
     expect(currentSupportSnapshot(column ? [column] : [])).toEqual({
       total: 1,
+      assessed: 1,
       sourced: 1,
+      directEvidence: 1,
       counts: { yes: 1, partial: 0, no: 0, unknown: 0, na: 0 },
     });
   });
@@ -748,6 +754,79 @@ describe("coverage", () => {
       total: 1,
       sourced: 1,
     });
+  });
+
+  it("separates assessed compatibility from direct reviewed evidence", () => {
+    const inferredFeature = featureSchema.parse({
+      ...feature,
+      notes: [
+        {
+          id: 8,
+          text: "Assessed 2026-08-29: the maintained architecture strongly establishes this capability.",
+        },
+      ],
+      resources: [
+        {
+          id: "architecture-signal",
+          title: "Maintained architecture reference",
+          href: "https://example.com/architecture",
+          kind: "docs",
+          publisher: "Example Host",
+          evidenceType: "inferred",
+          reviewedAt: "2026-08-29",
+        },
+      ],
+      support: [
+        {
+          harness: "chatgpt-web",
+          versions: [
+            {
+              track: "current",
+              status: "yes",
+              noteIds: [8],
+              target: {
+                kind: "hosted-observation",
+                revision: "2026-08-29 editorial assessment",
+                observedAt: "2026-08-29",
+              },
+              environmentProfile: "hosted-default",
+              assessmentBasis: "editorial-inference",
+              confidence: "high",
+              assessedAt: "2026-08-29",
+              humanVerificationDesired: true,
+              evidence: [
+                {
+                  resourceId: "architecture-signal",
+                  type: "inferred",
+                  observedAt: "2026-08-29",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    const report = buildCoverageReport([inferredFeature], [harness]);
+    expect(report.totals).toMatchObject({
+      total: 1,
+      assessed: 1,
+      sourced: 0,
+      directEvidence: 0,
+      supported: 1,
+      compatible: 1,
+      unknown: 0,
+    });
+  });
+});
+
+describe("assessment metadata", () => {
+  it("derives basis and confidence for legacy documented cells", () => {
+    const version = sourcedFeature.support[0]?.versions?.[0];
+    expect(version && assessmentBasisForVersion(version)).toBe(
+      "official-documentation"
+    );
+    expect(version && assessmentConfidenceForVersion(version)).toBe("high");
   });
 });
 

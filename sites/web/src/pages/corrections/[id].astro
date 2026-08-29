@@ -1,0 +1,128 @@
+---
+import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import { env } from "cloudflare:workers";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const prerender = false;
+
+const correctionEnv = env as unknown as { CORRECTIONS_DB?: D1Database };
+
+const receiptId = Astro.params.id ?? "";
+const validReceipt = /^CMAU-[2-9A-HJ-NP-Z]{10}$/.test(receiptId);
+const database = correctionEnv.CORRECTIONS_DB;
+const correction =
+  validReceipt && database
+    ? await database
+        .prepare(
+          `SELECT id, received_at, updated_at, review_state, target_type,
+            feature_slug, harness_slug, track, catalog_permalink,
+            proposed_status, decision, decision_rationale, outcome,
+            duplicate_of, superseded_by
+           FROM corrections WHERE id = ?`
+        )
+        .bind(receiptId)
+        .first<Record<string, string | null>>()
+    : null;
+const events: Array<Record<string, string>> =
+  correction && database
+    ? (
+        await database
+          .prepare(
+            `SELECT occurred_at, review_state, rationale, outcome
+             FROM correction_events WHERE correction_id = ?
+             ORDER BY event_id ASC`
+          )
+          .bind(receiptId)
+          .all<Record<string, string>>()
+      ).results ?? []
+    : [];
+if (!correction) Astro.response.status = 404;
+Astro.response.headers.set("cache-control", "private, no-store");
+---
+
+<BaseLayout
+  title={`${correction ? `Correction ${receiptId}` : "Correction not found"} | ${SITE.name}`}
+  description="Public editorial receipt and review history for a submitted catalog correction."
+  canonicalPath={`/corrections/${receiptId}`}
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      {correction ? (
+        <>
+          <p class="eyebrow">Correction receipt</p>
+          <h1>{receiptId}</h1>
+          <p class="receipt-state">{String(correction.review_state).replaceAll("-", " ")}</p>
+          <dl class="receipt-summary mt-6">
+            <div><dt>Target</dt><dd>{correction.target_type}</dd></div>
+            {correction.feature_slug && <div><dt>Capability</dt><dd>{correction.feature_slug}</dd></div>}
+            {correction.harness_slug && <div><dt>Product</dt><dd>{correction.harness_slug}</dd></div>}
+            <div><dt>Track</dt><dd>{correction.track}</dd></div>
+            <div><dt>Proposed status</dt><dd>{correction.proposed_status}</dd></div>
+            <div><dt>Received</dt><dd>{correction.received_at}</dd></div>
+            <div><dt>Updated</dt><dd>{correction.updated_at}</dd></div>
+          </dl>
+          <p class="mt-4">
+            <a href={correction.catalog_permalink ?? "/coverage"}>Open the catalog target</a>
+          </p>
+          <section class="mt-8" aria-labelledby="history-title">
+            <h2 id="history-title">Editorial history</h2>
+            <ol class="receipt-events">
+              {events.map((event) => (
+                <li>
+                  <p><strong>{event.review_state.replaceAll("-", " ")}</strong> · {event.occurred_at}</p>
+                  {event.rationale && <p>{event.rationale}</p>}
+                  {event.outcome && <p><b>Outcome:</b> {event.outcome}</p>}
+                </li>
+              ))}
+            </ol>
+          </section>
+          <p class="privacy-note">
+            This public receipt never displays reporter contact details, network identifiers, or private moderation metadata.
+          </p>
+        </>
+      ) : (
+        <>
+          <p class="eyebrow">Correction receipt</p>
+          <h1>Receipt not found</h1>
+          <p>No public correction receipt matches this identifier.</p>
+          <p><a href="/report">Submit a correction</a></p>
+        </>
+      )}
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  h1 { margin-top: 0.35rem; font-size: clamp(2rem, 5vw, 3.4rem); }
+  .receipt-state {
+    display: inline-block;
+    margin: 0.6rem 0 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.35rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+  .receipt-summary {
+    display: grid;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+  .receipt-summary div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.35fr) 1fr;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.65rem;
+  }
+  .receipt-summary div:last-child { border-bottom: 0; }
+  .receipt-summary :where(dt, dd) { margin: 0; }
+  .receipt-summary dt { color: var(--color-muted); font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; }
+  .receipt-events { display: grid; gap: 0.7rem; padding-left: 1.4rem; }
+  .receipt-events li { border-top: 1px solid var(--color-line); padding: 0.65rem 0; }
+  .receipt-events p { margin: 0.25rem 0; }
+  .privacy-note { margin-top: 2rem; color: var(--color-muted); font-size: 0.8rem; }
+</style>
