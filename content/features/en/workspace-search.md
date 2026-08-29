@@ -19,6 +19,14 @@ summary: Search file names, text, or symbols across a workspace.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 16
+    text: "Evidence checked 2026-08-29: Warp Codebase Context indexes a local Git-tracked repository and grounds agent answers in files, functions, and line numbers; without indexing, agents can navigate code with terminal search commands."
+  - id: 15
+    text: "Evidence checked 2026-08-29: Devin's hosted session searches the selected codebase for relevant files and code snippets during interactive planning; the fast initial search uses a main-branch index and can miss recent changes or other branches."
+  - id: 14
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0's default Analyze extension explores directory structure, inspects code symbols, and tracks a named symbol across files in a local codebase."
+  - id: 13
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant Chat mode gathers relevant codebase context and lets the user search context elements, file names, and symbols, but the documentation does not establish an arbitrary full-text workspace-search tool."
   - id: 1
     text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
   - id: 2
@@ -144,7 +152,123 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Tool Calling
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains — Chat with AI
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Codebase Mode; Add Attachment; @file; @symbol; @projectStructure"
+  - id: goose-codebase-analysis-v1-48
+    title: Goose — Codebase Analysis at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/guides/codebase-analysis.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Analyze extension; directory, file, and focus modes"
+  - id: devin-interactive-planning-search
+    title: Cognition — Interactive Planning
+    href: https://docs.devin.ai/work-with-devin/interactive-planning
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How Interactive Planning Works; Initial Assessment"
+  - id: warp-codebase-context
+    title: Warp — Codebase Context
+    href: https://docs.warp.dev/agents/capabilities/codebase-context/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Get started; Indexing your codebase"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [16]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Codebase Context indexes Git-tracked local repositories and excludes ignored files"
+          - type: policy
+            value: "Codebase Context can be disabled; terminal grep and sed remain documented navigation fallbacks"
+          - type: runtime
+            value: "WSL is unsupported for Codebase Context while SSH requires Warp's SSH extension"
+        evidence:
+          - resourceId: warp-codebase-context
+            type: documented
+            observedAt: 2026-08-29
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [15]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Devin hosted web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the fast initial assessment searches an index of the repository's main branch"
+          - type: policy
+            value: "very recent changes and other branches can be missed by the index but can be explored more deeply later in planning"
+        evidence:
+          - resourceId: devin-interactive-planning-search
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "analysis is scoped to local codebase paths"
+          - type: format
+            value: "semantic file and symbol analysis is limited to documented supported programming languages"
+          - type: policy
+            value: ".gitignore excludes ignored paths from analysis by default"
+          - type: runtime
+            value: "directory and call-graph depth are configurable and default to bounded values"
+        evidence:
+          - resourceId: goose-codebase-analysis-v1-48
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: partial
+        noteIds: [13]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "limited to Chat mode context gathering and attachment selectors rather than a documented autonomous full-text search tool"
+          - type: policy
+            value: "Codebase Mode excludes .gitignore and .aiignore paths"
+          - type: runtime
+            value: "large files and folders can be trimmed to fit the selected model's context window"
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

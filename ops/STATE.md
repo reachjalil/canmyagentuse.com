@@ -4,18 +4,18 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-08-29
-- Cycle: 0 (operations pack initialized; research cycles have not started)
+- Cycle: 1 complete locally; green ship checks pending
 - Phase: A — harness floor
-- Coverage: 621/3,534 current-track cells sourced (17.6%)
+- Coverage: 757/3,534 current-track cells sourced (21.4%); Cycle-1 delta +136
 - Preview: 0/3,192 sourced (0.0%)
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: `3e17bd8`
-- Last commit pushed: yes (`origin/main` matched at initialization)
-- Last content deploy: unknown; verify before assuming live parity
-- News counter: 0/approximately 150 newly sourced cells since initialization
-- In-flight briefs: none
-- Owned dirty paths from an interrupted cycle: none
+- Last completed catalog commit: pending Cycle-1 reconciliation
+- Last commit pushed: no; Cycle 1 is not committed yet
+- Last content deploy: prior operations-pack deploy only; Cycle 1 pending
+- News counter: 136/approximately 150 newly sourced cells since initialization
+- In-flight briefs: Cycle 2 Goose MCP sweep; Cycle 2 Agent Skills positive probe
+- Owned dirty paths from an interrupted cycle: 26 feature files plus `ops/BACKLOG.md`, `ops/LOG.md`, `ops/SOURCES.md`, and `ops/STATE.md`
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: run the bootstrap protocol in `ops/MISSION.md`, then dispatch 5–8 briefs from the current Phase-A queue
+- Next action: finish Cycle-1 check/test/build/commit/push/deploy, then triage the in-flight Cycle-2 briefs

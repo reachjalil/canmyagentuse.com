@@ -19,6 +19,12 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 6
+    text: "Evidence checked 2026-08-29: Replit General Agent executes code as part of its reasoning in the hosted project environment, with documented compatibility limits in Replit's Nix environment."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0 can run model-generated JavaScript in a custom Deno-based runtime through its opt-in built-in Code Mode extension."
+  - id: 4
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant Chat mode provides a Run Snippet action that executes generated code in the host JetBrains IDE environment."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop runs OpenCode and the OpenWork server against a selected workspace and documents shell execution as a permission-sensitive primitive; default sandbox isolation is not established."
   - id: 2
@@ -141,7 +147,105 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: What makes Grok Bot different
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains — Chat with AI
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Run Snippet response action"
+  - id: goose-code-mode-extension-v1-48
+    title: Goose — Code Mode Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/code-mode-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Configuration and Deno-based execution runtime"
+  - id: goose-code-mode-guide-v1-48
+    title: Goose — Code Mode at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/guides/managing-tools/code-mode.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tool discovery, composition, execution, and result limits"
+  - id: replit-general-agent-runtime
+    title: Replit — General Agent
+    href: https://docs.replit.com/features/agent/general-agent
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What to expect"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "execution occurs in the Replit-hosted environment that General Agent sets up for the project"
+          - type: runtime
+            value: "some technologies may not be fully supported in Replit's Nix environment"
+        evidence:
+          - resourceId: replit-general-agent-runtime
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "generated JavaScript runs in Goose's custom Deno-based Port of Context runtime"
+          - type: policy
+            value: "the built-in code_execution extension is disabled by default and must be enabled"
+          - type: runtime
+            value: "Code Mode is scoped to programmatic discovery, composition, and invocation of enabled tools"
+          - type: format
+            value: "only text content from tool results is supported; image and binary results are ignored"
+        evidence:
+          - resourceId: goose-code-mode-extension-v1-48
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-code-mode-guide-v1-48
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "execution uses the host IDE and project environment; no JetBrains-provided isolated sandbox is documented"
+          - type: policy
+            value: "execution is initiated by the operator through Run Snippet"
+          - type: runtime
+            value: "runnable languages and dependencies depend on the selected JetBrains IDE, project SDK, and local tooling"
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

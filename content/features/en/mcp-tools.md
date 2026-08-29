@@ -30,6 +30,8 @@ parent: mcp
 related: [mcp-resources, mcp-prompts, mcp-apps]
 highlight: true
 notes:
+  - id: 28
+    text: "Evidence checked 2026-08-29: current Devin Desktop documentation says both default Devin Local and legacy Cascade discover and invoke tools from configured MCP servers, with permission and organization controls."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT developer mode can scan and invoke tools from custom remote MCP apps on ChatGPT web, but full MCP is a beta rollout limited by plan and workspace controls."
   - id: 2
@@ -309,6 +311,22 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Cascade MCP scope; adding a new MCP; configuring MCP tools
+  - id: cognition-desktop-local-mcp-tools
+    title: Cognition — MCP Overview
+    href: https://docs.devin.ai/cli/extensibility/mcp/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How It Works; Tool discovery; Tool execution; Permission Control"
+  - id: cognition-desktop-cascade-mcp-tools
+    title: Cognition — Model Context Protocol for Cascade
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding a new MCP; Configuring MCP tools; General Information"
 support:
   - harness: grok-web
     versions:
@@ -773,22 +791,31 @@ support:
   - harness: windsurf
     versions:
       - track: current
-        status: partial
-        noteIds: [27]
+        status: yes
+        noteIds: [28]
         target:
           kind: dated-documentation
-          revision: current Devin Desktop Cascade documentation observed 2026-08-28
-          observedAt: 2026-08-28
+          revision: current Devin Desktop MCP documentation observed 2026-08-29
+          observedAt: 2026-08-29
         environmentProfile: local-default
         qualifiers:
+          - type: host-role
+            value: default Devin Local and legacy Cascade both invoke MCP tools through separate configuration paths
+          - type: transport
+            value: Devin Local supports stdio and Streamable HTTP with documented SSE fallback; Cascade documents stdio, Streamable HTTP, and SSE
+          - type: auth
+            value: remote servers can use OAuth, with separate OAuth sessions for the two MCP clients
           - type: runtime
-            value: the documented desktop MCP configuration applies to the legacy Cascade agent; new tabs default to Devin Local with a separate config path
+            value: Devin Local MCP tools participate in its allow, deny, and ask permission system
           - type: policy
-            value: team administrators can disable MCP access or allowlist servers
+            value: enterprise administrators can disable MCP or enforce registries and allowlists
         evidence:
-          - resourceId: windsurf-cascade-mcp-current
+          - resourceId: cognition-desktop-local-mcp-tools
             type: documented
-            observedAt: 2026-08-28
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-cascade-mcp-tools
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 MCP tools are operations advertised by a Model Context Protocol server and made available for a model or agent to invoke.

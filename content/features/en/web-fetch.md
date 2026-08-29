@@ -19,6 +19,14 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 8
+    text: "Evidence checked 2026-08-29: Replit Agent's built-in Web Search fetches specified websites or URLs and reads entire live web pages, documentation, and authoritative data points with citations."
+  - id: 7
+    text: "Evidence checked 2026-08-29: a public URL attached to a Warp agent prompt is scraped and its extracted page text is surfaced to the model; only the specified page is processed."
+  - id: 6
+    text: "Evidence checked 2026-08-29: Devin Agent mode browses the web during hosted sessions, and Cognition documents its browser navigating live documentation and downloading or uploading information."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0 documents a Fetch extension that retrieves and processes live web or API content from specified URLs after separate installation and configuration."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; support for web search alone does not prove URL-fetch support.
   - id: 2
@@ -64,7 +72,119 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: URL approval
+  - id: goose-fetch-v1-48
+    title: Goose — Fetch Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/fetch-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI setup and live JSON API retrieval example"
+  - id: devin-browser-web-retrieval
+    title: Cognition — Introducing Devin
+    href: https://docs.devin.ai/get-started/devin-intro
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "General Product Features — Browser"
+  - id: warp-url-context
+    title: Warp — URLs as Context
+    href: https://docs.warp.dev/agents/local-agents/agent-context/urls-as-context/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Referencing websites via URLs"
+  - id: replit-agent-web-fetch
+    title: Replit — Web Search
+    href: https://docs.replit.com/features/agent/web-search
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Features; Usage; Content fetching"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: "built-in content fetching retrieves page content but does not establish clicks, form entry, or persistent browser-session automation"
+        evidence:
+          - resourceId: replit-agent-web-fetch
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "only publicly accessible pages are supported"
+          - type: runtime
+            value: "only the exact user-provided URL is processed; the agent does not follow links or crawl beyond it"
+          - type: runtime
+            value: "native web search is a separate configurable capability"
+        evidence:
+          - resourceId: warp-url-context
+            type: documented
+            observedAt: 2026-08-29
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Devin hosted web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "live-page retrieval is browser-mediated rather than a dedicated raw HTTP-fetch API"
+          - type: auth
+            value: "protected sites can require credentials, cookies, multifactor authentication, or operator assistance"
+        evidence:
+          - resourceId: devin-browser-web-retrieval
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires the separately configured Fetch MCP extension rather than the default Developer extension"
+          - type: runtime
+            value: "the documented setup requires uv and uvx"
+          - type: runtime
+            value: "the page says this extension does not work with Google models because its schema uses format uri"
+          - type: policy
+            value: "API authentication and network policy depend on the requested endpoint and local environment"
+        evidence:
+          - resourceId: goose-fetch-v1-48
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

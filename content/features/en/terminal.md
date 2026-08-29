@@ -20,6 +20,12 @@ summary: Propose or execute shell commands in a project environment.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 18
+    text: "Evidence checked 2026-08-29: Replit Agent runs commands in the selected project, with General Agent setting up and operating within a Replit-hosted execution environment."
+  - id: 17
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0's default Developer extension exposes a shell tool that runs commands locally with the current user's privileges and the Goose process's inherited environment."
+  - id: 16
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant Chat mode generates terminal commands and exposes an operator-invoked Run Snippet action that executes a generated command; autonomous terminal-tool access is not documented for plain AI Assistant."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents Bash as a permission-controlled tool and provides CLI modes for agentic command execution."
   - id: 2
@@ -164,7 +170,103 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: /run
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains — Chat with AI
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Terminal-command responses and Run Snippet"
+  - id: goose-developer-v1-48
+    title: Goose — Developer Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/developer-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Developer tools; shell; security and access control"
+  - id: replit-agent-commands
+    title: Replit — Introduction to AI
+    href: https://docs.replit.com/learn/foundations/introduction-to-ai
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Replit Agent"
+  - id: replit-general-agent-runtime
+    title: Replit — General Agent
+    href: https://docs.replit.com/features/agent/general-agent
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Just start chatting; What to expect"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [18]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "commands run in the Replit-hosted project environment rather than a terminal on the operator's local computer"
+        evidence:
+          - resourceId: replit-agent-commands
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: replit-general-agent-runtime
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [17]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "commands run locally with the current user's privileges"
+          - type: runtime
+            value: "environment variables are inherited from the Goose process; desktop-launched and terminal-launched environments can differ"
+          - type: policy
+            value: "the Developer extension is enabled by default and approval behavior depends on permission mode"
+          - type: policy
+            value: "shell commands can receive sensitive inherited environment variables"
+        evidence:
+          - resourceId: goose-developer-v1-48
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [16]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "command generation and execution are scoped to Chat mode in the local IDE"
+          - type: policy
+            value: "the operator invokes Run Snippet; plain AI Assistant is not documented as autonomously invoking a shell"
+          - type: runtime
+            value: "shell, working directory, and commands come from the host IDE and project environment"
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

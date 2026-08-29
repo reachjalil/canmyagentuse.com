@@ -220,31 +220,30 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-29 for cycle 1. Dispatch the first 5–8 non-conflicting
-briefs, then refill from live coverage and fresh attempts.
+Queue rewritten: 2026-08-29 for cycle 2. Skip the Cycle-1 attempts until their
+30-day cooldown expires unless a first-party changelog directly reopens them.
 
-1. `chatgpt-cli` × Phase-A workspace/tools bundle (10 cells). First establish
-   that first-party docs actually describe this exact surface; do not substitute
-   Codex CLI.
-2. `amp-cli` × Phase-A instructions/interoperability bundle (10 cells), using
-   Amp docs and exact product terminology.
-3. `goose` × Phase-A workspace/tools bundle (10 cells), using maintained AAIF
-   docs/repository pages.
-4. `jetbrains-ai` × Phase-A workspace/tools bundle (10 cells), scoped to AI
-   Assistant rather than Junie.
-5. `aider` × Phase-A runtime/context/input/governance bundle (10 cells), keeping
-   local CLI and model-provider claims separate.
-6. `windsurf` × Phase-A instructions/interoperability bundle (10 cells),
-   checking current Windsurf/Cognition documentation ownership.
-7. `copilot-web` × Phase-A runtime/context/input/governance bundle (10 cells),
-   separating Microsoft Copilot web from GitHub Copilot cloud agent.
-8. `chrome-webmcp-preview` × `webmcp` atomic sweep (7 cells), with origin-trial
-   and preview qualifiers; current and preview tracks still need separate
-   evidence decisions.
-9. `devin-web` × Phase-A workspace/tools bundle (10 cells), scoped to hosted
-   Devin sessions.
-10. Feature probe: `output-token-limit` across the best-documented product
-    surfaces. Reject raw model/API output limits and record plan/mode/reset scope.
+1. `goose` × all 24 atomic MCP rows, pinned to v1.48.0; in flight at the
+   Cycle-1 ship boundary.
+2. Positive-only Agent Skills probe across exact catalog surfaces named by the
+   maintained Agent Skills showcase; in flight. The showcase is explicitly
+   non-exhaustive, so omissions never support `no`.
+3. `chatgpt-cli` × Phase-A workspace/tools bundle. Establish exact product
+   identity before sourcing anything; do not substitute Codex CLI.
+4. `opencode` × Phase-A runtime/context/input/governance bundle.
+5. `replit-agent` × Phase-A instructions/interoperability bundle, scoped to
+   the hosted Project Editor and Agent.
+6. `warp` × Phase-A runtime/context/input/governance bundle, keeping local
+   desktop and cloud-agent environments separate.
+7. `devin-web` × Phase-A instructions/interoperability bundle, excluding
+   Devin Desktop and Devin Local.
+8. `mcp-apps` feature probe using the maintained MCP extension matrix; map
+   only exact surfaces and park ambiguous family-level names.
+9. `output-token-limit` feature probe across best-documented exact product
+   surfaces; reject model/API limits projected onto harnesses.
+10. `copilot-web` × Phase-A runtime/context/input/governance bundle,
+    separating consumer Microsoft Copilot from Microsoft 365 and GitHub
+    Copilot products.
 
 ## Ledger candidates
 
@@ -252,7 +251,11 @@ Contradictions awaiting possible deliberate promotion to
 `packages/catalog/src/atlas.ts` belong here. Routine cycles append candidates
 but do not edit the atlas.
 
-No candidates were open at bootstrap.
+- feature=native-rules harness=windsurf first_seen=2026-08-29
+  src1=https://windsurf.com
+  src2=https://docs.devin.ai/desktop/getting-started
+  issue=The active marketing site retains Windsurf branding while current installation documentation calls the package Devin Desktop and labels Windsurf transitional.
+  next=Obtain a first-party product-identity or migration statement that defines the durable catalog name and whether the exact desktop surface changed.
 
 Use this record shape:
 

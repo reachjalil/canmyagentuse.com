@@ -19,6 +19,14 @@ summary: Propose or apply file changes as diffs or patches.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 11
+    text: "Evidence checked 2026-08-29: Replit's Task board lets an operator open the diff for a ready Agent task and apply its isolated changes to the main project or dismiss them."
+  - id: 10
+    text: "Evidence checked 2026-08-29: Warp's local Code Review panel displays agent and Git changes as diffs, supports direct editing and application, reverts individual hunks, and discards file- or branch-scope changes."
+  - id: 9
+    text: "Evidence checked 2026-08-29: Devin logs code edits in the hosted session's Progress view and provides an embedded IDE diff view for reviewing the resulting file changes."
+  - id: 8
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant presents generated refactoring through See Diff and Apply, and current Chat mode lets the user navigate proposed changes, accept or discard all, or revert an individual change."
   - id: 1
     text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
   - id: 2
@@ -86,7 +94,128 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Example transcript showing generated diff and applied edit
+  - id: jetbrains-ai-refactor-diff
+    title: JetBrains — Refactor Code with AI Assistant
+    href: https://www.jetbrains.com/guide/ai/tips/refactor-code/
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "See Diff and Apply"
+  - id: jetbrains-ai-chat-change-review
+    title: JetBrains — Chat with AI
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Review, accept, discard, and revert proposed changes"
+  - id: devin-session-diff-review
+    title: Cognition — Devin Session Tools
+    href: https://docs.devin.ai/work-with-devin/devin-session-tools
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Progress Tab; Devin IDE; Integration and Workflow"
+  - id: warp-code-review
+    title: Warp — Code Review panel
+    href: https://docs.warp.dev/code/code-review
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Reviewing diffs; Reverting diffs; Directly editing code diffs"
+  - id: replit-agent-task-diff
+    title: Replit — Task board
+    href: https://docs.replit.com/features/agent/task-board
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Ready; task settings"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the diff represents changes produced in a task's isolated hosted project copy"
+          - type: policy
+            value: "ready-task changes can be reviewed and either applied to the main project or dismissed"
+        evidence:
+          - resourceId: replit-agent-task-diff
+            type: documented
+            observedAt: 2026-08-29
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the panel operates in a local Git repository and compares uncommitted changes, the current branch against main, or arbitrary branches"
+          - type: policy
+            value: "generated-diff application can require review according to Agent Profile permissions"
+        evidence:
+          - resourceId: warp-code-review
+            type: documented
+            observedAt: 2026-08-29
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Devin hosted web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the diff view presents edits made in Devin's hosted repository workspace"
+          - type: policy
+            value: "the documented workflow reviews changes after Devin edited files rather than requiring a pre-application approval gate"
+        evidence:
+          - resourceId: devin-session-diff-review
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the reviewed plain-Chat workflow applies a suggestion to the currently open file"
+          - type: policy
+            value: "the operator reviews and accepts or rejects changes"
+          - type: runtime
+            value: "the evidence does not establish patch-file export, multi-file patch application, or autonomous agent edits"
+        evidence:
+          - resourceId: jetbrains-ai-refactor-diff
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: jetbrains-ai-chat-change-review
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

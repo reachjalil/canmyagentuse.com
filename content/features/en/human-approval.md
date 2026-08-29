@@ -19,6 +19,8 @@ summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 14
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 requests confirmation before suggested shell commands and before creating or editing files outside the chat's established editable set."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop surfaces permission requests and documents allow-once, always-allow, and deny responses."
   - id: 2
@@ -150,7 +152,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Plan the work
+  - id: aider-approval-v0-86
+    title: Aider source — approval gates at v0.86.0
+    href: https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/base_coder.py
+    kind: docs
+    publisher: Aider AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "allowed_to_edit creation and outside-chat confirmations; handle_shell_commands command confirmation"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: release
+          revision: Aider v0.86.0 commit a4be6ccd87ebaa59b361f3f028d116ce1761b626
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "ordinary edits to files already added to the chat are not individually gated; confirmation covers suggested shell commands, new files, and files outside the editable set"
+        evidence:
+          - resourceId: aider-approval-v0-86
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

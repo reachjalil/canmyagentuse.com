@@ -20,6 +20,10 @@ summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 19
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0 enables its Developer extension by default and provides file-write and exact-text-edit tools for accessible local files; permission mode controls whether operations require approval."
+  - id: 18
+    text: "Evidence checked 2026-08-29: JetBrains AI Assistant Chat mode reads user-selected project files and folders as context, applies a generated suggestion to the open file, and creates a new file from a generated snippet."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Desktop extensions can bundle local MCP servers that expose files or applications, but access depends on the installed extension and its permissions."
   - id: 2
@@ -183,7 +187,67 @@ resources:
     publisher: Replit
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: jetbrains-ai-chat-mode
+    title: JetBrains — Chat with AI
+    href: https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Codebase Mode; Add Attachment; response actions"
+  - id: goose-developer-v1-48
+    title: Goose — Developer Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/developer-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Developer tools; write; edit; access control"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [19]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local files accessible to the user running Goose; access is not confined to an isolated hosted workspace"
+          - type: policy
+            value: "the Developer extension is enabled by default and approval behavior depends on Goose permission mode"
+          - type: policy
+            value: "Autonomous mode can modify accessible files without per-action approval"
+        evidence:
+          - resourceId: goose-developer-v1-48
+            type: documented
+            observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [18]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "scoped to AI Assistant Chat mode in the currently open JetBrains IDE project"
+          - type: policy
+            value: "Codebase Mode omits .gitignore and .aiignore paths; manually attaching a restricted file bypasses .aiignore"
+          - type: runtime
+            value: "large attached files or folders can be trimmed to fit the model context window"
+          - type: policy
+            value: "applying edits and creating files are explicit operator actions in Chat mode"
+        evidence:
+          - resourceId: jetbrains-ai-chat-mode
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-desktop
     versions:
       - track: current

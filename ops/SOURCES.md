@@ -495,3 +495,80 @@ unknown-by-default cells, and monogram fallback.
 9. **Trae** — https://docs.trae.ai/ — establish international/CN and IDE/web
    surface identity before admission; https://docs.trae.cn/ is a separate
    first-party locale/product documentation root.
+
+## Cycle 1 discoveries — 2026-08-29
+
+These exact first-party pages were added to the research ladder during Cycle 1.
+They remain leads until an individual feature cell cites and scopes them.
+
+### Amp
+
+- https://ampcode.com/docs/customize/agents-md
+- https://ampcode.com/docs/customize/skills
+- https://ampcode.com/news/mcp-in-orbs
+- https://ampcode.com/docs/threads
+
+### Aider
+
+- https://aider.chat/docs/troubleshooting/models-and-keys.html
+- https://aider.chat/docs/usage/images-urls.html
+- https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626
+
+### Goose
+
+- https://github.com/aaif-goose/goose/tree/25021517f12cab87c94bed0874fe7d28168dc264/documentation
+- https://github.com/aaif-goose/goose/releases/tag/v1.48.0
+
+### JetBrains AI Assistant
+
+- https://www.jetbrains.com/help/ai-assistant/chat-mode.html
+- https://www.jetbrains.com/help/ai-assistant/ai-in-vcs-integration.html
+- https://www.jetbrains.com/guide/ai/tips/refactor-code/
+
+### Windsurf / Devin Desktop transition
+
+- https://docs.devin.ai/desktop/getting-started
+- https://docs.devin.ai/desktop/cascade/agents-md
+- https://docs.devin.ai/desktop/cascade/memories
+- https://docs.devin.ai/desktop/cascade/skills
+- https://docs.devin.ai/desktop/cascade/mcp
+- https://docs.devin.ai/cli/extensibility/rules
+- https://docs.devin.ai/cli/extensibility/skills/overview
+- https://docs.devin.ai/cli/extensibility/mcp/overview
+- https://docs.devin.ai/cli/extensibility/mcp/configuration
+
+### Devin hosted sessions
+
+- https://docs.devin.ai/work-with-devin/interactive-planning
+- https://docs.devin.ai/use-cases/gallery/figma-design-implementation
+- https://docs.devin.ai/integrations/gh
+- https://docs.devin.ai/get-started/devin-intro
+- https://docs.devin.ai/work-with-devin/computer-use
+
+### Warp
+
+- https://docs.warp.dev/agents/capabilities/codebase-context/
+- https://docs.warp.dev/agents/capabilities/agent-profiles-permissions/
+- https://docs.warp.dev/agents/capabilities/full-terminal-use/
+- https://docs.warp.dev/code/overview
+- https://docs.warp.dev/code/code-review
+- https://docs.warp.dev/guides/agent-workflows/how-to-review-prs-like-a-senior-dev/
+- https://docs.warp.dev/agents/local-agents/agent-context/urls-as-context/
+- https://docs.warp.dev/agents/capabilities/computer-use/
+- https://docs.warp.dev/agents/capabilities/computer-use/browser-use/
+
+### Replit Agent
+
+- https://docs.replit.com/learn/foundations/introduction-to-ai
+- https://docs.replit.com/features/agent/general-agent
+- https://docs.replit.com/features/agent/task-board
+- https://docs.replit.com/features/agent/web-search
+- https://docs.replit.com/features/agent/app-testing
+- https://docs.replit.com/features/workspace-tools/git-interface
+- https://docs.replit.com/chat/connectors
+
+### Maintained standards matrices
+
+- https://agent-plugins.org/compatible-clients
+- https://agentskills.io/clients
+- https://modelcontextprotocol.io/extensions/client-matrix

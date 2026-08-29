@@ -19,6 +19,10 @@ summary: Connect to external services authorized by the user or organization.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 8
+    text: "Evidence checked 2026-08-29: the current desktop product connects to authorized external APIs, databases, issue trackers, and services through local or remote MCP servers with documented authentication and organization controls."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Amp documents preconfigured and custom hosted MCP connections for the TUI, with Streamable HTTP, OAuth or bearer-token authentication, and personal or workspace configuration."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents a Grok connector catalog for services such as Box, GitHub, Notion, and Vercel, plus custom remote MCP connectors for publicly reachable servers."
   - id: 2
@@ -155,7 +159,82 @@ resources:
     publisher: Replit
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: amp-mcp-connections
+    title: Amp — MCP in Orbs
+    href: https://ampcode.com/news/mcp-in-orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Hosted MCP connections, supported surfaces, authentication, and scopes"
+  - id: cognition-desktop-local-mcp
+    title: Cognition — MCP Overview
+    href: https://docs.devin.ai/cli/extensibility/mcp/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How It Works; Quick Example; Authentication"
+  - id: cognition-desktop-mcp-config
+    title: Cognition — MCP Configuration
+    href: https://docs.devin.ai/cli/extensibility/mcp/configuration
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Examples; Authentication; organization restrictions"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "default Devin Local supports stdio and Streamable HTTP with SSE fallback; legacy Cascade also documents explicit SSE configuration"
+          - type: auth
+            value: "remote services can use OAuth, headers, environment variables, or documented file-backed secret interpolation"
+          - type: policy
+            value: "enterprise teams can disable MCP or enforce registries and allowlists"
+          - type: runtime
+            value: "examples include GitHub, Notion, Linear, Atlassian, Slack, and PostgreSQL services"
+          - type: host-role
+            value: "default Devin Local and legacy Cascade maintain separate MCP configuration and OAuth state"
+        evidence:
+          - resourceId: cognition-desktop-local-mcp
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-mcp-config
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: Amp MCP in Orbs release dated 2026-08-19
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "the reviewed connector path uses hosted MCP servers over Streamable HTTP"
+          - type: auth
+            value: "remote services can authenticate with OAuth or bearer tokens"
+          - type: policy
+            value: "personal, workspace, enterprise-registry, and workspace-policy settings can determine available servers"
+          - type: runtime
+            value: "service coverage depends on the selected preconfigured server or custom MCP endpoint rather than a fixed built-in app catalog"
+        evidence:
+          - resourceId: amp-mcp-connections
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

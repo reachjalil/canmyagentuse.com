@@ -19,6 +19,12 @@ summary: Control a browser for navigation, clicks, forms, and page reading.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 9
+    text: "Evidence checked 2026-08-29: Replit Agent App Testing navigates a real project-preview browser, clicks controls, enters mock data, and validates workflows, but it is restricted to specified Replit web-app types and can require operator takeover."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Warp's browser-driving tools are confined to Computer Use in sandboxed cloud environments, and the documentation explicitly says Computer Use is unavailable in local interactive terminal sessions."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0 documents a Chrome DevTools extension for browser navigation, login interaction, button clicks, DOM queries, and web-performance inspection."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop can open pages, click, fill forms, read content, and take screenshots through the enabled first-party OpenWork Browser."
   - id: 2
@@ -82,7 +88,73 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Testing process and key capabilities
+  - id: goose-chrome-devtools-v1-48
+    title: Goose — Chrome DevTools Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/chrome-devtools-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI configuration and browser-automation examples"
+  - id: warp-local-computer-use-exclusion
+    title: Warp — Computer Use for agents
+    href: https://docs.warp.dev/agents/capabilities/computer-use/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Capabilities — explicit local-session exclusion; Browser use"
+  - id: replit-app-testing-current
+    title: Replit — App Testing
+    href: https://docs.replit.com/features/agent/app-testing
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How App Testing works; Testing Process; Key capabilities; Usage; Take over"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: no
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "status is scoped to the local Warp agent in the desktop app; cloud agents are a separate hosted environment"
+          - type: runtime
+            value: "bundled Chromium, visual interaction, and Playwright control are documented only for Computer Use cloud environments"
+        evidence:
+          - resourceId: warp-local-computer-use-exclusion
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [7]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires adding and enabling the Chrome DevTools MCP extension"
+          - type: runtime
+            value: "requires Node.js and a compatible local Chrome environment"
+          - type: host-role
+            value: "scope is Chrome-browser automation rather than arbitrary desktop-application control"
+          - type: policy
+            value: "site authentication and permitted interactions depend on the local browser and target site"
+        evidence:
+          - resourceId: goose-chrome-devtools-v1-48
+            type: documented
+            observedAt: 2026-08-29
   - harness: openwork-desktop
     versions:
       - track: current
@@ -181,24 +253,28 @@ support:
   - harness: replit-agent
     versions:
       - track: current
-        status: yes
-        noteIds: [6]
+        status: partial
+        noteIds: [9]
         target:
-          kind: dated-documentation
-          revision: current Replit Agent App Testing documentation
-          observedAt: 2026-08-28
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
         environmentProfile: hosted-default
         qualifiers:
           - type: runtime
-            value: automation is limited to testing web applications built in the Replit project preview
-          - type: plan
-            value: App Testing is enabled for Economy or Power mode and disabled in Lite mode
+            value: native App Testing is limited to the web application built in the Replit project's browser preview
+          - type: runtime
+            value: current documentation limits support to Full Stack JavaScript and Streamlit Python web applications
+          - type: feature-flag
+            value: App Testing is an advanced Agent setting and Agent decides when testing is appropriate
+          - type: auth
+            value: login or CAPTCHA roadblocks can require the operator to use Take over
           - type: policy
-            value: currently limited to Full Stack JavaScript and Streamlit Python web applications; login or CAPTCHA roadblocks can require takeover
+            value: exact mode or plan availability is omitted because current Replit pages use conflicting mode names
         evidence:
-          - resourceId: replit-browser-automation
+          - resourceId: replit-app-testing-current
             type: documented
-            observedAt: 2026-08-28
+            observedAt: 2026-08-29
 ---
 
 Drive a browser for clicks, forms, and navigation.

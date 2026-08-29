@@ -28,6 +28,8 @@ parent: instructions
 related: []
 highlight: false
 notes:
+  - id: 9
+    text: "Evidence checked 2026-08-29: Amp CLI automatically includes AGENTS.md guidance from the working directory or editor workspace root, parent directories, and relevant subtrees, with additional documented personal and system-wide locations."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenAI documents automatic AGENTS.md discovery from the project root for Codex."
   - id: 2
@@ -113,7 +115,36 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Project Instructions and Instruction File Support
+  - id: amp-agents-md
+    title: Amp — AGENTS.md
+    href: https://ampcode.com/docs/customize/agents-md
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automatic inclusion; personal and system locations; Granular Guidance"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Amp AGENTS.md documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "working-directory or editor-workspace AGENTS.md files and parent files through the home directory are always included"
+          - type: runtime
+            value: "subtree AGENTS.md guidance loads when Amp reads a file within that subtree"
+          - type: runtime
+            value: "AGENT.md or CLAUDE.md can be fallbacks when a directory does not contain AGENTS.md"
+        evidence:
+          - resourceId: amp-agents-md
+            type: documented
+            observedAt: 2026-08-29
   - harness: codex-cli
     versions:
       - track: current

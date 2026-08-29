@@ -20,6 +20,12 @@ aliases: [GUI automation, visual browser, browser control]
 related: [browser-automation, screenshots]
 highlight: true
 notes:
+  - id: 10
+    text: "Evidence checked 2026-08-29: Replit Agent visually navigates, clicks, and enters mock data in a project-preview browser, but current documentation does not establish control of desktop applications or the hosted operating-system interface."
+  - id: 9
+    text: "Evidence checked 2026-08-29: Warp explicitly limits screenshot-informed Computer Use to sandboxed cloud environments and says it is unavailable in local interactive terminal sessions."
+  - id: 8
+    text: "Evidence checked 2026-08-29: on macOS, Goose CLI v1.48.0's opt-in Computer Controller uses screenshot-informed Peekaboo automation to identify interface elements, click, type, scroll, drag, navigate menus, and interact across desktop applications."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT Work can use a separate cloud browser to read pages, click, enter form data, and continue supported tasks, but access varies by paid plan, region, rollout, and workspace permission."
   - id: 2
@@ -87,7 +93,88 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Testing process and key capabilities
+  - id: goose-peekaboo-v1-48
+    title: Goose — Computer control with Peekaboo at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/blog/2026-04-29-computer-controller-peekaboo/index.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Screenshot, identify, click, and type loop"
+  - id: goose-computer-controller-v1-48
+    title: Goose — Computer Controller Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/computer-controller-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI configuration and platform behavior"
+  - id: warp-local-computer-use-exclusion
+    title: Warp — Computer Use for agents
+    href: https://docs.warp.dev/agents/capabilities/computer-use/
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Capabilities — local-session exclusion; enabling Computer Use; setup and requirements"
+  - id: replit-app-testing-current
+    title: Replit — App Testing
+    href: https://docs.replit.com/features/agent/app-testing
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How App Testing works; Testing Process; Key capabilities; Usage; Take over"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: no
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "status is scoped to the local Warp agent; the separately hosted cloud-agent environment supports Computer Use"
+          - type: runtime
+            value: "cloud Computer Use is isolated from the user's local machine, credentials, and desktop"
+          - type: feature-flag
+            value: "cloud runs started from the Warp app have Computer use in Cloud Agents off by default"
+        evidence:
+          - resourceId: warp-local-computer-use-exclusion
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [8]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "full screenshot-informed Peekaboo automation is macOS-only"
+          - type: policy
+            value: "the built-in Computer Controller must be enabled"
+          - type: runtime
+            value: "Windows and Linux fall back to shell-oriented automation and are not equivalent to the cited visual behavior"
+          - type: runtime
+            value: "fast-changing or custom-rendered interfaces can be unreliable, and one screenshot is processed per see command"
+          - type: policy
+            value: "moving the mouse or changing UI state during automation can invalidate the visual target"
+        evidence:
+          - resourceId: goose-peekaboo-v1-48
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-computer-controller-v1-48
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current
@@ -208,23 +295,27 @@ support:
     versions:
       - track: current
         status: partial
-        noteIds: [7]
+        noteIds: [10]
         target:
-          kind: dated-documentation
-          revision: current Replit Agent App Testing documentation
-          observedAt: 2026-08-28
+          kind: hosted-observation
+          revision: 2026-08-29 Replit Agent web documentation observation
+          observedAt: 2026-08-29
         environmentProfile: hosted-default
         qualifiers:
           - type: runtime
-            value: visual interaction is limited to the Replit project browser preview and does not include general desktop-app or operating-system control
-          - type: plan
-            value: App Testing is enabled for Economy or Power mode and disabled in Lite mode
+            value: visual interaction is confined to the project browser preview and does not establish desktop-application or operating-system control
+          - type: runtime
+            value: current documentation limits support to Full Stack JavaScript and Streamlit Python web applications
+          - type: feature-flag
+            value: App Testing is an advanced Agent setting and is invoked selectively
+          - type: auth
+            value: login or CAPTCHA roadblocks can require operator takeover
           - type: policy
-            value: currently limited to Full Stack JavaScript and Streamlit Python web applications
+            value: exact mode or plan availability is omitted because current Replit pages use conflicting mode names
         evidence:
-          - resourceId: replit-app-testing-computer-use
+          - resourceId: replit-app-testing-current
             type: documented
-            observedAt: 2026-08-28
+            observedAt: 2026-08-29
 ---
 
 This row asks whether the exact harness can inspect a rendered visual state and perform direct input actions. It distinguishes broad computer or GUI control from a browser-only feedback loop.

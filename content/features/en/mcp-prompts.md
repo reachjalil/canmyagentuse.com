@@ -29,6 +29,10 @@ parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: false
 notes:
+  - id: 9
+    text: "Evidence checked 2026-08-29: both default Devin Local and legacy Cascade support MCP prompts; Devin Local exposes connected-server prompts as parameterized namespaced slash commands and fetches their returned messages."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Amp's 2026-08-19 MCP announcement explicitly says MCP Prompts are not supported across the announced Amp MCP surfaces, including the TUI."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code dynamically discovers MCP prompts and exposes them as `/mcp__servername__promptname` commands with documented argument handling."
   - id: 2
@@ -109,7 +113,76 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Supported Features
+  - id: amp-mcp-unsupported-primitives
+    title: Amp — MCP in Orbs
+    href: https://ampcode.com/news/mcp-in-orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP support across surfaces and explicitly unsupported primitives"
+  - id: cognition-desktop-local-mcp-prompts
+    title: Cognition — MCP Overview
+    href: https://docs.devin.ai/cli/extensibility/mcp/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Prompts as Slash Commands and argument mapping"
+  - id: cognition-desktop-cascade-mcp
+    title: Cognition — Model Context Protocol for Cascade
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "General Information"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "supported by both the default Devin Local agent and legacy Cascade"
+          - type: format
+            value: "Devin Local maps MCP prompts to namespaced slash commands with positional argument handling"
+          - type: auth
+            value: "prompts from an authenticated remote server are unavailable until the server is reauthenticated"
+          - type: policy
+            value: "organization restrictions can block an MCP server and its prompts"
+        evidence:
+          - resourceId: cognition-desktop-local-mcp-prompts
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-cascade-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: no
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: Amp MCP in Orbs release dated 2026-08-19
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "scoped to Amp's MCP client behavior in the TUI"
+          - type: runtime
+            value: "Amp supports MCP-provided tools but does not expose the protocol's reusable prompt-template primitive"
+        evidence:
+          - resourceId: amp-mcp-unsupported-primitives
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

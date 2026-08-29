@@ -20,6 +20,10 @@ specLabel: Common product term
 parent: instructions
 highlight: false
 notes:
+  - id: 5
+    text: "Evidence checked 2026-08-29: the current Devin Desktop product supports persistent global, workspace, personal, and directory-scoped instructions through AGENTS.md and native rule files, while retaining legacy Windsurf configuration paths."
+  - id: 4
+    text: "Evidence checked 2026-08-29: Amp CLI documents persistent project, personal, and system-wide instruction scopes through automatically loaded AGENTS.md files and Amp-specific configuration locations."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork's server owns workspace .opencode configuration, including skills, agents, commands, and other persistent OpenCode instruction primitives."
   - id: 2
@@ -127,7 +131,80 @@ resources:
     publisher: Warp
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: amp-custom-instructions
+    title: Amp — AGENTS.md
+    href: https://ampcode.com/docs/customize/agents-md
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automatic inclusion; personal instructions; system-wide instructions; Granular Guidance"
+  - id: cognition-desktop-local-rules
+    title: Cognition — Rules and AGENTS.md
+    href: https://docs.devin.ai/cli/extensibility/rules
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "AGENTS.md; Global Rules; Personal Rules; Rules in the .devin Directory"
+  - id: cognition-desktop-cascade-rules
+    title: Cognition — Cascade Memories
+    href: https://docs.devin.ai/desktop/cascade/memories
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Rules; Rules Discovery; storage locations and activation"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "global instructions load for every project, while project and personal instructions can be repository-scoped"
+          - type: host-role
+            value: "Devin Local uses the Devin CLI rules system and legacy Cascade uses the desktop Rules engine"
+          - type: format
+            value: "AGENTS.md, AGENTS.local.md, .devin/rules Markdown, and backward-compatible .windsurf/rules Markdown are documented"
+          - type: vendor-extension
+            value: "the current desktop documentation uses Devin Desktop naming while preserving legacy Windsurf paths"
+        evidence:
+          - resourceId: cognition-desktop-local-rules
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-cascade-rules
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current Amp AGENTS.md documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "project guidance can use repository-root or subtree AGENTS.md files"
+          - type: runtime
+            value: "personal guidance loads from documented Amp configuration locations"
+          - type: policy
+            value: "system-wide guidance can be installed in documented operating-system-specific locations"
+          - type: runtime
+            value: "AGENTS.md can reference conditional instruction files with globs"
+        evidence:
+          - resourceId: amp-custom-instructions
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-desktop
     versions:
       - track: current

@@ -29,6 +29,10 @@ parent: mcp
 related: [mcp-tools, mcp-prompts]
 highlight: false
 notes:
+  - id: 9
+    text: "Evidence checked 2026-08-29: current desktop documentation explicitly lists MCP resources for legacy Cascade, while the default Devin Local MCP documentation does not establish resource listing or reading."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Amp's 2026-08-19 MCP announcement explicitly says MCP Resources are not supported across the announced Amp MCP surfaces, including the TUI."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code lists and reads MCP resources, exposes them through `@` mentions, and fetches referenced resources into conversation context."
   - id: 2
@@ -109,7 +113,76 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Supported Features
+  - id: amp-mcp-unsupported-primitives
+    title: Amp — MCP in Orbs
+    href: https://ampcode.com/news/mcp-in-orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP support across surfaces and explicitly unsupported primitives"
+  - id: cognition-desktop-cascade-mcp
+    title: Cognition — Model Context Protocol for Cascade
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "General Information and legacy Cascade applicability"
+  - id: cognition-desktop-local-mcp
+    title: Cognition — MCP Overview
+    href: https://docs.devin.ai/cli/extensibility/mcp/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Default Devin Local MCP feature description"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "resources are explicitly documented only for legacy Cascade; new desktop tabs default to Devin Local, whose current MCP page documents tools and prompts but not resource reading"
+          - type: policy
+            value: "enterprise administrators can disable MCP or restrict servers through registries and allowlists"
+          - type: transport
+            value: "Cascade documents stdio, Streamable HTTP, and SSE transports"
+          - type: vendor-extension
+            value: "Cascade uses a backward-compatible Windsurf MCP configuration path inside the rebranded desktop product"
+        evidence:
+          - resourceId: cognition-desktop-cascade-mcp
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-local-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: no
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: Amp MCP in Orbs release dated 2026-08-19
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "scoped to Amp's MCP client behavior in the TUI rather than non-MCP built-in retrieval tools"
+          - type: runtime
+            value: "the same announcement documents MCP tools as supported, so this negative is specific to the Resources primitive"
+        evidence:
+          - resourceId: amp-mcp-unsupported-primitives
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

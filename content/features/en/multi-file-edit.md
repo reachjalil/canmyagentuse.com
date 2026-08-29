@@ -19,6 +19,12 @@ summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 7
+    text: "Evidence checked 2026-08-29: Warp documents multi-file and repository-wide agent changes, including creating a module and updating imports, changing matching files, and updating affected routes plus tests in one task."
+  - id: 6
+    text: "Evidence checked 2026-08-29: Cognition's documented Figma-to-code Devin session creates three project files and updates a fourth during one implementation task before verifying the result and opening a pull request."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Goose CLI v1.48.0's default Developer extension can create and edit multiple project files during one task, as shown by its first-party multi-file application-setup example."
   - id: 1
     text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
   - id: 2
@@ -64,7 +70,88 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Agentic loop across a project
+  - id: goose-developer-v1-48
+    title: Goose — Developer Extension at v1.48.0
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp/developer-mcp.md
+    kind: docs
+    publisher: Goose
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI example creating a multi-file JavaScript application"
+  - id: devin-multi-file-figma-session
+    title: Cognition — Figma to Pixel-Perfect Code
+    href: https://docs.devin.ai/use-cases/gallery/figma-design-implementation
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Devin extracts, builds, and verifies; Opens a PR; New files and Updated"
+  - id: warp-code-multi-file
+    title: Warp — Code overview
+    href: https://docs.warp.dev/code/overview
+    kind: docs
+    publisher: Warp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Examples of coding capabilities — Multi-file and repo-wide changes; Complex workflows"
 support:
+  - harness: warp
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Warp documentation updated 2026-08-27 and observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Warp's coding agent performs these changes in a local repository"
+          - type: policy
+            value: "application of generated diffs follows the active Agent Profile's Apply code diffs permission"
+        evidence:
+          - resourceId: warp-code-multi-file
+            type: documented
+            observedAt: 2026-08-29
+  - harness: devin-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Devin hosted web documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the cited workflow uses a linked Figma MCP for design input and applies resulting edits in the hosted repository workspace"
+        evidence:
+          - resourceId: devin-multi-file-figma-session
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: release
+          revision: Goose v1.48.0 release commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "changes use local filesystem tools across multiple files in one Goose session"
+          - type: policy
+            value: "file changes follow the configured Goose permission mode"
+          - type: runtime
+            value: "tools can modify any accessible file rather than only files inside an enforced project sandbox"
+        evidence:
+          - resourceId: goose-developer-v1-48
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

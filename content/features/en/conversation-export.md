@@ -20,6 +20,8 @@ aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
 notes:
+  - id: 7
+    text: "Evidence checked 2026-08-29: Amp CLI documents per-thread Markdown and full-JSON export commands for conversations containing prompts, replies, tool calls, and changed-file history."
   - id: 1
     text: "Evidence checked 2026-08-28: Individual Claude Free, Pro, and Max users can request an account export containing conversation and user data from either Claude web or Desktop. Team and Enterprise exports require the Primary Owner, the email link expires after 24 hours, and exported data cannot be re-imported into another personal account."
   - id: 2
@@ -82,7 +84,38 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Dedicated export tool; stored data scope
+  - id: amp-thread-export
+    title: Amp — Threads
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Thread definition; Continue a Thread Anywhere; Export a Thread"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current Amp Threads documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "amp threads markdown exports Markdown and amp threads export provides the full JSON form"
+          - type: runtime
+            value: "export is per thread identifier rather than a documented bulk account archive"
+          - type: policy
+            value: "full JSON export is available to the thread creator; Markdown is also exposed through the thread's .md URL"
+          - type: runtime
+            value: "the documentation names prompts, replies, tool calls, and changed files but does not provide a field-by-field JSON schema"
+        evidence:
+          - resourceId: amp-thread-export
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

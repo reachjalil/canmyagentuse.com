@@ -28,6 +28,10 @@ parent: agent-skills
 related: [custom-instructions, plugins]
 highlight: true
 notes:
+  - id: 11
+    text: "Evidence checked 2026-08-29: the current Devin Desktop product discovers and invokes SKILL.md packages for Cascade and default Devin Local, with automatic or explicit invocation and project, global, compatible, and enterprise scopes."
+  - id: 10
+    text: "Evidence checked 2026-08-29: Amp CLI discovers reusable skill directories containing SKILL.md, applies a documented source-precedence order, exposes skill metadata to the model, and loads the remaining instructions when a skill is invoked."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT supports OpenAI Skills following the Agent Skills open standard, but personal skill availability and administration vary by plan, workspace, and surface."
   - id: 2
@@ -119,7 +123,82 @@ resources:
     evidenceType: listed
     reviewedAt: 2026-08-28
     locator: Grok Bot
+  - id: amp-skills
+    title: Amp — Skills
+    href: https://ampcode.com/docs/customize/skills
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and Installing Skills; Skill Sources and Precedence; Skill Format"
+  - id: cognition-desktop-cascade-skills
+    title: Cognition — Desktop Skills
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "SKILL.md format, supporting resources, invocation, and scopes"
+  - id: cognition-desktop-local-skills
+    title: Cognition — Skills Overview
+    href: https://docs.devin.ai/cli/extensibility/skills/overview
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill triggers, compatible skills, and locations"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "legacy Cascade uses progressive disclosure and mention invocation; default Devin Local uses the CLI skills format with model or slash-command invocation"
+          - type: runtime
+            value: "project and global discovery includes .agents/skills, .devin/skills, and backward-compatible .windsurf/skills paths"
+          - type: format
+            value: "each skill is a directory centered on SKILL.md and can include supporting files"
+          - type: policy
+            value: "enterprise system-level skills can be deployed read-only by administrators"
+          - type: vendor-extension
+            value: "the current documentation maps legacy Windsurf skill paths into the rebranded desktop product"
+        evidence:
+          - resourceId: cognition-desktop-cascade-skills
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cognition-desktop-local-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current Amp Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "project, personal, Amp-specific, compatible, configured, built-in, and hosted skill sources participate in documented precedence"
+          - type: runtime
+            value: "the first matching frontmatter name wins according to source precedence"
+          - type: runtime
+            value: "only skill name and description load initially; the rest of SKILL.md loads on invocation"
+          - type: runtime
+            value: "existing sessions require a skills reload to rescan local and hosted sources"
+        evidence:
+          - resourceId: amp-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

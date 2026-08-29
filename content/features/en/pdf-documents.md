@@ -22,6 +22,8 @@ parent: file-inputs
 related: [office-document-input, upload-limits]
 highlight: false
 notes:
+  - id: 11
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 embeds application/pdf files as model input when the selected model's metadata advertises PDF-input support."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI's Grok FAQ lists PDF among the document types accepted directly in Grok Web chats and describes summarization, extraction, comparison, and analysis of uploaded files."
   - id: 2
@@ -122,7 +124,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Injecting file content with @{...}; multimodal support
+  - id: aider-pdf-v0-86
+    title: Aider source — PDF input at v0.86.0
+    href: https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/base_coder.py
+    kind: docs
+    publisher: Aider AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "get_images_message PDF capability checks and application/pdf message construction"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: partial
+        noteIds: [11]
+        target:
+          kind: release
+          revision: Aider v0.86.0 commit a4be6ccd87ebaa59b361f3f028d116ce1761b626
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "PDF input requires Aider to recognize supports_pdf_input or max_pdf_size_mb metadata for the selected model"
+          - type: runtime
+            value: "the reviewed source does not establish a general Aider file-size or page-count limit"
+        evidence:
+          - resourceId: aider-pdf-v0-86
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-web
     versions:
       - track: current

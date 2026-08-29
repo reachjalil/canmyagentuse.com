@@ -30,6 +30,8 @@ parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: true
 notes:
+  - id: 5
+    text: "Evidence checked 2026-08-29: Amp's 2026-08-19 MCP announcement explicitly says MCP Apps are not supported across the announced Amp MCP surfaces, including the TUI."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT can run MCP-backed apps with interactive in-chat UI, but developer mode and full MCP availability are limited by plan, workspace role, and beta rollout."
   - id: 2
@@ -75,7 +77,34 @@ resources:
     publisher: Microsoft
     evidenceType: documented
     reviewedAt: 2026-08-28
+  - id: amp-mcp-unsupported-primitives
+    title: Amp — MCP in Orbs
+    href: https://ampcode.com/news/mcp-in-orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP support across surfaces and explicitly unsupported primitives"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: no
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: Amp MCP in Orbs release dated 2026-08-19
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "scoped to Amp's TUI as an MCP host"
+          - type: runtime
+            value: "ordinary MCP tool invocation remains supported; this negative concerns the MCP Apps interactive-interface extension"
+        evidence:
+          - resourceId: amp-mcp-unsupported-primitives
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

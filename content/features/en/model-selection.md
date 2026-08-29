@@ -20,6 +20,8 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 8
+    text: "Evidence checked 2026-08-29: Aider lets the operator select the main model with --model and switch it during a chat with /model; editor and weak models are separately selectable."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI's Grok Bot team documentation says the product has no model picker and does not plan to let users or administrators choose its models; requests use a product-managed fixed model set with automatic failover."
   - id: 2
@@ -99,7 +101,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Model selection guidance
+  - id: aider-model-selection
+    title: Aider — Models and API keys
+    href: https://aider.chat/docs/troubleshooting/models-and-keys.html
+    kind: docs
+    publisher: Aider AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Defaults; Specifying model and key"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current Aider models documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "model availability and credentials depend on the configured provider; Aider can select a model automatically only when the operator omits an explicit choice"
+        evidence:
+          - resourceId: aider-model-selection
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

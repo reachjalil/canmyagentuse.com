@@ -24,6 +24,8 @@ parent: file-inputs
 related: [screenshots, video-input, upload-limits]
 highlight: true
 notes:
+  - id: 13
+    text: "Evidence checked 2026-08-29: Aider accepts image files through /add, clipboard /paste, or image filenames on the command line for use with vision-capable selected models."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents image uploads and image understanding in Grok Web chats."
   - id: 2
@@ -150,7 +152,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Injecting file content with @{...}; multimodal support
+  - id: aider-image-input
+    title: Aider — Images and web pages
+    href: https://aider.chat/docs/usage/images-urls.html
+    kind: docs
+    publisher: Aider AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Images"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [13]
+        target:
+          kind: dated-documentation
+          revision: current Aider image-input documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the selected model must be vision-capable"
+          - type: format
+            value: "documented input paths are in-chat /add, clipboard /paste, and command-line filenames"
+        evidence:
+          - resourceId: aider-image-input
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current
