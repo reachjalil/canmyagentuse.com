@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "List and page through tasks exposed by the task utility."
@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Pinned VS Code source implements paginated tasks/list requests in both the MCP client connection and host-side task dispatcher."
+  - id: 2
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 does not advertise the MCP Tasks extension, and its exhaustive client and probe operations include no task polling or listing method."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,7 +45,43 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: tasks/list dispatch and paginated listTasks client method
+  - id: goose-v1-48-agent-source
+    title: goose v1.48.0 — agent MCP configuration
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/agent.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Default MCP revision and advertised CLI extensions, lines 99 and 221-259"
+  - id: goose-v1-48-cli-source
+    title: goose CLI v1.48.0 — MCP probe operations
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose-cli/src/cli.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Exhaustive mcp-probe operation enum, lines 1400-1422"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: no
+        noteIds: [2]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "normal sessions pin pre-Tasks MCP 2025-11-25, and the selectable modern probe path still declares no Tasks extension or listing operation"
+        evidence:
+          - resourceId: goose-v1-48-agent-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-v1-48-cli-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

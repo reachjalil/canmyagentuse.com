@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Resolve and execute optional scripts included with an Agent Skill under explicit runtime policy."
@@ -36,6 +36,20 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI documents bundled executable scripts, per-activation user consent, and a worked example that executes a skill's JavaScript helper."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code documents skills containing scripts and points to terminal approval and allow-list controls for script execution."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Amp CLI skills may bundle path-addressable scripts, but the reviewed page does not establish execution or approval semantics."
+  - id: 6
+    text: "Evidence checked 2026-08-29: Goose CLI skills can bundle scripts executed through the default Developer extension under configurable permission modes."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Copilot CLI discovers skill scripts, runs them with shell tools, and prompts unless the relevant tools were pre-approved."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Claude.ai skills can execute bundled scripts through bash when code execution is enabled, with surface-dependent network access."
+  - id: 9
+    text: "Evidence checked 2026-08-29: ChatGPT web can use executable code packaged in plugin-bundled skills, subject to available tools and dependencies."
+  - id: 10
+    text: "Evidence checked 2026-08-29: ChatGPT desktop standalone skills may include executable scripts whose behavior depends on the active environment and permissions."
+  - id: 11
+    text: "Evidence checked 2026-08-29: Codex CLI skills support optional executable scripts for deterministic behavior or external tooling under runtime permissions."
 issues: []
 resources:
   - title: Agent Skills scripts reference
@@ -73,6 +87,54 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Agent Skills versus custom instructions; use shared skills
+  - id: amp-agent-skills
+    title: Amp — Skills
+    href: https://ampcode.com/docs/customize/skills
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill Repositories; Skill Format"
+  - id: goose-agent-skills
+    title: Goose — Agent Skills
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supporting Files; setup.sh example"
+  - id: goose-developer-extension
+    title: Goose — Developer Extension
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/mcp/developer-mcp.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Developer Extension Tools; Access Control Features"
+  - id: github-copilot-cli-agent-skills
+    title: GitHub — Adding agent skills for Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Enabling a skill to run a script
+  - id: anthropic-agent-skills-overview
+    title: Anthropic — Agent Skills
+    href: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Level 3: Resources and code; claude.ai; Runtime environment constraints"
+  - id: openai-build-skills
+    title: OpenAI — Build skills
+    href: https://learn.chatgpt.com/docs/build-skills
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill directory; Create a skill; Distribute skills with plugins"
 support:
   - harness: claude-cli
     versions:
@@ -144,6 +206,131 @@ support:
           - resourceId: vscode-agent-skills
             type: documented
             observedAt: 2026-08-28
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Amp CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "scripts are accessible by paths relative to the skill directory"
+          - type: policy
+            value: "script execution and approval semantics were not established by the reviewed documentation"
+        evidence:
+          - resourceId: amp-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: release
+          revision: "goose v1.48.0 documentation source at commit 8ae4e4ba02836529790f47109b8785e8b42843a7"
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "Autonomous, Manual Approval, Smart Approval, and Chat Only modes govern shell execution"
+        evidence:
+          - resourceId: goose-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-developer-extension
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "shell execution requires confirmation unless the tools are explicitly trusted"
+        evidence:
+          - resourceId: github-copilot-cli-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Claude.ai Agent Skills documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "code execution and file creation must be enabled; network access depends on user or administrator settings"
+        evidence:
+          - resourceId: anthropic-agent-skills-overview
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 ChatGPT web Skills documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "web skills must be packaged in plugins"
+          - type: runtime
+            value: "execution depends on declared tools and the host environment"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current ChatGPT desktop Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "script behavior depends on available tooling and declared dependencies"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "execution depends on the active environment, permissions, and declared dependencies"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 Resolve and execute optional scripts included with an Agent Skill under explicit runtime policy.

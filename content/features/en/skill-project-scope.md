@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Discover skills installed for a repository or workspace."
@@ -36,6 +36,16 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI discovers workspace skills from `.gemini/skills/` and the portable `.agents/skills/` alias, with workspace entries taking precedence over user entries of the same name."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code discovers project skills from `.github/skills/`, `.claude/skills/`, and `.agents/skills/`, with optional additional project locations."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Amp CLI discovers project skills from `.agents/skills/` in the project and searched parent directories, with documented compatibility paths."
+  - id: 6
+    text: "Evidence checked 2026-08-29: OpenCode CLI walks from the working directory to the Git worktree root and discovers project skills in OpenCode, Claude-compatible, and portable paths."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Goose CLI discovers project-level skills under `.agents/skills/` and documented legacy compatibility paths."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Copilot CLI discovers repository skills in `.github/skills`, `.claude/skills`, and `.agents/skills`."
+  - id: 9
+    text: "Evidence checked 2026-08-29: Codex CLI scans `.agents/skills` from the working directory through parents to the repository root."
 issues: []
 resources:
   - title: Project-scoped Agent Skills reference
@@ -73,6 +83,46 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Create a skill
+  - id: amp-agent-skills
+    title: Amp — Skills
+    href: https://ampcode.com/docs/customize/skills
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and Installing Skills; Skill Sources and Precedence"
+  - id: opencode-agent-skills
+    title: OpenCode — Agent Skills
+    href: https://opencode.ai/docs/skills/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Place files; Understand discovery"
+  - id: goose-agent-skills
+    title: Goose — Agent Skills
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Skill Locations
+  - id: github-copilot-cli-agent-skills
+    title: GitHub — Adding agent skills for Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and adding a skill; Adding a skill that someone else has created"
+  - id: openai-build-skills
+    title: OpenAI — Build skills
+    href: https://learn.chatgpt.com/docs/build-skills
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where Codex loads local skills; REPO scopes"
 support:
   - harness: claude-cli
     versions:
@@ -136,6 +186,88 @@ support:
           - resourceId: vscode-agent-skills
             type: documented
             observedAt: 2026-08-28
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Amp CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "project sources participate in precedence and same-name skills can be masked by a higher-precedence source"
+        evidence:
+          - resourceId: amp-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "discovery includes matching project locations along the path up to the worktree root"
+        evidence:
+          - resourceId: opencode-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: release
+          revision: "goose v1.48.0 documentation source at commit 8ae4e4ba02836529790f47109b8785e8b42843a7"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "legacy .goose/skills and .claude/skills paths are also supported"
+        evidence:
+          - resourceId: goose-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: github-copilot-cli-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "same-name skills from multiple discovered scopes remain separate rather than being merged"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 Discover skills installed for a repository or workspace.

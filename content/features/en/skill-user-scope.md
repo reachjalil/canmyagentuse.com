@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Discover personal or global skills outside the current project."
@@ -36,6 +36,20 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI discovers user skills from `~/.gemini/skills/` and `~/.agents/skills/`, available across projects."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code discovers personal skills from `~/.copilot/skills/`, `~/.claude/skills/`, and `~/.agents/skills/`."
+  - id: 5
+    text: "Evidence checked 2026-08-29: Amp CLI discovers machine-local, personal, and workspace skill sources outside the current project with explicit precedence."
+  - id: 6
+    text: "Evidence checked 2026-08-29: OpenCode CLI discovers global skills from user-level OpenCode, Claude-compatible, and portable directories."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Goose CLI discovers global skills under `~/.agents/skills/` and documented compatibility paths."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Copilot CLI discovers personal skills under `~/.copilot/skills` and `~/.agents/skills`, shared across projects."
+  - id: 9
+    text: "Evidence checked 2026-08-29: Claude.ai supports personal uploaded skills and Team or Enterprise organization-wide provisioning, subject to code-execution and policy controls."
+  - id: 10
+    text: "Evidence checked 2026-08-29: ChatGPT desktop exposes Personal and System skills in its Skills sidebar beyond a single project."
+  - id: 11
+    text: "Evidence checked 2026-08-29: Codex CLI discovers user, administrator, and bundled system skills outside the current repository."
 issues: []
 resources:
   - title: User-scoped Agent Skills reference
@@ -73,6 +87,54 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Create a skill
+  - id: amp-agent-skills
+    title: Amp — Skills
+    href: https://ampcode.com/docs/customize/skills
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and Installing Skills; Skill Sources and Precedence; Skill Repositories"
+  - id: opencode-agent-skills
+    title: OpenCode — Agent Skills
+    href: https://opencode.ai/docs/skills/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Place files; Understand discovery"
+  - id: goose-agent-skills
+    title: Goose — Agent Skills
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Skill Locations
+  - id: github-copilot-cli-agent-skills
+    title: GitHub — Adding agent skills for Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating and adding a skill; Skills commands in the CLI"
+  - id: anthropic-use-skills-current
+    title: Anthropic — Use skills in Claude
+    href: https://support.claude.com/en/articles/12512180-use-skills-in-claude
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Prerequisites; Provision skills organization-wide; Add and use custom skills"
+  - id: openai-build-skills
+    title: OpenAI — Build skills
+    href: https://learn.chatgpt.com/docs/build-skills
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "ChatGPT desktop Skills sidebar; Where Codex loads local skills"
 support:
   - harness: claude-cli
     versions:
@@ -138,6 +200,124 @@ support:
           - resourceId: vscode-agent-skills
             type: documented
             observedAt: 2026-08-28
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current Amp CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "machine-local, personal-repository, and administrator-managed workspace sources have distinct precedence"
+        evidence:
+          - resourceId: amp-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "global discovery includes OpenCode, Claude-compatible, and portable home-directory paths"
+        evidence:
+          - resourceId: opencode-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: release
+          revision: "goose v1.48.0 documentation source at commit 8ae4e4ba02836529790f47109b8785e8b42843a7"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "user-level Claude-compatible and Goose-specific compatibility paths are also discovered"
+        evidence:
+          - resourceId: goose-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "additional user locations can be registered with the CLI skills command"
+        evidence:
+          - resourceId: github-copilot-cli-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Claude.ai Skills documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "personal skills are uploaded separately to Claude.ai and require code execution"
+          - type: policy
+            value: "organization-wide provisioning requires Team or Enterprise owner controls"
+        evidence:
+          - resourceId: anthropic-use-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current ChatGPT desktop Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "administrator skills can be provisioned separately from user and bundled system scopes"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 Discover personal or global skills outside the current project.

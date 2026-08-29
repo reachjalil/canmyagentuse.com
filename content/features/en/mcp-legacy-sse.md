@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Connect through the superseded HTTP plus SSE transport when migration compatibility is required."
@@ -42,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue documents an explicit `sse` remote transport and its pinned desktop client constructs the MCP SDK SSE client transport."
   - id: 7
     text: "Evidence checked 2026-08-28: Zed's pinned transport module exposes only stdio and a single-endpoint POST-based HTTP transport; it does not implement the superseded HTTP-plus-SSE client transport."
+  - id: 8
+    text: "Evidence checked 2026-08-29: goose v1.48.0 explicitly states that deprecated HTTP-plus-SSE transport is unsupported; its retained configuration variant exists only for file compatibility."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -119,7 +121,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: single-endpoint POST transport
+  - id: goose-v1-48-extension-source
+    title: goose v1.48.0 — MCP extension transport configuration
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/extension.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "SSE explicitly unsupported, lines 159-196 and 440-466"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: no
+        noteIds: [8]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "stdio and Streamable HTTP remain supported; only the superseded dedicated HTTP-plus-SSE transport is rejected"
+        evidence:
+          - resourceId: goose-v1-48-extension-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

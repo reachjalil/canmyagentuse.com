@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: Invoke reusable MCP prompt templates.
@@ -47,6 +47,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue's pinned desktop client lists MCP prompts, exposes them as slash commands, and retrieves selected prompt messages with `prompts/get`."
   - id: 7
     text: "Evidence checked 2026-08-28: Zed explicitly lists MCP Prompts among the server features supported by Zed Agent."
+  - id: 10
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 implements paginated `prompts/list` and `prompts/get`, lists extension prompts, and invokes selected templates with arguments."
 issues: []
 resources:
   - id: anthropic-claude-code-mcp
@@ -137,7 +139,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "General Information"
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "prompts/list and prompts/get, lines 960-1027"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "only prompts from configured and successfully connected extensions are available"
+        evidence:
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: windsurf
     versions:
       - track: current

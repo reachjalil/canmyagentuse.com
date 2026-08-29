@@ -572,3 +572,49 @@ They remain leads until an individual feature cell cites and scopes them.
 - https://agent-plugins.org/compatible-clients
 - https://agentskills.io/clients
 - https://modelcontextprotocol.io/extensions/client-matrix
+
+## Cycle 2 discoveries — 2026-08-29
+
+These roots supported the second documentation-only cycle. Mutable repository
+evidence is pinned to the reviewed commit in each feature resource.
+
+### Agent Skills clients and implementations
+
+- https://github.com/agentskills/agentskills/blob/69ef37e9424c0a7ea9dd2293b559e43ec8176379/docs/snippets/clients.jsx
+- https://github.com/agentskills/agentskills/blob/69ef37e9424c0a7ea9dd2293b559e43ec8176379/CONTRIBUTING.md
+- https://opencode.ai/docs/skills/
+- https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+- https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
+- https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+- https://support.claude.com/en/articles/12512180-use-skills-in-claude
+- https://support.claude.com/en/articles/12512198-create-custom-skills
+- https://learn.chatgpt.com/docs/build-skills
+
+### Goose MCP implementation
+
+- https://github.com/aaif-goose/goose/releases/tag/v1.48.0
+- https://github.com/aaif-goose/goose/tree/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose-mcp
+- https://github.com/aaif-goose/goose/tree/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/mcp
+- https://modelcontextprotocol.io/specification/2026-07-28
+- https://modelcontextprotocol.io/extensions/tasks/overview
+- https://modelcontextprotocol.io/extensions/apps/overview
+
+### MCP Apps hosts
+
+- https://github.com/modelcontextprotocol/ext-apps/blob/298e884ec3f02daba085acdb02042d73bd00b355/specification/2026-01-26/apps.mdx
+- https://github.com/modelcontextprotocol/modelcontextprotocol/blob/e1f93af48a6b5bd57df9922f5f1f62117541c7ac/docs/extensions/client-matrix.mdx
+- https://cursor.com/docs/mcp
+- https://cursor.com/changelog/2-6
+- https://github.com/different-ai/openwork/releases/tag/v0.18.39
+- https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/mcp-apps-host/README.md
+- https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/remote-mcp-apps/README.md
+
+### OpenAI surface identity
+
+- https://learn.chatgpt.com/docs/llms.txt
+- https://developers.openai.com/codex/cli/
+
+The current OpenAI index maps terminal documentation to Codex CLI. It did not
+establish a distinct ChatGPT CLI surface, so the ambiguous catalog column
+remains unsourced and is parked for identity review rather than inheriting
+Codex evidence.

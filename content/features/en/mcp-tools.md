@@ -77,7 +77,7 @@ notes:
   - id: 22
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents local and remote MCP servers and automatic or explicit use of the tools they provide."
   - id: 23
-    text: "Evidence checked 2026-08-28: goose documents MCP extensions as connections to tools and data sources available from its CLI."
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 documents MCP servers as extensions and its pinned client implementation performs paginated `tools/list` discovery and `tools/call` invocation."
   - id: 24
     text: "Evidence checked 2026-08-28: OpenCode documents local and remote MCP servers whose tools are made available to its agents."
   - id: 25
@@ -272,13 +272,21 @@ resources:
     reviewedAt: 2026-08-28
     locator: Adding an MCP server; using MCP servers
   - id: goose-mcp-extensions
-    title: goose source — Using extensions at 8ae4e4b
-    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/getting-started/using-extensions.md
+    title: goose v1.48.0 — Using Extensions
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/getting-started/using-extensions.md
     kind: docs
     publisher: Agentic AI Foundation
     evidenceType: documented
-    reviewedAt: 2026-08-28
-    locator: MCP servers; goose CLI; automatically enabled extensions
+    reviewedAt: 2026-08-29
+    locator: "MCP extension model; MCP Servers; CLI command-line and Streamable HTTP extensions"
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "tools/list and tools/call, lines 867-958"
   - id: opencode-mcp-servers-v2
     title: OpenCode — MCP servers
     href: https://opencode.ai/v2/docs/mcp-servers/
@@ -728,15 +736,20 @@ support:
         status: yes
         noteIds: [23]
         target:
-          kind: dated-documentation
-          revision: goose source commit 8ae4e4ba0283 observed 2026-08-28
-          observedAt: 2026-08-28
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
         environmentProfile: local-default
-        qualifiers: []
+        qualifiers:
+          - type: policy
+            value: "extension enablement, available-tools filters, permission policy, server health, and timeout determine which tools can be invoked"
         evidence:
           - resourceId: goose-mcp-extensions
             type: documented
-            observedAt: 2026-08-28
+            observedAt: 2026-08-29
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

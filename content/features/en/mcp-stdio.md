@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Connect to a local MCP server over standard input and output."
@@ -42,6 +42,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue documents local MCP server configurations using a command and arguments, and its pinned desktop client constructs a Stdio client transport."
   - id: 7
     text: "Evidence checked 2026-08-28: Zed documents local custom MCP servers configured with a command, arguments, and environment, and its pinned client uses a dedicated stdio transport."
+  - id: 8
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 supports command-line MCP extensions, spawns the configured child process, and connects through standard input/output."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -119,7 +121,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Client::stdio
+  - id: goose-v1-48-using-extensions
+    title: goose v1.48.0 — Using Extensions
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/getting-started/using-extensions.md
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Command-line and stdio extension configuration, lines 149-164 and 266-365"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [8]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the command must be locally available, pass extension checks, and initialize within the configured timeout"
+        evidence:
+          - resourceId: goose-v1-48-using-extensions
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

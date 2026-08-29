@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Receive progress updates for long-running requests."
@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "VS Code source exposes and fires an event for MCP notifications/progress messages."
+  - id: 2
+    text: "Evidence checked 2026-08-29: goose v1.48.0 handles MCP progress notifications, preserves their token and values, and updates CLI progress output or emits structured events."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,7 +45,30 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: onDidReceiveProgressNotification and notifications/progress dispatch
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI progress handler, lines 350-407"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

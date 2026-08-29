@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Complete the MCP authorization flow for protected remote servers."
@@ -40,6 +40,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue's pinned desktop implementation includes the MCP OAuth authorization-code flow, but its connection path states that native OAuth is currently supported only for the legacy SSE transport."
   - id: 6
     text: "Evidence checked 2026-08-28: Zed documents prompting the user through the standard MCP OAuth flow when a remote server has no configured Authorization header."
+  - id: 7
+    text: "Evidence checked 2026-08-29: goose v1.48.0 implements OAuth for protected Streamable HTTP servers, including challenge detection, refresh, browser fallback, PKCE, registration, and pre-registered clients."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -109,7 +111,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: custom remote server OAuth note
+  - id: goose-v1-48-extension-manager-source
+    title: goose v1.48.0 — MCP extension manager
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/extension_manager.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "OAuth challenge, refresh, fallback, and step-up, lines 488-535 and 1105-1299"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "OAuth applies to normal Streamable HTTP connections; the Unix-domain-socket HTTP path does not support it"
+          - type: auth
+            value: "metadata, scopes, callback reachability, and optional pre-registered credentials determine completion"
+        evidence:
+          - resourceId: goose-v1-48-extension-manager-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

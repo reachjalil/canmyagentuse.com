@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Consume capabilities exposed by MCP servers."
@@ -44,6 +44,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue documents MCP servers as an Agent-mode integration for connecting the editor extension to external tools, systems, databases, and context."
   - id: 8
     text: "Evidence checked 2026-08-28: Zed documents that Zed Agent uses Zed-configured MCP servers directly and currently consumes their Tools and Prompts capabilities."
+  - id: 9
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 configures local or remote MCP servers as extensions, negotiates client connections, and consumes their tools, prompts, resources, instructions, and client-directed capabilities."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -121,7 +123,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Supported Features; Agent Path Support
+  - id: goose-v1-48-using-extensions
+    title: goose v1.48.0 — Using Extensions
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/getting-started/using-extensions.md
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP extension model; MCP server installation and transports"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [9]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "only configured and enabled extensions connect; tool filters and permission policy can restrict exposed operations"
+        evidence:
+          - resourceId: goose-v1-48-using-extensions
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

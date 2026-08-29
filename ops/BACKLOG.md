@@ -220,30 +220,28 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-29 for cycle 2. Skip the Cycle-1 attempts until their
+Queue rewritten: 2026-08-29 for cycle 3. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
-1. `goose` × all 24 atomic MCP rows, pinned to v1.48.0; in flight at the
-   Cycle-1 ship boundary.
-2. Positive-only Agent Skills probe across exact catalog surfaces named by the
-   maintained Agent Skills showcase; in flight. The showcase is explicitly
-   non-exhaustive, so omissions never support `no`.
-3. `chatgpt-cli` × Phase-A workspace/tools bundle. Establish exact product
-   identity before sourcing anything; do not substitute Codex CLI.
-4. `opencode` × Phase-A runtime/context/input/governance bundle.
-5. `replit-agent` × Phase-A instructions/interoperability bundle, scoped to
-   the hosted Project Editor and Agent.
-6. `warp` × Phase-A runtime/context/input/governance bundle, keeping local
-   desktop and cloud-agent environments separate.
-7. `devin-web` × Phase-A instructions/interoperability bundle, excluding
-   Devin Desktop and Devin Local.
-8. `mcp-apps` feature probe using the maintained MCP extension matrix; map
-   only exact surfaces and park ambiguous family-level names.
-9. `output-token-limit` feature probe across best-documented exact product
-   surfaces; reject model/API limits projected onto harnesses.
-10. `copilot-web` × Phase-A runtime/context/input/governance bundle,
-    separating consumer Microsoft Copilot from Microsoft 365 and GitHub
-    Copilot products.
+1. `opencode` × remaining Phase-A and atomic MCP rows; in flight, excluding
+   completed Agent Skills and Agent Plugins cells.
+2. `warp` × remaining Phase-A and high-yield runtime/context/input/governance
+   rows; in flight, keeping local desktop and cloud-agent execution distinct.
+3. `devin-web` × remaining Phase-A and high-yield runtime/context/input/
+   governance rows; in flight, excluding Devin Desktop and Devin Local.
+4. `aider` × remaining Phase-A rows, honoring the current attempt cooldowns.
+5. `jetbrains-ai` × remaining Phase-A rows, excluding separate Junie, Claude
+   Agent, Codex, Copilot, and ACP-agent capabilities.
+6. `windsurf` × remaining Phase-A rows after deliberate product-identity
+   review; do not merge Devin Desktop or Devin Local evidence by default.
+7. `copilot-web` × remaining Phase-A rows, separating consumer Microsoft
+   Copilot from Microsoft 365 and GitHub Copilot products.
+8. `chrome-webmcp-preview` × remaining Phase-A rows, scoped to the exact Chrome
+   WebMCP origin-trial preview rather than generic Chrome or Gemini features.
+9. `cline` × atomic MCP rows from a pinned current release and maintained
+   first-party source.
+10. `continue` × atomic MCP rows from a pinned current release and maintained
+    first-party source.
 
 ## Ledger candidates
 
@@ -256,6 +254,12 @@ but do not edit the atlas.
   src2=https://docs.devin.ai/desktop/getting-started
   issue=The active marketing site retains Windsurf branding while current installation documentation calls the package Devin Desktop and labels Windsurf transitional.
   next=Obtain a first-party product-identity or migration statement that defines the durable catalog name and whether the exact desktop surface changed.
+
+- feature=workspace-files harness=chatgpt-cli first_seen=2026-08-29
+  src1=https://learn.chatgpt.com/docs/llms.txt
+  src2=https://developers.openai.com/codex/cli/
+  issue=OpenAI's current documentation index identifies the terminal product as Codex CLI and does not establish a separate exact ChatGPT CLI product surface matching the catalog column.
+  next=Obtain a current first-party product-identity statement for ChatGPT CLI or deliberately migrate or retire the ambiguous catalog column before sourcing product capabilities.
 
 Use this record shape:
 

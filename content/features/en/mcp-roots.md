@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Provide filesystem or workspace roots to an MCP server."
@@ -40,6 +40,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue's pinned desktop MCP client initializes with an empty client-capabilities object, so it does not advertise or handle the Roots capability."
   - id: 6
     text: "Evidence checked 2026-08-28: Zed's pinned MCP initialization explicitly sets the client Roots capability to none."
+  - id: 7
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 advertises MCP roots, returns the session working directory from `roots/list`, and emits `roots/list_changed` when it changes."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -93,7 +95,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: InitializeParams client capabilities
+  - id: goose-v1-48-roots-docs
+    title: goose v1.48.0 — MCP Roots
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/guides/mcp-roots.md
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Advertisement, list request, change notification, and CLI working-directory root, lines 12-85"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Goose exposes one root per session, mapped to the CLI working directory"
+        evidence:
+          - resourceId: goose-v1-48-roots-docs
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

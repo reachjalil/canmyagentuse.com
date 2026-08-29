@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Subscribe to resource changes and receive update notifications."
@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "VS Code documents real-time resource updates and its source implements the legacy resources/subscribe, resources/unsubscribe, and notifications/resources/updated flow."
+  - id: 2
+    text: "Evidence checked 2026-08-29: goose v1.48.0's exhaustive client interface implements resource listing and reading but no URI-level resource subscription or update-notification operation."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -51,7 +53,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: subscribe, unsubscribe, and notifications/resources/updated handling
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP operation interface and resources/list/read, lines 85-159 and 806-865"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: no
+        noteIds: [2]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "no legacy resources/subscribe or current subscriptions/listen resource-subscription flow is implemented"
+        evidence:
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current

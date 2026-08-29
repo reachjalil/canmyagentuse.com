@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: "Let a user or agent explicitly select and activate a named skill."
@@ -36,6 +36,20 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI lets users list, enable, disable, reload, and link named skills, and requires user consent whenever a matched skill activates; the reviewed guide does not document a direct `/skill-name` invocation form."
   - id: 4
     text: "Evidence checked 2026-08-28: VS Code lists skills in the `/` menu, accepts `/skill-name` with optional context, and supports manual-only skills through `disable-model-invocation`."
+  - id: 5
+    text: "Evidence checked 2026-08-29: OpenCode's agent explicitly selects a named skill through its native, permission-governed skill tool."
+  - id: 6
+    text: "Evidence checked 2026-08-29: Goose CLI users can explicitly load one or more named skills with `/skills`."
+  - id: 7
+    text: "Evidence checked 2026-08-29: Copilot CLI accepts `/skill-name` in a prompt and exposes named enable or disable controls through `/skills`."
+  - id: 8
+    text: "Evidence checked 2026-08-29: Claude.ai lets users enable or disable named skills, but its documentation does not establish direct prompt-time slash invocation."
+  - id: 9
+    text: "Evidence checked 2026-08-29: ChatGPT web supports explicit `@` selection for plugin-bundled skills."
+  - id: 10
+    text: "Evidence checked 2026-08-29: ChatGPT desktop supports explicit named skill selection through `@`."
+  - id: 11
+    text: "Evidence checked 2026-08-29: Codex CLI supports explicit skill invocation through `/skills` or `$` mentions."
 issues: []
 resources:
   - title: Agent Skills manual invocation reference
@@ -73,6 +87,46 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Use skills as slash commands
+  - id: opencode-agent-skills
+    title: OpenCode — Agent Skills
+    href: https://opencode.ai/docs/skills/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Recognize tool description; Configure permissions"
+  - id: goose-agent-skills
+    title: Goose — Agent Skills
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Opening usage examples and /skills syntax"
+  - id: github-copilot-cli-agent-skills
+    title: GitHub — Adding agent skills for Copilot CLI
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Using agent skills; Skills commands in the CLI"
+  - id: anthropic-use-skills-current
+    title: Anthropic — Use skills in Claude
+    href: https://support.claude.com/en/articles/12512180-use-skills-in-claude
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How to enable skills; Add and use custom skills"
+  - id: openai-build-skills
+    title: OpenAI — Build skills
+    href: https://learn.chatgpt.com/docs/build-skills
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How ChatGPT and Codex use skills"
 support:
   - harness: claude-cli
     versions:
@@ -138,6 +192,122 @@ support:
           - resourceId: vscode-agent-skills
             type: documented
             observedAt: 2026-08-28
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [5]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "selection is agent-driven and skill access can be allow, ask, or deny"
+        evidence:
+          - resourceId: opencode-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: release
+          revision: "goose v1.48.0 documentation source at commit 8ae4e4ba02836529790f47109b8785e8b42843a7"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "implicit request matching remains available separately"
+        evidence:
+          - resourceId: goose-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: github-copilot-cli-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [8]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 Claude.ai Skills documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "users can select named on/off controls; direct prompt-time named invocation was not established"
+          - type: runtime
+            value: "code execution must be enabled"
+        evidence:
+          - resourceId: anthropic-use-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [9]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-29 ChatGPT web Skills documentation observation
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "web support is limited to skills bundled in plugins"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: dated-documentation
+          revision: current ChatGPT desktop Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers: []
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "implicit invocation remains separately available and can be disabled per skill"
+        evidence:
+          - resourceId: openai-build-skills
+            type: documented
+            observedAt: 2026-08-29
 ---
 
 Let a user or agent explicitly select and activate a named skill.

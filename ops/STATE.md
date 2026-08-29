@@ -4,18 +4,18 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-08-29
-- Cycle: 1 complete locally; green ship checks pending
+- Cycle: 2 complete locally; green ship checks pending
 - Phase: A — harness floor
-- Coverage: 757/3,534 current-track cells sourced (21.4%); Cycle-1 delta +136
+- Coverage: 827/3,534 current-track cells sourced (23.4%); Cycle-2 delta +70
 - Preview: 0/3,192 sourced (0.0%)
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: pending Cycle-1 reconciliation
-- Last commit pushed: no; Cycle 1 is not committed yet
-- Last content deploy: prior operations-pack deploy only; Cycle 1 pending
-- News counter: 136/approximately 150 newly sourced cells since initialization
-- In-flight briefs: Cycle 2 Goose MCP sweep; Cycle 2 Agent Skills positive probe
-- Owned dirty paths from an interrupted cycle: 26 feature files plus `ops/BACKLOG.md`, `ops/LOG.md`, `ops/SOURCES.md`, and `ops/STATE.md`
+- Last completed catalog commit: `c199f60f342af368318ddd4656fb14627da7d8fc` (Cycle 1)
+- Last commit pushed: `c199f60f342af368318ddd4656fb14627da7d8fc` on `origin/main`
+- Last content deploy: Cycle 1; Cloudflare version `2a93b4a4-bbcb-47e7-82ed-49ad09427836`; live 757/3,534
+- News counter: 0/approximately 150 after `documentation-coverage-23-percent`
+- In-flight briefs: Cycle 3 OpenCode, Warp, and hosted Devin sweeps
+- Owned dirty paths: 31 feature files, one news entry, and Cycle-2 ops files
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: finish Cycle-1 check/test/build/commit/push/deploy, then triage the in-flight Cycle-2 briefs
+- Next action: finish Cycle-2 lint/check/test/build/commit/push/deploy, then triage Cycle-3 briefs

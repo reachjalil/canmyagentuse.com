@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [runtime, skills, instructions, packaging]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Recognize, discover, and load reusable instruction packages centered on SKILL.md.
@@ -50,6 +50,14 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork Desktop documents SKILL.md creation, import, sharing, organization installation, and workspace loading through its OpenCode-backed runtime."
   - id: 9
     text: "Evidence checked 2026-08-28: xAI documents saved and packaged skills in Grok Bot, and the Agent Plugins compatible-client registry lists Grok Bot as loading Agent Skills. The cell establishes core discovery and loading, not every optional Agent Skills behavior."
+  - id: 12
+    text: "Evidence checked 2026-08-29: OpenCode CLI discovers reusable SKILL.md packages from project and user directories and loads them on demand through its permission-governed skill tool."
+  - id: 13
+    text: "Evidence checked 2026-08-29: Goose CLI's default-enabled Skills extension discovers standard SKILL.md packages, exposes their metadata, and loads matching or explicitly selected skills."
+  - id: 14
+    text: "Evidence checked 2026-08-29: GitHub documents creating, discovering, loading, invoking, and controlling Agent Skills in Copilot CLI."
+  - id: 15
+    text: "Evidence checked 2026-08-29: the ChatGPT desktop app supports standalone and plugin-bundled Agent Skills and exposes them in its Skills sidebar."
 issues: []
 resources:
   - id: openai-chatgpt-skills
@@ -147,6 +155,38 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Skill triggers, compatible skills, and locations"
+  - id: opencode-agent-skills
+    title: OpenCode — Agent Skills
+    href: https://opencode.ai/docs/skills/
+    kind: docs
+    publisher: OpenCode
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Place files; Understand discovery"
+  - id: goose-agent-skills
+    title: Goose — Agent Skills
+    href: https://github.com/aaif-goose/goose/blob/8ae4e4ba02836529790f47109b8785e8b42843a7/documentation/docs/guides/context-engineering/using-skills.md
+    kind: docs
+    publisher: goose maintainers
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Introduction; Skill Locations; Creating a Skill"
+  - id: github-copilot-cli-agent-skills
+    title: GitHub — About agent skills
+    href: https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "About agent skills; supported surfaces note"
+  - id: openai-build-skills-current
+    title: OpenAI — Build skills
+    href: https://learn.chatgpt.com/docs/build-skills
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability paragraphs; Skills sidebar"
 support:
   - harness: windsurf
     versions:
@@ -197,6 +237,75 @@ support:
             value: "existing sessions require a skills reload to rescan local and hosted sources"
         evidence:
           - resourceId: amp-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: opencode
+    versions:
+      - track: current
+        status: yes
+        noteIds: [12]
+        target:
+          kind: dated-documentation
+          revision: current OpenCode Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "skill access can be allowed, denied, or approval-gated and can be disabled per agent"
+        evidence:
+          - resourceId: opencode-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [13]
+        target:
+          kind: release
+          revision: "goose v1.48.0 documentation source at commit 8ae4e4ba02836529790f47109b8785e8b42843a7"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the built-in Skills platform extension is enabled by default"
+          - type: format
+            value: ".agents/skills is recommended; Goose also discovers documented compatibility paths"
+        evidence:
+          - resourceId: goose-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI Agent Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "organization-provided access requires the Copilot CLI policy to be enabled"
+        evidence:
+          - resourceId: github-copilot-cli-agent-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [15]
+        target:
+          kind: dated-documentation
+          revision: current ChatGPT desktop Skills documentation observed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "standalone skills are desktop-local; plugin packaging distributes skills to additional ChatGPT surfaces"
+        evidence:
+          - resourceId: openai-build-skills-current
             type: documented
             observedAt: 2026-08-29
   - harness: chatgpt-web

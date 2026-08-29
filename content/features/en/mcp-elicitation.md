@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Handle structured user-input requests initiated by an MCP server."
@@ -34,6 +34,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI v0.57.0's MCP client registers only the roots client capability and contains no elicitation request handler, so it does not advertise the classic `elicitation/create` capability."
   - id: 3
     text: "Evidence checked 2026-08-28: Cursor's protocol capability table explicitly lists MCP Elicitation as supported server-initiated requests for additional user information."
+  - id: 4
+    text: "Evidence checked 2026-08-29: goose v1.48.0 advertises MCP elicitation and documents form-mode structured input in the CLI, including accept or cancel behavior and a timeout."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -63,7 +65,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Protocol and extension support — Elicitation
+  - id: goose-v1-48-elicitation-docs
+    title: goose v1.48.0 — MCP Elicitation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/documentation/docs/guides/mcp-elicitation.md
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automatic form-mode elicitation and CLI interaction, lines 11-52"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the public CLI documentation establishes form-mode elicitation; URL-mode is not claimed for this surface"
+        evidence:
+          - resourceId: goose-v1-48-elicitation-docs
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

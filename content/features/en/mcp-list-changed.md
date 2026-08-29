@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Refresh capability lists when a server announces dynamic changes."
@@ -32,6 +32,8 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code explicitly supports MCP `list_changed` notifications and refreshes available tools, prompts, and resources without reconnecting."
   - id: 2
     text: "Evidence checked 2026-08-28: Gemini CLI v0.57.0 registers tool, resource, and prompt list-change notification handlers and refreshes each corresponding registry."
+  - id: 3
+    text: "Evidence checked 2026-08-29: goose v1.48.0 refreshes tools after `tools/list_changed`, but its exhaustive handler does not implement corresponding prompt- or resource-list refresh."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -53,7 +55,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: registerNotificationHandlers and refreshTools, refreshResources, refreshPrompts
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tool-list cache invalidation and client handler, lines 232-237 and 350-407"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [3]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "dynamic refresh is implemented for tools/list_changed only"
+        evidence:
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

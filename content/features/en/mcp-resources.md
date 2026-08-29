@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: Read MCP resources as live context.
@@ -47,6 +47,8 @@ notes:
     text: "Evidence checked 2026-08-28: Continue's pinned desktop client lists resources, reads a selected resource, and injects text contents through its MCP context provider; non-text contents are rejected and resource-template support is experimental."
   - id: 7
     text: "Evidence checked 2026-08-28: Zed's current MCP documentation explicitly limits supported server features to Tools and Prompts, so MCP Resources are not supported on the reviewed Zed Agent path."
+  - id: 10
+    text: "Evidence checked 2026-08-29: goose CLI v1.48.0 implements paginated `resources/list` and URI-based `resources/read` and exposes them when the connected server declares resources."
 issues: []
 resources:
   - id: anthropic-claude-code-mcp
@@ -137,7 +139,32 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Default Devin Local MCP feature description"
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "resources/list and resources/read, lines 806-865"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [10]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "resource operations are exposed only for configured extensions that declare resource capability"
+        evidence:
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: windsurf
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Implement or negotiate the exact dated MCP revision."
@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Microsoft documentation broadly claims full MCP support, while the pinned VS Code source still declares 2025-11-25 as its latest protocol version."
+  - id: 2
+    text: "Evidence checked 2026-08-29: goose v1.48.0 contains a selectable MCP 2026-07-28 client path, but ordinary Goose CLI extension sessions explicitly default to MCP 2025-11-25."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -51,7 +53,54 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: LATEST_PROTOCOL_VERSION
+  - id: goose-v1-48-agent-source
+    title: goose v1.48.0 — agent MCP configuration
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/agent.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Default MCP protocol version 2025-11-25, lines 99 and 221-259"
+  - id: goose-v1-48-cli-source
+    title: goose CLI v1.48.0 — MCP probe commands
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose-cli/src/cli.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "mcp-probe protocolVersion override, lines 1400-1422 and 1488-1501"
+  - id: goose-v1-48-mcp-client-source
+    title: goose v1.48.0 — MCP client implementation
+    href: https://github.com/aaif-goose/goose/blob/25021517f12cab87c94bed0874fe7d28168dc264/crates/goose/src/agents/mcp_client.rs
+    kind: docs
+    publisher: Agentic AI Foundation
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Modern and legacy protocol lifecycle selection, lines 667-706"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: partial
+        noteIds: [2]
+        target:
+          kind: release
+          revision: goose CLI v1.48.0 commit 25021517f12cab87c94bed0874fe7d28168dc264
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "2026-07-28 is implemented and selectable by the hidden probe, while normal CLI sessions default to 2025-11-25"
+        evidence:
+          - resourceId: goose-v1-48-agent-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-v1-48-cli-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: goose-v1-48-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: vscode-copilot
     versions:
       - track: current
