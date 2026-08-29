@@ -20,6 +20,10 @@ aliases: [pricing, subscription cost, seat price, credits, overage pricing]
 parent: usage-and-reliability
 related: [usage-metering, rate-limit-disclosure]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp publishes monthly Megawatt and Gigawatt prices, included agent and orb usage, pay-as-you-go terms, credit expiry, overage behavior, and Enterprise pricing."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity publishes USD monthly and annual prices for Pro, Max, Enterprise Pro, and Enterprise Max plus Computer credit conversion, allowances, refill, and spending-cap terms."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenAI publishes ChatGPT Work and Codex prices of $0 monthly for Free, $8 for Go, $20 for Plus, Pro from $100 with 5x and 20x tiers, and Business at $20 per user monthly when billed annually or $25 monthly; Enterprise and Edu require sales contact. ChatGPT-authenticated surfaces share usage, while API-key use is billed separately at API rates."
   - id: 2
@@ -30,7 +34,33 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI's plans page identifies Free, Google AI Pro, Google AI Ultra, Google Developer Program, AI Studio pay-as-you-go, and Vertex AI paths and their usage or privacy distinctions, but delegates exact subscription amounts to linked plan pages."
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition publishes current USD monthly prices and billing terms for Devin Free, Pro, Max, and Teams self-serve plans."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Microsoft publishes current individual Copilot subscription prices for Microsoft 365 Personal, Family, and Premium with yearly and monthly billing terms."
 resources:
+  - id: amp-2026-08-pricing
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Subscriptions; usage charges; Enterprise"
+  - id: perplexity-current-plan-prices
+    title: "Perplexity — Using the Connector for Slack"
+    href: https://www.perplexity.ai/help-center/en/articles/12167980-using-the-connector-for-slack
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current plan prices"
+  - id: perplexity-computer-credits
+    title: "Perplexity — How Credits Work on Perplexity"
+    href: https://www.perplexity.ai/help-center/en/articles/13838041-how-credits-work-on-perplexity
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Credit conversion, plan allowances, and purchasing credits"
   - title: Methodology
     href: /methodology
     kind: note
@@ -74,7 +104,75 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Plan overview; seats; Teams minimum; quotas"
+  - id: microsoft-copilot-individual-pricing
+    title: "Microsoft — Copilot pricing plans for individuals"
+    href: https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/individuals
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Individual plan prices and comparison"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "Megawatt is $20 monthly, Gigawatt $200 monthly, and Unconstrained is usage-priced"
+          - type: policy
+            value: "included usage resets monthly without rollover and purchased credits expire after twelve months"
+        evidence:
+          - resourceId: amp-2026-08-pricing
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Pro is $20 monthly or $200 annually; Max $200 or $2,000; Enterprise Pro $40 or $400 per seat; Enterprise Max $325 or $3,250 per seat"
+          - type: policy
+            value: "USD prices can vary by region, tax, promotion, discount, and payment channel; API billing is separate"
+        evidence:
+          - resourceId: perplexity-current-plan-prices
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: perplexity-computer-credits
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Microsoft 365 Personal $99.99 yearly or $9.99 monthly; Family $129.99 yearly or $12.99 monthly; Premium $199.99 yearly or $19.99 monthly"
+          - type: policy
+            value: "subscription renews automatically; feature availability and AI usage limits vary by plan"
+        evidence:
+          - resourceId: microsoft-copilot-individual-pricing
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

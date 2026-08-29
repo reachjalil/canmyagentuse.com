@@ -20,6 +20,12 @@ aliases: [child context, subagent isolation, context inheritance]
 parent: subagents
 related: [context-window, subagent-approval-boundaries, secrets-management]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 gives each spawn_agent child its own context window and the same tools as its parent, but does not fully define history, instruction, memory, or file-context inheritance."
+  - id: 75
+    text: "Evidence checked 2026-08-29: each Replit background task runs in a separate conversation thread and isolated project copy, leaving the main version untouched until review, but precise instruction, memory, secret, and tool inheritance is not documented."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp subagents have separate context windows and selected context rather than the full conversation; agent-to-agent threads additionally get separate workspaces."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code runs each subagent in its own context window with a custom system prompt and tool set; the child receives its task rather than the parent conversation history and returns a summary."
   - id: 2
@@ -36,6 +42,38 @@ notes:
     text: "Evidence checked 2026-08-29: Each Dynamic Workflow child runs in its own VM by default and cannot see orchestrator files, with an optional shared-VM mode for the working tree and uncommitted changes."
 issues: []
 resources:
+  - id: zed-v1-17-2-tools
+    title: "Zed v1.17.2 — Agent Tools"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L108-L112"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "spawn_agent, lines 108–112"
+  - id: replit-agent-task-system-current
+    title: "Replit — Task system"
+    href: "https://docs.replit.com/core-concepts/agent/task-system"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is the task system?; Tasks start running; Review and apply"
+  - id: amp-2026-08-subagent-isolation
+    title: "Amp — Modes and Models"
+    href: https://ampcode.com/docs/models-and-subagents
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specialist Subagents"
+  - id: amp-2026-08-agent-thread-isolation
+    title: "Amp — Agent to Agent"
+    href: https://ampcode.com/docs/orbs/agent-to-agent
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Send Out a Side Quest"
   - title: Methodology
     href: /methodology
     kind: note
@@ -93,6 +131,64 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Where agents run; Separate VM; Shared VM"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "own context window and parent tool set are explicit; initial history, instruction, memory, and file-context inheritance remain unspecified"
+          - type: policy
+            value: "effective tools depend on parent profile, model support, permissions, trust, and sandbox settings"
+        evidence:
+          - resourceId: zed-v1-17-2-tools
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent task-system documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "conversation and working-copy isolation are explicit; exact inherited instructions, memory, tools, secrets, and context-window behavior remain undocumented"
+          - type: policy
+            value: "changes merge into the main project only after operator review and Apply changes"
+        evidence:
+          - resourceId: replit-agent-task-system-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "native specialists are isolated; separate agent threads also have distinct conversations, working copies, and orbs"
+        evidence:
+          - resourceId: amp-2026-08-subagent-isolation
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-agent-thread-isolation
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

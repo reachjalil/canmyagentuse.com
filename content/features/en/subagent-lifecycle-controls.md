@@ -20,6 +20,8 @@ aliases: [subagent cancellation, child task control, agent supervision]
 parent: subagents
 related: [subagent-concurrency, background-agents]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp lets users request or fan out subagents, but native specialists cannot be guided mid-task and expose only their final summary."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code lists live subagents and background tasks, supports foreground/background execution, stopping and attaching to background work, resuming a subagent by ID, and a per-subagent `maxTurns` limit. Pause and retry semantics are not fully documented."
   - id: 2
@@ -32,6 +34,14 @@ notes:
     text: "Evidence checked 2026-08-29: A Devin coordinator can message, monitor, sleep, terminate, and schedule reminders to revisit managed child sessions."
 issues: []
 resources:
+  - id: amp-2026-08-subagent-lifecycle
+    title: "Amp — Modes and Models"
+    href: https://ampcode.com/docs/models-and-subagents
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specialist Subagents"
   - title: Methodology
     href: /methodology
     kind: note
@@ -83,6 +93,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Managed Devins; coordinator controls"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "operator can request delegation and parallel split but cannot guide or monitor a native specialist mid-task"
+        evidence:
+          - resourceId: amp-2026-08-subagent-lifecycle
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

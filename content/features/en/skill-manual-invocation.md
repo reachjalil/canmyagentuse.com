@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: a Replit Agent user can explicitly select a named Skill from the Use a skill picker or ask Agent to load a Skill; a chat-attached Skill applies to that message only."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer explicitly invokes an enabled named Skill by typing its slash command, selecting the Skill, and then entering the task."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code exposes discovered skills as `/skill-name` commands and supports `disable-model-invocation: true` for user-only activation."
   - id: 2
@@ -54,6 +58,22 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 lets users invoke an installed Agent Skill explicitly by naming it as $skill-name in chat with a supported integrated agent."
 issues: []
 resources:
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Pre-defined Skills"
+  - id: perplexity-guidepoint-mcp-skill
+    title: "Perplexity — Connecting Perplexity with Guidepoint"
+    href: https://www.perplexity.ai/help-center/en/articles/14818160-connecting-perplexity-with-guidepoint
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Using the Guidepoint MCP Skill — Add the Skill to Perplexity Computer"
   - title: Agent Skills manual invocation reference
     href: https://agentskills.io/specification
     kind: spec
@@ -138,6 +158,42 @@ resources:
     reviewedAt: 2026-08-29
     locator: Use an Agent Skill; manual invocation
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "a Skill selected from the chat picker is attached to one message and is not installed into the project"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "the documented flow types and selects a named slash-command Skill"
+          - type: auth
+            value: "the example Guidepoint Skill requires its managed connector, entitlement, and authentication"
+        evidence:
+          - resourceId: perplexity-guidepoint-mcp-skill
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

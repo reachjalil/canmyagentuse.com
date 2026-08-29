@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2's native MCP registry has one server-notification subscription, tools/list_changed; it registers no notifications/message handler or structured server-log consumption path."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 receives MCP notifications/message and forwards log events, but its handler accepts only string-valued data rather than the protocol's arbitrary structured JSON data."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0's MCP connection explicitly leaves server notification-handler registration as TODO, so it has no handler for structured notifications/message logging."
   - id: 1
     text: "VS Code source dispatches MCP notifications/message payloads to its structured MCP log translator."
   - id: 2
@@ -36,6 +42,38 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 handles MCP structured logging notifications and maps server, logger, level, and data fields into corresponding application log levels."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-docs
+    title: "Zed v1.17.2 — Model Context Protocol"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/mcp.md#L12-L18"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported Features, lines 12–18"
+  - id: zed-v1-17-2-mcp-registry-source
+    title: "Zed v1.17.2 — native Agent MCP registry"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L42-L47"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Registered server operation and subscription set; only handler at lines 124–168"
+  - id: cline-v4-1-16-mcp-logging
+    title: "Cline v4.1.16 — MCP logging handler"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L711-L763"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "LoggingMessageNotificationSchema and notifications/message handler"
+  - id: continue-v2-mcp-client
+    title: "Continue v2.0.0 — MCP notification handling"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/context/mcp/MCPConnection.ts#L284-L288
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Explicit TODO for server notification handlers"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -64,6 +102,66 @@ resources:
     reviewedAt: 2026-08-29
     locator: "watch; LoggingMessageNotificationSchema; serverLog"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local server stderr diagnostics are separate from MCP structured logging/message notifications"
+          - type: host-role
+            value: "negative is native Zed Agent direct MCP client only"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-docs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-registry-source
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: format
+            value: "level, logger, data, and message are accepted, but data is restricted to string"
+          - type: protocol-revision
+            value: "implementation uses a local notification schema"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-logging
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: no
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "stdio process output captured for connection errors is separate from MCP structured logging"
+        evidence:
+          - resourceId: continue-v2-mcp-client
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

@@ -20,6 +20,10 @@ aliases: [cost meter, token usage, spend dashboard, usage dashboard]
 parent: usage-and-reliability
 related: [prompt-cache-telemetry, context-usage-visibility, rate-limit-disclosure]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp reports per-thread token and cost statistics, shows current cost in thread UI, and exposes the credit balance through amp usage."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer Analytics reports daily credit consumption, model and credit-source breakdowns, connectors, skills, Projects, artifacts, and task duration for personal and organization views."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code's `/usage` screen reports current-session tokens by model, cache reads and writes, duration, code changes, and an estimated cost. Subscription users also receive plan-usage bars and attribution across skills, subagents, plugins, MCP servers, and scheduled tasks, with documented version and device-scope boundaries."
   - id: 2
@@ -35,6 +39,30 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin reports per-session and account consumption through actions, VM time, bandwidth, ACUs, quota, remaining credits, and enterprise organization totals."
 resources:
+  - id: amp-2026-08-metering
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Assistant and result usage fields"
+  - id: amp-2026-08-usage-balance
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How Usage Is Charged"
+  - id: perplexity-computer-analytics
+    title: "Perplexity — Computer Analytics"
+    href: https://www.perplexity.ai/help-center/en/articles/14855310-computer-analytics
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Organization administrators; members and Pro or Max users; FAQ"
   - title: Methodology
     href: /methodology
     kind: note
@@ -95,6 +123,45 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What counts toward usage; FAQs and account views"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "streaming output reports input, cache, output, duration, and turn fields; UI and amp usage expose monetary or credit totals"
+        evidence:
+          - resourceId: amp-2026-08-metering
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-usage-balance
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "personal analytics is available to Pro, Max, and organization members; organization-wide export requires an administrator"
+          - type: runtime
+            value: "analytics refresh once daily, so the newest complete data is typically from the prior day"
+        evidence:
+          - resourceId: perplexity-computer-analytics
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

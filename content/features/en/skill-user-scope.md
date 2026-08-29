@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit's Workspace Skill library makes reusable Skills available outside one project and permits a new Skill to remain private to its creator and Workspace administrators, but the page does not establish one personal library spanning all Workspaces."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer stores user-created or uploaded skills under My Skills and makes those custom skills available for automatic activation in future conversations."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code discovers personal skills from `~/.claude/skills/` and makes them available across projects."
   - id: 2
@@ -54,6 +58,22 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers reusable skills from IDE-level, global, and configured local directories for its supported integrated agents."
 issues: []
 resources:
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill scope; Create a custom Skill; Set Workspace member access"
+  - id: perplexity-computer-skills
+    title: "Perplexity — How to use Computer Skills"
+    href: https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managing Skills; How Skills Work During a Conversation"
   - title: User-scoped Agent Skills reference
     href: https://agentskills.io/specification
     kind: spec
@@ -146,6 +166,46 @@ resources:
     reviewedAt: 2026-08-29
     locator: Skill locations; IDE and Global directories
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the documented non-project scope is a Workspace library, not an account-global library across every Workspace"
+          - type: policy
+            value: "a new custom Skill begins Private; only its creator and Workspace administrators can use it until sharing changes"
+          - type: plan
+            value: "who can manage Workspace Skills depends on plan; the page does not enumerate the complete matrix"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "My Skills is separate from the built-in skill library"
+          - type: policy
+            value: "users can delete their own skills but not built-in Perplexity skills"
+        evidence:
+          - resourceId: perplexity-computer-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

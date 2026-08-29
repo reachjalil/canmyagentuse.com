@@ -241,6 +241,28 @@ Queue rewritten: 2026-08-29 for cycle 3. Skip recorded attempts until their
 10. `jetbrains-ai`, `opencode`, `warp`, and `devin-web` × rows reopened by exact
    first-party changelog evidence; otherwise honor the 30-day attempt cooldown.
 
+## Current Phase-A snapshot after Cycle 4
+
+The validated local report is 1,145/3,534 current-track cells (32.4%). The
+remaining sub-30 harnesses, in ascending sourced count, are:
+
+1. `chatgpt-cli` — 3/114; product identity blocked, so do not inherit Codex CLI
+2. `chrome-webmcp-preview` — 10/114; keep current and preview evidence separate
+3. `aider` — 12/114
+4. `windsurf` — 13/114; product identity migration remains unresolved
+5. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
+6. `openwork-desktop` — 18/114
+7. `copilot-web` — 19/114
+8. `grok-web` — 20/114
+9. `claude-desktop` — 24/114
+10. `gemini-web` — 27/114
+11. `chatgpt-web` — 29/114
+
+Cycle 5 should prioritize release-pinned or dated exact-surface evidence for
+OpenWork Desktop, Aider, Claude Desktop, and the remaining consumer-web rows.
+Identity-blocked columns remain parked until an authoritative migration or
+product-boundary source permits a deliberate catalog decision.
+
 ## Ledger candidates
 
 Contradictions awaiting possible deliberate promotion to
@@ -264,6 +286,30 @@ but do not edit the atlas.
   src2=https://www.jetbrains.com/legal/docs/terms/product_data_collection/
   issue=The current support article states no more than 30 days for opted-in detailed data while the June 2026 legal notice states one year for detailed code-related data.
   next=Obtain a current authoritative JetBrains scope or version statement reconciling which retention term governs AI Assistant before authoring the cell.
+
+- feature=custom-instructions harness=le-chat first_seen=2026-08-29
+  src1=https://help.mistral.ai/en/articles/682992-le-chat-is-now-vibe
+  src2=https://content.mistral.ai/le-chat/
+  issue=Mistral says Le Chat became Vibe while retaining the same URL, account, and conversations, leaving the existing exact-surface catalog identity stale or ambiguous.
+  next=Deliberately migrate or alias the catalog harness after confirming whether Vibe Work, Code, and Chat are one replacement surface or require separate records.
+
+- feature=conversation-export harness=cline first_seen=2026-08-29
+  src1=https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/core/controller/task/exportTaskWithId.ts#L5-L20
+  src2=https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/proto/cline/task.proto#L27-L38
+  issue=The same stable release labels the wrapper as Markdown export while the protobuf contract describes opening the complete task directory.
+  next=Recheck the next stable release and retain medium-confidence directory and JSON wording until implementation and public documentation converge.
+
+- feature=browser-automation harness=cline first_seen=2026-08-29
+  src1=https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/browser/BrowserSession.ts#L155-L225
+  src2=https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/tools-reference/all-cline-tools.mdx#L9-L32
+  issue=The stable package retains the legacy browser_action runtime while the exhaustive ClineCore built-in tool table omits browser automation.
+  next=Recheck release packaging and runtime selection in the next stable tag; keep support partial and runtime-qualified meanwhile.
+
+- feature=mcp-cancellation harness=zed-agent first_seen=2026-08-29
+  src1=https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/client.rs#L374-L486
+  src2=https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L374-L393
+  issue=The generic MCP client can emit notifications/cancelled, but the exact native Agent call path supplies no cancellation receiver and races local UI cancellation outside the protocol client.
+  next=Reopen when the native registry wires request_with or another protocol cancellation channel into tool calls.
 
 Use this record shape:
 

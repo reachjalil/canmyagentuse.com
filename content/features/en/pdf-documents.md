@@ -22,6 +22,10 @@ parent: file-inputs
 related: [office-document-input, upload-limits]
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit's hosted Conversation composer accepts file uploads and explicitly documents asking Replit questions about a PDF."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's VS Code attachment workflow explicitly accepts PDF documents from the file system alongside text, image, CSV, and Excel files."
   - id: 11
     text: "Evidence checked 2026-08-29: Aider v0.86.0 embeds application/pdf files as model input when the selected model's metadata advertises PDF-input support."
   - id: 1
@@ -46,6 +50,22 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin sessions accept PDF attachments for prompt use, and current web release notes document inline PDF rendering."
 issues: []
 resources:
+  - id: replit-upload-use-files-current
+    title: "Replit — Upload and use files"
+    href: "https://docs.replit.com/chat/upload-and-use-files"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upload and use files; How to upload a file; Ask questions about a PDF"
+  - id: cline-v4-1-16-pdf-documents
+    title: "Cline v4.1.16 — Working with Files"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/core-workflows/working-with-files.mdx#L42-L58"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding files, supported file examples"
   - id: xai-grok-files-faq
     title: xAI — Grok files and data FAQ
     href: https://docs.x.ai/grok/faq
@@ -151,6 +171,42 @@ resources:
     reviewedAt: 2026-08-29
     locator: "2026-03-27 Inline File Previews"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit hosted Conversation documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the explicit PDF statement is on hosted Conversations and is not separately guaranteed in every Project Editor Agent thread"
+          - type: format
+            value: "the page states PDF question answering but no page, byte-size, visual-page, OCR, encrypted-file, or attachment-count boundary"
+        evidence:
+          - resourceId: replit-upload-use-files-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "PDF attachment through browse or drag-and-drop; page-count, size, OCR, and layout-preservation limits are not stated"
+        evidence:
+          - resourceId: cline-v4-1-16-pdf-documents
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

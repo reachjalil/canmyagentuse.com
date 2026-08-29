@@ -19,6 +19,10 @@ summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp defaults to running tools without approval, but its permissions system can allow, reject, prompt for approval, or delegate a decision to an external policy helper."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity web connector tools support Allow, Always ask, and Disable states; Always ask requires user confirmation before every tool call."
   - id: 14
     text: "Evidence checked 2026-08-29: Aider v0.86.0 requests confirmation before suggested shell commands and before creating or editing files outside the chat's established editable set."
   - id: 1
@@ -51,8 +55,34 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant hosts integrated agents with approve, deny, and automatic authorization flows, while exact prompts and eligible actions vary by selected agent and mode."
   - id: 53
     text: "Evidence checked 2026-08-29: Hosted Devin sessions pause for operator approval before requested blocked-network access and optional testing actions."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks requires approval or user takeover for payments, personal-data submission, communications, account changes, and other sensitive actions."
 issues: []
 resources:
+  - id: amp-2026-08-approval
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Prompt Injection Defenses — Permissions"
+  - id: amp-2026-08-tool-defaults
+    title: "Amp — Tools"
+    href: https://ampcode.com/docs/tools
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Permissions"
+  - id: perplexity-microsoft-365-connector
+    title: "Perplexity — Microsoft 365 connector"
+    href: https://www.perplexity.ai/help-center/en/articles/12569435-microsoft-365-connector-sharepoint-and-onedrive
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Managing tool permissions"
   - title: Methodology
     href: /methodology
     kind: note
@@ -180,7 +210,73 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "2026-07-01 Network Access Requests; 2026-06-03 Pre-Approve Testing"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "When is user approval required?"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "default tools do not ask; approval requires permissions or a policy plugin"
+          - type: runtime
+            value: "workspace MCP servers independently require first-use approval"
+        evidence:
+          - resourceId: amp-2026-08-approval
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-tool-defaults
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "confirmation is configurable by connector tool or tool group"
+          - type: policy
+            value: "Enterprise administrators can set organization defaults and lock individual tool settings"
+        evidence:
+          - resourceId: perplexity-microsoft-365-connector
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: policy
+            value: "explicit approval or handoff is documented for monetary, personal-data, communication, account-altering, and sensitive actions"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

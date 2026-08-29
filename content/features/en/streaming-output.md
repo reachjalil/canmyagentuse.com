@@ -19,6 +19,8 @@ summary: Show text or tool events as they arrive during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI's --stream-json mode emits system, user, assistant, tool-use, tool-result, and final result events one JSON object at a time while a conversation runs."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop's documented host mode subscribes to OpenCode SSE events for live session updates."
   - id: 2
@@ -27,8 +29,18 @@ notes:
     text: "Evidence checked 2026-08-28: OpenCode exposes server and global Server-Sent Event streams, and Devin's web progress view shows shell commands, edits, and browser activity while a session runs."
   - id: 52
     text: "Evidence checked 2026-08-29: Warp displays thinking states, tool calls, planning, terminal activity, and output while a local agent run is active."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks displays live progress steps, websites, actions, and intermediate results while running, but token-level answer streaming is not established by this evidence."
 issues: []
 resources:
+  - id: amp-2026-08-streaming
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Basic Usage; Message Schema"
   - title: Methodology
     href: /methodology
     kind: note
@@ -103,7 +115,53 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Watching Agent activity"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Task progress and monitoring"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "newline-delimited JSON; optional thinking blocks extend Claude Code compatibility"
+          - type: runtime
+            value: "requires execute mode"
+        evidence:
+          - resourceId: amp-2026-08-streaming
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: partial
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "Tasks view shows progress steps, websites, actions, and intermediate results"
+          - type: format
+            value: "token-level response streaming remains unestablished"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

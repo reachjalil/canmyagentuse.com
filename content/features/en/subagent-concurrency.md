@@ -20,6 +20,12 @@ aliases: [parallel subagents, agent fan-out, concurrent child agents]
 parent: subagents
 related: [subagent-delegation, nested-subagents, subagent-context-isolation]
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Pro supports up to ten concurrent Agent background tasks, while Core runs one at a time and queues additional accepted tasks."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp can split independent work across several specialist subagents and documents fan-out to multiple independent agent threads at the same time."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer documents Skills that dispatch several dedicated sub-agents in parallel, including simultaneous specialist research."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents multiple foreground or background subagents, describes parallel subagent work, and exposes live subagents in the `/agents` panel and background work in `/tasks`."
   - id: 2
@@ -36,6 +42,38 @@ notes:
     text: "Evidence checked 2026-08-29: Managed Devins and Dynamic Workflows run multiple child sessions in parallel with wide fan-out, but the current pages publish no universal numeric concurrency or queue limit."
 issues: []
 resources:
+  - id: replit-agent-task-system-current
+    title: "Replit — Task system"
+    href: "https://docs.replit.com/core-concepts/agent/task-system"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tasks start running; Frequently asked questions; Availability"
+  - id: amp-2026-08-subagent-concurrency
+    title: "Amp — Agent to Agent"
+    href: https://ampcode.com/docs/orbs/agent-to-agent
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Fan Out Independent Work"
+  - id: amp-2026-08-specialist-parallelism
+    title: "Amp — Modes and Models"
+    href: https://ampcode.com/docs/models-and-subagents
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specialist Subagents"
+  - id: perplexity-computer-skills
+    title: "Perplexity — How to use Computer Skills"
+    href: https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Are Skills?; Skills Work Together"
   - title: Methodology
     href: /methodology
     kind: note
@@ -109,6 +147,64 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Parallel agent fan-out and combine stages"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent task-system documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Core permits one active background task; Pro permits up to ten concurrent background tasks"
+          - type: runtime
+            value: "accepted tasks beyond the plan's active limit queue until a slot opens"
+        evidence:
+          - resourceId: replit-agent-task-system-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "parallelism is explicit, but no universal native-specialist maximum is published"
+        evidence:
+          - resourceId: amp-2026-08-subagent-concurrency
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-specialist-parallelism
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the documentation establishes overlapping sub-agent work but publishes no maximum active or queued child count"
+          - type: plan
+            value: "Computer requires an active subscription and credits"
+        evidence:
+          - resourceId: perplexity-computer-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

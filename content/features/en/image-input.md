@@ -24,6 +24,16 @@ parent: file-inputs
 related: [screenshots, video-input, upload-limits]
 highlight: true
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 accepts image input in the Agent Panel by project-file @-mention, filesystem drag-and-drop, or clipboard paste for supported vision models."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent accepts screenshots, sketches, images, and Canvas annotations as model context, including screenshot-driven layout direction."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 accepts image files through the VS Code attachment picker or drag-and-drop and indicates whether the selected model supports image input."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI streaming input accepts base64 JPEG, PNG, GIF, and WebP image blocks, and interactive prompting can mention image files."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 supports image uploads in the shared editor conversation input used by Agent mode, subject to detected or configured image_input support and provider pass-through."
   - id: 13
     text: "Evidence checked 2026-08-29: Aider accepts image files through /add, clipboard /paste, or image filenames on the command line for use with vision-capable selected models."
   - id: 1
@@ -58,6 +68,78 @@ notes:
     text: "Evidence checked 2026-08-29: Local Warp Agent conversations accept images through upload, paste, or drag-and-drop and send them as visual context."
 issues: []
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L143-L149"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Images as Context, lines 143–149"
+  - id: replit-build-with-agent-current
+    title: "Replit — Build with Agent"
+    href: "https://docs.replit.com/learn/build-with-agent"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Add context"
+  - id: replit-upload-use-files-current
+    title: "Replit — Upload and use files"
+    href: "https://docs.replit.com/chat/upload-and-use-files"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How to upload a file; Use files to"
+  - id: cline-v4-1-16-image-input
+    title: "Cline v4.1.16 — Working with Files"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/core-workflows/working-with-files.mdx#L42-L58"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding files; image model-support notice"
+  - id: amp-2026-08-image-input
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Streaming JSON Input image schema"
+  - id: amp-2026-08-image-prompts
+    title: "Amp — Prompting"
+    href: https://ampcode.com/docs/prompting
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Image pasting and file mentions"
+  - id: continue-v2-image-capabilities
+    title: "Continue v2.0.0 — image-input capability documentation"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/customize/deep-dives/model-capabilities.mdx#L12-L21
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Image-upload enablement"
+  - id: continue-v2-image-faq
+    title: "Continue v2.0.0 — image-upload troubleshooting"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/faqs.mdx#L110-L141
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "image_input, vision model, and provider requirements"
+  - id: continue-v2-agent-shared-input
+    title: "Continue v2.0.0 — Agent shared input"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/ide-extensions/agent/quick-start.mdx#L54-L56
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How to Chat with Agent mode"
   - id: xai-grok-files-faq
     title: xAI — Grok files and data FAQ
     href: https://docs.x.ai/grok/faq
@@ -191,6 +273,111 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Attaching images as context; model behavior"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires a selected model and provider that support image input"
+          - type: format
+            value: "attachment methods and representative model families are documented, but not a complete format or size table"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "documented image context includes screenshots, sketches, ordinary image files, and Canvas annotations; numeric limits are not published"
+        evidence:
+          - resourceId: replit-build-with-agent-current
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: replit-upload-use-files-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires a multimodal model"
+          - type: format
+            value: "browse or drag image files; format and size limits are not enumerated"
+        evidence:
+          - resourceId: cline-v4-1-16-image-input
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "JPEG, PNG, GIF, and WebP; declared media type must match decoded bytes"
+          - type: runtime
+            value: "--stream-json-input requires --stream-json"
+        evidence:
+          - resourceId: amp-2026-08-image-input
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-image-prompts
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires a selected model that accepts images and a provider that passes image data"
+          - type: format
+            value: "the stable documentation does not enumerate a complete format or size table"
+        evidence:
+          - resourceId: continue-v2-image-capabilities
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-image-faq
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-agent-shared-input
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

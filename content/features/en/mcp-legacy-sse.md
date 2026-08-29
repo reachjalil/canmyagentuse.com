@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp's current MCP documentation includes remote server URLs ending in /sse in both CLI and configuration examples."
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists legacy MCP SSE for Grok Bot. This is registry evidence, not an independent transport test."
   - id: 2
@@ -52,6 +54,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp local agents connect to legacy MCP Server-Sent Events endpoints and retain current SSE configuration examples."
 issues: []
 resources:
+  - id: amp-2026-08-mcp-sse
+    title: "Amp — MCP"
+    href: https://ampcode.com/docs/customize/mcp
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Remote /sse examples"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -160,6 +170,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Streamable HTTP or SSE Server; SSE examples"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "legacy remote SSE endpoint configuration alongside newer remote HTTP options"
+        evidence:
+          - resourceId: amp-2026-08-mcp-sse
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

@@ -19,6 +19,8 @@ summary: Return JSON or schema-constrained output through a documented product f
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI emits a documented line-delimited JSON conversation envelope with typed system, user, assistant, tool, and result messages, but does not validate arbitrary agent output against a caller-supplied schema."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; a JSON transport envelope is distinguished from arbitrary user-supplied schema validation in qualifiers.
   - id: 2
@@ -33,6 +35,14 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin Dynamic Workflow agent calls accept a JSON Schema and return a dictionary constrained to that schema."
 issues: []
 resources:
+  - id: amp-2026-08-structured-stream
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Message Schema; Streaming JSON Input"
   - title: Methodology
     href: /methodology
     kind: note
@@ -82,6 +92,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Authoring model; agent schema parameter"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "documented JSONL transport schema rather than caller-supplied JSON Schema validation"
+          - type: runtime
+            value: "requires --stream-json with execute mode"
+        evidence:
+          - resourceId: amp-2026-08-structured-stream
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

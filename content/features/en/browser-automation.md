@@ -12,13 +12,19 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: tools
 summary: Control a browser for navigation, clicks, forms, and page reading.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 retains browser_action automation for Chromium navigation, screenshots, clicking, typing, and scrolling in the legacy VS Code runtime, while the same release's exhaustive ClineCore tool table omits browser automation."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue documents Agent-mode browser navigation through a configured Playwright MCP server, including navigating a site and saving extracted headlines; browser automation is not a built-in default tool."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer documents attended tasks that drive a browser for booking, form filling, and site login inside its hosted task workflow."
   - id: 9
     text: "Evidence checked 2026-08-29: Replit Agent App Testing navigates a real project-preview browser, clicks controls, enters mock data, and validates workflows, but it is restricted to specified Replit web-app types and can require operator takeover."
   - id: 8
@@ -37,8 +43,34 @@ notes:
     text: "Evidence checked 2026-08-28: Devin provides native browser tools and a Chrome CDP endpoint for Playwright-driven navigation, form filling, clicks, and redirects inside its hosted session."
   - id: 6
     text: "Evidence checked 2026-08-28: Replit Agent App Testing navigates, clicks, enters mock data, validates forms and workflows, and records browser replays for supported web-app types."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks can browse, click, scroll, type, and navigate websites on a user's behalf with observable progress and takeover controls."
 issues: []
 resources:
+  - id: cline-v4-1-16-browser-automation
+    title: "Cline v4.1.16 — BrowserSession"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/browser/BrowserSession.ts#L155-L225"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "launchBrowser; browser actions and results at lines 378–591"
+  - id: continue-v2-playwright-mcp
+    title: "Continue v2.0.0 — Playwright MCP Agent-mode example"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/customize/deep-dives/mcp.mdx#L14-L50
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Playwright browser-navigation quick start"
+  - id: perplexity-scheduled-computer-tasks
+    title: "Perplexity — Scheduled Tasks in Computer"
+    href: https://www.perplexity.ai/help-center/en/articles/11521526-perplexity-tasks
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Background versus attended tasks"
   - title: Methodology
     href: /methodology
     kind: note
@@ -112,7 +144,91 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "How App Testing works; Testing Process; Key capabilities; Usage; Take over"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How Copilot Tasks works; browser-based tasks"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "legacy VS Code runtime with local headless Chromium or an optional remote Chrome debugging connection; absent from the ClineCore built-in-tool inventory"
+          - type: format
+            value: "navigation, screenshots, click, type, and scroll actions"
+        evidence:
+          - resourceId: cline-v4-1-16-browser-automation
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: partial
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "requires separately available and configured @playwright/mcp plus its browser dependencies"
+          - type: policy
+            value: "MCP is available only in Agent mode and calls remain subject to approval policy"
+        evidence:
+          - resourceId: continue-v2-playwright-mcp
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "browser-driving work is classified as attended and runs inside Computer's hosted task workflow"
+          - type: policy
+            value: "a task that needs input surfaces Needs attention rather than guessing"
+        evidence:
+          - resourceId: perplexity-scheduled-computer-tasks
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "preview browser-based Tasks; website support and usage limits may vary"
+          - type: policy
+            value: "operator can observe, interrupt, stop, or take control"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

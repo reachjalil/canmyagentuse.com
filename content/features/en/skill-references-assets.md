@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit defines a Skill as a SKILL.md folder plus supporting files that Agent can reference, establishing ancillary reference and asset resolution beyond the primary Skill body."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code skills may include templates, examples, scripts, and detailed references addressed from `SKILL.md`; supporting files load only when needed."
   - id: 2
@@ -52,6 +54,14 @@ notes:
     text: "Evidence checked 2026-08-29: Codex CLI skills support bundled references, templates, resources, and optional presentation assets."
 issues: []
 resources:
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is a Skill?"
   - title: Agent Skills references and assets reference
     href: https://agentskills.io/specification
     kind: spec
@@ -128,6 +138,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Skill directory; Optional metadata; Distribute skills with plugins"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "supporting files are colocated with SKILL.md inside the Skill folder"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

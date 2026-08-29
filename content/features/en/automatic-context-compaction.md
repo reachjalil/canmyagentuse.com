@@ -20,6 +20,10 @@ aliases: [context summarization, auto compact, conversation compression]
 parent: models-and-context
 related: [context-window, context-compaction-controls, long-term-memory]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 enables automatic compaction by default at 90% of the selected model's context window, replacing earlier messages with a visible summary so the thread can continue."
+  - id: 73
+    text: "Evidence checked 2026-08-29: the rebuilt Amp CLI automatically compacts a thread at 90% context use by summarizing the current context and continuing in a fresh window."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents auto-compaction that summarizes conversation history as context limits approach."
   - id: 2
@@ -33,6 +37,30 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp automatically summarizes a local agent conversation after it exceeds the selected model's context window so work can continue."
 resources:
+  - id: zed-v1-17-2-agent-settings
+    title: "Zed v1.17.2 — Agent Settings"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-settings.md#L58-L85"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automatic Compaction, lines 58–85"
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L151-L159"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Token Usage and Compaction, lines 151–159"
+  - id: amp-2026-08-auto-compaction
+    title: "Amp — Amp, Rebuilt"
+    href: https://ampcode.com/news/neo
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "No More Manual Context Management"
   - title: Methodology
     href: /methodology
     kind: note
@@ -90,6 +118,45 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Context window management"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "automatic compaction requires at least an 80,000-token selected-model window; smaller windows show a start-new-thread path"
+          - type: policy
+            value: "default threshold is 90% and can be changed or disabled"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-settings
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "automatic threshold is 90%; older context becomes a summary and the thread continues"
+        evidence:
+          - resourceId: amp-2026-08-auto-compaction
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

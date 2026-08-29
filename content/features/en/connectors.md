@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: tools
 summary: Connect to external services authorized by the user or organization.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity web connects authorized services and exposes connector tools for searching, reading, updating, sharing, and other actions under per-tool user and organization controls."
   - id: 8
     text: "Evidence checked 2026-08-29: the current desktop product connects to authorized external APIs, databases, issue trackers, and services through local or remote MCP servers with documented authentication and organization controls."
   - id: 7
@@ -35,8 +37,18 @@ notes:
     text: "Evidence checked 2026-08-28: Cursor, Gemini CLI, VS Code Copilot, GitHub Copilot CLI, Cline, Continue, OpenCode, Zed Agent, and Warp each document MCP-based external tools or data sources on their local agent surfaces."
   - id: 6
     text: "Evidence checked 2026-08-28: Gemini Apps documents Connected Apps on the web, while Devin and Replit Agent document hosted MCP catalogs and custom connector configuration."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks can use user-authorized email or cloud-storage connectors and lets users link or unlink them, but the reviewed page does not enumerate a stable complete connector catalog."
 issues: []
 resources:
+  - id: perplexity-microsoft-365-connector
+    title: "Perplexity — Microsoft 365 connector"
+    href: https://www.perplexity.ai/help-center/en/articles/12569435-microsoft-365-connector-sharepoint-and-onedrive
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Managing tool permissions; Trying it out"
   - id: xai-grok-connectors
     title: xAI — Grok connectors
     href: https://docs.x.ai/grok/connectors
@@ -183,7 +195,55 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Examples; Authentication; organization restrictions"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How Tasks works; What data Tasks uses — Connectors"
 support:
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the reviewed connector is documented for the Perplexity web app in desktop browsers, not the desktop or mobile apps"
+          - type: policy
+            value: "tools can be Allow, Always ask, or Disable; Enterprise administrators can disable the connector or lock defaults"
+          - type: auth
+            value: "access uses the user's Microsoft authorization and existing source permissions"
+        evidence:
+          - resourceId: perplexity-microsoft-365-connector
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: partial
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: auth
+            value: "each connected service is user authorized and can be unlinked"
+          - type: runtime
+            value: "examples include email and cloud storage; connector catalog and per-provider limits are not fully enumerated"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: windsurf
     versions:
       - track: current

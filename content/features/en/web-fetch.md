@@ -19,6 +19,16 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 lists a native fetch tool that retrieves a URL and returns Markdown, and the Agent Panel can also add URLs as explicit context."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 can fetch a supplied web URL, issue HTTP requests, and convert returned HTML into Markdown for the agent."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp documents built-in web search and web page retrieval, including read_web_page and web_search in the CLI tool inventory."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 Agent mode includes built-in fetch_url_content and search_web tools, with the fetch tool retrieving a user-specified live URL."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer performs wide research and parallel web searches, retrieves real-time information, and synthesizes cited web information during a task."
   - id: 8
     text: "Evidence checked 2026-08-29: Replit Agent's built-in Web Search fetches specified websites or URLs and reads entire live web pages, documentation, and authoritative data points with citations."
   - id: 7
@@ -39,6 +49,70 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
+  - id: zed-v1-17-2-tools
+    title: "Zed v1.17.2 — Agent Tools"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L20-L36"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "fetch, lines 30–36"
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L129-L137"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding Context, lines 129–137"
+  - id: cline-v4-1-16-web-fetch
+    title: "Cline v4.1.16 — All Cline Tools"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/tools-reference/all-cline-tools.mdx#L7-L21"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Built-in tools table, fetch_web"
+  - id: amp-2026-08-web-fetch
+    title: "Amp — Tools"
+    href: https://ampcode.com/docs/tools
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Web search and web page retrieval"
+  - id: amp-2026-08-web-tool-inventory
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Init tool inventory"
+  - id: continue-v2-agent-tools
+    title: "Continue v2.0.0 — Agent built-in tools"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/ide-extensions/agent/how-it-works.mdx#L19-L43
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Agent built-in fetch and search tools"
+  - id: continue-v2-fetch-definition
+    title: "Continue v2.0.0 — URL-fetch tool definition"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/tools/definitions/fetchUrlContent.ts
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tool description and required URL, lines 9–29"
+  - id: perplexity-computer
+    title: "Perplexity — What is Computer?"
+    href: https://www.perplexity.ai/help-center/en/articles/13837784-what-is-computer
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How does Computer work? — Wide Research and Parallel Web Search"
   - title: Methodology
     href: /methodology
     kind: note
@@ -115,6 +189,110 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Built-in — webfetch; websearch comparison"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "availability and execution follow Agent Profiles, tool permissions, project trust, and sandbox network policy"
+          - type: format
+            value: "returned page content is converted to Markdown"
+        evidence:
+          - resourceId: zed-v1-17-2-tools
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "HTTP requests"
+          - type: format
+            value: "HTML responses converted to Markdown"
+          - type: runtime
+            value: "the user may provide a URL in the task"
+        evidence:
+          - resourceId: cline-v4-1-16-web-fetch
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "web retrieval is service-backed and subject to network and product policy"
+        evidence:
+          - resourceId: amp-2026-08-web-fetch
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-web-tool-inventory
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "network reachability and the configured environment determine whether a URL can be fetched"
+          - type: policy
+            value: "tool inclusion and execution remain subject to Agent-mode policy"
+        evidence:
+          - resourceId: continue-v2-agent-tools
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-fetch-definition
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "retrieval executes in Computer's hosted cloud environment"
+          - type: plan
+            value: "Computer requires an active subscription and available credits"
+        evidence:
+          - resourceId: perplexity-computer
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2's native MCP tool path uses a client request wrapper with cancel_rx=None; the UI separately races user cancellation without sending notifications/cancelled for that request."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 propagates an abort signal into MCP tool calls, and its exact SDK 1.30.0 sends notifications/cancelled when an in-flight request is aborted or times out."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 supplies an MCP tool timeout, causing SDK 1.29.0 to send notifications/cancelled; its adapter does not supply an AbortSignal, so direct user-driven cancellation is not established."
   - id: 1
     text: "VS Code source sends notifications/cancelled when a pending MCP request is cancelled and cancels pending requests when it receives the same notification."
   - id: 2
@@ -36,6 +42,46 @@ notes:
     text: "Evidence checked 2026-08-29: Aborting an OpenCode v1.18.25 MCP tool execution propagates the signal to the pinned SDK, which sends notifications/cancelled for the in-flight request."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-registry-source
+    title: "Zed v1.17.2 — native Agent MCP tool call"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L374-L393"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "protocol.request and user-cancellation race, lines 374–393"
+  - id: zed-v1-17-2-mcp-client-source
+    title: "Zed v1.17.2 — MCP client request lifecycle"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/client.rs#L374-L486"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "request supplies cancel_rx=None; request_with cancellation notification, lines 374–486"
+  - id: cline-v4-1-16-mcp-cancellation
+    title: "Cline v4.1.16 — MCP tool cancellation path"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/sdk/vscode-runtime-builder.ts#L16-L45"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "callTool passes request.context.signal; McpHub request options at lines 1673–1725"
+  - id: cline-v4-1-16-mcp-cancellation-secondary
+    title: "MCP TypeScript SDK 1.30.0 — cancellation"
+    href: "https://github.com/modelcontextprotocol/typescript-sdk/blob/2d889f2b329e46680ec9bdd565de4616c497825a/src/shared/protocol.ts#L1165-L1218"
+    kind: docs
+    publisher: "Model Context Protocol Project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Abort listener and CancelledNotification emission"
+  - id: continue-v2-mcp-tool-adapter
+    title: "Continue v2.0.0 — MCP tool-call options"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/tools/callTool.ts#L98-L109
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "callTool receives only a timeout option"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -72,6 +118,74 @@ resources:
     reviewedAt: 2026-08-29
     locator: "AbortSignal listener and cancellation notification construction"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "user cancellation stops the local UI/tool future but is not passed into the protocol cancellation channel"
+          - type: protocol-revision
+            value: "the generic client can construct notifications/cancelled only when a caller supplies cancel_rx; the native Agent path does not"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-registry-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-client-source
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20 with MCP TypeScript SDK 1.30.0 commit 2d889f2b329e46680ec9bdd565de4616c497825a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: transport
+            value: "AbortSignal propagated to tools/call and SDK notifications/cancelled"
+          - type: protocol-revision
+            value: "SDK 1.30.0 negotiates through MCP 2025-11-25"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-cancellation
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: cline-v4-1-16-mcp-cancellation-secondary
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: partial
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad with MCP TypeScript SDK 1.29.0"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "proven path is request timeout; the adapter passes timeout but no signal"
+          - type: protocol-revision
+            value: "SDK 1.29.0 emits notifications/cancelled for timeout cancellation"
+        evidence:
+          - resourceId: continue-v2-mcp-tool-adapter
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-cancellation
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

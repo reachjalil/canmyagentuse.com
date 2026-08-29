@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp supports hosted remote MCP servers over Streamable HTTP with OAuth or bearer-token authentication."
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists MCP Streamable HTTP for Grok Bot. This is registry evidence, not an independent transport test."
   - id: 2
@@ -52,6 +54,22 @@ notes:
     text: "Evidence checked 2026-08-29: Warp local agents connect to MCP servers over Streamable HTTP with optional custom headers."
 issues: []
 resources:
+  - id: amp-2026-08-mcp-streamable
+    title: "Amp — MCP in Orbs"
+    href: https://ampcode.com/news/mcp-in-orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Streamable HTTP with OAuth or bearer tokens"
+  - id: amp-2026-08-mcp-remote
+    title: "Amp — MCP"
+    href: https://ampcode.com/docs/customize/mcp
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Remote URL and headers configuration"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -160,6 +178,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Adding an MCP Server; Streamable HTTP configuration examples"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "Streamable HTTP for hosted remote servers"
+          - type: auth
+            value: "OAuth, bearer-token headers, or managed remote authentication"
+        evidence:
+          - resourceId: amp-2026-08-mcp-streamable
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-mcp-remote
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

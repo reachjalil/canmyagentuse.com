@@ -20,6 +20,18 @@ aliases: [retention policy, delete chat data, zero retention, data lifecycle]
 parent: data-security-controls
 related: [conversation-export, audit-logs]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 documents default non-retention, provider-path exceptions, explicit opt-in persistence, and permanent deletion of local thread history."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit's service-wide Privacy Policy expressly covers prompts, project files, generated responses, revision history, messages, and attachments and provides access, portability, and deletion requests, but no fixed Agent-data period or per-conversation retention control."
+  - id: 74
+    text: "Evidence checked 2026-08-29: enterprise Cline v4.1.16 prompt storage supports customer-defined S3 lifecycle archival and deletion policies, but those controls cover centralized prompt backups rather than every local, provider, telemetry, cache, and backup data class."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp documents Enterprise Minimal Data Retention, explicit thread deletion within 30 days, account and workspace ownership rules, and optional configurable Enterprise thread retention."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 documents a clean reset that deletes local extension configuration and indices from ~/.continue; provider, Hub, telemetry, and backup retention remain unestablished."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity web supports user deletion of sessions, Projects, and accounts, plus Enterprise session-retention policies and enforced Incognito mode with documented object-specific lifetimes."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents steps to remove Grok Bot routines, connectors, shared files, and Bots, but deleting a Bot does not remove shared-computer files or browser sessions and backend retention follows applicable Cursor terms. No configurable retention period or verified completion timeline is documented on the reviewed page."
   - id: 2
@@ -36,8 +48,84 @@ notes:
     text: "Evidence checked 2026-08-29: Warp documents cloud-conversation deletion, account-deletion timing, shared-session expiry, and telemetry retention, but no general configurable retention period."
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition documents that data processed through hosted Devin is retained for the customer relationship unless the customer specifies otherwise, while feedback and interaction data may be retained as needed."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot retains conversation activity for 18 months by default, permits individual or full-history deletion, and automatically deletes uploaded files after up to 18 months."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Grok.com users can delete selected conversations, all history, or the account; deleted and Private Chat conversations are removed within 30 days subject to de-identification and legal or safety exceptions."
 issues: []
 resources:
+  - id: zed-v1-17-2-ai-privacy
+    title: "Zed v1.17.2 — AI Privacy"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/privacy-and-security.md#L13-L20"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Default handling, lines 13–20; request paths and hosted-model commitments, lines 22–88"
+  - id: zed-v1-17-2-parallel-agents
+    title: "Zed v1.17.2 — Parallel Agents"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/parallel-agents.md#L28-L38"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Thread History, lines 28–38"
+  - id: replit-privacy-policy-2026-08-03
+    title: "Replit — Privacy Policy"
+    href: "https://replit.com/privacy-policy"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Last updated August 3, 2026; Personal Data We Collect; Your Privacy Rights and Choices; Security"
+  - id: cline-v4-1-16-data-retention-controls
+    title: "Cline v4.1.16 — Prompt Storage"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/enterprise-solutions/monitoring/prompt-storage.mdx#L246-L272"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "S3 lifecycle policy example; retention guidance at lines 478–484"
+  - id: amp-2026-08-retention
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Data Security and Retention; Thread Data"
+  - id: amp-2026-08-retention-plan
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Enterprise configurable thread retention"
+  - id: continue-v2-local-reset
+    title: "Continue v2.0.0 — extension-state reset"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/faqs.mdx#L311-L316
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How do I reset the state of the extension?"
+  - id: perplexity-account-deletion
+    title: "Perplexity — Account Deletion"
+    href: https://www.perplexity.ai/help-center/en/articles/10354879-account-deletion
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Delete account data, sessions, Projects, files, images, and generated assets"
+  - id: perplexity-enterprise-retention
+    title: "Perplexity — Data Retention for Enterprise"
+    href: https://www.perplexity.ai/help-center/en/articles/11652701-data-retention-for-enterprise
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "File retention; session retention periods; FAQ"
   - title: Methodology
     href: /methodology
     kind: note
@@ -129,7 +217,192 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Privacy and Intellectual Property; data retention policy"
+  - id: microsoft-copilot-privacy-faq
+    title: "Microsoft — Privacy FAQ for Microsoft Copilot"
+    href: https://support.microsoft.com/en-us/Microsoft-Copilot/privacy-faq-for-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Conversation History; file uploads and retention"
+  - id: spacexai-grok-consumer-faq
+    title: "SpaceXAI — Consumer FAQs"
+    href: https://x.ai/legal/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Private Chat; data and account deletion; retention"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "Zed-hosted inference is zero-retention except designated safety-retention models, which may retain prompts and outputs for at least 30 days"
+          - type: host-role
+            value: "own API keys, subscriptions, gateways, local models, External Agents, and Terminal Threads follow their respective terms"
+          - type: auth
+            value: "Zed retains AI data only after explicit feedback submission or eligible training-data opt-in"
+          - type: format
+            value: "Thread History deletion removes conversation history and associated worktree data locally and is irreversible"
+        evidence:
+          - resourceId: zed-v1-17-2-ai-privacy
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-parallel-agents
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: dated-documentation
+          revision: "Replit Privacy Policy last updated 2026-08-03, observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "users can request Personal Data deletion by email or account settings, subject to legal exceptions; data is deleted or de-identified when identifiable retention is no longer necessary"
+          - type: runtime
+            value: "service-wide lifecycle policy covering prompts and generated responses, not a per-thread or administrator-configurable Agent retention period"
+        evidence:
+          - resourceId: replit-privacy-policy-2026-08-03
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "enterprise prompt storage"
+          - type: policy
+            value: "retention is implemented through customer-managed S3 lifecycle rules"
+          - type: format
+            value: "applies to centralized conversation and tool-input/output backups rather than every Cline data class"
+        evidence:
+          - resourceId: cline-v4-1-16-data-retention-controls
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "explicitly deleted thread data is removed within 30 days"
+          - type: plan
+            value: "Minimal Data Retention and configurable retention are Enterprise controls; provider safety retention can still apply"
+        evidence:
+          - resourceId: amp-2026-08-retention
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-retention-plan
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: partial
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "documented local clean reset, not a configurable retention period"
+          - type: runtime
+            value: "covers local configuration and indices only, not provider, Hub, telemetry, logs, legal holds, or backups"
+        evidence:
+          - resourceId: continue-v2-local-reset
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "consumer account deletion completes within 30 days; sessions and Projects can be deleted individually or in bulk"
+          - type: plan
+            value: "Enterprise session attachments are deleted after seven days while repository, My Files, and Project files persist until deletion"
+          - type: runtime
+            value: "custom Enterprise retention can make old sessions inaccessible immediately and permanently delete them within seven days"
+        evidence:
+          - resourceId: perplexity-account-deletion
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: perplexity-enterprise-retention
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "account data may otherwise remain as long as the user keeps it; unauthenticated sessions are not retained for user access"
+          - type: policy
+            value: "deletion completes within 30 days unless content is de-identified, disassociated, or retained for safety, security, or legal reasons"
+        evidence:
+          - resourceId: spacexai-grok-consumer-faq
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "conversation activity defaults to 18 months; users can delete individual conversations or all history"
+          - type: policy
+            value: "uploaded files are stored for up to 18 months and then automatically deleted"
+        evidence:
+          - resourceId: microsoft-copilot-privacy-faq
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

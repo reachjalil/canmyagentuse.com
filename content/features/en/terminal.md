@@ -20,6 +20,8 @@ summary: Propose or execute shell commands in a project environment.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI exposes Bash among its documented tools and remote orb threads provide a shared tmux terminal on the same filesystem as the agent."
   - id: 18
     text: "Evidence checked 2026-08-29: Replit Agent runs commands in the selected project, with General Agent setting up and operating within a Replit-hosted execution environment."
   - id: 17
@@ -58,6 +60,22 @@ notes:
     text: "Evidence checked 2026-08-28: Aider includes a user-invoked `/run` command for executing shell commands and optionally adding output to chat, but the cited reference does not establish an autonomous model tool for proposing and running commands."
 issues: []
 resources:
+  - id: amp-2026-08-terminal
+    title: "Amp — Orbs"
+    href: https://ampcode.com/docs/orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Use the Terminal"
+  - id: amp-2026-08-terminal-tool
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Init tool inventory including Bash"
   - id: anthropic-cli-terminal
     title: Anthropic — Claude Code CLI reference
     href: https://docs.anthropic.com/en/docs/claude-code/cli-usage
@@ -203,6 +221,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Just start chatting; What to expect"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local agent shell commands are distinct from the optional operator-visible orb terminal pane"
+        evidence:
+          - resourceId: amp-2026-08-terminal
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-terminal-tool
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

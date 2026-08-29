@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent guides users through OAuth when signing in to a pre-listed MCP server and when a custom MCP endpoint requires an OAuth flow."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp automatically initiates supported remote MCP OAuth flows and documents manual client registration, secure token storage, refresh, and logout."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents browser-based OAuth for remote HTTP MCP servers, secure token storage and refresh, revocation, callback recovery, and fixed callback-port or preconfigured-client options."
   - id: 2
@@ -48,6 +52,22 @@ notes:
     text: "Evidence checked 2026-08-29: Warp completes browser-based OAuth for protected MCP servers, stores credentials securely on-device, reuses them, and supports revocation."
 issues: []
 resources:
+  - id: replit-agent-mcp-current
+    title: "Replit — Connect via MCP"
+    href: "https://docs.replit.com/build/connect-via-mcp"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Connect a pre-listed MCP server — Sign in; Add a custom MCP server — Test & save"
+  - id: amp-2026-08-mcp-oauth
+    title: "Amp — MCP"
+    href: https://ampcode.com/docs/customize/mcp
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "OAuth for Remote MCP Servers"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -140,6 +160,44 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Authentication in MCP servers"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent MCP documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "OAuth is server-dependent; custom-header authentication is also available for custom endpoints"
+          - type: transport
+            value: "custom MCP servers are added by HTTPS endpoint"
+        evidence:
+          - resourceId: replit-agent-mcp-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "automatic registration where supported or manual client ID, secret, scopes, and localhost callback"
+          - type: runtime
+            value: "browser OAuth is unavailable inside orbs unless using managed MCP"
+        evidence:
+          - resourceId: amp-2026-08-mcp-oauth
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

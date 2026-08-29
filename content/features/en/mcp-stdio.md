@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI configures local MCP servers with command, args, and env and documents launching a server through amp mcp add."
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists MCP stdio for Grok Bot. This is registry evidence, not an independent transport test."
   - id: 2
@@ -52,6 +54,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp launches local command-based MCP servers over stdio, including documented npx and Docker configurations."
 issues: []
 resources:
+  - id: amp-2026-08-mcp-stdio
+    title: "Amp — MCP"
+    href: https://ampcode.com/docs/customize/mcp
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Local command, args, and env configuration"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -160,6 +170,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Adding an MCP Server; command-based examples selecting stdio"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "local child-process command transport corresponding to MCP stdio"
+          - type: policy
+            value: "workspace-configured servers require explicit approval"
+        evidence:
+          - resourceId: amp-2026-08-mcp-stdio
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

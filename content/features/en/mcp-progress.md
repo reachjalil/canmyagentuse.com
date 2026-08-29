@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2's native tool call sends no progress token, and the active registry registers only tools/list_changed with no notifications/progress handler."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive MCP request paths pass timeout and optional abort signal but never provide SDK 1.30.0's onprogress callback, so no progress token or progress-notification handling is activated."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 passes only a timeout to MCP tool requests, omitting SDK 1.29.0's onprogress callback and progress-token request path."
   - id: 1
     text: "VS Code source exposes and fires an event for MCP notifications/progress messages."
   - id: 2
@@ -36,6 +42,62 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 requests and receives MCP progress notifications during tool calls and uses matching updates to extend the request timeout."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-registry-source
+    title: "Zed v1.17.2 — native Agent MCP tool call"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L374-L393"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CallTool request with meta: None and user-cancel race, lines 374–393"
+  - id: zed-v1-17-2-mcp-registry-subscriptions
+    title: "Zed v1.17.2 — native MCP notification subscription"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L124-L168"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Only tools/list_changed subscription, lines 124–168"
+  - id: cline-v4-1-16-mcp-progress
+    title: "Cline v4.1.16 — exhaustive MCP request options"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L884-L1005"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "List request options and callTool options at lines 1713–1725"
+  - id: cline-v4-1-16-mcp-progress-secondary
+    title: "MCP TypeScript SDK 1.30.0 — progress option"
+    href: "https://github.com/modelcontextprotocol/typescript-sdk/blob/2d889f2b329e46680ec9bdd565de4616c497825a/src/shared/protocol.ts#L111-L129"
+    kind: docs
+    publisher: "Model Context Protocol Project"
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "RequestOptions.onprogress and progressToken behavior"
+  - id: continue-v2-mcp-tool-adapter
+    title: "Continue v2.0.0 — MCP call options"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/tools/callTool.ts#L98-L109
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "callTool request options"
+  - id: mcp-sdk-v1-29-request-options
+    title: "MCP TypeScript SDK v1.29.0 — progress request option"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/shared/protocol.ts#L111-L135
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "RequestOptions.onprogress"
+  - id: mcp-sdk-v1-29-progress-token
+    title: "MCP TypeScript SDK v1.29.0 — progress-token behavior"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/shared/protocol.ts#L1135-L1144
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Progress token only with onprogress"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -72,6 +134,77 @@ resources:
     reviewedAt: 2026-08-29
     locator: "RequestOptions.onprogress and matching progress notification handling"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "MCP tool requests set call metadata to none and no native Agent subscriber consumes progress updates"
+          - type: host-role
+            value: "negative excludes behavior implemented by a forwarded ACP External Agent"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-registry-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-registry-subscriptions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20 with MCP TypeScript SDK 1.30.0 commit 2d889f2b329e46680ec9bdd565de4616c497825a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: runtime
+            value: "list and tool requests omit onprogress"
+          - type: protocol-revision
+            value: "SDK adds a progressToken only when onprogress is supplied"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-progress
+            type: listed
+            observedAt: 2026-08-29
+          - resourceId: cline-v4-1-16-mcp-progress-secondary
+            type: listed
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: no
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad with MCP TypeScript SDK 1.29.0"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "SDK 1.29.0 requests progress only when onprogress is supplied"
+          - type: runtime
+            value: "Continue's MCP call adapter supplies timeout only"
+        evidence:
+          - resourceId: continue-v2-mcp-tool-adapter
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-request-options
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-progress-token
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

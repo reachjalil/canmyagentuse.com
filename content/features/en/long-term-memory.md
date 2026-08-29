@@ -19,6 +19,12 @@ summary: Persist notes across sessions.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Memories retain preferences and working context across Conversations and Projects, with distinct user, project, and custom memory scopes plus view, edit, disable, and sharing controls."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer maintains persistent memory across sessions, retains context from long conversations, and stores user preferences and shared information for later work."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Gemini Apps can use memory of past chats to personalize later consumer-web chats; eligible users can turn Memory on or off, inspect whether it was used, and delete source chats, subject to age, account, and Keep Activity requirements."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents that a Grok Bot can retain stable working preferences, important facts, and work summaries over time; it warns that memory is not a substitute for an authoritative source."
   - id: 2
@@ -31,8 +37,42 @@ notes:
     text: "Evidence checked 2026-08-29: Warp Agent Memory persists facts and outcomes across conversations and machines, but access is limited to enabled design-partner teams in a research preview."
   - id: 53
     text: "Evidence checked 2026-08-29: Devin Knowledge is retained across sessions, automatically recalls relevant items from trigger descriptions, and can suggest new or updated memories from chat feedback."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Signed-in consumer Microsoft Copilot remembers key details across conversations and lets users view, add, edit, delete, or completely disable saved memory."
 issues: []
 resources:
+  - id: replit-memories-current
+    title: "Replit — Memories"
+    href: "https://docs.replit.com/chat/memories"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Manage your Memories; FAQ — What can Memories retain?; Where do Memories apply?; Can I view, edit, or turn off Memories?"
+  - id: perplexity-computer
+    title: "Perplexity — What is Computer?"
+    href: https://www.perplexity.ai/help-center/en/articles/13837784-what-is-computer
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is Computer?; Personal Cloud Sandbox"
+  - id: perplexity-computer-brain
+    title: "Perplexity — Brain"
+    href: https://www.perplexity.ai/help-center/en/articles/19700001-what-is-brain
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is Brain?; Brain versus Memory; inspect and edit learned entries"
+  - id: google-gemini-web-past-chat-memory
+    title: "Google — Get personalization with memory of your past Gemini chats"
+    href: https://support.google.com/gemini/answer/16598469?co=GENIE.Platform%3DDesktop&hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need; Turn Memory on or off; Find and delete your past chats"
   - id: xai-grok-bot-memory
     title: xAI — Create and manage Grok Bots
     href: https://docs.x.ai/grok-bot/bots
@@ -89,7 +129,96 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "What is Knowledge?; Knowledge Suggestions; Tips and tricks"
+  - id: microsoft-copilot-privacy-controls
+    title: "Microsoft — Copilot privacy controls"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Disable personalization and memory; control what Copilot remembers"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Memory is opt-in and can be disabled; user memory belongs to one builder and Workspace, while project memory stays with one Project and is retrieved when relevant"
+          - type: policy
+            value: "Memories are private by default; collaborator sharing is off by default"
+        evidence:
+          - resourceId: replit-memories-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "baseline Memory persists preferences and shared information; Brain adds a source-linked work graph"
+          - type: plan
+            value: "Brain is explicitly Research Preview for Max and Enterprise Max"
+          - type: policy
+            value: "Brain ignores Incognito sessions and lets users inspect, edit, delete, or disable learned entries"
+        evidence:
+          - resourceId: perplexity-computer
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: perplexity-computer-brain
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires age 18 or over, a personal Google Account, and Keep Activity enabled"
+          - type: runtime
+            value: "available on gemini.google.com but not in Gems or Live chats; deletion can take a short time to affect personalization"
+        evidence:
+          - resourceId: google-gemini-web-past-chat-memory
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires a signed-in personal Microsoft Account or supported third-party account"
+          - type: policy
+            value: "users can disable memory, delete individual memories, or delete all memory independently of chat history"
+        evidence:
+          - resourceId: microsoft-copilot-privacy-controls
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

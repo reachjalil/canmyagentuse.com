@@ -20,6 +20,8 @@ aliases: [enterprise policy, organization controls, managed settings]
 parent: data-security-controls
 related: [audit-logs, training-data-controls, human-approval]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp Enterprise administrators can deploy managed settings that override user and workspace configuration and centrally constrain MCP servers, sharing, model routing, usage, and authentication."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot team administrators can control Cloud Agents, inherit team privacy mode, MCP configuration and team rules, enforce MCP server and network allowlists, restrict member-added servers, and restrict local-computer execution. The reviewed docs do not establish the full policy surface in this row."
   - id: 2
@@ -46,6 +48,22 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
+  - id: amp-2026-08-admin-settings
+    title: "Amp — Configuration"
+    href: https://ampcode.com/docs/cli/settings
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Enterprise Managed Settings"
+  - id: amp-2026-08-enterprise-controls
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Enterprise controls"
   - title: Methodology
     href: /methodology
     kind: note
@@ -177,6 +195,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Bindings; mandatory enforcement; permissions and governance"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "managed settings and advanced organization controls require Enterprise"
+          - type: policy
+            value: "managed settings override workspace and user settings"
+        evidence:
+          - resourceId: amp-2026-08-admin-settings
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-enterprise-controls
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

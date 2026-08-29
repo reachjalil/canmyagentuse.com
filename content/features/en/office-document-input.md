@@ -20,6 +20,8 @@ aliases: [document upload, DOCX input, spreadsheet upload, presentation upload]
 parent: file-inputs
 related: [pdf-documents, upload-limits]
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit's hosted Conversation composer accepts documents and spreadsheets as request context and explicitly supports spreadsheet analysis."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI's Grok FAQ lists DOCX, TXT, CSV, XLSX, PPTX, HTML, XML, JSON, and Markdown as direct Grok chat inputs and describes comparison, extraction, spreadsheet analysis, and document transformation."
   - id: 2
@@ -36,6 +38,14 @@ notes:
     text: "Evidence checked 2026-08-28: Mistral's current Vibe Work documentation, which supersedes Le Chat at chat.mistral.ai, accepts Word, PowerPoint, Excel, CSV, ODT, RTF, ODS, Numbers, and other document formats and reads their content as task context."
 issues: []
 resources:
+  - id: replit-upload-use-files-current
+    title: "Replit — Upload and use files"
+    href: "https://docs.replit.com/chat/upload-and-use-files"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Upload and use files; How to upload a file; Analyze a spreadsheet"
   - title: Methodology
     href: /methodology
     kind: note
@@ -104,6 +114,25 @@ resources:
     reviewedAt: 2026-08-28
     locator: Le Chat is now Vibe; product entry point
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit hosted Conversation documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the explicit document-input flow is documented for hosted Conversations and not separately guaranteed for every Project Editor Agent thread"
+          - type: format
+            value: "documents and spreadsheets are named generically without exact DOCX, XLSX, PPTX, CSV, fidelity, or formula guarantees"
+        evidence:
+          - resourceId: replit-upload-use-files-current
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-web
     versions:
       - track: current

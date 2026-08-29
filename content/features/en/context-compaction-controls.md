@@ -20,6 +20,8 @@ aliases: [manual compact, compaction settings, context pinning]
 parent: models-and-context
 related: [automatic-context-compaction, context-usage-visibility]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes /compact, displays an expandable Context Compacted summary, accepts percentage or token-count thresholds, and lets users disable automatic compaction or choose a separate model."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT desktop exposes /compact to compact the current chat context."
   - id: 2
@@ -35,6 +37,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp exposes slash commands that manually compact the active conversation, optionally fork first, and send a follow-up after summarization."
 resources:
+  - id: zed-v1-17-2-agent-settings
+    title: "Zed v1.17.2 — Agent Settings"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-settings.md#L58-L108"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automatic Compaction and Compaction Model, lines 58–108"
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L151-L159"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Token Usage and Compaction, lines 151–159"
   - title: Methodology
     href: /methodology
     kind: note
@@ -107,6 +125,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Using the /fork-and-compact slash command"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "threshold accepts a percentage, positive used-token count, or negative remaining-token count; invalid values fall back to 90%"
+          - type: runtime
+            value: "manual and automatic compaction use the thread model unless agent.compaction_model selects another configured model"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-settings
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

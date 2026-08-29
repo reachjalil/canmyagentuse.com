@@ -28,12 +28,22 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp Enterprise can enforce an MCP registry allowlist endpoint for all or selected workspace users and block servers outside it."
   - id: 1
     text: "VS Code can browse and install MCP server metadata from an administrator-configured registry and can restrict access to registry-listed servers."
   - id: 2
     text: "Evidence checked 2026-08-29: goose v1.48.0's maintained discovery implementation enumerates configured extensions only; its documentation directs users to a separate directory rather than consuming official MCP Registry metadata."
 issues: []
 resources:
+  - id: amp-2026-08-mcp-registry
+    title: "Amp — Appendix"
+    href: https://ampcode.com/manual/appendix
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "MCP Registry Allowlist"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -62,6 +72,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Extension discovery guidance"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "Enterprise workspace control"
+          - type: policy
+            value: "registry can apply to all or selected users; clearing it removes the restriction"
+        evidence:
+          - resourceId: amp-2026-08-mcp-registry
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

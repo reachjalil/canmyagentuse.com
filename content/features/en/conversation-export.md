@@ -20,6 +20,12 @@ aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes Open Thread as Markdown in the Agent Panel and a dedicated open-active-thread-as-Markdown action, producing a Markdown representation of the entire thread."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 exposes a task-export operation that opens the saved task's on-disk session directory containing conversation JSON, messages, and logs; a same-release wrapper comment still describes Markdown export."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 can export the current editor conversation as Markdown through the legacy /share command, but the command must be enabled through deprecated config.json slash-command configuration."
   - id: 7
     text: "Evidence checked 2026-08-29: Amp CLI documents per-thread Markdown and full-JSON export commands for conversations containing prompts, replies, tool calls, and changed-file history."
   - id: 1
@@ -38,7 +44,43 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 documents per-session JSON export, optional sensitive-data sanitization, and import from exported JSON or a share URL."
   - id: 52
     text: "Evidence checked 2026-08-29: Warp can copy a complete AI conversation to the clipboard, but current docs specify no durable file format, structured schema, or restore path."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Microsoft's personal privacy dashboard exports Copilot Chat activity history as CSV, but the current documentation does not establish full file payloads, rich formatting, or a restore path."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Grok.com Data Controls lets users download their data, but the current Consumer FAQ does not document the export format, included conversation fields, attachments, or restore support."
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L78-L85"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Context Menu, lines 78–85; Errors and Debugging, lines 195–199"
+  - id: cline-v4-1-16-conversation-export
+    title: "Cline v4.1.16 — task export contract"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/proto/cline/task.proto#L27-L38"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "TaskService.ExportTaskWithId RPC comment"
+  - id: continue-v2-share-docs
+    title: "Continue v2.0.0 — legacy /share documentation"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/reference/json-reference.mdx#L287-L313
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Built-in slash commands — /share"
+  - id: continue-v2-share-source
+    title: "Continue v2.0.0 — /share implementation"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/commands/slash/built-in-legacy/share.ts
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Current-history Markdown export, lines 7–17"
   - title: Methodology
     href: /methodology
     kind: note
@@ -122,7 +164,117 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Copy Input / Output of Block"
+  - id: microsoft-copilot-activity-export
+    title: "Microsoft — Manage Copilot activity history in the privacy dashboard"
+    href: https://support.microsoft.com/en-us/privacy/manage-your-copilot-activity-history-in-the-privacy-dashboard
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Export all Copilot Chat activity history"
+  - id: spacexai-grok-consumer-faq
+    title: "SpaceXAI — Consumer FAQs"
+    href: https://x.ai/legal/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Data subject rights; download data through Grok.com Settings and Data Controls"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "the entire thread opens as a Markdown file in a Zed tab; no JSON archive or provider-portable import format is promised"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "on-disk session directory containing JSON task files and logs"
+          - type: runtime
+            value: "export operates on a saved Cline task"
+        evidence:
+          - resourceId: cline-v4-1-16-conversation-export
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: partial
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "Markdown transcript of the current session"
+          - type: runtime
+            value: "legacy /share must be added to deprecated config.json and is not a default general export control"
+        evidence:
+          - resourceId: continue-v2-share-docs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-share-source
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "self-service data download with undocumented schema, payload scope, and no established import or restore path"
+        evidence:
+          - resourceId: spacexai-grok-consumer-faq
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "CSV activity-history download; no restorable conversation archive, attachment bundle, or full-fidelity transcript format is established"
+          - type: auth
+            value: "requires the Microsoft account privacy dashboard"
+        evidence:
+          - resourceId: microsoft-copilot-activity-export
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [child model choice, subagent model, delegated model routing]
 parent: subagents
 related: [model-selection, reasoning-effort-controls, subagent-delegation]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes agent.subagent_model, allowing subagents to use a configured model distinct from the parent thread, but does not establish a separate choice per child invocation."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code subagent definitions accept a `model` field with aliases or a full model ID and can separately set child reasoning `effort`; omitted values inherit session defaults."
   - id: 2
@@ -36,6 +38,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp can assign an individual child a model different from its parent and exposes inherited and per-child model configuration before launch."
 issues: []
 resources:
+  - id: zed-v1-17-2-agent-settings
+    title: "Zed v1.17.2 — Agent Settings"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-settings.md#L34-L45"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Feature-Specific Settings, lines 34–45; Feature-Specific Models, lines 153–157"
   - title: Methodology
     href: /methodology
     kind: note
@@ -92,6 +102,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Parent/child model; Approval mode"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "one configured agent.subagent_model applies to subagents as a feature class; no per-spawn model argument is documented"
+          - type: auth
+            value: "the selected subagent model must be available through a configured provider"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-settings
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

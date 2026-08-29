@@ -20,6 +20,10 @@ aliases: [activity log, security log, admin audit]
 parent: data-security-controls
 related: [admin-policy-controls, subagent-approval-boundaries, conversation-export]
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-29: enterprise Cline v4.1.16 can export authentication, task, tool, approval, edit, MCP, browser, and terminal events through OpenTelemetry, but records omit content and paths and require customer-managed infrastructure."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp Enterprise exposes authentication audit logs to administrators, retains application audit logs at least 30 days, and can provide application logs on request."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI's Grok Bot team documentation says spend and usage are visible in the dashboard but an audit view of Bot actions is still coming. Conversation transcripts expose activity but do not satisfy this row's exportable security-event audit-log definition."
   - id: 2
@@ -42,6 +46,22 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise exposes customer-facing security and administrative audit records with actor, action, organization, timestamp, data, filters, and pagination."
 issues: []
 resources:
+  - id: cline-v4-1-16-audit-logs
+    title: "Cline v4.1.16 — OpenTelemetry"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/enterprise-solutions/monitoring/opentelemetry.mdx#L7-L35"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview and privacy scope; event inventory in opentelemetry-events.mdx"
+  - id: amp-2026-08-audit
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Audit Logging"
   - title: Methodology
     href: /methodology
     kind: note
@@ -142,6 +162,46 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Account-Level Roles — View Audit Logs"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "enterprise-managed deployment"
+          - type: policy
+            value: "the organization must opt in and operate an OTLP destination"
+          - type: format
+            value: "anonymous operational records omit conversation content, file paths, and command arguments"
+        evidence:
+          - resourceId: cline-v4-1-16-audit-logs
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "authentication logs are available to Enterprise admins; application logs are provided on request"
+          - type: policy
+            value: "application logs include timestamps, actor IDs, request details, and events and are retained at least 30 days"
+        evidence:
+          - resourceId: amp-2026-08-audit
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

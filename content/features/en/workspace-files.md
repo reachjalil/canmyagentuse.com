@@ -20,6 +20,10 @@ summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI works in the current repository, reads and edits workspace files, and exposes file discovery, read, create, edit, glob, and grep tools."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Projects provide persistent hosted files, including folders and connected-source imports, and Computer can create, update, and manage those Project files."
   - id: 19
     text: "Evidence checked 2026-08-29: Goose CLI v1.48.0 enables its Developer extension by default and provides file-write and exact-text-edit tools for accessible local files; permission mode controls whether operations require approval."
   - id: 18
@@ -60,6 +64,30 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Agent writes code and sets up a hosted project in the Project Editor, including projects imported from GitHub or uploaded files; the workspace is Replit-hosted rather than an arbitrary local directory."
 issues: []
 resources:
+  - id: amp-2026-08-workspace-files
+    title: "Amp — Getting Started"
+    href: https://ampcode.com/docs/cli
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "CLI repository and editor integration"
+  - id: amp-2026-08-file-inventory
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Init tool inventory"
+  - id: perplexity-projects
+    title: "Perplexity — What are Projects?"
+    href: https://www.perplexity.ai/help-center/en/articles/10352961-what-are-spaces
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Project files"
   - id: anthropic-desktop-files
     title: Anthropic — Local MCP servers on Claude Desktop
     href: https://support.anthropic.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop
@@ -204,6 +232,45 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Developer tools; write; edit; access control"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local-default uses the current checkout; CLI-launched orbs use a separate project working copy"
+        evidence:
+          - resourceId: amp-2026-08-workspace-files
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-file-inventory
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Perplexity-hosted Project storage rather than local filesystem access"
+          - type: policy
+            value: "Project viewers can view files while editors can edit them"
+        evidence:
+          - resourceId: perplexity-projects
+            type: documented
+            observedAt: 2026-08-29
   - harness: goose
     versions:
       - track: current

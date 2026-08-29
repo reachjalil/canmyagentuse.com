@@ -27,6 +27,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini CLI's optional browser agent can capture and analyze browser screenshots when a visual model is configured. The visual agent requires API-key or Vertex AI authentication and is unavailable with Sign in with Google."
   - id: 53
     text: "Evidence checked 2026-08-29: Devin's hosted Computer Use loop captures screenshots of its remote desktop, identifies visual elements, acts, and captures the next screen state."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks captures webpage screenshots to understand and complete browser-based tasks and retains them only for a limited period."
 issues: []
 resources:
   - title: Methodology
@@ -63,7 +65,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "What Is Computer Use?; How Computer Use Works"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What data Copilot Tasks uses and stores — Screenshots"
 support:
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "screenshots are captured for browser tasks when Copilot controls the browser, not while the user has taken control"
+          - type: policy
+            value: "task screenshots are not used for training and have a limited unspecified retention period"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

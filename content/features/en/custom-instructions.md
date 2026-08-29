@@ -20,6 +20,12 @@ specLabel: Common product term
 parent: instructions
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit supports always-on Workspace Custom Instructions across projects and sessions and project-persistent instructions in a root replit.md that Agent automatically reads in future conversations."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Projects persist up to 8,000 characters of instructions that tell Computer how to work and apply managed Project instructions to every query run in the Project."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Gemini Apps on the consumer web lets a signed-in personal-account user store instructions that apply to every ordinary chat, with view, edit, delete, and on/off controls; Google says the feature is unavailable to work, school, or supervised accounts and does not apply inside Gems."
   - id: 5
     text: "Evidence checked 2026-08-29: the current Devin Desktop product supports persistent global, workspace, personal, and directory-scoped instructions through AGENTS.md and native rule files, while retaining legacy Windsurf configuration paths."
   - id: 4
@@ -34,8 +40,42 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 persists project-specific instructions as Markdown rules under .aiassistant/rules and applies them according to each rule's configured mode."
   - id: 53
     text: "Evidence checked 2026-08-29: Devin Knowledge persists instructions across hosted sessions, supports repository or all-repository pinning, macros, and per-user enable or disable controls."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Each Grok Automation persists a named instruction message and reuses it for fresh scheduled or triggered runs, but this does not establish account-wide instructions for every ordinary Grok chat."
 issues: []
 resources:
+  - id: replit-custom-instructions-current
+    title: "Replit — Custom Instructions"
+    href: "https://docs.replit.com/chat/custom-instructions"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Custom Instructions; Choose the right kind of guidance; Set up Custom Instructions"
+  - id: replit-dot-md-current
+    title: "Replit — replit.md"
+    href: "https://docs.replit.com/features/project-setup/replit-dot-md"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How replit.md works; Manual creation; Limitations"
+  - id: perplexity-projects
+    title: "Perplexity — What are Projects?"
+    href: https://www.perplexity.ai/help-center/en/articles/10352961-what-are-spaces
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating a Project; Project settings — Context"
+  - id: google-gemini-web-custom-instructions
+    title: "Google — Customize Gemini's responses with your instructions"
+    href: https://support.google.com/gemini/answer/16598625?co=GENIE.Platform%3DDesktop&hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need; Add your instructions for Gemini; Find, edit, delete, or turn off instructions"
   - title: Methodology
     href: /methodology
     kind: note
@@ -175,7 +215,94 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "What is Knowledge?; Macros; enable and disable; pinning"
+  - id: spacexai-grok-automations
+    title: "SpaceXAI — Automations in Grok"
+    href: https://x.ai/news/grok-automations
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Describe the job once; automation instructions"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit hosted web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "Workspace guidance is managed in Settings → Customization; project guidance is stored in root replit.md"
+          - type: runtime
+            value: "replit.md is detected only at the project root, and extremely large files may not be fully processed"
+        evidence:
+          - resourceId: replit-custom-instructions-current
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: replit-dot-md-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "instructions are scoped to a Project and apply to each query in that Project"
+          - type: policy
+            value: "Project owners manage the persisted context"
+        evidence:
+          - resourceId: perplexity-projects
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires a signed-in personal Google Account; unavailable to work, school, and supervised accounts"
+          - type: runtime
+            value: "instructions apply to every ordinary chat but Google documents that they are unavailable inside Gems"
+        evidence:
+          - resourceId: google-gemini-web-custom-instructions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "persistent instructions are scoped to one automation and applied to every fresh run"
+          - type: format
+            value: "instructions may include attached files, connectors, skills, and a mode; account-wide chat instructions remain unestablished"
+        evidence:
+          - resourceId: spacexai-grok-automations
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent operates as an MCP client by connecting to pre-listed or custom servers, retrieving their tool lists, and selecting server tools for user requests."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI connects to local or remote MCP servers, discovers their tools, and invokes those tools from agent threads."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity web acts as a client of the managed Guidepoint MCP integration, authorizing queries and consuming transcript search results and citations; arbitrary remote MCP client support remains unestablished."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents Grok Bot connecting to tools through MCP servers and following Cursor team MCP policy; the Agent Plugins compatible-client registry independently lists Grok Bot's supported MCP transports."
   - id: 2
@@ -52,6 +58,30 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
+  - id: replit-agent-mcp-current
+    title: "Replit — Connect via MCP"
+    href: "https://docs.replit.com/build/connect-via-mcp"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Connect a pre-listed MCP server; Add a custom MCP server; Use MCP tools in Agent"
+  - id: amp-2026-08-mcp-client
+    title: "Amp — MCP"
+    href: https://ampcode.com/docs/customize/mcp
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Add local and remote servers; loading order"
+  - id: perplexity-guidepoint-mcp
+    title: "Perplexity — Connecting Perplexity with Guidepoint"
+    href: https://www.perplexity.ai/help-center/en/articles/14818160-connecting-perplexity-with-guidepoint
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need; activate and authorize; try the integration"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -152,6 +182,67 @@ resources:
     reviewedAt: 2026-08-29
     locator: "MCP SDK Client and transport imports; createClient; connectTransport"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent MCP documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: "custom server configuration accepts an HTTPS endpoint; the page does not name the underlying MCP HTTP transport revision"
+          - type: auth
+            value: "connections may use OAuth or custom headers such as X-API-Key"
+          - type: policy
+            value: "users are warned to connect only trusted servers; individual tools can require confirmation"
+        evidence:
+          - resourceId: replit-agent-mcp-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "Amp acts as the MCP client and tool consumer"
+          - type: runtime
+            value: "configuration can come from CLI flags, workspace settings, user settings, or Skills"
+        evidence:
+          - resourceId: amp-2026-08-mcp-client
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: host-role
+            value: "Perplexity consumes capabilities exposed by one managed Guidepoint MCP integration"
+          - type: auth
+            value: "requires Guidepoint Library, a Guidepoint360 account, entitlement, sign-in, and authorization"
+          - type: runtime
+            value: "does not establish arbitrary remote server configuration or optional MCP primitives"
+        evidence:
+          - resourceId: perplexity-guidepoint-mcp
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

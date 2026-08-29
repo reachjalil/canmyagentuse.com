@@ -28,6 +28,16 @@ parent: agent-skills
 related: [custom-instructions, plugins]
 highlight: true
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 discovers global and project-local SKILL.md packages, catalogs names and descriptions, loads full instructions on demand, and supports model-driven, slash-command, and @-mention invocation."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent discovers standard Agent Skills centered on SKILL.md, offers predefined Skills, supports custom and imported Skills, and stores project Skills under /.agents/skills."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 discovers SKILL.md packages from project and global locations, loads metadata at startup and instructions on demand, and supports automatic matching or explicit slash-command activation."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 discovers SKILL.md packages from workspace, global, and compatible locations, exposes skill metadata, and loads selected instructions plus supporting-file paths through its Agent tool."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer imports reusable packages centered on SKILL.md, maintains built-in and user-created skills, and automatically activates relevant skills from their descriptions."
   - id: 11
     text: "Evidence checked 2026-08-29: the current Devin Desktop product discovers and invokes SKILL.md packages for Cascade and default Devin Local, with automatic or explicit invocation and project, global, compatible, and enterprise scopes."
   - id: 10
@@ -62,6 +72,54 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers Agent Skills for its integrated Claude Agent and Codex agent, with project, IDE, global, and custom local directories."
 issues: []
 resources:
+  - id: zed-v1-17-2-skills
+    title: "Zed v1.17.2 — Agent Skills"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/skills.md#L6-L22"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview and adding skills, lines 6–22; Using Skills, lines 57–75; locations and limitations, lines 166–200"
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is a Skill?; Pre-defined Skills; Skill scope; Create a custom Skill; Import Skills from GitHub; How Agent loads skills"
+  - id: cline-v4-1-16-skills
+    title: "Cline v4.1.16 — Skills"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/customization/skills.mdx#L7-L35"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How skills work and Invoking a skill; discovery and precedence at lines 89–97 and 149–164"
+  - id: continue-v2-skill-loader
+    title: "Continue v2.0.0 — SKILL.md loader"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/config/markdown/loadMarkdownSkills.ts
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill locations, validation, and supporting-file discovery, lines 18–111"
+  - id: continue-v2-read-skill
+    title: "Continue v2.0.0 — read-skill tool"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/tools/implementations/readSkill.ts
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill lookup, content loading, and supporting-file instructions, lines 6–42"
+  - id: perplexity-computer-skills
+    title: "Perplexity — How to use Computer Skills"
+    href: https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Are Skills?; Upload a Skill; How Skills Work During a Conversation"
   - id: openai-chatgpt-skills
     title: OpenAI — Skills in ChatGPT
     href: https://help.openai.com/en/articles/20001066
@@ -198,6 +256,110 @@ resources:
     reviewedAt: 2026-08-29
     locator: Supported agents; skill locations; use skills
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "folder-centered SKILL.md with required name and description frontmatter and optional scripts, references, and assets"
+          - type: runtime
+            value: "loads direct children of ~/.agents/skills and <worktree>/.agents/skills; nested skill folders and custom search paths are unsupported"
+          - type: policy
+            value: "project-local skills require a trusted worktree; model invocation follows tool permissions; catalog metadata is capped at 50KB"
+          - type: host-role
+            value: "Zed Skills apply to native Zed Agent, not automatically to External Agents or Terminal Threads"
+        evidence:
+          - resourceId: zed-v1-17-2-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "a Skill is a folder containing SKILL.md plus optional supporting files; project Skills live under /.agents/skills and conform to the Agent Skills specification"
+          - type: policy
+            value: "predefined, project, Workspace, and Enterprise sources have different installation, sharing, and access controls"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "SKILL.md with YAML frontmatter"
+          - type: runtime
+            value: "automatically selected from metadata or invoked with /skill-name"
+          - type: policy
+            value: "project skills override same-named global skills"
+        evidence:
+          - resourceId: cline-v4-1-16-skills
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "SKILL.md with required name and description frontmatter"
+          - type: runtime
+            value: "workspace and global .continue/skills plus workspace .claude/skills; supporting files are read separately on demand"
+        evidence:
+          - resourceId: continue-v2-skill-loader
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-read-skill
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "upload a Markdown file or a ZIP with SKILL.md at its root; YAML name and description are required and uploads are limited to 10 MB"
+          - type: plan
+            value: "Computer requires an active subscription and available credits"
+        evidence:
+          - resourceId: perplexity-computer-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp distinguishes workspace administrators, ordinary members, groups, project owners, and thread owners and uses those roles for visibility, policy, and administration."
   - id: 2
     text: "Evidence checked 2026-08-28: Claude Enterprise custom roles can grant product capabilities, connector and model access, and delegated administration through group assignments. Organization settings are the upper gate, permissions are additive across roles, and only members whose organization role is Custom are governed by custom roles."
   - id: 3
@@ -37,6 +39,22 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin Enterprise implements organization- and account-level RBAC with custom roles assembled from named permissions and assigned to users or identity-provider groups."
 resources:
+  - id: amp-2026-08-rbac
+    title: "Amp — Threads"
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Thread visibility and workspace administrators"
+  - id: amp-2026-08-rbac-security
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "User Authentication and administrative access"
   - title: Methodology
     href: /methodology
     kind: note
@@ -139,6 +157,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Creating and assigning roles; organization and account roles"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "workspace admins govern workspace threads; Enterprise groups constrain visibility"
+        evidence:
+          - resourceId: amp-2026-08-rbac
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-rbac-security
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

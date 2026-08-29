@@ -19,6 +19,8 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp runs shell commands and tests on the operator's behalf; CLI-launched orbs provide a complete machine where the agent can install dependencies, run apps, and test changes."
   - id: 6
     text: "Evidence checked 2026-08-29: Replit General Agent executes code as part of its reasoning in the hosted project environment, with documented compatibility limits in Replit's Nix environment."
   - id: 5
@@ -33,6 +35,22 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: amp-2026-08-code-execution
+    title: "Amp — Tools"
+    href: https://ampcode.com/docs/tools
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Built-in tools and shell commands"
+  - id: amp-2026-08-orb-execution
+    title: "Amp — Orbs"
+    href: https://ampcode.com/docs/orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Why Use an Orb?"
   - title: Methodology
     href: /methodology
     kind: note
@@ -180,6 +198,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What to expect"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "execution can occur in the local CLI workspace or a remote orb selected from the CLI"
+        evidence:
+          - resourceId: amp-2026-08-code-execution
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-orb-execution
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

@@ -19,6 +19,16 @@ summary: Start a task on a schedule without a new human prompt.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Routines schedule recurring Agent work from a hosted Conversation and return later results to the same thread without a new human prompt."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline explicitly says scheduling applies only to its SDK, CLI, and Kanban surfaces and is not currently applicable to the VS Code extension."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp Automations save a prompt and one-time or repeating schedule on a thread, wake the agent later, and resume an orb when repository tools are needed."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer creates user-confirmed recurring tasks and runs them autonomously in the cloud on hourly, daily, weekly, monthly, or custom schedules."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Gemini Apps on the web saves recurring actions with user-defined timing and runs them later without a new prompt; users can edit, pause, resume, and delete up to ten active schedules."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot routines can run a workflow on a schedule, show the next run, execute while the operator's laptop is closed, and retain the 20 most recent run records; each Bot can own up to 50 routines."
   - id: 2
@@ -31,8 +41,52 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 tasks can start from a documented GitHub Actions cron workflow, but scheduling is supplied by the separately configured hosted integration."
   - id: 53
     text: "Evidence checked 2026-08-29: Hosted Devin Scheduled Sessions create sessions automatically on a recurring cron frequency or one-time date and time; existing schedules remain supported while Automations are recommended for new workflows."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks supports one-time tasks at a specified time and recurring schedules that can be paused, edited, disabled, or deleted."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Grok Automations on grok.com run once, daily, weekdays, weekly, monthly, or yearly at a user-selected local time, with pause, resume, edit, delete, and Run now controls."
 issues: []
 resources:
+  - id: replit-routines-current
+    title: "Replit — Routines"
+    href: "https://docs.replit.com/chat/routines"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What's a Routine?; Permissions and results; Availability and limits; Create a Routine"
+  - id: cline-v4-1-16-scheduled-runs
+    title: "Cline v4.1.16 — Scheduling"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/cli/scheduling.mdx#L6-L14"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Applicability notice"
+  - id: amp-2026-08-automations
+    title: "Amp — Automations"
+    href: https://ampcode.com/docs/orbs/automations
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Scheduling semantics; Manage an Automation"
+  - id: perplexity-scheduled-computer-tasks
+    title: "Perplexity — Scheduled Tasks in Computer"
+    href: https://www.perplexity.ai/help-center/en/articles/11521526-perplexity-tasks
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Creating a Scheduled Task; Supported schedules; Availability"
+  - id: google-gemini-web-scheduled-actions
+    title: "Google — Schedule actions in Gemini Apps"
+    href: https://support.google.com/gemini/answer/16316416?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What you need; Schedule an action; Pause or resume; Edit or delete"
   - id: xai-grok-bot-routines
     title: xAI — Grok Bot skills and routines
     href: https://docs.x.ai/grok-bot/skills-routines-and-automations
@@ -95,7 +149,158 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Creating a Scheduled Session; Schedule type; Managing Schedules"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Regular and scheduled tasks; task controls"
+  - id: spacexai-grok-automations
+    title: "SpaceXAI — Automations in Grok"
+    href: https://x.ai/news/grok-automations
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "On a schedule or trigger; automation controls"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit hosted Routines documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Routines attach to hosted Conversations, cannot be created inside a Project, and cannot schedule publishing"
+          - type: plan
+            value: "Core permits up to five active Routines and Pro up to ten; Routines run only in Power or Max Mode"
+          - type: policy
+            value: "minimum interval is one hour; every run requires a budget; overlapping runs wait without creating another pending run"
+        evidence:
+          - resourceId: replit-routines-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "expressly excluded from the VS Code and JetBrains extensions"
+        evidence:
+          - resourceId: cline-v4-1-16-scheduled-runs
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "one schedule per thread; schedules can run once or repeat and be paused, resumed, or deleted"
+          - type: host-role
+            value: "execution wakes the hosted thread or orb associated with an Amp client thread"
+        evidence:
+          - resourceId: amp-2026-08-automations
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "cadence cannot be more frequent than hourly and one conversation can own up to 15 scheduled tasks"
+          - type: policy
+            value: "Computer proposes the schedule and requires approval before creation"
+          - type: plan
+            value: "runs consume Computer credits and can be skipped and retried when credits or access are unavailable"
+        evidence:
+          - resourceId: perplexity-scheduled-computer-tasks
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires sign-in and Keep Activity; work or school accounts need a qualifying Google Workspace edition"
+          - type: runtime
+            value: "gradual availability; maximum ten active scheduled actions; inactive actions can be turned off automatically"
+        evidence:
+          - resourceId: google-gemini-web-scheduled-actions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "scheduled Grok.com automation with one-time through yearly cadence in the user's timezone"
+          - type: plan
+            value: "scheduled automations are available to everyone; email triggers require SuperGrok"
+        evidence:
+          - resourceId: spacexai-grok-automations
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "specific-time or recurring schedule in the Copilot Tasks view"
+          - type: policy
+            value: "tasks are user initiated and schedules can be paused, turned off, or deleted"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

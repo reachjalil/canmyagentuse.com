@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2's complete InitializeResponse type has protocolVersion, capabilities, serverInfo, and _meta but no instructions field, and its native registry consumes only tools and prompts."
+  - id: 74
+    text: "Evidence checked 2026-08-29: although Cline v4.1.16's resolved SDK retains initialization instructions, the extension's exhaustive post-connect flow consumes only tools, resources, resource templates, and prompts and never retrieves or surfaces server instructions."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code's MCP guide explicitly describes the server `instructions` field as useful context for deferred MCP tool discovery; the reviewed page does not define how every instruction is surfaced or prioritized."
   - id: 2
@@ -36,6 +40,38 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 retrieves non-empty server initialization instructions after connection and retains them with server tool metadata."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-types
+    title: "Zed v1.17.2 — MCP InitializeResponse type"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/types.rs#L274-L282"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "InitializeResponse exhaustive fields, lines 274–282"
+  - id: zed-v1-17-2-mcp-registry-source
+    title: "Zed v1.17.2 — native Agent MCP registry"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L42-L92"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Tools and prompts only, lines 42–92"
+  - id: cline-v4-1-16-mcp-server-instructions
+    title: "Cline v4.1.16 — exhaustive MCP post-connect flow"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L708-L841"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "Complete notification registration and initial-fetch sequence"
+  - id: cline-v4-1-16-mcp-server-instructions-secondary
+    title: "MCP TypeScript SDK 1.30.0 — server instructions API"
+    href: "https://github.com/modelcontextprotocol/typescript-sdk/blob/2d889f2b329e46680ec9bdd565de4616c497825a/src/client/index.ts#L493-L536"
+    kind: docs
+    publisher: "Model Context Protocol Project"
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "InitializationResult instructions storage and getInstructions"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -64,6 +100,52 @@ resources:
     reviewedAt: 2026-08-29
     locator: "getInstructions; MCP.instructions projection"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "latest supported revision is 2025-11-25; server instructions are not represented in the stable result"
+          - type: host-role
+            value: "negative is native Zed Agent direct MCP client"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-types
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-registry-source
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20 with MCP TypeScript SDK 1.30.0 commit 2d889f2b329e46680ec9bdd565de4616c497825a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: runtime
+            value: "only tools, resources, resource templates, and prompts are fetched"
+          - type: protocol-revision
+            value: "the SDK exposes getInstructions but Cline does not use it"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-server-instructions
+            type: listed
+            observedAt: 2026-08-29
+          - resourceId: cline-v4-1-16-mcp-server-instructions-secondary
+            type: listed
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

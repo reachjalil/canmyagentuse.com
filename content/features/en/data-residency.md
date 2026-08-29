@@ -20,6 +20,8 @@ aliases: [regional processing, data location, EU data residency]
 parent: data-security-controls
 related: [local-only-mode, data-retention-controls]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp documents primary server, user, and thread storage on Google Cloud in the United States and offers regional endpoints for customer model-provider connections on request."
   - id: 2
     text: "Evidence checked 2026-08-28: Anthropic documents US storage for commercial Claude data and offers US-only inference to usage-based Enterprise organizations. The inference setting covers all Claude apps, including Claude Code and Desktop, but excludes storage, connectors, support, analytics, and other non-inference processing, so the catalog marks each applicable surface partial."
   - id: 3
@@ -27,6 +29,22 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition's dedicated hosted deployment stores customer data in a customer-dedicated tenant with a documented AWS deployment region, but no public selectable region menu is listed."
 resources:
+  - id: amp-2026-08-residency
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Infrastructure and Service Providers"
+  - id: amp-2026-08-regional-endpoints
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Enterprise regional endpoint support"
   - title: Methodology
     href: /methodology
     kind: note
@@ -81,6 +99,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "AWS KMS key must use the same deployment region"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Amp-hosted server data is documented in the United States; subprocessors have separately listed locations"
+          - type: plan
+            value: "regional endpoints concern BYOK providers and are Enterprise on request"
+        evidence:
+          - resourceId: amp-2026-08-residency
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-regional-endpoints
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

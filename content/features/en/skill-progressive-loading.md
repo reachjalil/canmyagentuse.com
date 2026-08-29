@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent reads every installed Skill's name and description on each chat but defers the full Skill body until it determines that Skill is relevant."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code keeps skill descriptions available for discovery, loads the full `SKILL.md` body only on invocation, and reads supporting files on demand."
   - id: 2
@@ -54,6 +56,14 @@ notes:
     text: "Evidence checked 2026-08-29: Codex CLI begins with names, descriptions, and paths, then loads full SKILL.md instructions only for selected skills."
 issues: []
 resources:
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is a Skill?; How Agent loads skills"
   - title: Agent Skills progressive loading reference
     href: https://agentskills.io/specification
     kind: spec
@@ -138,6 +148,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Availability and progressive-disclosure paragraphs"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "metadata is loaded on every chat; the full body remains outside the context window until Agent judges it relevant"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

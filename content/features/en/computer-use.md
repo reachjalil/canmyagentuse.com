@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [runtime, browser, visual-interaction]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: runtime
 summary: Inspect and act on a visual interface through screenshots and input actions.
@@ -20,6 +20,8 @@ aliases: [GUI automation, visual browser, browser control]
 related: [browser-automation, screenshots]
 highlight: true
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive legacy tool enumeration and maintained ClineCore tool table provide browser-only interaction plus code, terminal, and file tools, with no general operating-system desktop-control tool."
   - id: 10
     text: "Evidence checked 2026-08-29: Replit Agent visually navigates, clicks, and enters mock data in a project-preview browser, but current documentation does not establish control of desktop applications or the hosted operating-system interface."
   - id: 9
@@ -40,8 +42,18 @@ notes:
     text: "Evidence checked 2026-08-28: Devin's hosted session exposes a full desktop environment and native Computer Use for browser and desktop-app testing, including Electron applications."
   - id: 7
     text: "Evidence checked 2026-08-28: Replit Agent visually clicks, navigates, enters mock data, and validates applications in a real browser preview; it does not establish general operating-system control."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview Copilot Tasks captures webpage screenshots and performs clicks, scrolling, and typing, but current documentation establishes browser interaction rather than general desktop application control."
 issues: []
 resources:
+  - id: cline-v4-1-16-computer-use
+    title: "Cline v4.1.16 — default tool enumeration"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/shared/tools.ts#L7-L35"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "Exhaustive ClineDefaultTool enum; corroborated by the ClineCore built-in table"
   - id: openai-cloud-browser
     title: OpenAI — Using cloud browser in ChatGPT
     href: https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
@@ -125,7 +137,51 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "How App Testing works; Testing Process; Key capabilities; Usage; Take over"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Browser-based tasks; screenshots and control"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "browser_action is limited to Chromium and does not control arbitrary operating-system applications"
+        evidence:
+          - resourceId: cline-v4-1-16-computer-use
+            type: listed
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: partial
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "browser-only screenshot-informed interaction in preview"
+          - type: format
+            value: "general operating-system or desktop-app control is not established"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

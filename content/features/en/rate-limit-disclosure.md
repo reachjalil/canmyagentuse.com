@@ -11,7 +11,7 @@ audience: Engineers planning production and high-volume agent workflows.
 contentKind: feature
 status: published
 tags: [operations, rate-limits, quotas, concurrency]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: operations
 summary: Record documented product usage limits and reset periods.
@@ -20,13 +20,69 @@ aliases: [quota, usage cap, fair use limit, concurrency limit]
 parent: usage-and-reliability
 related: [subagent-concurrency, upload-limits, usage-metering]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp documents a burst of 20 metered orb starts per user followed by one new orb every five minutes, with excess starts queued rather than failed."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity publishes plan-scoped Search, Research, file-creation, upload, and Computer-credit quotas, including reset windows and pause, block, retry, or refill behavior."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Google documents Gemini Apps compute-based limits that refresh every five hours until a weekly limit, relative plan multipliers, fallback behavior after a limit, and a separate cap of ten active scheduled actions; exact prompt counts remain dynamic."
   - id: 1
     text: "Evidence checked 2026-08-28: Cursor documents two monthly usage pools, real-time remaining allowance, a billing-cycle reset with no rollover, editor notification at the boundary, and optional on-demand usage. The numeric included allowance varies by plan and is not stated on the reviewed page."
   - id: 2
     text: "Evidence checked 2026-08-28: GitHub Copilot CLI documents plan-based concurrent-subagent limits of 2, 4, 8, 16, or 32, a global session-tree maximum of 32, and rejection of new child requests until capacity becomes available. These are subagent quotas, not the complete request, token, tool, or premium-request envelope."
   - id: 3
     text: "Evidence checked 2026-08-28: OpenAI publishes plan- and model-specific estimated local-message ranges per five-hour window for ChatGPT Work and Codex, documents that local and cloud tasks share the window, notes additional weekly limits, and describes credit-based continuation. The ranges vary with task complexity and are not hard per-message guarantees."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Microsoft publishes numeric quotas for selected consumer Copilot capabilities by Microsoft 365 plan, while ordinary chat is described only as extensive use and preview-task limits may vary."
 resources:
+  - id: amp-2026-08-orb-limits
+    title: "Amp — Orbs"
+    href: https://ampcode.com/docs/orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Orb Spawn Pacing"
+  - id: amp-2026-08-plan-limits
+    title: "Amp — Pricing"
+    href: https://ampcode.com/docs/pricing
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Included usage and limits"
+  - id: perplexity-plan-comparison
+    title: "Perplexity — Which subscription plan is right for you?"
+    href: https://www.perplexity.ai/help-center/en/articles/11187416-which-perplexity-subscription-plan-is-right-for-you
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How do the plans compare?"
+  - id: perplexity-computer-credits
+    title: "Perplexity — How Credits Work on Perplexity"
+    href: https://www.perplexity.ai/help-center/en/articles/13838041-how-credits-work-on-perplexity
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Plan credits; what happens when credits run out"
+  - id: google-gemini-web-usage-limits
+    title: "Google — Gemini Apps limits and upgrades for Google AI subscribers"
+    href: https://support.google.com/gemini/answer/16275805?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Usage limits; More info about limits"
+  - id: google-gemini-web-scheduled-action-limit
+    title: "Google — Schedule actions in Gemini Apps"
+    href: https://support.google.com/gemini/answer/16316416?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Schedule an action; up to 10 active scheduled actions"
   - title: Methodology
     href: /methodology
     kind: note
@@ -54,7 +110,100 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Usage limits; what happens at the limit; current limits
+  - id: microsoft-copilot-ai-limits
+    title: "Microsoft — AI credits and limits for Microsoft 365 subscriptions"
+    href: https://support.microsoft.com/en-US/Microsoft-365-Copilot/ai-credits-and-limits-for-microsoft-365-subscriptions
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Limits and credits for each plan"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "burst of 20 then one start per five minutes; queued starts show an estimated wait"
+          - type: plan
+            value: "credits, orb hours, storage, and transfer allowances differ by subscription"
+        evidence:
+          - resourceId: amp-2026-08-orb-limits
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-plan-limits
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "published quotas vary by Free, Pro, Max, Enterprise Pro, and Enterprise Max"
+          - type: runtime
+            value: "exhausted Computer credits pause active tasks, block new tasks, and resume paused work after refill or reset"
+        evidence:
+          - resourceId: perplexity-plan-comparison
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: perplexity-computer-credits
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Google publishes relative plan multipliers and a five-hour plus weekly refresh structure, but not stable exact prompt counts"
+          - type: runtime
+            value: "scheduled actions have a separate documented cap of ten active schedules; limits can change with capacity and task complexity"
+        evidence:
+          - resourceId: google-gemini-web-usage-limits
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: google-gemini-web-scheduled-action-limit
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "examples include 25 agent tasks per month on Premium, 60 image credits per month on Personal and Family, and 10 or 15 daily Vision minutes"
+          - type: format
+            value: "ordinary chat lacks a numeric cap and several limits remain qualitative or variable"
+        evidence:
+          - resourceId: microsoft-copilot-ai-limits
+            type: documented
+            observedAt: 2026-08-29
   - harness: chatgpt-web
     versions:
       - track: current

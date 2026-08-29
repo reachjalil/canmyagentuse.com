@@ -19,6 +19,12 @@ summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 documents native Agent file editing and a review surface that reports every edited file and opens all changes together in a multi-buffer tab."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 documents coordinated changes across related project files, with checkpoints and a diff covering every file affected by a tool operation."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp threads record the files changed by the agent, expose create_file and edit_file tools, and support independent work across different code areas."
   - id: 7
     text: "Evidence checked 2026-08-29: Warp documents multi-file and repository-wide agent changes, including creating a module and updating imports, changing matching files, and updating affected routes plus tests in one task."
   - id: 6
@@ -35,6 +41,46 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code documents reading multiple files and making coordinated edits across them in one task, but its CLI permission modes can review edits individually rather than as one grouped step."
 issues: []
 resources:
+  - id: zed-v1-17-2-zed-agent
+    title: "Zed v1.17.2 — Zed Agent"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/zed-agent.md#L8-L20"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Native Zed Agent capabilities, lines 8–20"
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L114-L123"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Reviewing Changes, lines 114–123"
+  - id: cline-v4-1-16-multi-file-edit
+    title: "Cline v4.1.16 — Checkpoints"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/core-workflows/checkpoints.mdx#L15-L26"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Multi-file example and affected-files diff"
+  - id: amp-2026-08-multi-file
+    title: "Amp — Threads"
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Thread files changed; Changes pane"
+  - id: amp-2026-08-file-tools
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Init tools create_file and edit_file"
   - title: Methodology
     href: /methodology
     kind: note
@@ -95,6 +141,65 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Examples of coding capabilities — Multi-file and repo-wide changes; Complex workflows"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "file tools remain subject to the active Agent Profile, tool permissions, project trust, and sandbox policy"
+        evidence:
+          - resourceId: zed-v1-17-2-zed-agent
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "coordinated project edits with per-operation checkpoints"
+          - type: policy
+            value: "edits remain reviewable and revertible from the VS Code diff surface"
+        evidence:
+          - resourceId: cline-v4-1-16-multi-file-edit
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the agent coordinates changes through repeated file-tool calls in one thread"
+        evidence:
+          - resourceId: amp-2026-08-multi-file
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-file-tools
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2's exhaustive MCP request definitions stop at initialization, tools, prompts, resources, logging, completion, ping, and roots; no tasks/list type or native consumer exists."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive MCP operations list tools, resources, resource templates, and prompts and call tools; no tasks/list request is implemented."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 advertises empty MCP client capabilities and its released connection operation set lists only resources, tools, and prompts, with no tasks/list path."
   - id: 1
     text: "Pinned VS Code source implements paginated tasks/list requests in both the MCP client connection and host-side task dispatcher."
   - id: 2
@@ -36,6 +42,54 @@ notes:
     text: "Evidence checked 2026-08-29: Because OpenCode v1.18.25 explicitly disables the complete MCP tasks client capability, the released client has no tasks/list utility."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-types
+    title: "Zed v1.17.2 — MCP request method definitions"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/types.rs#L19-L88"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Exhaustive requests module, lines 19–88"
+  - id: zed-v1-17-2-mcp-docs
+    title: "Zed v1.17.2 — Model Context Protocol"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/mcp.md#L12-L18"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported Features, lines 12–18"
+  - id: cline-v4-1-16-mcp-task-listing
+    title: "Cline v4.1.16 — exhaustive MCP operations"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L830-L1005"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "Server capability checks and list request implementations; tools/call at lines 1673–1725"
+  - id: continue-v2-mcp-client
+    title: "Continue v2.0.0 — MCP client capabilities"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/context/mcp/MCPConnection.ts#L81-L98
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Empty client capability declaration"
+  - id: continue-v2-mcp-discovery
+    title: "Continue v2.0.0 — implemented MCP operations"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/context/mcp/MCPConnection.ts#L284-L355
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Exhaustive discovery for resources, tools, and prompts"
+  - id: mcp-sdk-v1-29-task-types
+    title: "MCP TypeScript SDK v1.29.0 — task capabilities"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/types.ts#L472-L519
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Optional Tasks capability; tasks/list at lines 782–793"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -72,6 +126,74 @@ resources:
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; commented tasks entry"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "stable latest revision is 2025-11-25 rather than the row's 2026-07-28 Tasks design"
+          - type: host-role
+            value: "Zed editor Tasks and Agent threads are unrelated to MCP tasks/list"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-types
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-docs
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: runtime
+            value: "MCP task APIs are not exposed or called"
+          - type: protocol-revision
+            value: "resolved SDK 1.30.0"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-task-listing
+            type: listed
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: no
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad with MCP TypeScript SDK 1.29.0"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "SDK 1.29.0 defines Tasks and tasks/list; Continue advertises no Tasks capability"
+          - type: host-role
+            value: "Continue desktop MCP client"
+        evidence:
+          - resourceId: continue-v2-mcp-client
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-mcp-discovery
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-task-types
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

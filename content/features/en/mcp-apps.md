@@ -30,6 +30,10 @@ parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: true
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive MCP response renderer supports text, Markdown, URLs, images, links, and errors but has no MCP Apps iframe, ui:// resource, or app-bridge rendering path."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 detects MCP App resource metadata, reads linked text content, and renders interactive HTML through the official AppBridge in a sandboxed editor iframe."
   - id: 5
     text: "Evidence checked 2026-08-29: Amp's 2026-08-19 MCP announcement explicitly says MCP Apps are not supported across the announced Amp MCP surfaces, including the TUI."
   - id: 1
@@ -48,6 +52,46 @@ notes:
     text: "Evidence checked 2026-08-29: goose v1.48.0 explicitly sets MCP Apps capability off for Goose CLI while enabling it for the separate Goose Desktop path."
 issues: []
 resources:
+  - id: cline-v4-1-16-mcp-apps
+    title: "Cline v4.1.16 — exhaustive MCP response renderer"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/webview-ui/src/components/mcp/chat-display/McpResponseDisplay.tsx#L75-L215"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "MCP response segmentation and rendering branches"
+  - id: cline-v4-1-16-mcp-apps-secondary
+    title: "Cline v4.1.16 — MCP rich segment union"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/webview-ui/src/components/mcp/chat-display/utils/mcpRichUtil.ts#L4-L19"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "Exhaustive McpRichSegment type union"
+  - id: continue-v2-mcp-tool-adapter
+    title: "Continue v2.0.0 — MCP UI resource adapter"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/tools/callTool.ts#L102-L142
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "UI metadata and linked resource retrieval"
+  - id: continue-v2-mcp-app-renderer
+    title: "Continue v2.0.0 — MCP App renderer"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/gui/src/pages/gui/ToolCallDiv/MCPAppRenderer.tsx
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "AppBridge, sandbox, messages, tools, and input/result, lines 76–328"
+  - id: continue-v2-lockfile
+    title: "Continue v2.0.0 — pinned MCP dependencies"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/package-lock.json#L4401-L4433
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "@modelcontextprotocol/ext-apps 1.7.4"
   - id: openai-chatgpt-mcp-apps
     title: OpenAI — Developer mode and MCP apps in ChatGPT
     href: https://help.openai.com/en/articles/12584461-developer-mode-and-full-mcp-connectors-in-chatgpt
@@ -140,6 +184,57 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Goose CLI sets mcpui false while Desktop sets true, lines 407-426"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: format
+            value: "plain text, Markdown, URL, image, link, and error segments only"
+          - type: runtime
+            value: "no interactive server-provided iframe or MCP Apps host bridge"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-apps
+            type: listed
+            observedAt: 2026-08-29
+          - resourceId: cline-v4-1-16-mcp-apps-secondary
+            type: listed
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "ui.resourceUri or legacy ui/resourceUri metadata and a linked text resource"
+          - type: policy
+            value: "sandboxed iframe; some sensitive permissions cannot be delegated in VS Code/Electron"
+          - type: protocol-revision
+            value: "@modelcontextprotocol/ext-apps 1.7.4"
+        evidence:
+          - resourceId: continue-v2-mcp-tool-adapter
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-mcp-app-renderer
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-lockfile
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

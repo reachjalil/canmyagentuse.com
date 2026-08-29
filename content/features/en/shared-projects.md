@@ -20,6 +20,8 @@ aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: an Amp project associates a repository, settings, secrets, and related threads and can belong to a user or workspace for shared work."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude projects are self-contained workspaces with chat history, a knowledge base, and project instructions. Team and Enterprise users can share a project with individual members or the organization, assign view or edit access, manage membership, and collaboratively add documents and chats."
   - id: 3
@@ -27,6 +29,14 @@ notes:
   - id: 4
     text: "Evidence checked 2026-08-28: Replit projects can be shared with teammates who run separate Agent threads against the same project, see a shared task board, review completed work, and apply it to the main version. Team Workspaces extend access across projects, and owners can revoke project or workspace membership."
 resources:
+  - id: amp-2026-08-shared-projects
+    title: "Amp — Projects"
+    href: https://ampcode.com/docs/projects
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Project ownership, repository, settings, secrets, and threads"
   - title: Methodology
     href: /methodology
     kind: note
@@ -78,6 +88,23 @@ resources:
     reviewedAt: 2026-08-28
     locator: Workspace access; member management
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "workspace project permissions and administrators govern shared configuration"
+        evidence:
+          - resourceId: amp-2026-08-shared-projects
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

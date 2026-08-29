@@ -20,6 +20,14 @@ aliases: [resume agent, reconnect run, run checkpoint, session recovery]
 parent: usage-and-reliability
 related: [background-agents, conversation-export]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 keeps archived Agent threads in Thread History, restores a selected conversation into the Agent Panel, and reconstructs a removed linked worktree when needed."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI can attach to a saved thread by ID, continue it across devices, and wake its sleeping orb with conversation, files, and services preserved."
+  - id: 70
+    text: "Evidence checked 2026-08-29: when Computer runs out of credits, active work is saved and paused rather than canceled, then automatically resumes from the stopping point after credits become available."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Gemini Apps on the web lists pinned and recent chats, lets a signed-in user open a prior chat to resume it, and supports branching a new conversation from a selected point while preserving the original."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code saves project-scoped sessions continuously and documents `--continue`, `--resume`, named or ID-based resume, and an interactive session picker."
   - id: 2
@@ -34,7 +42,51 @@ notes:
     text: "Evidence checked 2026-08-29: Warp stores past local conversations, lets users reopen them, and continues from prior context across sessions."
   - id: 53
     text: "Evidence checked 2026-08-29: Idle hosted Devin sessions sleep without consuming usage and wake to continue when the operator sends another message."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Signed-in consumer Microsoft Copilot stores past conversations on copilot.com and lets users reopen them and pick up where they left off."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Every Grok Automation run is saved as a full conversation that users can open and continue where the automation left off."
 resources:
+  - id: zed-v1-17-2-parallel-agents
+    title: "Zed v1.17.2 — Parallel Agents"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/parallel-agents.md#L28-L38"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Thread History, lines 28–38"
+  - id: amp-2026-08-thread-resume
+    title: "Amp — Threads"
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Continue a Thread Anywhere"
+  - id: amp-2026-08-orb-resume
+    title: "Amp — Orbs"
+    href: https://ampcode.com/docs/orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Why Use an Orb?"
+  - id: perplexity-computer-credits
+    title: "Perplexity — How Credits Work on Perplexity"
+    href: https://www.perplexity.ai/help-center/en/articles/13838041-how-credits-work-on-perplexity
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What happens when you run out"
+  - id: google-gemini-web-recent-chat-resume
+    title: "Google — Find and manage your recent chats in Gemini Apps"
+    href: https://support.google.com/gemini/answer/13666746?co=GENIE.Platform%3DDesktop&hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Find your pinned and recent chats; Branch a new conversation from a chat"
   - title: Methodology
     href: /methodology
     kind: note
@@ -115,7 +167,136 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Sleep and idle behavior"
+  - id: microsoft-copilot-conversation-history
+    title: "Microsoft — Conversation history in Microsoft Copilot"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/conversation-history-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Accessing conversation history"
+  - id: spacexai-grok-automations
+    title: "SpaceXAI — Automations in Grok"
+    href: https://x.ai/news/grok-automations
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Every run is a full conversation"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "resumes saved desktop thread history; permanently deleted threads cannot be recovered"
+          - type: format
+            value: "restoration includes associated worktree state when a linked worktree was archived and removed"
+        evidence:
+          - resourceId: zed-v1-17-2-parallel-agents
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "amp threads continue attaches the CLI; orb threads wake when messaged and preserve thread and workspace state"
+        evidence:
+          - resourceId: amp-2026-08-thread-resume
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-orb-resume
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the documented resume path is triggered by exhausted credits and a later refill or monthly reset"
+          - type: plan
+            value: "Computer access and credits are required"
+        evidence:
+          - resourceId: perplexity-computer-credits
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires sign-in; personal accounts require Keep Activity for recent-chat management"
+          - type: runtime
+            value: "the documentation establishes reopening a chat to resume it and does not promise retention after deletion or in a temporary chat"
+        evidence:
+          - resourceId: google-gemini-web-recent-chat-resume
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "each automation run has saved history and can be opened to resume the conversation"
+        evidence:
+          - resourceId: spacexai-grok-automations
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires sign-in"
+          - type: runtime
+            value: "conversation history retains the last 18 months of interactions"
+        evidence:
+          - resourceId: microsoft-copilot-conversation-history
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

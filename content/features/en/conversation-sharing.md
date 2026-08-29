@@ -20,6 +20,8 @@ aliases: [share chat, conversation link, run sharing]
 parent: collaboration-and-portability
 related: [role-based-access, conversation-export, shared-projects]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI threads expose configurable Private, Workspace, Group, and Unlisted visibility and can be shared by URL."
   - id: 2
     text: "Evidence checked 2026-08-28: Claude can create a revocable link to a chat snapshot. Free, Pro, and Max links can be public, while Team and Enterprise links are organization-only; later messages, attached files, and raw MCP tool results are excluded unless a new snapshot is made."
   - id: 3
@@ -34,7 +36,19 @@ notes:
     text: "Evidence checked 2026-08-29: Warp shares local agent conversations and live sessions by generated link with team, invitee, or public-link access controls."
   - id: 53
     text: "Evidence checked 2026-08-29: Hosted Devin exposes a Share session action and a shareable permalink for every individual session message."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot on copilot.com generates anyone-with-link snapshots for a full conversation or a single response, with a preview before publishing."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Grok.com generates public conversation share links and provides a dedicated page where signed-in users can revoke individual or all shared links."
 resources:
+  - id: amp-2026-08-thread-sharing
+    title: "Amp — Threads"
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Share a Thread"
   - title: Methodology
     href: /methodology
     kind: note
@@ -115,7 +129,78 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "2026-05-13 Share Session; 2026-04-08 Session Message Permalinks"
+  - id: microsoft-copilot-conversation-history
+    title: "Microsoft — Conversation history in Microsoft Copilot"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/conversation-history-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Sharing a conversation"
+  - id: spacexai-grok-consumer-faq
+    title: "SpaceXAI — Consumer FAQs"
+    href: https://x.ai/legal/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Can I share my Grok conversations?; revoke shared links"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "admins can change defaults and external sharing; Unlisted is available to anyone with the link"
+        evidence:
+          - resourceId: amp-2026-08-thread-sharing
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "anyone with a public link can access it and search engines may index publicly posted links"
+          - type: policy
+            value: "signed-in users can revoke individual or all Grok.com share links"
+        evidence:
+          - resourceId: spacexai-grok-consumer-faq
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "shared snapshots are accessible to anyone with the generated link"
+          - type: runtime
+            value: "the link captures content at generation time and does not update with later turns"
+        evidence:
+          - resourceId: microsoft-copilot-conversation-history
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

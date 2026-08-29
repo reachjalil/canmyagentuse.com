@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 explicitly says current MCP coverage is Tools and Prompts and invites contributions for Elicitation; its stable client advertises no elicitation capability or handler."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exact MCP client declares an empty capability object, while its resolved SDK 1.30.0 rejects elicitation handler registration unless the client advertises elicitation."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 constructs its MCP client with empty client capabilities, omitting SDK 1.29.0's explicit elicitation capability, and registers no server-initiated request handler."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code automatically presents MCP elicitation requests and supports both structured form mode and URL mode, with an optional Elicitation hook for automated responses."
   - id: 2
@@ -40,6 +46,54 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 explicitly leaves the MCP elicitation client capability commented out in the released client options."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-docs
+    title: "Zed v1.17.2 — Model Context Protocol"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/mcp.md#L12-L25"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported Features and Agent Path Support, lines 12–25"
+  - id: zed-v1-17-2-mcp-protocol
+    title: "Zed v1.17.2 — MCP protocol initialization"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/protocol.rs#L37-L50"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "InitializeParams and exhaustive ClientCapabilities, lines 37–50"
+  - id: cline-v4-1-16-mcp-elicitation
+    title: "Cline v4.1.16 — MCP client capabilities"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L463-L472"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "new Client capabilities declaration"
+  - id: cline-v4-1-16-mcp-elicitation-secondary
+    title: "MCP TypeScript SDK 1.30.0 — client capability guards"
+    href: "https://github.com/modelcontextprotocol/typescript-sdk/blob/2d889f2b329e46680ec9bdd565de4616c497825a/src/client/index.ts#L614-L637"
+    kind: docs
+    publisher: "Model Context Protocol Project"
+    evidenceType: listed
+    reviewedAt: 2026-08-29
+    locator: "Elicitation and sampling capability guards"
+  - id: continue-v2-mcp-client
+    title: "Continue v2.0.0 — MCP client capabilities"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/context/mcp/MCPConnection.ts#L81-L98
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Client construction with capabilities: {}"
+  - id: mcp-sdk-v1-29-client-capabilities
+    title: "MCP TypeScript SDK v1.29.0 — client capabilities"
+    href: https://github.com/modelcontextprotocol/typescript-sdk/blob/e12cbd7078db388152f6e839abdbe09ba01f3f32/src/types.ts#L472-L519
+    kind: docs
+    publisher: "MCP project"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "ClientCapabilitiesSchema including elicitation"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -84,6 +138,74 @@ resources:
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; commented elicitation entry"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: no
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: protocol-revision
+            value: "native client latest revision is 2025-11-25 and no elicitation capability is advertised"
+          - type: host-role
+            value: "negative is native Zed Agent direct MCP client; forwarded External Agent behavior is excluded"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-docs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-protocol
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: no
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20 with MCP TypeScript SDK 1.30.0 commit 2d889f2b329e46680ec9bdd565de4616c497825a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: protocol-revision
+            value: "SDK 1.30.0"
+          - type: runtime
+            value: "client capabilities are explicitly {}"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-elicitation
+            type: listed
+            observedAt: 2026-08-29
+          - resourceId: cline-v4-1-16-mcp-elicitation-secondary
+            type: listed
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: no
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad with MCP TypeScript SDK 1.29.0"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "Continue desktop extension MCP client"
+          - type: protocol-revision
+            value: "SDK 1.29.0 declares elicitation optionally; Continue advertises an empty capability object"
+        evidence:
+          - resourceId: continue-v2-mcp-client
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: mcp-sdk-v1-29-client-capabilities
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

@@ -20,6 +20,20 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 provides a model selector in the Agent Panel, distinguishes the same model offered through different providers, and supports favorites and keyboard cycling."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent's Model selector lets eligible builders choose an exact named primary model for the next message in Power or Max Mode instead of relying on Auto routing."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's VS Code setup exposes API Provider and Model selectors and supports hosted-provider and local-model choices."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp's CLI Dial lets the operator choose low, medium, high, or ultra, each mapping to a documented bundle of model, reasoning effort, prompt, tools, and oracle; underlying model names can change."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 exposes dropdown selection for the active model in each role, and Agent mode uses the selected Chat model when that model can operate with tools."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity web lets eligible users select Search models and a separate Computer orchestrator model, subject to plan, mode, rollout, and organization policy."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Signed-in Gemini Apps users can open the model menu in the web composer and select among documented Gemini Flash-Lite, Flash, and Pro model classes, subject to current availability and plan limits."
   - id: 8
     text: "Evidence checked 2026-08-29: Aider lets the operator select the main model with --model and switch it during a chat with /model; editor and weak models are separately selectable."
   - id: 1
@@ -44,8 +58,74 @@ notes:
     text: "Evidence checked 2026-08-29: Warp exposes a model picker with named models, Auto routing, custom routers, and persistent per-profile defaults."
   - id: 53
     text: "Evidence checked 2026-08-29: Devin's hosted model picker selects capability, Fusion, speed, and operating modes and remembers the chosen default across page reloads."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot on the web exposes selectable conversation modes, including Smart explicitly powered by GPT-5, plus Quick response, Think Deeper, Study and learn, and Search."
 issues: []
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L161-L172"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Changing Models and Favoriting Models, lines 161–172"
+  - id: replit-agent-model-selector-current
+    title: "Replit — Model selector"
+    href: "https://docs.replit.com/features/agent/model-selector"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Choose a model manually; Models by mode; Model selection in Build and Design"
+  - id: cline-v4-1-16-model-selection
+    title: "Cline v4.1.16 — Authorizing with Cline"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/getting-started/authorizing-with-cline.mdx#L17-L37"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "IDE Setup, API Provider and Model dropdown instructions"
+  - id: amp-2026-08-model-selection
+    title: "Amp — Modes and Models"
+    href: https://ampcode.com/docs/models-and-subagents
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Modes; current model routing"
+  - id: continue-v2-model-role-selection
+    title: "Continue v2.0.0 — model-role selection"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/customize/model-roles/00-intro.mdx#L24-L28
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Selecting model roles"
+  - id: continue-v2-agent-model-setup
+    title: "Continue v2.0.0 — Agent model setup"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs/ide-extensions/agent/model-setup.mdx
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Chat model use in Agent mode, lines 7–27"
+  - id: perplexity-web-models
+    title: "Perplexity — Advanced AI models included in subscriptions"
+    href: https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Modes in Perplexity; models available in Search and Computer"
+  - id: google-gemini-web-model-selection
+    title: "Google — Use Gemini Apps"
+    href: https://support.google.com/gemini/answer/13275745?co=GENIE.Platform%3DDesktop&hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Choose the model you want to use"
   - title: Methodology
     href: /methodology
     kind: note
@@ -149,7 +229,170 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "2026-07-24 Redesigned Model Picker; 2026-07-01 Persist Model Selection"
+  - id: microsoft-copilot-conversation-modes
+    title: "Microsoft — Conversation modes in Microsoft Copilot"
+    href: https://support.microsoft.com/en-US/microsoft-copilot/conversation-modes-in-microsoft-copilot
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported modes; how to select a mode; Smart"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "available choices depend on configured Zed-hosted, API-key, subscription, gateway, or local-model providers"
+          - type: runtime
+            value: "model and provider are selected explicitly; tool support still varies by selected model"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent Model selector documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "manual model choice is documented for Core and Pro in Power or Max Mode; Free Mode always uses intelligent routing"
+          - type: runtime
+            value: "the selector is rolling out and Primary model may be absent; Build and Design retain separate choices"
+          - type: policy
+            value: "available models vary with organization settings and authorization"
+        evidence:
+          - resourceId: replit-agent-model-selector-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "available providers and models depend on configured provider credentials or a local runtime"
+        evidence:
+          - resourceId: cline-v4-1-16-model-selection
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the operator selects a stable mode class rather than pinning an immutable provider model name"
+          - type: policy
+            value: "current routing can change with model availability and workspace restrictions"
+        evidence:
+          - resourceId: amp-2026-08-model-selection
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: yes
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Agent mode uses the active Chat-role model; eligibility depends on model and provider tool support or Continue's adaptation path"
+        evidence:
+          - resourceId: continue-v2-model-role-selection
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: continue-v2-agent-model-setup
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Computer's selected model is the orchestrator; helper-agent work can use other models"
+          - type: plan
+            value: "Free uses automatic Best while eligible paid plans expose selectors"
+          - type: policy
+            value: "Enterprise administrators can restrict providers and preview models"
+        evidence:
+          - resourceId: perplexity-web-models
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "model switching requires sign-in"
+          - type: plan
+            value: "model names, versions, availability, and usable capacity can change and are plan-dependent"
+        evidence:
+          - resourceId: google-gemini-web-model-selection
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "selected mode remains active until disabled; some modes require sign-in"
+          - type: format
+            value: "Smart maps explicitly to GPT-5 while other choices are documented model classes or behaviors"
+        evidence:
+          - resourceId: microsoft-copilot-conversation-modes
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

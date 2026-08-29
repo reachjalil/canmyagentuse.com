@@ -669,3 +669,73 @@ Codex evidence.
 - https://docs.devin.ai/admin/security
 - https://docs.devin.ai/admin/billing/self-serve
 - https://docs.devin.ai/release-notes/overview
+
+## Cycle 4 exact source additions — 2026-08-29
+
+These are the exact first-party roots and immutable snapshots newly used in
+Cycle 4. Product-level source ladders above remain authoritative for future
+discovery; pinned repository paths below preserve the reviewed release state.
+
+### Microsoft Copilot consumer web
+
+- https://support.microsoft.com/en-us/microsoft-copilot
+- https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+- https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+- https://support.microsoft.com/en-us/microsoft-copilot/conversation-history-in-microsoft-copilot
+
+### Grok consumer web
+
+- https://x.ai/legal/faq
+- https://x.ai/news/grok-automations
+
+### Gemini consumer web
+
+- https://support.google.com/gemini/
+- https://support.google.com/gemini/answer/16598469
+- https://support.google.com/gemini/answer/16598625
+
+### Perplexity hosted web and Computer
+
+- https://www.perplexity.ai/help-center/
+- https://www.perplexity.ai/help-center/en/articles/13837784-what-is-computer
+- https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+
+### Continue v2.0.0
+
+- https://github.com/continuedev/continue/releases/tag/v2.0.0
+- https://github.com/continuedev/continue/tree/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/docs
+- https://github.com/continuedev/continue/tree/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core
+
+### Amp CLI rolling documentation
+
+- https://ampcode.com/docs/cli
+- https://ampcode.com/docs/tools
+- https://ampcode.com/docs/models-and-subagents
+- https://ampcode.com/docs/orbs
+- https://ampcode.com/docs/orbs/automations
+- https://ampcode.com/security
+
+### Cline v4.1.16
+
+- https://github.com/cline/cline/releases/tag/v4.1.16
+- https://github.com/cline/cline/tree/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs
+- https://github.com/cline/cline/tree/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode
+- https://github.com/modelcontextprotocol/typescript-sdk/tree/2d889f2b329e46680ec9bdd565de4616c497825a
+
+### Replit Agent hosted web
+
+- https://docs.replit.com/features/agent/skills
+- https://docs.replit.com/core-concepts/agent/task-system
+- https://docs.replit.com/features/agent/model-selector
+- https://docs.replit.com/chat/routines
+- https://docs.replit.com/build/connect-via-mcp
+- https://replit.com/privacy-policy
+
+### Zed v1.17.2 native desktop Agent
+
+- https://github.com/zed-industries/zed/releases/tag/v1.17.2
+- https://github.com/zed-industries/zed/tree/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai
+- https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs
+- https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/protocol.rs
+- https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/client.rs
+- https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/types.rs

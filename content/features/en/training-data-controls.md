@@ -20,6 +20,10 @@ aliases: [training opt-out, data use, improve models, human review]
 parent: data-security-controls
 related: [data-retention-controls, admin-policy-controls]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp and its subprocessors do not train on customer data unless the user opts in; workspaces require administrator approval and Enterprise workspaces can never enable training."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity consumer accounts default AI Data Retention on but let users opt future data out of AI training, while Enterprise data is never used for model training."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents that Grok Bot training opt-out follows the applicable Cursor account and privacy settings, with organization privacy mode governing while a member is on a team. The reviewed page does not fully separate training, evaluation, safety review, feedback, or every subprocessor's use."
   - id: 2
@@ -36,8 +40,28 @@ notes:
     text: "Evidence checked 2026-08-29: Warp users and paid-team administrators can disable user-content collection for service improvement, with documented Zero Data Retention provider treatment for supported models."
   - id: 53
     text: "Evidence checked 2026-08-29: Paid Devin plans can opt out of model training and enable provider Zero Data Retention; Teams require an administrator, while Enterprise training requires express prior written consent."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Signed-in consumer Microsoft Copilot lets users opt future conversation and voice activity out of generative-model training while retaining independent memory personalization controls."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Signed-in Grok.com users can disable Improve the Model for future conversations, while Private Chat content is excluded from model training."
 issues: []
 resources:
+  - id: amp-2026-08-training
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Model Training"
+  - id: perplexity-data-collection
+    title: "Perplexity — Data Collection at Perplexity"
+    href: https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Opt out of AI training data collection; Enterprise users"
   - title: Methodology
     href: /methodology
     kind: note
@@ -113,7 +137,99 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "How data is used to improve Devin"
+  - id: microsoft-copilot-privacy-controls
+    title: "Microsoft — Copilot privacy controls"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Control whether conversations are used for model training"
+  - id: spacexai-grok-consumer-faq
+    title: "SpaceXAI — Consumer FAQs"
+    href: https://x.ai/legal/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Model training; Grok.com Data Controls; Private Chat"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "users can disable training; enabling it in a workspace needs admin approval and Enterprise forbids it"
+          - type: auth
+            value: "linked personal model subscriptions retain separate provider controls"
+        evidence:
+          - resourceId: amp-2026-08-training
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "consumer opt-out applies to future collected data and does not remove data collected previously"
+          - type: plan
+            value: "Enterprise query information is not used for Perplexity model training and is covered by separate provider agreements"
+        evidence:
+          - resourceId: perplexity-data-collection
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "Grok.com Settings > Data > Improve the Model; unauthenticated opt-out availability varies by region"
+          - type: policy
+            value: "future conversations are excluded after opt-out; voluntarily submitted feedback may still be used for training"
+        evidence:
+          - resourceId: spacexai-grok-consumer-faq
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 consumer Microsoft Copilot web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "training controls are available to signed-in personal-account users"
+          - type: policy
+            value: "opt-out excludes future conversation activity from model training but not every general product, safety, advertising, security, or compliance use"
+        evidence:
+          - resourceId: microsoft-copilot-privacy-controls
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

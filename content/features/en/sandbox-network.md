@@ -19,6 +19,10 @@ summary: Allow, deny, or restrict outbound network access from a tool sandbox.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 blocks sandboxed outbound network access by default and supports one-action, thread, or persistent exact-host, wildcard-host, or all-host grants for native terminal and fetch tools."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Enterprise administrators control Computer sandbox egress with unrestricted or fully blocked internet modes, allowed domains including wildcards, and denied IP or CIDR ranges."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; network controls are scoped to the documented execution sandbox rather than ordinary application traffic.
   - id: 2
@@ -33,6 +37,22 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin security profiles enforce outbound hostname or CIDR allowlists on managed session VMs and block every other destination across shells, browsers, packages, and scripts."
 issues: []
 resources:
+  - id: zed-v1-17-2-sandboxing
+    title: "Zed v1.17.2 — Sandboxing"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/sandboxing.md#L23-L67"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Agent boundary, sandboxed tools, requirements, and default access, lines 23–67; approvals, lines 132–178"
+  - id: perplexity-computer-firewall
+    title: "Perplexity — Configuring Network Firewall Policy for Computer"
+    href: https://www.perplexity.ai/help-center/en/articles/14092010-configuring-network-firewall-policy-for-computer
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Settings Overview; How the Rules Work Together; Important Notes"
   - title: Methodology
     href: /methodology
     kind: note
@@ -82,6 +102,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Restrictions in a profile; Network policy"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "sandbox applies only to native Zed Agent, not Zed itself, language servers, extensions, normal terminals, External Agents, or Terminal Threads"
+          - type: runtime
+            value: "terminal enforcement uses Seatbelt on macOS, Bubblewrap on Linux, and WSL on Windows, with platform-specific strength and fallbacks"
+          - type: policy
+            value: "host-specific enforcement uses HTTP/HTTPS proxying and cannot constrain tools that ignore proxy variables; unrestricted grants weaken controls"
+        evidence:
+          - resourceId: zed-v1-17-2-sandboxing
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Perplexity Enterprise administrator control"
+          - type: policy
+            value: "master firewall toggle, general internet toggle, domain allowlist, and CIDR denylist compose into layered rules"
+          - type: runtime
+            value: "rules govern Computer's hosted sandbox and may not immediately affect already-running tasks"
+        evidence:
+          - resourceId: perplexity-computer-firewall
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

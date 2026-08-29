@@ -21,6 +21,16 @@ parent: subagents
 related: [nested-subagents, subagent-concurrency, subagent-context-isolation, subagent-result-handoff]
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 documents spawn_agent as a native tool for delegating parallel investigations, self-contained tasks, or research to a child with its own context window."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent can split a larger request into discrete background tasks, each executed independently by Agent in its own thread and isolated project copy, after the user reviews and accepts the proposed tasks."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 can spawn parallel focused research subagents with separate context and result handoff, but the feature is experimental and children are read-only without browser, MCP, or nesting."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp delegates focused work to specialist subagents and can start independent agent threads with explicit instructions and return their results to the parent."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer Skills dispatch dedicated sub-agents for separate parts of a task and coordinate their work toward the parent task's result."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork identifies agents as OpenCode primitives for specialized tasks that may use different models and extra context."
   - id: 2
@@ -45,6 +55,46 @@ notes:
     text: "Evidence checked 2026-08-29: A hosted Devin coordinator decomposes a large task and delegates scoped prompts to managed child sessions while monitoring and compiling their work."
 issues: []
 resources:
+  - id: zed-v1-17-2-tools
+    title: "Zed v1.17.2 — Agent Tools"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L100-L112"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "spawn_agent, lines 108–112"
+  - id: replit-agent-task-system-current
+    title: "Replit — Task system"
+    href: "https://docs.replit.com/core-concepts/agent/task-system"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What is the task system?; Review and accept; Tasks start running; Availability"
+  - id: cline-v4-1-16-subagent-delegation
+    title: "Cline v4.1.16 — Subagents"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/features/subagents.mdx#L7-L29"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview, limitations, and availability; invocation and approval at lines 31–48"
+  - id: amp-2026-08-delegation
+    title: "Amp — Agent to Agent"
+    href: https://ampcode.com/docs/orbs/agent-to-agent
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Send Out a Side Quest; Delegate Across Projects or Machines"
+  - id: perplexity-computer-skills
+    title: "Perplexity — How to use Computer Skills"
+    href: https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Are Skills?; Skills Work Together"
   - id: openwork-subagents
     title: OpenWork — Architecture
     href: https://github.com/different-ai/openwork/blob/dev/ARCHITECTURE.md
@@ -129,6 +179,101 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Managed Devins"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "the exact built-in tool list varies with Agent Profile, selected model provider, and Zed version"
+          - type: host-role
+            value: "claim is native Zed Agent only; no capability is transferred from an ACP External Agent"
+        evidence:
+          - resourceId: zed-v1-17-2-tools
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent task-system documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "the documented task-system availability table covers Core and Pro"
+          - type: policy
+            value: "the user must accept proposed tasks before execution; completed changes remain isolated until applied"
+          - type: runtime
+            value: "child work uses hosted background task threads and isolated project copies"
+        evidence:
+          - resourceId: replit-agent-task-system-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "experimental read-only research agents with no browser, MCP, or nested subagents"
+          - type: policy
+            value: "spawning requires approval unless auto-approval is enabled"
+        evidence:
+          - resourceId: cline-v4-1-16-subagent-delegation
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "delegated work can run in a separate orb, project, or configured runner"
+        evidence:
+          - resourceId: amp-2026-08-delegation
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "sub-agents are deployed by relevant Skills and coordinated automatically"
+          - type: plan
+            value: "Computer requires an active subscription and credits"
+        evidence:
+          - resourceId: perplexity-computer-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

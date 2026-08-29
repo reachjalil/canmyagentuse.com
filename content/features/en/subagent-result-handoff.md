@@ -20,6 +20,12 @@ aliases: [child result, agent handoff, subagent artifacts]
 parent: subagents
 related: [subagent-delegation, artifact-export, streaming-output]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 describes spawn_agent work as delegated tasks whose outcome returns to the parent, which then continues and reviews the child's findings."
+  - id: 73
+    text: "Evidence checked 2026-08-29: the Amp main agent receives a specialist's final summary, while agent-to-agent work can report results and explicitly exchange files back to the parent."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer's dedicated sub-agents report their part back, and Skills can hand research results to another Skill for formatting or deliverable creation."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bots can hand work to one another through visible asynchronous messages and shared files. Bot-to-group handoff messages are text-only, while images can be sent directly to another Bot; the docs do not define a typed result envelope for status, citations, or errors."
   - id: 2
@@ -38,6 +44,38 @@ notes:
     text: "Evidence checked 2026-08-29: Dynamic Workflow children return JSON-Schema-constrained dictionaries, and isolated coding children hand off pushed git branches through structured output."
 issues: []
 resources:
+  - id: zed-v1-17-2-tools
+    title: "Zed v1.17.2 — Agent Tools"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L108-L112"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "spawn_agent, lines 108–112"
+  - id: amp-2026-08-result-handoff
+    title: "Amp — Modes and Models"
+    href: https://ampcode.com/docs/models-and-subagents
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specialist Subagents"
+  - id: amp-2026-08-file-handoff
+    title: "Amp — Agent to Agent"
+    href: https://ampcode.com/docs/orbs/agent-to-agent
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Exchange Files"
+  - id: perplexity-computer-skills
+    title: "Perplexity — How to use Computer Skills"
+    href: https://www.perplexity.ai/help-center/en/articles/13914413-how-to-use-computer-skills
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What Are Skills?; Skills Work Together"
   - title: Methodology
     href: /methodology
     kind: note
@@ -103,6 +141,60 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Authoring model; separate VM branch handoff"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "documentation establishes findings and outcome handoff but not a schema-constrained result envelope"
+        evidence:
+          - resourceId: zed-v1-17-2-tools
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "native specialists return a final summary; separate threads can exchange explicit files and messages"
+        evidence:
+          - resourceId: amp-2026-08-result-handoff
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-file-handoff
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "documented handoff includes reporting back and cross-Skill transfer; no typed result envelope or size limit is published"
+        evidence:
+          - resourceId: perplexity-computer-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

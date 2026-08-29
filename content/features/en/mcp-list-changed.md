@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 subscribes to notifications/tools/list_changed and reloads tools, while its native registry defines no corresponding prompt- or resource-list subscription."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16 registers MCP list-changed handlers for tools, resources, and prompts and schedules refreshed list retrieval when each notification arrives."
+  - id: 72
+    text: "Evidence checked 2026-08-29: Continue v2.0.0 lists resources, tools, and prompts during connection, but explicitly leaves all server notification-handler registration as TODO and therefore does not refresh changed lists."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code explicitly supports MCP `list_changed` notifications and refreshes available tools, prompts, and resources without reconnecting."
   - id: 2
@@ -38,6 +44,38 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 refreshes cached tools after tools/list_changed, but equivalent prompt- and resource-list refresh handling is not established."
 issues: []
 resources:
+  - id: zed-v1-17-2-mcp-docs
+    title: "Zed v1.17.2 — Model Context Protocol"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/mcp.md#L12-L18"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Supported Features, lines 12–18"
+  - id: zed-v1-17-2-mcp-registry-source
+    title: "Zed v1.17.2 — native Agent MCP registry"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/agent/src/tools/context_server_registry.rs#L124-L168"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Sole notification subscription and tools/list_changed reload, lines 124–168"
+  - id: cline-v4-1-16-mcp-list-changed
+    title: "Cline v4.1.16 — MCP list-change handlers"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/mcp/McpHub.ts#L765-L775"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "ToolListChangedNotificationSchema, ResourceListChangedNotificationSchema, and PromptListChangedNotificationSchema handlers"
+  - id: continue-v2-mcp-client
+    title: "Continue v2.0.0 — MCP connection discovery and notifications"
+    href: https://github.com/continuedev/continue/blob/03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad/core/context/mcp/MCPConnection.ts#L284-L355
+    kind: docs
+    publisher: "Continue"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Notification-handler TODO and one-time list calls"
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
@@ -74,6 +112,66 @@ resources:
     reviewedAt: 2026-08-29
     locator: "watch; ToolListChangedNotificationSchema handler"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "dynamic refresh is implemented only for tools/list_changed"
+          - type: protocol-revision
+            value: "prompts/list_changed and resources/list_changed are not registered by the native Agent registry"
+        evidence:
+          - resourceId: zed-v1-17-2-mcp-docs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: zed-v1-17-2-mcp-registry-source
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "MCP host/client"
+          - type: format
+            value: "tools, resources, and prompts list_changed notifications"
+          - type: runtime
+            value: "each notification schedules a cached-list refresh"
+        evidence:
+          - resourceId: cline-v4-1-16-mcp-list-changed
+            type: documented
+            observedAt: 2026-08-29
+  - harness: continue
+    versions:
+      - track: current
+        status: no
+        noteIds: [72]
+        target:
+          kind: release
+          revision: "Continue VS Code v2.0.0, tag commit 03b05ef60c378ff06f9e39ada2e22c95fe9ef6ad"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "initial tools, resources, resource templates, and prompts load once; no list-change callback is registered"
+        evidence:
+          - resourceId: continue-v2-mcp-client
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

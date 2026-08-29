@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent discovers project-specific Skills versioned under /.agents/skills, keeps them available across Agent sessions, and allows them to be committed for team sharing."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Project settings let owners upload and manage reusable skills scoped to that Project while retaining separately available personal and organization skills."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code discovers project skills from `.claude/skills/` in the working directory, parent directories through the repository root, and nested directories on demand."
   - id: 2
@@ -50,6 +54,22 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers project-scoped Agent Skills under the current project's .agents/skills directory for supported integrated agents."
 issues: []
 resources:
+  - id: replit-agent-skills-current
+    title: "Replit — Agent Skills"
+    href: "https://docs.replit.com/features/agent/skills"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Skill scope; How Agent loads skills"
+  - id: perplexity-projects
+    title: "Perplexity — What are Projects?"
+    href: https://www.perplexity.ai/help-center/en/articles/10352961-what-are-spaces
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Project settings — Skills; Collaboration and sharing — Roles"
   - title: Project-scoped Agent Skills reference
     href: https://agentskills.io/specification
     kind: spec
@@ -134,6 +154,44 @@ resources:
     reviewedAt: 2026-08-29
     locator: Skill locations; Project directory
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "project-level Skills are stored with project files in /.agents/skills"
+          - type: runtime
+            value: "installed project Skills persist across Agent sessions"
+        evidence:
+          - resourceId: replit-agent-skills-current
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Project skills coexist with personal and organization skills"
+          - type: policy
+            value: "Project edit permissions govern skill management"
+        evidence:
+          - resourceId: perplexity-projects
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

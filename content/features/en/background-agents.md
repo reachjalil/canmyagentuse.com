@@ -19,6 +19,16 @@ summary: Keep a run going after the operator leaves the session.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 says a prompted Agent can finish while Zed is in the background and notify the operator, but it does not document continuation after the desktop process exits."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's VS Code client can attach to a ClineCore hub whose sessions survive window closure, but default auto mode may fall back to an in-process local runtime without shared persistent sessions."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI can start an orb thread that keeps working on a remote isolated machine while the operator's laptop is closed."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer runs tasks asynchronously in the hosted cloud while the operator is away, including recurring work that does not require the laptop to remain open."
+  - id: 62
+    text: "Evidence checked 2026-08-29: Gemini scheduled actions prepare requested content in the background for a later delivery time and mark the resulting web chat unread when it is ready; this establishes scheduled background execution, not arbitrary continuation of every interactive chat."
   - id: 1
     text: "Evidence checked 2026-08-28: OpenWork Desktop can connect to hosted OpenWork Cloud workers; the background-run claim is conditional on that remote worker and an active Cloud subscription."
   - id: 2
@@ -33,8 +43,52 @@ notes:
     text: "Evidence checked 2026-08-28: Warp can hand work to Oz cloud agents that run in the background on hosted or customer infrastructure."
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition's hosted batch guide explicitly starts parallel Devin sessions on separate machines, permits closing the laptop, and returns completed pull requests later."
+  - id: 60
+    text: "Evidence checked 2026-08-29: Preview scheduled Copilot Tasks can run unattended after required approvals are granted during setup and later deliver results for review."
+  - id: 61
+    text: "Evidence checked 2026-08-29: Grok Automations run on their own after setup, including before the user is awake or when matching email arrives, then save and report results."
 issues: []
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L105-L112"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Get Notified, lines 105–112"
+  - id: cline-v4-1-16-background-agents
+    title: "Cline v4.1.16 — Hub and Spoke Architecture"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/sdk/architecture/hub-spoke.mdx#L7-L18"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Client lifecycle at lines 38–55; auto fallback at lines 58–87"
+  - id: amp-2026-08-background-orbs
+    title: "Amp — Orbs"
+    href: https://ampcode.com/docs/orbs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Why Use an Orb?; Start an Orb From the CLI"
+  - id: perplexity-computer
+    title: "Perplexity — What is Computer?"
+    href: https://www.perplexity.ai/help-center/en/articles/13837784-what-is-computer
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How does Computer work? — Asynchronous Execution"
+  - id: google-gemini-web-background-scheduled-actions
+    title: "Google — Schedule actions in Gemini Apps"
+    href: https://support.google.com/gemini/answer/16316416?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Schedule an action; Scheduled action notifications"
   - title: Methodology
     href: /methodology
     kind: note
@@ -93,7 +147,156 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Launch parallel sessions; close your laptop; return to pull requests"
+  - id: microsoft-copilot-tasks
+    title: "Microsoft — Using Copilot Tasks"
+    href: https://support.microsoft.com/en-us/microsoft-copilot/using-copilot-tasks
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Scheduled tasks; approvals for unattended future runs"
+  - id: spacexai-grok-automations
+    title: "SpaceXAI — Automations in Grok"
+    href: https://x.ai/news/grok-automations
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Automations introduction; schedules and triggers; reporting"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "proven only while the desktop application remains running in the background; no hosted continuation or post-exit execution is documented"
+          - type: policy
+            value: "completion notifications can be enabled or disabled"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "ClineCore hub/spoke sessions continue after the VS Code client disconnects; auto mode can fall back to local in-process execution without shared sessions"
+        evidence:
+          - resourceId: cline-v4-1-16-background-agents
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "uses an Amp orb launched with amp -ox, not the default local process"
+          - type: plan
+            value: "orb allowance depends on the active plan"
+        evidence:
+          - resourceId: amp-2026-08-background-orbs
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "background work can monitor connected sources and notify on notable results"
+          - type: plan
+            value: "Computer requires subscription access and credits"
+          - type: policy
+            value: "blocked work surfaces Needs attention rather than guessing"
+        evidence:
+          - resourceId: perplexity-computer
+            type: documented
+            observedAt: 2026-08-29
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [62]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Gemini Apps documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "background work is documented for saved scheduled actions; the source does not establish that an arbitrary interactive chat continues after departure"
+          - type: auth
+            value: "requires sign-in and Keep Activity; availability is gradual"
+        evidence:
+          - resourceId: google-gemini-web-background-scheduled-actions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [61]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Grok.com consumer web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "hosted grok.com automation continues independently after the user saves it"
+          - type: transport
+            value: "results may be reported by email, app notification, both, or retained for later inspection"
+        evidence:
+          - resourceId: spacexai-grok-automations
+            type: documented
+            observedAt: 2026-08-29
+  - harness: copilot-web
+    versions:
+      - track: preview
+        status: yes
+        noteIds: [60]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Microsoft Copilot Tasks preview documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: runtime
+            value: "preview scheduled or recurring hosted task"
+          - type: policy
+            value: "required approvals may be collected during setup so the task can run unattended"
+        evidence:
+          - resourceId: microsoft-copilot-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

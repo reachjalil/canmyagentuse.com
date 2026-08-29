@@ -20,12 +20,22 @@ aliases: [offline mode, air-gapped operation, no-cloud mode]
 parent: data-security-controls
 related: [local-models, sandbox-network, data-residency]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp's documented architecture requires the CLI client to communicate with Amp Server for authentication, thread sync and storage, usage tracking, and model inference, and explicitly offers no self-hosted deployment."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot requires cloud data storage, authentication through a Cursor account, and a hosted computer; accounts using Legacy Privacy Mode must change to a supported data setting before the product can start."
   - id: 50
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 says supported workflows can use local Ollama or LM Studio models without cloud-based model services, but does not establish an application-wide offline or zero-network mode."
 issues: []
 resources:
+  - id: amp-2026-08-no-local-only
+    title: "Amp — Security Reference"
+    href: https://ampcode.com/security
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "System Components"
   - title: Methodology
     href: /methodology
     kind: note
@@ -46,6 +56,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: Local models
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: no
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "the CLI manages local context and tools but depends on Amp Server and remote inference"
+          - type: policy
+            value: "bring-your-own model keys do not remove the Amp Server dependency"
+        evidence:
+          - resourceId: amp-2026-08-no-local-only
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

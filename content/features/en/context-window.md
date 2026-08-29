@@ -21,6 +21,10 @@ parent: models-and-context
 related: [output-token-limit, context-usage-visibility, automatic-context-compaction, upload-limits]
 highlight: true
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 sends local Ollama a num_ctx context length and documents a 4,096-token default configurable globally or per model; this does not establish one limit for other provider paths."
+  - id: 74
+    text: "Evidence checked 2026-08-29: Cline v4.1.16's exact OpenRouter record for anthropic/claude-sonnet-4.5 specifies a 1,000,000-token context window and 64,000 maximum output tokens; this does not generalize to every selectable model."
   - id: 1
     text: "Evidence checked 2026-08-28: Google publishes Gemini Apps context windows of 32k tokens without an AI plan, 128k with AI Plus, and 1 million with AI Pro or AI Ultra."
   - id: 2
@@ -30,6 +34,22 @@ notes:
   - id: 50
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 publishes exact context windows for its supported hosted models, ranging from 128k to 1 million tokens, and documents a configurable local-model context default of 64k."
 resources:
+  - id: zed-v1-17-2-local-models
+    title: "Zed v1.17.2 — Use a Local Model"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/use-a-local-model.md#L117-L133"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Ollama Context Length, lines 117–133"
+  - id: cline-v4-1-16-context-window
+    title: "Cline v4.1.16 — OpenRouter model metadata"
+    href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/shared/api.ts#L145-L161"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "openRouterDefaultModelId and openRouterDefaultModelInfo"
   - title: Methodology
     href: /methodology
     kind: note
@@ -71,6 +91,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: Configure context window and message trimming for local models
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: partial
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "measured value is 4,096 tokens for the native Agent local Ollama path; other providers and models have separate limits"
+          - type: format
+            value: "context_window configures all Ollama models and max_tokens can override an individual model"
+          - type: policy
+            value: "effective input is lower when output reservation, instructions, tools, and history consume the window; boundary behavior is not documented"
+        evidence:
+          - resourceId: zed-v1-17-2-local-models
+            type: documented
+            observedAt: 2026-08-29
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [74]
+        target:
+          kind: release
+          revision: "Cline VS Code extension v4.1.16, tag commit ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "1,000,000-token total context window and 64,000 maximum output tokens"
+          - type: runtime
+            value: "anthropic/claude-sonnet-4.5 through OpenRouter"
+          - type: auth
+            value: "OpenRouter availability and credentials apply"
+        evidence:
+          - resourceId: cline-v4-1-16-context-window
+            type: documented
+            observedAt: 2026-08-29
   - harness: jetbrains-ai
     versions:
       - track: current

@@ -19,6 +19,8 @@ summary: Open or review pull requests through a documented integration.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp projects support a Push to Branch workflow that returns a GitHub pull-request URL, while automatic PR creation relies on authenticated gh plus explicit AGENTS.md guidance."
   - id: 10
     text: "Evidence checked 2026-08-29: Replit Agent can run project commands, while the Project Editor Shell provides GitHub CLI support for pull requests; this is an authenticated CLI path rather than a dedicated Agent pull-request action."
   - id: 9
@@ -43,6 +45,14 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 can create and review pull requests through its separately installed GitHub Actions integration rather than through local TUI-native PR handling."
 issues: []
 resources:
+  - id: amp-2026-08-pull-requests
+    title: "Amp — Projects"
+    href: https://ampcode.com/docs/projects
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Changes Workflow; automatic pull requests"
   - title: Methodology
     href: /methodology
     kind: note
@@ -148,6 +158,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Features; Installation; Supported Events"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Push to Branch is integrated; automatic creation is delegated to gh in orbs through instructions"
+          - type: auth
+            value: "requires a GitHub project and authenticated gh for automated creation"
+        evidence:
+          - resourceId: amp-2026-08-pull-requests
+            type: documented
+            observedAt: 2026-08-29
   - harness: opencode
     versions:
       - track: current

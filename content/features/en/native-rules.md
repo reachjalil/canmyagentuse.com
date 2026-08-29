@@ -21,6 +21,10 @@ parent: instructions
 related: []
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 documents .rules as the highest-priority compatible project instruction file for native Zed Agent, while reusable Rules have otherwise moved to Skills and always-on Rules to Instructions."
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit Agent automatically detects root replit.md and applies its coding patterns, style, package-manager choices, dependencies, constraints, and communication preferences in future project conversations."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code loads persistent CLAUDE.md instructions and recursively discovers unconditional or path-scoped Markdown rules in .claude/rules."
   - id: 2
@@ -47,6 +51,22 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin Review discovers path-scoped REVIEW.md instructions and administrator-configured review globs, but this native-rules behavior is not established for ordinary Agent sessions."
 issues: []
 resources:
+  - id: zed-v1-17-2-instructions
+    title: "Zed v1.17.2 — Agent Instructions"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/instructions.md#L26-L40"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Project Instructions, lines 26–40; Migrating from Rules, lines 60–66"
+  - id: replit-dot-md-current
+    title: "Replit — replit.md"
+    href: "https://docs.replit.com/features/project-setup/replit-dot-md"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How replit.md works; Manual creation; Best practices; Root directory requirement; Context scope"
   - title: Methodology
     href: /methodology
     kind: note
@@ -147,6 +167,44 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Instruction Files; Custom Review Rules; REVIEW.md"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "support is the compatibility .rules project-instruction format; Zed uses only the first matching project instruction file"
+          - type: host-role
+            value: "applies to native Zed Agent; External Agents and Terminal Threads own their instruction behavior"
+        evidence:
+          - resourceId: zed-v1-17-2-instructions
+            type: documented
+            observedAt: 2026-08-29
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Replit Agent web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "the product-native rule format is replit.md at the project root"
+          - type: runtime
+            value: "subdirectory replit.md files are not automatically detected; the format is persistent project-wide rather than path-scoped"
+        evidence:
+          - resourceId: replit-dot-md-current
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

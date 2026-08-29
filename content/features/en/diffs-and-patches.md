@@ -19,6 +19,10 @@ summary: Propose or apply file changes as diffs or patches.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 opens agent changes in a multi-buffer review diff, supports accepting or rejecting individual hunks or the whole change set, and can show the same controls inline."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp exposes a Changes view that lists changes since the last commit and supports reviewing and staging agent-generated diffs."
   - id: 11
     text: "Evidence checked 2026-08-29: Replit's Task board lets an operator open the diff for a ready Agent task and apply its isolated changes to the main project or dismiss them."
   - id: 10
@@ -43,6 +47,30 @@ notes:
     text: "Evidence checked 2026-08-28: Aider documents generating a file diff and applying the edit directly during a chat."
 issues: []
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L114-L123"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Reviewing Changes, lines 114–123"
+  - id: amp-2026-08-diffs
+    title: "Amp — Threads"
+    href: https://ampcode.com/docs/threads
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Inside a Thread — Changes"
+  - id: amp-2026-08-diff-review
+    title: "Amp — Diffs"
+    href: https://ampcode.com/news/diffs
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Review and stage agent changes"
   - title: Methodology
     href: /methodology
     kind: note
@@ -135,6 +163,43 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Ready; task settings"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "multi-buffer review is standard; inline single-file review requires agent.single_file_review=true"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "CLI threads can open the current diff in a browser; orb Changes supports review and staging"
+        evidence:
+          - resourceId: amp-2026-08-diffs
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-diff-review
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

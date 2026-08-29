@@ -19,6 +19,12 @@ summary: Search file names, text, or symbols across a workspace.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 75
+    text: "Evidence checked 2026-08-29: Replit's dated changelog says Agent searches files across the entire codebase and uses project structure and content to answer open-ended codebase queries."
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp CLI exposes finder, glob, Grep, and Read tools and supports fuzzy file search with configurable inclusion patterns."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity's GitHub connector queries authorized repositories and explicitly discovers code and information across repositories and organization documents."
   - id: 16
     text: "Evidence checked 2026-08-29: Warp Codebase Context indexes a local Git-tracked repository and grounds agent answers in files, functions, and line numbers; without indexing, agents can navigate code with terminal search commands."
   - id: 15
@@ -53,6 +59,38 @@ notes:
     text: "Evidence checked 2026-08-28: Windsurf documents Search and Analyze among Cascade's codebase tools."
 issues: []
 resources:
+  - id: replit-agent-filesystem-search-2025-08-08
+    title: "Replit — August 8, 2025 changelog"
+    href: "https://docs.replit.com/updates/2025/08/08/changelog"
+    kind: docs
+    publisher: Replit
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Platform — Improved filesystem search"
+  - id: amp-2026-08-workspace-search
+    title: "Amp — Streaming JSON"
+    href: https://ampcode.com/docs/cli/streaming-json
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Init tool inventory"
+  - id: amp-2026-08-fuzzy-search
+    title: "Amp — Configuration"
+    href: https://ampcode.com/docs/cli/settings
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "amp.fuzzy.alwaysIncludePaths"
+  - id: perplexity-github-connector
+    title: "Perplexity — Connecting Perplexity with GitHub"
+    href: https://www.perplexity.ai/help-center/en/articles/12275669-github-connector-for-enterprise
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Why use it?; Privacy and Data Security; How to activate it"
   - title: Methodology
     href: /methodology
     kind: note
@@ -185,6 +223,62 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Get started; Indexing your codebase"
 support:
+  - harness: replit-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: dated-documentation
+          revision: "Replit changelog dated 2025-08-08, observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "the documented search scope is the current project's entire codebase; indexing, symbol-search, and freshness limits are not published"
+        evidence:
+          - resourceId: replit-agent-filesystem-search-2025-08-08
+            type: documented
+            observedAt: 2026-08-29
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "search applies to the active local or orb working copy; Librarian remote search is separate"
+        evidence:
+          - resourceId: amp-2026-08-workspace-search
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: amp-2026-08-fuzzy-search
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "requires a personally authorized GitHub connection and remains limited to repositories visible to that account"
+          - type: plan
+            value: "available to Pro, Max, Enterprise Pro, and Enterprise Max"
+        evidence:
+          - resourceId: perplexity-github-connector
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [context meter, token counter, context inspector]
 parent: models-and-context
 related: [context-window, prompt-cache-telemetry, usage-metering]
 notes:
+  - id: 76
+    text: "Evidence checked 2026-08-29: Zed v1.17.2 displays consumed tokens for the active Agent thread near the profile selector and warns as the selected model approaches its context limit."
   - id: 1
     text: "Evidence checked 2026-08-28: ChatGPT desktop documents /status as showing context usage; the Codex CLI interface documents remaining context in its session footer."
   - id: 2
@@ -31,6 +33,14 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp shows a context-window usage bar and percentage breakdown for system prompt, tools, history, input, images, and other content."
 resources:
+  - id: zed-v1-17-2-agent-panel
+    title: "Zed v1.17.2 — Agent Panel"
+    href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L151-L159"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Token Usage and Compaction, lines 151–159"
   - title: Methodology
     href: /methodology
     kind: note
@@ -80,6 +90,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Context window management; usage breakdown"
 support:
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: release
+          revision: "Zed v1.17.2, tag commit c8e44cfa7bda9b2e22c8d6934d78969352e7f61a"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "documentation establishes a token-usage display and limit warning but not a complete per-source context breakdown"
+        evidence:
+          - resourceId: zed-v1-17-2-agent-panel
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

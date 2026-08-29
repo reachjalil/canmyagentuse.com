@@ -20,6 +20,10 @@ aliases: [credential vault, secret redaction, environment secrets]
 parent: data-security-controls
 related: [subagent-approval-boundaries, connectors, mcp-oauth]
 notes:
+  - id: 73
+    text: "Evidence checked 2026-08-29: Amp stores scoped workspace, project, or personal secrets, hides saved values, exposes audit history without values, and can mint short-lived OIDC credentials for orbs."
+  - id: 70
+    text: "Evidence checked 2026-08-29: Perplexity Computer encrypts API credentials and injects them through a secure proxy, with session, personal-vault, and shared-Project scopes plus approval, revocation, and raw-secret isolation."
   - id: 1
     text: "Evidence checked 2026-08-28: Cursor Background Agents accept development-environment secrets, store them encrypted at rest with KMS, and inject them into the remote agent environment. The reviewed page does not document per-tool allowlists, masking behavior, or a guarantee that the model cannot read an injected value."
   - id: 2
@@ -33,6 +37,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp securely stores reusable MCP OAuth credentials on-device, supports API tokens through environment variables or headers, and scrubs shared server configuration secrets."
 resources:
+  - id: amp-2026-08-secrets
+    title: "Amp — Handling Secrets"
+    href: https://ampcode.com/docs/orbs/handling-secrets
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Secrets and Environment Variables; OIDC"
+  - id: perplexity-computer-credentials
+    title: "Perplexity — Using custom API credentials in Computer"
+    href: https://www.perplexity.ai/help-center/en/articles/20260716-using-custom-api-credentials-in-computer
+    kind: docs
+    publisher: Perplexity
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; the three credential scopes; limits and privacy"
   - title: Methodology
     href: /methodology
     kind: note
@@ -103,6 +123,46 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Sharing MCP servers; Authentication"
 support:
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [73]
+        target:
+          kind: dated-documentation
+          revision: "Amp rolling CLI documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "personal values override project values, which override workspace values"
+          - type: auth
+            value: "OIDC tokens are audience-bound and can be limited by workspace, project, user, and thread"
+        evidence:
+          - resourceId: amp-2026-08-secrets
+            type: documented
+            observedAt: 2026-08-29
+  - harness: perplexity-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [70]
+        target:
+          kind: hosted-observation
+          revision: "2026-08-29 Perplexity web documentation observation"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "raw credentials are not exposed to the agent trajectory or task sandbox"
+          - type: auth
+            value: "tokens, custom headers, query parameters, and converted bearer credentials are supported; SSH keys are not"
+          - type: policy
+            value: "saved credentials require explicit approval by default unless the user selects Always allow"
+        evidence:
+          - resourceId: perplexity-computer-credentials
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current
