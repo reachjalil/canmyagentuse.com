@@ -376,7 +376,7 @@ Continue future local research cycles if commits can remain clearly ordered.
 Deploy only when content changed and the build is green:
 
 ```sh
-pnpm --filter @canmyagentuse/web deploy
+pnpm --filter @canmyagentuse/web run deploy
 ```
 
 An ops-only cycle does not deploy. A deploy failure never invalidates the
