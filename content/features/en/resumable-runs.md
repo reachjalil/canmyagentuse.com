@@ -20,6 +20,12 @@ aliases: [resume agent, reconnect run, run checkpoint, session recovery]
 parent: usage-and-reliability
 related: [background-agents, conversation-export]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 documents --restore-chat-history to reload messages from the previous local chat-history file and continue the conversation."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop syncs cloud Work chats with web and mobile so an eligible session can be reopened and continued on another supported surface."
+  - id: 77
+    text: "Evidence checked 2026-08-29: cloud ChatGPT Work chats sync across web, mobile, and desktop and can be continued on another supported surface with the saved conversation context."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 keeps archived Agent threads in Thread History, restores a selected conversation into the Agent Panel, and reconstructs a removed linked worktree when needed."
   - id: 73
@@ -47,6 +53,30 @@ notes:
   - id: 61
     text: "Evidence checked 2026-08-29: Every Grok Automation run is saved as a full conversation that users can open and continue where the automation left off."
 resources:
+  - id: aider-v0860-options-restore
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "--restore-chat-history and History Files"
+  - id: openai-chatgpt-desktop-work-resume
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where Work and Codex are available; Start Work on web or mobile"
+  - id: openai-chatgpt-web-work-sync
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where Work and Codex are available; Start Work on web or mobile"
   - id: zed-v1-17-2-parallel-agents
     title: "Zed v1.17.2 — Parallel Agents"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/parallel-agents.md#L28-L38"
@@ -184,6 +214,65 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Every run is a full conversation"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "resume is opt-in and disabled by default"
+          - type: runtime
+            value: "the primitive restores prior chat messages; no remote sync, session picker, cross-device resume, pending shell state, or full process checkpoint is established"
+          - type: format
+            value: "restoration uses the configured local chat-history file"
+        evidence:
+          - resourceId: aider-v0860-options-restore
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Cloud Work is rolling out to eligible paid accounts and remains controlled by workspace permissions"
+          - type: runtime
+            value: "cloud Work chats sync across desktop, web, and mobile; local chats remain only on the originating computer"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-resume
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "ChatGPT Work is rolling out to eligible paid plans and remains subject to workspace controls"
+          - type: runtime
+            value: "cloud Work chats sync across web, mobile, and desktop; local desktop chats remain on that computer"
+        evidence:
+          - resourceId: openai-chatgpt-web-work-sync
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

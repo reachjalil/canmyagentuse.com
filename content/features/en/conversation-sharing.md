@@ -20,6 +20,8 @@ aliases: [share chat, conversation link, run sharing]
 parent: collaboration-and-portability
 related: [role-based-access, conversation-export, shared-projects]
 notes:
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web creates manageable shared links for conversations and eligible scheduled tasks, with personal links open to anyone holding the URL and managed-workspace links restricted to members."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp CLI threads expose configurable Private, Workspace, Group, and Unlisted visibility and can be shared by URL."
   - id: 2
@@ -41,6 +43,14 @@ notes:
   - id: 61
     text: "Evidence checked 2026-08-29: Grok.com generates public conversation share links and provides a dedicated page where signed-in users can revoke individual or all shared links."
 resources:
+  - id: openai-chatgpt-web-shared-links
+    title: "OpenAI — ChatGPT shared links"
+    href: https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Understand shared link types; Create and update shared links; Manage and delete shared links; FAQ"
   - id: amp-2026-08-thread-sharing
     title: "Amp — Threads"
     href: https://ampcode.com/docs/threads
@@ -146,6 +156,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Can I share my Grok conversations?; revoke shared links"
 support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "personal links have no recipient-by-recipient access control or configurable expiration; managed-workspace links remain inside the originating workspace"
+          - type: format
+            value: "conversation links can include history, a response, supported images, or uploaded files; personal links are snapshots until explicitly updated"
+        evidence:
+          - resourceId: openai-chatgpt-web-shared-links
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

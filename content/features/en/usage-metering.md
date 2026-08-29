@@ -20,6 +20,8 @@ aliases: [cost meter, token usage, spend dashboard, usage dashboard]
 parent: usage-and-reliability
 related: [prompt-cache-telemetry, context-usage-visibility, rate-limit-disclosure]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 reports sent and received tokens and, when pricing metadata exists, estimated cost for the current message and accumulated CLI session."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp reports per-thread token and cost statistics, shows current cost in thread UI, and exposes the credit balance through amp usage."
   - id: 70
@@ -39,6 +41,14 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin reports per-session and account consumption through actions, VM time, bandwidth, ACUs, quota, remaining credits, and enterprise organization totals."
 resources:
+  - id: aider-v0860-coder-source-usage
+    title: "Aider v0.86.0 — Coder runtime"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/base_coder.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "calculate_and_show_tokens_and_cost and show_usage_report"
   - id: amp-2026-08-metering
     title: "Amp — Streaming JSON"
     href: https://ampcode.com/docs/cli/streaming-json
@@ -123,6 +133,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What counts toward usage; FAQs and account views"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "report distinguishes sent, received, cache-write, and cache-hit tokens when provider usage fields exist"
+          - type: runtime
+            value: "displayed cost is an estimate from response or embedded model metadata, not a final provider invoice"
+          - type: policy
+            value: "organization budgets, billing-period totals, and administrative usage exports are not established"
+        evidence:
+          - resourceId: aider-v0860-coder-source-usage
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

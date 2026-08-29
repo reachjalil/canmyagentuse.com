@@ -20,6 +20,8 @@ aliases: [context meter, token counter, context inspector]
 parent: models-and-context
 related: [context-window, prompt-cache-telemetry, usage-metering]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 /tokens reports approximate current-context use by system messages, chat history, repository map, editable files, and read-only files, plus totals and known remaining capacity."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 displays consumed tokens for the active Agent thread near the profile selector and warns as the selected model approaches its context limit."
   - id: 1
@@ -33,6 +35,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp shows a context-window usage bar and percentage breakdown for system prompt, tools, history, input, images, and other content."
 resources:
+  - id: aider-v0860-commands-tokens
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/tokens"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — CLI command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "cmd_tokens"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L151-L159"
@@ -90,6 +108,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Context window management; usage breakdown"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "token counts are approximate and include source-by-source attribution"
+          - type: runtime
+            value: "remaining and maximum context are omitted when the selected model lacks a known maximum-input value"
+          - type: format
+            value: "report suggests context-reduction controls such as /drop, /clear, and --map-tokens"
+        evidence:
+          - resourceId: aider-v0860-commands-tokens
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

@@ -20,6 +20,10 @@ aliases: [attachment limit, max file size, upload quota, file count limit]
 parent: file-inputs
 related: [context-window, usage-metering, rate-limit-disclosure]
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: files supplied to ChatGPT Desktop Work use ChatGPT's documented per-file, token, image, spreadsheet, storage, and rolling upload caps."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT documents per-file, token, image, spreadsheet, storage, and rolling upload caps for files uploaded to web conversations, Projects, and custom GPT knowledge."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI's Grok FAQ reports approximately 100 files per message on the web but does not publish the complete size, storage, page, duration, or rolling quota envelope on that page."
   - id: 2
@@ -44,6 +48,30 @@ notes:
     text: "Evidence checked 2026-08-29: Cognition's 2026-04-08 hosted-product release notes document a 75 MB maximum per session attachment."
 issues: []
 resources:
+  - id: openai-chatgpt-desktop-work-upload-context
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start on desktop — add files and context"
+  - id: openai-chatgpt-desktop-upload-limits
+    title: "OpenAI — File Uploads FAQ"
+    href: https://help.openai.com/en/articles/8555545-file-uploads-faq
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "file size restrictions; usage caps; rolling upload limits"
+  - id: openai-chatgpt-web-upload-limits
+    title: "OpenAI — File Uploads FAQ"
+    href: https://help.openai.com/en/articles/8555545-file-uploads-faq
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "What are the file upload size restrictions?; usage caps; Troubleshooting upload limit reached"
   - title: Methodology
     href: /methodology
     kind: note
@@ -152,6 +180,47 @@ resources:
     reviewedAt: 2026-08-29
     locator: "2026-04-08 Larger Attachment Uploads"
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "512 MB per file; two million tokens per text or document file; approximately 50 MB per spreadsheet; 20 MB per image"
+          - type: plan
+            value: "25 GB per end user and 100 GB per organization; up to 80 uploads per rolling three hours, while Free has three uploads per day; peak-time reductions may apply"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-upload-context
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openai-chatgpt-desktop-upload-limits
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "512 MB per file; two million tokens per text or document file; about 50 MB per CSV or spreadsheet; 20 MB per image"
+          - type: plan
+            value: "25 GB per end user and 100 GB per organization; up to 80 uploads per user per rolling three hours, while Free is limited to three uploads per day; OpenAI may lower limits at peak times"
+        evidence:
+          - resourceId: openai-chatgpt-web-upload-limits
+            type: documented
+            observedAt: 2026-08-29
   - harness: devin-web
     versions:
       - track: current

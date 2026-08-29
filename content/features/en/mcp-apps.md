@@ -30,6 +30,8 @@ parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: true
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable CLI package, arguments, commands, and dependencies establishes that it implements no MCP client or MCP Apps UI-resource host."
   - id: 74
     text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive MCP response renderer supports text, Markdown, URLs, images, links, and errors but has no MCP Apps iframe, ui:// resource, or app-bridge rendering path."
   - id: 72
@@ -52,6 +54,38 @@ notes:
     text: "Evidence checked 2026-08-29: goose v1.48.0 explicitly sets MCP Apps capability off for Goose CLI while enabling it for the separate Goose Desktop path."
 issues: []
 resources:
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
   - id: cline-v4-1-16-mcp-apps
     title: "Cline v4.1.16 — exhaustive MCP response renderer"
     href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/webview-ui/src/components/mcp/chat-display/McpResponseDisplay.tsx#L75-L215"
@@ -184,6 +218,34 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Goose CLI sets mcpui false while Desktop sets true, lines 407-426"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [83]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; community MCP wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "local CLI does not render MCP Apps"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
   - harness: cline
     versions:
       - track: current

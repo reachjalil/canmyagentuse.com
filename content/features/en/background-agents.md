@@ -19,6 +19,14 @@ summary: Keep a run going after the operator leaves the session.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 80
+    text: "Evidence checked 2026-08-29: Claude web Cowork sessions can continue in Anthropic's cloud after the browser closes or computer sleeps, while local-file, browser, or native-computer access requires connected Desktop availability."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop can participate in cloud Work and scheduled-task workflows, but the reviewed docs only establish background continuation for remote cloud-browser tasks started on web or mobile."
+  - id: 78
+    text: "Evidence checked 2026-08-29: remote Cowork scheduled sessions can execute after Claude Desktop closes or the computer sleeps, while tasks that need local files or native apps require the desktop environment to remain available."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT Work cloud-browser tasks started on web can continue remotely after the user leaves the conversation or closes the computer, pausing for required input, sign-in, or confirmation."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 says a prompted Agent can finish while Zed is in the background and notify the operator, but it does not document continuation after the desktop process exits."
   - id: 74
@@ -49,6 +57,46 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations run on their own after setup, including before the user is awake or when matching email arrives, then save and report results."
 issues: []
 resources:
+  - id: anthropic-claude-web-cowork-background
+    title: "Anthropic — Get started with Claude Cowork"
+    href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start a Cowork session; What to expect during a task; Schedule recurring tasks"
+  - id: openai-chatgpt-desktop-cloud-work
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where Work and Codex are available; cloud Work sync; Scheduled Tasks"
+  - id: openai-chatgpt-desktop-background-boundary
+    title: "OpenAI — Using cloud browser in ChatGPT"
+    href: https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability; start surfaces; FAQ — Can a task keep running after I leave?"
+  - id: anthropic-claude-desktop-cowork-background
+    title: "Anthropic — Schedule recurring tasks in Claude Cowork"
+    href: https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How scheduled tasks work — remote execution and local-resource exception"
+  - id: openai-chatgpt-web-cloud-browser-background
+    title: "OpenAI — Using cloud browser in ChatGPT"
+    href: https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "opening continuation statement; FAQ — Can a task keep running after I leave?"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L105-L112"
@@ -164,6 +212,95 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Automations introduction; schedules and triggers; reporting"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude web documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: preview
+            value: "Cowork on web is beta"
+          - type: plan
+            value: "requires a paid Claude subscription; Enterprise use requires owner enablement"
+          - type: runtime
+            value: "cloud Cowork continues without the browser or device, but local files, browser use, and native computer access require an open connected Desktop app"
+          - type: host-role
+            value: "Claude web monitors and steers the cloud Cowork session"
+        evidence:
+          - resourceId: anthropic-claude-web-cowork-background
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "cloud Work and scheduled features require an eligible paid plan and workspace permissions"
+          - type: runtime
+            value: "cloud Work chats sync with Desktop, while explicit cloud-browser background starts are documented for web and mobile; local Desktop chats stay on the computer"
+          - type: policy
+            value: "remote work pauses when it needs user input, sign-in, or confirmation"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-cloud-work
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openai-chatgpt-desktop-background-boundary
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "remote Cowork scheduling is available on paid plans"
+          - type: runtime
+            value: "each scheduled invocation runs as its own Cowork session; remote sessions survive app closure and sleep, but local-resource work requires Desktop connectivity"
+          - type: policy
+            value: "this persistence applies to scheduled remote execution, not every ordinary Cowork conversation"
+        evidence:
+          - resourceId: anthropic-claude-desktop-cowork-background
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "ChatGPT Work cloud-browser tasks on eligible paid plans, excluding Free and Go, subject to region, rollout, and workspace permissions"
+          - type: runtime
+            value: "remote cloud-browser execution can outlive the web conversation and the user's computer session"
+          - type: policy
+            value: "execution pauses when ChatGPT needs information, website sign-in, or confirmation"
+        evidence:
+          - resourceId: openai-chatgpt-web-cloud-browser-background
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

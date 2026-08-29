@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no MCP remote-server authorization, protected-resource discovery, or dynamic client-registration flow."
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop's opt-in managed remote-MCP path implements OAuth discovery, dynamic registration when available, PKCE, loopback callback, token exchange, authenticated validation, refresh recovery, and disconnect."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Agent guides users through OAuth when signing in to a pre-listed MCP server and when a custom MCP endpoint requires an OAuth flow."
   - id: 73
@@ -52,6 +56,46 @@ notes:
     text: "Evidence checked 2026-08-29: Warp completes browser-based OAuth for protected MCP servers, stores credentials securely on-device, reuses them, and supports revocation."
 issues: []
 resources:
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: openwork-v01839-local-mcp-oauth
+    title: "OpenWork v0.18.39 — Local managed MCP OAuth"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/local-managed-mcp-oauth/README.md#L1-L44"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "User flow, Persistence and lifecycle, and Network boundary, lines 1–44"
   - id: replit-agent-mcp-current
     title: "Replit — Connect via MCP"
     href: "https://docs.replit.com/build/connect-via-mcp"
@@ -160,6 +204,57 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Authentication in MCP servers"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [83]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; community MCP wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: auth
+            value: "no MCP authorization flow"
+          - type: transport
+            value: "model-provider credentials and OAuth are outside MCP"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "opt-in per remote MCP; a pre-registered client ID, secret, and scopes may be required when dynamic registration is unavailable"
+          - type: transport
+            value: "desktop-managed remote MCP through an authenticated loopback gateway"
+          - type: policy
+            value: "outside explicit local development, providers must use HTTPS and public addresses; redirects are revalidated and HTTPS downgrade is blocked"
+        evidence:
+          - resourceId: openwork-v01839-local-mcp-oauth
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

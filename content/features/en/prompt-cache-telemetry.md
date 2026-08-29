@@ -20,11 +20,29 @@ aliases: [cache hit metrics, cached tokens, cache observability]
 parent: models-and-context
 related: [prompt-cache-reuse, prompt-cache-controls, usage-metering]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 reports provider-supplied cache-write and cache-hit token counts and incorporates them into cost estimates, but caching statistics and costs are unavailable while responses stream."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code exposes cache creation and cache read token counts through status-line data and OpenTelemetry, including per-user and per-session organization metrics."
   - id: 2
     text: "Evidence checked 2026-08-28: Gemini CLI documents cached-token savings in /stats when token caching is available."
 resources:
+  - id: aider-v0860-caching-telemetry
+    title: "Aider v0.86.0 — Prompt caching"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/caching.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "streaming limitation and cache statistics"
+  - id: aider-v0860-coder-source-cache
+    title: "Aider v0.86.0 — Coder runtime"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/base_coder.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "calculate_and_show_tokens_and_cost and show_usage_report"
   - title: Methodology
     href: /methodology
     kind: note
@@ -50,6 +68,30 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "cache-hit and cache-write counts appear only when the provider response exposes them"
+          - type: runtime
+            value: "cache telemetry is unavailable in streaming mode, which is enabled by default"
+          - type: policy
+            value: "historical hit rate, latency savings, cache-key identity, and retained cache telemetry are not established"
+        evidence:
+          - resourceId: aider-v0860-caching-telemetry
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-coder-source-cache
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

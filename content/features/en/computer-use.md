@@ -20,6 +20,8 @@ aliases: [GUI automation, visual browser, browser control]
 related: [browser-automation, screenshots]
 highlight: true
 notes:
+  - id: 78
+    text: "Evidence checked 2026-08-29: Claude Desktop can click, type, navigate desktop apps, open files, and operate browsers through Cowork or Code, but Anthropic labels the capability a Pro/Max research preview."
   - id: 74
     text: "Evidence checked 2026-08-29: Cline v4.1.16's exhaustive legacy tool enumeration and maintained ClineCore tool table provide browser-only interaction plus code, terminal, and file tools, with no general operating-system desktop-control tool."
   - id: 10
@@ -46,6 +48,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks captures webpage screenshots and performs clicks, scrolling, and typing, but current documentation establishes browser interaction rather than general desktop application control."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-computer-use
+    title: "Anthropic — Let Claude use your computer in Cowork"
+    href: https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "availability; How computer use works with Cowork; Current limitations; Get started"
   - id: cline-v4-1-16-computer-use
     title: "Cline v4.1.16 — default tool enumeration"
     href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/shared/tools.ts#L7-L35"
@@ -146,6 +156,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Browser-based tasks; screenshots and control"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "Pro and Max only; unavailable to Team and Enterprise in the reviewed documentation"
+          - type: runtime
+            value: "research-preview computer use in Cowork or Claude Code inside Claude Desktop on macOS or Windows; the app must remain open and the computer awake"
+          - type: policy
+            value: "the user enables computer use, grants per-app access, and on macOS grants Accessibility and Screen Recording permissions"
+        evidence:
+          - resourceId: anthropic-claude-desktop-computer-use
+            type: documented
+            observedAt: 2026-08-29
   - harness: cline
     versions:
       - track: current

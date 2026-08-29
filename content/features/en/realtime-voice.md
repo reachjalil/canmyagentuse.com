@@ -19,6 +19,10 @@ summary: Speak and listen over a live audio session.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop Chat supports spoken input and audible responses; Live can listen and speak concurrently and allows natural interruption."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT Voice on desktop web accepts spoken input and returns spoken responses; Live supports simultaneous listening and speaking with natural interruption."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; dictation or read-aloud alone does not qualify as a live two-way audio session.
   - id: 2
@@ -29,6 +33,22 @@ notes:
     text: "Evidence checked 2026-08-28: Mistral's Vibe Work voice mode is available in the web app on all plans, but it is documented as speech-to-text input that produces an editable transcript and optionally sends it. The reviewed page does not document spoken responses or a continuous two-way audio session, so this is narrower than realtime voice."
 issues: []
 resources:
+  - id: openai-chatgpt-desktop-voice
+    title: "OpenAI — ChatGPT Voice"
+    href: https://help.openai.com/en/articles/20001274
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Voice options; Desktop Chat availability; interruption FAQ"
+  - id: openai-chatgpt-web-voice
+    title: "OpenAI — ChatGPT Voice"
+    href: https://help.openai.com/en/articles/20001274
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Voice options; Start a Voice conversation — On web; interruption FAQ"
   - title: Methodology
     href: /methodology
     kind: note
@@ -62,6 +82,48 @@ resources:
     reviewedAt: 2026-08-28
     locator: Web availability; transcription; Autosend behavior
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Voice in Chat is available in ChatGPT Desktop Chat; Voice in Work and Codex is separately available in the desktop app on macOS and Windows for eligible accounts"
+          - type: plan
+            value: "voice option, model, limits, and availability depend on plan, workspace settings, region, client version, and parental controls"
+          - type: format
+            value: "Live supports simultaneous listening and speaking with interruption; Standard uses turn-by-turn transcription"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-voice
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "available in supported ChatGPT web experiences at ChatGPT.com and requires browser microphone permission"
+          - type: plan
+            value: "Voice option, model, limits, and availability depend on plan, workspace settings, region, app version, and parental controls"
+          - type: format
+            value: "Live can listen and speak at the same time and supports interruption; Standard is turn-by-turn speech transcription and response"
+        evidence:
+          - resourceId: openai-chatgpt-web-voice
+            type: documented
+            observedAt: 2026-08-29
   - harness: copilot-web
     versions:
       - track: current

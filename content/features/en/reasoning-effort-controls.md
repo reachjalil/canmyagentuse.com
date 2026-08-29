@@ -20,6 +20,8 @@ aliases: [thinking budget, reasoning mode, thinking level]
 parent: models-and-context
 related: [model-selection, usage-metering]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 exposes CLI and in-chat controls for low, medium, or high reasoning effort and numeric or human-readable thinking-token budgets, including zero to disable thinking."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 documents a thinking-effort picker and configurable levels from none through max, with exact choices determined by the selected model and provider."
   - id: 75
@@ -39,6 +41,14 @@ notes:
   - id: 60
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot offers a Think Deeper mode that spends additional time reasoning, but does not expose a numeric token or adjustable low-to-high effort budget."
 resources:
+  - id: aider-v0860-reasoning
+    title: "Aider v0.86.0 — Reasoning models"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/reasoning.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Basic usage; Reasoning effort; Thinking tokens; Model compatibility"
   - id: zed-v1-17-2-api-access
     title: "Zed v1.17.2 — Use API Access"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/use-api-access.md#L506-L540"
@@ -136,6 +146,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Think Deeper"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "/reasoning-effort and --reasoning-effort apply only to models whose Aider metadata declares support"
+          - type: runtime
+            value: "/think-tokens and --thinking-tokens accept numeric or human-readable budgets such as 8k; zero disables the budget"
+          - type: policy
+            value: "Aider warns and normally ignores reasoning settings not declared by the selected model"
+        evidence:
+          - resourceId: aider-v0860-reasoning
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

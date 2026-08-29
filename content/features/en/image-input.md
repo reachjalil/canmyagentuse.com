@@ -24,6 +24,8 @@ parent: file-inputs
 related: [screenshots, video-input, upload-limits]
 highlight: true
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop accepts pasted, dropped, or selected image attachments, classifies image MIME types as model-facing parts, compresses oversized images, and forwards previews and file inputs."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 accepts image input in the Agent Panel by project-file @-mention, filesystem drag-and-drop, or clipboard paste for supported vision models."
   - id: 75
@@ -68,6 +70,22 @@ notes:
     text: "Evidence checked 2026-08-29: Local Warp Agent conversations accept images through upload, paste, or drag-and-drop and send them as visual context."
 issues: []
 resources:
+  - id: openwork-v01839-composer-attachments
+    title: "OpenWork v0.18.39 — composer attachment UI"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/surface/composer/composer.tsx#L1118-L1129"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "addAttachments and paste, drop, and file-input handlers at lines 1118–1129 and 1276–1394"
+  - id: openwork-v01839-attachment-parts
+    title: "OpenWork v0.18.39 — model-facing attachment conversion"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/sync/attachment-file-part.ts#L57-L85"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "image MIME mappings and model-facing file-part conversion at lines 57–85, 164–182, 309–325, and 408–418"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L143-L149"
@@ -273,6 +291,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Attaching images as context; model behavior"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "image MIME input with explicit JPEG, PNG, GIF, WebP, and SVG mappings"
+          - type: runtime
+            value: "oversized images are compressed at send time; remote-worker uploads preserve originals where required"
+        evidence:
+          - resourceId: openwork-v01839-composer-attachments
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-attachment-parts
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

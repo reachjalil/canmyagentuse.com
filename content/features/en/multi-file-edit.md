@@ -19,6 +19,8 @@ summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 accepts multiple source paths at launch, can add multiple files during chat, and edits those files within one coding task."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 documents native Agent file editing and a review surface that reports every edited file and opens all changes together in a multi-buffer tab."
   - id: 74
@@ -41,6 +43,22 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code documents reading multiple files and making coordinated edits across them in one task, but its CLI permission modes can review edits individually rather than as one grouped step."
 issues: []
 resources:
+  - id: aider-v0860-usage
+    title: "Aider v0.86.0 — Usage"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Adding files; Making changes"
+  - id: aider-v0860-commands
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/add and file-management commands"
   - id: zed-v1-17-2-zed-agent
     title: "Zed v1.17.2 — Zed Agent"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/zed-agent.md#L8-L20"
@@ -141,6 +159,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Examples of coding capabilities — Multi-file and repo-wide changes; Complex workflows"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "files can be named at launch, added with /add, or selected by Aider from the repository"
+          - type: policy
+            value: "Aider recommends adding only task-relevant files because every added file consumes context"
+        evidence:
+          - resourceId: aider-v0860-usage
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

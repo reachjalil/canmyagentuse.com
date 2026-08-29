@@ -20,6 +20,8 @@ aliases: [activity log, security log, admin audit]
 parent: data-security-controls
 related: [admin-policy-controls, subagent-approval-boundaries, conversation-export]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop records workspace security and administrative actions as local JSONL with actor, action, target, summary, and timestamp and exposes recent entries through an authenticated workspace endpoint."
   - id: 74
     text: "Evidence checked 2026-08-29: enterprise Cline v4.1.16 can export authentication, task, tool, approval, edit, MCP, browser, and terminal events through OpenTelemetry, but records omit content and paths and require customer-managed infrastructure."
   - id: 73
@@ -46,6 +48,22 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise exposes customer-facing security and administrative audit records with actor, action, organization, timestamp, data, filters, and pagination."
 issues: []
 resources:
+  - id: openwork-v01839-audit-store
+    title: "OpenWork v0.18.39 — workspace audit store"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/audit.ts#L11-L73"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "auditLogPath, recordAudit, and readAuditEntries, lines 11–73"
+  - id: openwork-v01839-audit-route
+    title: "OpenWork v0.18.39 — workspace audit endpoint"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/server.ts#L2812-L2818"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "GET workspace audit route at lines 2812–2818 and representative audit writes"
   - id: cline-v4-1-16-audit-logs
     title: "Cline v4.1.16 — OpenTelemetry"
     href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/docs/enterprise-solutions/monitoring/opentelemetry.mdx#L7-L35"
@@ -162,6 +180,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Account-Level Roles — View Audit Logs"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "workspace-scoped JSONL; endpoint defaults to 50 newest entries and caps requests at 200"
+          - type: auth
+            value: "workspace client route; actor distinguishes host and remote and can include client or token-scope metadata"
+        evidence:
+          - resourceId: openwork-v01839-audit-store
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-audit-route
+            type: documented
+            observedAt: 2026-08-29
   - harness: cline
     versions:
       - track: current

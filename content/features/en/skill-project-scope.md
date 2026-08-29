@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop discovers workspace skills from .opencode/skills and .claude/skills while walking to the Git root; local SKILL.md skills require no Cloud account."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Agent discovers project-specific Skills versioned under /.agents/skills, keeps them available across Agent sessions, and allows them to be committed for team sharing."
   - id: 70
@@ -54,6 +56,22 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers project-scoped Agent Skills under the current project's .agents/skills directory for supported integrated agents."
 issues: []
 resources:
+  - id: openwork-v01839-project-skills
+    title: "OpenWork v0.18.39 — project and global skill discovery"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/skills.ts#L145-L209"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "listSkillsInDir and listSkills, lines 145–209"
+  - id: openwork-v01839-local-skill-doc
+    title: "OpenWork v0.18.39 — Create a skill from chat"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/start-here/do-work-with-it/create-a-skill-from-chat.mdx#L57-L59"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Keep a skill local to one workspace, lines 57–59"
   - id: replit-agent-skills-current
     title: "Replit — Agent Skills"
     href: "https://docs.replit.com/features/agent/skills"
@@ -154,6 +172,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: Skill locations; Project directory
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "flat <skills>/<name>/SKILL.md and one-level namespaced <skills>/<domain>/<name>/SKILL.md layouts"
+        evidence:
+          - resourceId: openwork-v01839-project-skills
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-local-skill-doc
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

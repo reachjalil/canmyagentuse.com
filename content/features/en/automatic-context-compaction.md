@@ -20,6 +20,8 @@ aliases: [context summarization, auto compact, conversation compression]
 parent: models-and-context
 related: [context-window, context-compaction-controls, long-term-memory]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 automatically summarizes older chat history after a soft token threshold, using the weak model with the main model as fallback."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 enables automatic compaction by default at 90% of the selected model's context window, replacing earlier messages with a visible summary so the thread can continue."
   - id: 73
@@ -37,6 +39,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp automatically summarizes a local agent conversation after it exceeds the selected model's context window so work can continue."
 resources:
+  - id: aider-v0860-options-compaction
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "--max-chat-history-tokens and --weak-model"
+  - id: aider-v0860-history-source
+    title: "Aider v0.86.0 — Chat-history summarizer"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/history.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "ChatSummary.summarize, summarize_real, and summarize_all"
   - id: zed-v1-17-2-agent-settings
     title: "Zed v1.17.2 — Agent Settings"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-settings.md#L58-L85"
@@ -118,6 +136,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Context window management"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "trigger is --max-chat-history-tokens or the selected model's max_chat_history_tokens when unset"
+          - type: runtime
+            value: "the summarizer retains recent messages and replaces older user and assistant history with a generated summary"
+          - type: policy
+            value: "summaries are model-generated continuity state and may omit details"
+        evidence:
+          - resourceId: aider-v0860-options-compaction
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-history-source
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

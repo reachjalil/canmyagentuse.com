@@ -20,6 +20,8 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop exposes a searchable per-session model picker and applies the selected provider, model, and optional behavior variant; organization policy can hide blocked choices."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 provides a model selector in the Agent Panel, distinguishes the same model offered through different providers, and supports favorites and keyboard cycling."
   - id: 75
@@ -62,6 +64,14 @@ notes:
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot on the web exposes selectable conversation modes, including Smart explicitly powered by GPT-5, plus Quick response, Think Deeper, Study and learn, and Search."
 issues: []
 resources:
+  - id: openwork-v01839-model-picker
+    title: "OpenWork v0.18.39 — desktop model picker"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/modals/model-picker-modal.tsx#L34-L53"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "ModelPickerModalProps, selection handler, and selectable model rows at lines 34–53, 242–245, and 478–503"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L161-L172"
@@ -238,6 +248,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Supported modes; how to select a mode; Smart"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "organization Desktop policy can restrict available providers and models"
+          - type: format
+            value: "selection is provider ID plus model ID; optional model-behavior variant is separate"
+        evidence:
+          - resourceId: openwork-v01839-model-picker
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

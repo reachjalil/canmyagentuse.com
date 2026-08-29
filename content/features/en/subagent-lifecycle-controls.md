@@ -20,6 +20,8 @@ aliases: [subagent cancellation, child task control, agent supervision]
 parent: subagents
 related: [subagent-concurrency, background-agents]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop shows child-agent Working, completed, or failed state, duration, prompt, output or error, and child-session link, but no child-specific pause, resume, cancel, or retry control is documented."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp lets users request or fan out subagents, but native specialists cannot be guided mid-task and expose only their final summary."
   - id: 1
@@ -34,6 +36,14 @@ notes:
     text: "Evidence checked 2026-08-29: A Devin coordinator can message, monitor, sleep, terminate, and schedule reminders to revisit managed child sessions."
 issues: []
 resources:
+  - id: openwork-v01839-subagent-run
+    title: "OpenWork v0.18.39 — subagent run line"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/components/chat/subagent-run-line.tsx#L30-L64"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "run status, child-session behavior, and rendering at lines 30–140"
   - id: amp-2026-08-subagent-lifecycle
     title: "Amp — Modes and Models"
     href: https://ampcode.com/docs/models-and-subagents
@@ -93,6 +103,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Managed Devins; coordinator controls"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "inspection and status only; no documented child-specific pause, resume, cancel, or retry operation"
+          - type: format
+            value: "in-flight, completed, or failed status; task prompt; text output or error; child session ID"
+        evidence:
+          - resourceId: openwork-v01839-subagent-run
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

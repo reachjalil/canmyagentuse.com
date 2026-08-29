@@ -19,6 +19,12 @@ summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 80
+    text: "Evidence checked 2026-08-29: Claude web Cowork surfaces approval controls, requires explicit permission before permanent file deletion, and lets users steer or redirect active work."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop Work lets users review progress, answer questions, change direction, and approve important actions, with permissions inherited from the selected experience and workspace."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT Work's cloud browser asks before accessing a new website by default and requires confirmation before supported consequential actions that create hard-to-reverse commitments."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp defaults to running tools without approval, but its permissions system can allow, reject, prompt for approval, or delegate a decision to an external policy helper."
   - id: 70
@@ -59,6 +65,30 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks requires approval or user takeover for payments, personal-data submission, communications, account changes, and other sensitive actions."
 issues: []
 resources:
+  - id: anthropic-claude-web-cowork-approvals
+    title: "Anthropic — Get started with Claude Cowork"
+    href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start a Cowork session; What to expect during a task; deletion protection; Choose how Claude checks with you"
+  - id: openai-chatgpt-desktop-work-approvals
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start Work on web or mobile; Start on desktop; Work access controls"
+  - id: openai-chatgpt-web-cloud-browser-approvals
+    title: "OpenAI — Using cloud browser in ChatGPT"
+    href: https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Control which websites ChatGPT can access; Review consequential actions; Taking over the cloud browser"
   - id: amp-2026-08-approval
     title: "Amp — Security Reference"
     href: https://ampcode.com/security
@@ -219,6 +249,69 @@ resources:
     reviewedAt: 2026-08-29
     locator: "When is user approval required?"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude web documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: preview
+            value: "Cowork on web is beta"
+          - type: plan
+            value: "requires a paid Cowork plan"
+          - type: policy
+            value: "explicit Allow is mandatory before permanent file deletion; users review the approach and select how Claude checks in"
+          - type: runtime
+            value: "the user can course-correct an active Cowork task"
+        evidence:
+          - resourceId: anthropic-claude-web-cowork-approvals
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "Desktop Work requires an eligible account and workspace role"
+          - type: policy
+            value: "the operator can review progress, provide answers, redirect work, and approve important actions; local file and app access requires explicit permission"
+          - type: runtime
+            value: "approval scope follows the tools, local access, network controls, and permissions available to Desktop Work"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-approvals
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "website-access policy supports Always ask, Auto approve, Always allow, and per-site overrides; consequential financial, legal, account, or other commitments require a separate confirmation"
+          - type: runtime
+            value: "ChatGPT Work cloud browser on eligible paid plans; the user can take over the remote browser when needed"
+        evidence:
+          - resourceId: openai-chatgpt-web-cloud-browser-approvals
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

@@ -20,6 +20,10 @@ aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop can expose a live local workspace to trusted collaborators through scoped credentials and can open one hosted workspace in Desktop for multiple organization members."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT Projects can be shared on the web with invited people or eligible links, expose chat and edit roles, and preserve shared chats, files, instructions, and membership context."
   - id: 73
     text: "Evidence checked 2026-08-29: an Amp project associates a repository, settings, secrets, and related threads and can belong to a user or workspace for shared work."
   - id: 1
@@ -29,6 +33,30 @@ notes:
   - id: 4
     text: "Evidence checked 2026-08-28: Replit projects can be shared with teammates who run separate Agent threads against the same project, see a shared task board, review completed work, and apply it to the main version. Team Workspaces extend access across projects, and owners can revoke project or workspace membership."
 resources:
+  - id: openwork-v01839-share-workspace
+    title: "OpenWork v0.18.39 — Desktop workspace sharing"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/workspace/share-workspace-access-panel.tsx#L113-L147"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "live-access warning, remote-access controls, connection URL, and collaborator credentials at lines 113–269"
+  - id: openwork-v01839-hosted-shared-workspace
+    title: "OpenWork v0.18.39 — OpenWork Web shared workspace"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/cloud/run-in-the-cloud/shared-workspace.mdx#L19-L37"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Open in Desktop and multi-person workspace notes, lines 19–37"
+  - id: openai-chatgpt-web-shared-projects
+    title: "OpenAI — Projects in ChatGPT"
+    href: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Share a Project; Getting started with sharing; Inviting by a shared link; FAQ — Shared projects"
   - id: amp-2026-08-shared-projects
     title: "Amp — Projects"
     href: https://ampcode.com/docs/projects
@@ -88,6 +116,49 @@ resources:
     reviewedAt: 2026-08-28
     locator: Workspace access; member management
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "local remote access is off by default and must be enabled explicitly"
+          - type: auth
+            value: "owner and collaborator credentials carry different authority; sharing them grants live workspace access"
+          - type: transport
+            value: "local sharing needs a reachable worker or network endpoint; hosted sharing uses an OpenWork Web connection URL and token"
+        evidence:
+          - resourceId: openwork-v01839-share-workspace
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-hosted-shared-workspace
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "project sharing is available globally on web for Free, Go, Plus, Pro, Business, Enterprise, and Edu users; collaborator and file limits depend on the owner's plan"
+          - type: policy
+            value: "owners control invite-only or link visibility and member permissions; invitees receive chat or edit access"
+        evidence:
+          - resourceId: openai-chatgpt-web-shared-projects
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

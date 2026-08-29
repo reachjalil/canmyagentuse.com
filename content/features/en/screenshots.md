@@ -19,6 +19,8 @@ summary: Capture a screen, window, or browser page for use as model input.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 78
+    text: "Evidence checked 2026-08-29: Claude Desktop Quick Entry on macOS can capture a selected screen region or attach an application window directly to an outgoing Claude message."
   - id: 1
     text: "Evidence checked 2026-08-28: the first-party OpenWork Browser can take screenshots during browser-control tasks; arbitrary desktop capture is not documented."
   - id: 2
@@ -31,6 +33,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks captures webpage screenshots to understand and complete browser-based tasks and retains them only for a limited period."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-quick-entry-screenshots
+    title: "Anthropic — Use quick entry with Claude Desktop on Mac"
+    href: https://support.claude.com/en/articles/12626668-use-quick-entry-with-claude-desktop-on-mac
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Key features; Capture a screenshot; Share an application window; Permissions"
   - title: Methodology
     href: /methodology
     kind: note
@@ -74,6 +84,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What data Copilot Tasks uses and stores — Screenshots"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Claude Desktop Quick Entry on macOS; the documented feature is unavailable on Windows"
+          - type: policy
+            value: "requires macOS Screen Recording permission"
+          - type: format
+            value: "selected screen region or application-window image attached to the outgoing message"
+        evidence:
+          - resourceId: anthropic-claude-desktop-quick-entry-screenshots
+            type: documented
+            observedAt: 2026-08-29
   - harness: copilot-web
     versions:
       - track: preview

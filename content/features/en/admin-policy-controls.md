@@ -20,6 +20,10 @@ aliases: [enterprise policy, organization controls, managed settings]
 parent: data-security-controls
 related: [audit-logs, training-data-controls, human-approval]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: signed-in OpenWork Desktop loads organization policy from OpenWork Cloud and enforces centralized feature, model, provider, and multiple-workspace gates with cached-first loading and periodic refresh."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT managed workspaces expose centrally enforced web controls for feature, model, Work, plugin, app, network, sharing, and role access."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp Enterprise administrators can deploy managed settings that override user and workspace configuration and centrally constrain MCP servers, sharing, model routing, usage, and authentication."
   - id: 1
@@ -48,6 +52,22 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
+  - id: openwork-v01839-desktop-policies
+    title: "OpenWork v0.18.39 — Desktop App Policies"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/desktop-app-policies.md#L1-L15"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "policy source and semantics, feature-gate hooks, loading, and refresh at lines 1–15, 25–115, and 117–127"
+  - id: openai-chatgpt-web-admin-policy
+    title: "OpenAI — Role Based Access Controls for ChatGPT Enterprise"
+    href: https://help.openai.com/en/articles/11750701-rbac/
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "capabilities and permissions; Model access; Lockdown Mode roles; configure RBAC"
   - id: amp-2026-08-admin-settings
     title: "Amp — Configuration"
     href: https://ampcode.com/docs/cli/settings
@@ -195,6 +215,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Bindings; mandatory enforcement; permissions and governance"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "requires OpenWork Cloud organization sign-in and policy delivery"
+          - type: plan
+            value: "organization control-plane capability; unsigned local use has no centrally delivered policy"
+          - type: policy
+            value: "reviewed keys include feature booleans and allowed Desktop versions; false disables a gated feature, and helpers block restricted models or providers"
+        evidence:
+          - resourceId: openwork-v01839-desktop-policies
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "workspace policy and custom-role scope depends on eligible Enterprise, Edu, Healthcare, or Teachers plan capabilities"
+          - type: policy
+            value: "workspace owners set baselines and custom roles for tools and models; Lockdown Mode can further restrict web search, deep research, agent features, Canvas networking, and app, MCP, or connector behavior"
+          - type: runtime
+            value: "configuration is available through ChatGPT web Workspace settings and the admin console"
+        evidence:
+          - resourceId: openai-chatgpt-web-admin-policy
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

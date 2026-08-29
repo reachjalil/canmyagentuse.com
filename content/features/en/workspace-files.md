@@ -20,6 +20,10 @@ summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop Work can open an existing Project or a local folder, accept selected files and context, and use local files after the user grants access."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web Projects accept user-selected PDFs, spreadsheets, documents, images, and pasted text as persistent project sources that can be previewed, downloaded, deleted, and used as model context."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp CLI works in the current repository, reads and edits workspace files, and exposes file discovery, read, create, edit, glob, and grep tools."
   - id: 70
@@ -64,6 +68,22 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Agent writes code and sets up a hosted project in the Project Editor, including projects imported from GitHub or uploaded files; the workspace is Replit-hosted rather than an arbitrary local directory."
 issues: []
 resources:
+  - id: openai-chatgpt-desktop-work-files
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Where Work and Codex are available; Start on desktop; FAQ — Can Work use files on my computer?"
+  - id: openai-chatgpt-web-project-files
+    title: "OpenAI — Projects in ChatGPT"
+    href: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Add context to guide responses — Add files; Plans and limits"
   - id: amp-2026-08-workspace-files
     title: "Amp — Getting Started"
     href: https://ampcode.com/docs/cli
@@ -232,6 +252,44 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Developer tools; write; edit; access control"
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: "Desktop Work availability depends on the eligible paid plan and workspace permissions"
+          - type: runtime
+            value: "local-folder access is confined to the desktop app and user-granted files; local files and outputs stay on that computer unless explicitly moved or shared"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-files
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "hosted project-source storage on ChatGPT web, not direct access to arbitrary files on the user's computer"
+          - type: format
+            value: "PDFs, spreadsheets, documents, images, and pasted text; uploaded sources can be previewed, downloaded, or deleted"
+        evidence:
+          - resourceId: openai-chatgpt-web-project-files
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

@@ -20,6 +20,10 @@ aliases: [retention policy, delete chat data, zero retention, data lifecycle]
 parent: data-security-controls
 related: [conversation-export, audit-logs]
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT's current retention and deletion contract covers chats and uploaded files used through the desktop client, including separate Library management and workspace retention policies."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT documents chat, Temporary Chat, Library file, custom GPT, and Project retention and lets web users delete covered chats and files, subject to explicit legal and security exceptions."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 documents default non-retention, provider-path exceptions, explicit opt-in persistence, and permanent deletion of local thread history."
   - id: 75
@@ -54,6 +58,22 @@ notes:
     text: "Evidence checked 2026-08-29: Grok.com users can delete selected conversations, all history, or the account; deleted and Private Chat conversations are removed within 30 days subject to de-identification and legal or safety exceptions."
 issues: []
 resources:
+  - id: openai-chatgpt-desktop-retention
+    title: "OpenAI — Chat and File Retention Policies in ChatGPT"
+    href: https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Chats; Temporary Chats; Files; Custom GPTs and projects"
+  - id: openai-chatgpt-web-retention
+    title: "OpenAI — Chat and File Retention Policies in ChatGPT"
+    href: https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Chats; Temporary Chats; Files; Custom GPTs and projects"
   - id: zed-v1-17-2-ai-privacy
     title: "Zed v1.17.2 — AI Privacy"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/privacy-and-security.md#L13-L20"
@@ -234,6 +254,44 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Private Chat; data and account deletion; retention"
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "ordinary chats persist until deletion; covered deletions are scheduled within 30 days subject to de-identification and legal or security exceptions"
+          - type: runtime
+            value: "Library files are managed separately from conversations; Enterprise, Edu, and Healthcare files follow the workspace retention policy; Temporary Chats auto-delete within 30 days"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-retention
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "ordinary chats persist until deletion; deleted chats and project or custom-GPT files are scheduled for removal within 30 days unless de-identified or retained for legal or security reasons"
+          - type: runtime
+            value: "Library files are managed separately from chats; Enterprise, Edu, and Healthcare Library files follow workspace retention policy; Temporary Chats auto-delete within 30 days"
+        evidence:
+          - resourceId: openai-chatgpt-web-retention
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

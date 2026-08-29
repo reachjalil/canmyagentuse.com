@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no native MCP client implementation or MCP server-configuration surface."
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop acts as an MCP client for configured remote servers, negotiating Streamable HTTP, listing and calling tools, and listing or reading resources through its adopted first-party client runtime."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Agent operates as an MCP client by connecting to pre-listed or custom servers, retrieving their tool lists, and selecting server tools for user requests."
   - id: 73
@@ -58,6 +62,54 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: openwork-v01839-local-mcp-oauth-client
+    title: "OpenWork v0.18.39 — Local managed MCP OAuth"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/local-managed-mcp-oauth/README.md#L1-L22"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Desktop client and gateway flow, lines 1–22"
+  - id: openwork-v01839-enterprise-mcp-client
+    title: "OpenWork v0.18.39 — adopted MCP client runtime"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/enterprise-mcp-client/src/enterprise-mcp-client.ts#L287-L336"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Streamable HTTP connection and Client negotiation at lines 287–336; tools and resources methods at lines 617–725"
   - id: replit-agent-mcp-current
     title: "Replit — Connect via MCP"
     href: "https://docs.replit.com/build/connect-via-mcp"
@@ -182,6 +234,56 @@ resources:
     reviewedAt: 2026-08-29
     locator: "MCP SDK Client and transport imports; createClient; connectTransport"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [83]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; community MCP wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "no MCP client role"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "remote Streamable HTTP; direct remote MCP and local command MCP paths also remain available"
+          - type: host-role
+            value: "OpenWork can proxy credentials through an authenticated loopback gateway before its bundled engine consumes tools"
+        evidence:
+          - resourceId: openwork-v01839-local-mcp-oauth-client
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-enterprise-mcp-client
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

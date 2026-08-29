@@ -29,6 +29,10 @@ parent: mcp
 related: [mcp-tools, mcp-prompts]
 highlight: false
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP resources/list, resources/read, or resource templates."
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop reads MCP resources for Cloud discovery and its adopted client implements paginated resource listing, reading, and template listing, but the managed loopback gateway exposes only tools and no general resource picker is documented."
   - id: 9
     text: "Evidence checked 2026-08-29: current desktop documentation explicitly lists MCP resources for legacy Cascade, while the default Devin Local MCP documentation does not establish resource listing or reading."
   - id: 8
@@ -55,6 +59,54 @@ notes:
     text: "Evidence checked 2026-08-29: Warp's local MCP client lists available server resources and current release notes explicitly document MCP resource reads respecting autonomy settings."
 issues: []
 resources:
+  - id: aider-v0860-production-tree
+    title: "Aider v0.86.0 — complete production package"
+    href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete aider package at the stable release commit"
+  - id: aider-v0860-args-source
+    title: "Aider v0.86.0 — complete CLI argument parser"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete get_parser option declarations"
+  - id: aider-v0860-commands-source
+    title: "Aider v0.86.0 — complete in-chat command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete command implementation"
+  - id: aider-v0860-dependencies
+    title: "Aider v0.86.0 — stable runtime dependencies"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/requirements.txt"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "complete stable runtime dependency manifest"
+  - id: openwork-v01839-resource-reader
+    title: "OpenWork v0.18.39 — MCP discovery resource reader"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/connect-mcp-transport.ts#L48-L89"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "readMcpResourceText initialization and resources/read flow, lines 48–89"
+  - id: openwork-v01839-resource-client
+    title: "OpenWork v0.18.39 — MCP resource client methods"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/enterprise-mcp-client/src/enterprise-mcp-client.ts#L669-L710"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "listResources, readResource, and listResourceTemplates, lines 669–710"
   - id: anthropic-claude-code-mcp
     title: Anthropic — Connect Claude Code to tools via MCP
     href: https://code.claude.com/docs/en/mcp
@@ -176,6 +228,56 @@ resources:
     reviewedAt: 2026-08-29
     locator: "2026.03.25 resource reads respect autonomy settings"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: no
+        noteIds: [83]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "claim is limited to native Aider CLI v0.86.0; community MCP wrappers, external programs invoked through /run, AiderDesk, and unreleased proposals do not count"
+          - type: host-role
+            value: "no MCP resource client or server primitive"
+        evidence:
+          - resourceId: aider-v0860-production-tree
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-args-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-dependencies
+            type: documented
+            observedAt: 2026-08-29
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "known Desktop use is discovery and catalog reads from the openwork-cloud connection; the managed engine gateway advertises tools only"
+          - type: format
+            value: "resource text by URI; the adopted client implements bounded paginated resource and template catalogs"
+        evidence:
+          - resourceId: openwork-v01839-resource-reader
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-resource-client
+            type: documented
+            observedAt: 2026-08-29
   - harness: warp
     versions:
       - track: current

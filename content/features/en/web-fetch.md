@@ -19,6 +19,14 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 documents /web URL ingestion, which scrapes a current webpage, converts its text to Markdown, and adds it to the active chat."
+  - id: 80
+    text: "Evidence checked 2026-08-29: Claude web can retrieve and analyze a user-supplied webpage when Web search is enabled and returns source links and citations."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Search is available in the desktop app and can automatically or explicitly retrieve current web information with links to sources."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web can automatically or explicitly search the live web and return current answers with links to relevant sources."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 lists a native fetch tool that retrieves a URL and returns Markdown, and the Agent Panel can also add URLs as explicit context."
   - id: 74
@@ -49,6 +57,46 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
+  - id: aider-v0860-images-urls
+    title: "Aider v0.86.0 — Images and web pages"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/images-urls.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Web pages"
+  - id: aider-v0860-commands-web
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/web"
+  - id: anthropic-claude-web-fetch
+    title: "Anthropic — Enable and use web search"
+    href: https://support.claude.com/en/articles/10684626-enable-and-use-web-search
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Enable web search in a chat; How web search works; Web fetch and direct links"
+  - id: openai-chatgpt-desktop-search
+    title: "OpenAI — ChatGPT Search"
+    href: https://help.openai.com/en/articles/9237897-chatgpt-search
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "availability on desktop apps; How to search in ChatGPT; source links"
+  - id: openai-chatgpt-web-search
+    title: "OpenAI — ChatGPT Search"
+    href: https://help.openai.com/en/articles/9237897-chatgpt-search
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "availability; How to search in ChatGPT; source links"
   - id: zed-v1-17-2-tools
     title: "Zed v1.17.2 — Agent Tools"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L20-L36"
@@ -189,6 +237,93 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Built-in — webfetch; websearch comparison"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "retrieves webpage text into the active local CLI chat"
+          - type: format
+            value: "fetched content is converted to Markdown"
+          - type: policy
+            value: "authenticated browsing, API-specific structured responses, citations, and arbitrary page interaction are not established"
+        evidence:
+          - resourceId: aider-v0860-images-urls
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-web
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude web documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "enabled per chat from the plus menu and limited to supported models"
+          - type: policy
+            value: "Team and Enterprise owners must first enable web search workspace-wide"
+          - type: format
+            value: "direct webpage retrieval and live search return linked, cited conversational responses"
+        evidence:
+          - resourceId: anthropic-claude-web-fetch
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available across Free and paid ChatGPT plans subject to usage limits and managed-workspace settings"
+          - type: runtime
+            value: "ChatGPT may search automatically or the user can explicitly choose Search where the desktop client exposes it"
+          - type: transport
+            value: "live queries may be rewritten and sent to third-party search providers; responses include relevant source links"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-search
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available on ChatGPT web across Free and paid plans, including logged-out Free use, subject to plan usage limits and managed-workspace settings"
+          - type: runtime
+            value: "ChatGPT may search automatically or the user can select Search from tools or the slash menu"
+          - type: transport
+            value: "live web search may send rewritten queries to third-party search providers and returns linked sources"
+        evidence:
+          - resourceId: openai-chatgpt-web-search
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

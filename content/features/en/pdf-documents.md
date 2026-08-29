@@ -22,6 +22,12 @@ parent: file-inputs
 related: [office-document-input, upload-limits]
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop recognizes PDF attachments by extension and MIME and passes application/pdf through as a model-facing file part for the current session."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop Work accepts files as task context, and ChatGPT's current upload contract explicitly includes PDF synthesis and extraction with documented size, token, and visual-retrieval boundaries."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web accepts uploaded PDFs for document synthesis, transformation, and extraction, including finding passages in an uploaded PDF."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit's hosted Conversation composer accepts file uploads and explicitly documents asking Replit questions about a PDF."
   - id: 74
@@ -50,6 +56,38 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin sessions accept PDF attachments for prompt use, and current web release notes document inline PDF rendering."
 issues: []
 resources:
+  - id: openwork-v01839-pdf-attachments
+    title: "OpenWork v0.18.39 — PDF attachment conversion"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/sync/attachment-file-part.ts#L57-L67"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "PDF extension and MIME mapping plus model-facing file-part conversion at lines 57–67, 106–125, 164–182, and 408–418"
+  - id: openai-chatgpt-desktop-work-file-context
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start on desktop — add files and constraints"
+  - id: openai-chatgpt-desktop-pdf-uploads
+    title: "OpenAI — File Uploads FAQ"
+    href: https://help.openai.com/en/articles/8555545-file-uploads-faq
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "PDF examples; file restrictions; embedded images"
+  - id: openai-chatgpt-web-file-uploads
+    title: "OpenAI — File Uploads FAQ"
+    href: https://help.openai.com/en/articles/8555545-file-uploads-faq
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "About file uploads; How the capability works; file size restrictions; embedded images"
   - id: replit-upload-use-files-current
     title: "Replit — Upload and use files"
     href: "https://docs.replit.com/chat/upload-and-use-files"
@@ -171,6 +209,66 @@ resources:
     reviewedAt: 2026-08-29
     locator: "2026-03-27 Inline File Previews"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "PDF extension and application/pdf MIME are recognized"
+          - type: runtime
+            value: "provider-side rejection or upload limits surface upstream; the reviewed Desktop path does not impose its own PDF size cap"
+        evidence:
+          - resourceId: openwork-v01839-pdf-attachments
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Desktop Work requires an eligible plan; file uploads remain subject to ChatGPT plan and account settings"
+          - type: format
+            value: "PDF files are limited to 512 MB and two million tokens; Enterprise supports visual PDF retrieval while other plans use extracted digital text and discard embedded images"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-file-context
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openai-chatgpt-desktop-pdf-uploads
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "file uploads are available on Free and paid ChatGPT web plans subject to account settings and plan limits"
+          - type: format
+            value: "PDF files are capped at 512 MB and two million tokens; only Enterprise documents visual PDF content, while other plans use text retrieval and discard embedded images"
+        evidence:
+          - resourceId: openai-chatgpt-web-file-uploads
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

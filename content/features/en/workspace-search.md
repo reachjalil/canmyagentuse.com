@@ -19,6 +19,8 @@ summary: Search file names, text, or symbols across a workspace.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web's sidebar search locates prior chats, projects, images, and documents from one account-wide surface and supports content-type filters."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit's dated changelog says Agent searches files across the entire codebase and uses project structure and content to answer open-ended codebase queries."
   - id: 73
@@ -59,6 +61,14 @@ notes:
     text: "Evidence checked 2026-08-28: Windsurf documents Search and Analyze among Cascade's codebase tools."
 issues: []
 resources:
+  - id: openai-chatgpt-web-unified-search
+    title: "OpenAI — ChatGPT release notes"
+    href: https://help.openai.com/en/articles/6825453
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "July 14, 2026 — Search across chats, projects, and files is now supercharged"
   - id: replit-agent-filesystem-search-2025-08-08
     title: "Replit — August 8, 2025 changelog"
     href: "https://docs.replit.com/updates/2025/08/08/changelog"
@@ -223,6 +233,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Get started; Indexing your codebase"
 support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "account-wide hosted search on ChatGPT web rather than local repository symbol search"
+          - type: format
+            value: "search results cover chats, projects, images, and documents and can be filtered by content type"
+        evidence:
+          - resourceId: openai-chatgpt-web-unified-search
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

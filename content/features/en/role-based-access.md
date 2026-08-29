@@ -20,6 +20,10 @@ aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-29: eligible ChatGPT workspace roles control member access to desktop-visible tools and models, with direct and group assignments, inherited defaults, additive grants, and a separate Lockdown restriction path."
+  - id: 77
+    text: "Evidence checked 2026-08-29: eligible ChatGPT workspace owners can create reusable custom roles on the web, assign them directly or through groups, and combine inherited, allowed, and denied feature permissions."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp distinguishes workspace administrators, ordinary members, groups, project owners, and thread owners and uses those roles for visibility, policy, and administration."
   - id: 2
@@ -39,6 +43,22 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin Enterprise implements organization- and account-level RBAC with custom roles assembled from named permissions and assigned to users or identity-provider groups."
 resources:
+  - id: openai-chatgpt-desktop-rbac
+    title: "OpenAI — Role Based Access Controls for ChatGPT Enterprise"
+    href: https://help.openai.com/en/articles/11750701-rbac/
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; capabilities and permissions; role evaluation; configuration"
+  - id: openai-chatgpt-web-rbac
+    title: "OpenAI — Role Based Access Controls for ChatGPT Enterprise"
+    href: https://help.openai.com/en/articles/11750701-rbac/
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Who can configure; capabilities; permission evaluation; configure RBAC"
   - id: amp-2026-08-rbac
     title: "Amp — Threads"
     href: https://ampcode.com/docs/threads
@@ -157,6 +177,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Creating and assigning roles; organization and account roles"
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "available for Enterprise, Edu, ChatGPT for Healthcare, and ChatGPT for Teachers"
+          - type: policy
+            value: "workspace baselines and assigned roles control eligible ChatGPT capabilities regardless of client; Lockdown Mode can further restrict network-enabled tools"
+          - type: runtime
+            value: "owners configure roles on the web or in the admin console; the resulting access policy applies to eligible members using ChatGPT Desktop"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-rbac
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available for Enterprise, Edu, ChatGPT for Healthcare, and ChatGPT for Teachers"
+          - type: runtime
+            value: "configured on the web in Workspace settings → Permissions & roles or the admin console"
+          - type: policy
+            value: "ordinary role permissions use Default, On, and Off with additive grants; Lockdown Mode is evaluated separately and can further restrict access"
+        evidence:
+          - resourceId: openai-chatgpt-web-rbac
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

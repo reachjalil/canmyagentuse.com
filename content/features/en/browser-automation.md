@@ -19,6 +19,10 @@ summary: Control a browser for navigation, clicks, forms, and page reading.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 78
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork can navigate, click, and fill forms in a built-in browser or the user's Chrome browser, with availability tied to Cowork and connector or computer-use configuration."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT Work on the web can use an isolated cloud browser to read pages, click controls, fill forms, and complete supported steps on public and signed-in websites."
   - id: 74
     text: "Evidence checked 2026-08-29: Cline v4.1.16 retains browser_action automation for Chromium navigation, screenshots, clicking, typing, and scrolling in the legacy VS Code runtime, while the same release's exhaustive ClineCore tool table omits browser automation."
   - id: 72
@@ -47,6 +51,22 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks can browse, click, scroll, type, and navigate websites on a user's behalf with observable progress and takeover controls."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-browser-use
+    title: "Anthropic — Let Claude use your computer in Cowork"
+    href: https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "How computer use works with Cowork — browser operation; Current limitations"
+  - id: openai-chatgpt-web-cloud-browser
+    title: "OpenAI — Using cloud browser in ChatGPT"
+    href: https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "opening capability statement; Availability; Start a cloud browser task; limitations FAQ"
   - id: cline-v4-1-16-browser-automation
     title: "Cline v4.1.16 — BrowserSession"
     href: "https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/services/browser/BrowserSession.ts#L155-L225"
@@ -153,6 +173,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How Copilot Tasks works; browser-based tasks"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Cowork inside Claude Desktop can use its built-in browser; broader screen-driven operation is a Pro/Max research preview"
+          - type: auth
+            value: "using the user's Chrome browser requires the Claude in Chrome connector to be enabled"
+          - type: policy
+            value: "the user grants computer-use and per-app permissions; some sites or actions may still require manual participation"
+        evidence:
+          - resourceId: anthropic-claude-desktop-browser-use
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available in ChatGPT Work on eligible paid plans in supported regions, excluding Free and Go, subject to rollout and workspace permissions"
+          - type: runtime
+            value: "remote isolated browser with its own cookies and sign-ins; site automation controls may block tasks"
+          - type: policy
+            value: "ChatGPT may use a connected app or plugin instead and may require operator takeover or a final manual step"
+        evidence:
+          - resourceId: openai-chatgpt-web-cloud-browser
+            type: documented
+            observedAt: 2026-08-29
   - harness: cline
     versions:
       - track: current

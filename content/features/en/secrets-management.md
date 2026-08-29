@@ -20,6 +20,8 @@ aliases: [credential vault, secret redaction, environment secrets]
 parent: data-security-controls
 related: [subagent-approval-boundaries, connectors, mcp-oauth]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop protects managed remote-MCP OAuth secrets and tokens in an AES-256-GCM runtime vault whose key is stored through the operating system, withholds provider credentials from the engine, and deletes them on disconnect."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp stores scoped workspace, project, or personal secrets, hides saved values, exposes audit history without values, and can mint short-lived OIDC credentials for orbs."
   - id: 70
@@ -37,6 +39,14 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp securely stores reusable MCP OAuth credentials on-device, supports API tokens through environment variables or headers, and scrubs shared server configuration secrets."
 resources:
+  - id: openwork-v01839-managed-mcp-secrets
+    title: "OpenWork v0.18.39 — Local managed MCP OAuth credential lifecycle"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/local-managed-mcp-oauth/README.md#L24-L36"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Persistence and lifecycle, lines 24–36"
   - id: amp-2026-08-secrets
     title: "Amp — Handling Secrets"
     href: https://ampcode.com/docs/orbs/handling-secrets
@@ -123,6 +133,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Sharing MCP servers; Authentication"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "scope is managed remote-MCP registrations, tokens, client secrets, PKCE state, and gateway bearer rather than a general project secret vault"
+          - type: runtime
+            value: "Desktop uses OS secure storage; standalone server requires OPENWORK_ENCRYPTION_KEY and has no plaintext key-file fallback"
+        evidence:
+          - resourceId: openwork-v01839-managed-mcp-secrets
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

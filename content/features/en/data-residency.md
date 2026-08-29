@@ -20,6 +20,12 @@ aliases: [regional processing, data location, EU data residency]
 parent: data-security-controls
 related: [local-only-mode, data-retention-controls]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider's policy says its Services are hosted in the United States and international-user information transfers there for storage and processing, while permitting onward transfers; selected model endpoints remain separate."
+  - id: 79
+    text: "Evidence checked 2026-08-29: eligible ChatGPT Enterprise and Edu workspace residency applies to covered conversations and files used from the desktop client, with ten storage regions and three inference regions."
+  - id: 77
+    text: "Evidence checked 2026-08-29: eligible ChatGPT Enterprise and Edu customers can select regional storage for in-scope customer content and, in three supported regions, add in-region GPU inference residency."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp documents primary server, user, and thread storage on Google Cloud in the United States and offers regional endpoints for customer model-provider connections on request."
   - id: 2
@@ -29,6 +35,30 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Cognition's dedicated hosted deployment stores customer data in a customer-dedicated tenant with a documented AWS deployment region, but no public selectable region menu is listed."
 resources:
+  - id: aider-v0860-privacy-residency
+    title: "Aider v0.86.0 — Privacy policy"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/legal/privacy.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "International Visitors; service hosting and transfers"
+  - id: openai-chatgpt-desktop-data-residency
+    title: "OpenAI — Data residency and inference residency for ChatGPT"
+    href: https://help.openai.com/en/articles/9903489-data-residency-and-inference-residency-for-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Eligibility; Supported regions; covered conversations and files; global-processing exceptions"
+  - id: openai-chatgpt-web-data-residency
+    title: "OpenAI — Data residency and inference residency for ChatGPT"
+    href: https://help.openai.com/en/articles/9903489-data-residency-and-inference-residency-for-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Eligibility; Supported regions; Customer content stored in the selected region; Processing that may occur outside"
   - id: amp-2026-08-residency
     title: "Amp — Security Reference"
     href: https://ampcode.com/security
@@ -99,6 +129,69 @@ resources:
     reviewedAt: 2026-08-29
     locator: "AWS KMS key must use the same deployment region"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Aider service storage and processing are described as United States-hosted without a selectable residency region; onward transfers to other countries or regions are permitted"
+          - type: policy
+            value: "model inference, prompts, files, caches, and provider logs depend on the separately selected provider or local endpoint"
+          - type: policy
+            value: "the policy collectively covers the website, programming tools, and related Services and does not enumerate every CLI data class"
+        evidence:
+          - resourceId: aider-v0860-privacy-residency
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "eligible new Enterprise and Edu workspaces; owners and administrators inspect the region through ChatGPT web workspace settings"
+          - type: runtime
+            value: "storage residency covers listed customer-content features in ten regions; GPU inference residency is available in Europe, UAE, and the US"
+          - type: policy
+            value: "metadata, CPU processing, external integrations, routing, and analytics may remain outside the selected region"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-data-residency
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available to eligible new ChatGPT Enterprise and Edu customers; residency is configured for the workspace and visible in web Workspace settings"
+          - type: runtime
+            value: "storage-at-rest regions are Australia, Canada, Europe, India, Japan, Singapore, South Korea, UAE, UK, and US; inference residency is limited to Europe, UAE, and US"
+          - type: policy
+            value: "coverage is limited to listed customer-content features; metadata, CPU processing, routing, analytics, and external integrations may remain outside the selected region"
+        evidence:
+          - resourceId: openai-chatgpt-web-data-residency
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

@@ -19,6 +19,8 @@ summary: Show text or tool events as they arrive during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 streams model responses in the CLI by default and exposes --stream and --no-stream controls."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp CLI's --stream-json mode emits system, user, assistant, tool-use, tool-result, and final result events one JSON object at a time while a conversation runs."
   - id: 1
@@ -33,6 +35,22 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks displays live progress steps, websites, actions, and intermediate results while running, but token-level answer streaming is not established by this evidence."
 issues: []
 resources:
+  - id: aider-v0860-options-stream
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "--stream and --no-stream"
+  - id: aider-v0860-scripting
+    title: "Aider v0.86.0 — Scripting Aider"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/scripting.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Command line; --message; --message-file; --stream"
   - id: amp-2026-08-streaming
     title: "Amp — Streaming JSON"
     href: https://ampcode.com/docs/cli/streaming-json
@@ -124,6 +142,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Task progress and monitoring"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "streaming responses are enabled by default"
+          - type: format
+            value: "evidence covers progressive response text in the CLI, not a structured JSONL tool-event protocol"
+          - type: policy
+            value: "prompt-cache statistics and cost estimates may be unavailable while streaming"
+        evidence:
+          - resourceId: aider-v0860-options-stream
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-scripting
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

@@ -20,6 +20,10 @@ specLabel: Common product term
 parent: instructions
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 persists coding conventions in arbitrary Markdown or text files loaded read-only with --read or /read and can automatically load them from user- or project-scoped configuration."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web supports account-level custom instructions on every plan, applies setting changes across chats, and lets users enable, disable, edit, or delete the guidance."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit supports always-on Workspace Custom Instructions across projects and sessions and project-persistent instructions in a root replit.md that Agent automatically reads in future conversations."
   - id: 70
@@ -44,6 +48,30 @@ notes:
     text: "Evidence checked 2026-08-29: Each Grok Automation persists a named instruction message and reuses it for fresh scheduled or triggered runs, but this does not establish account-wide instructions for every ordinary Grok chat."
 issues: []
 resources:
+  - id: aider-v0860-conventions
+    title: "Aider v0.86.0 — Specifying coding conventions"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/conventions.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specifying coding conventions; Always load conventions"
+  - id: aider-v0860-config
+    title: "Aider v0.86.0 — YAML configuration"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/aider_conf.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "YAML config file; home, repository-root, and current-directory search order"
+  - id: openai-chatgpt-web-custom-instructions
+    title: "OpenAI — ChatGPT Custom Instructions"
+    href: https://help.openai.com/en/articles/8096356-chat-preferences-for-chatgpt
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "General Information; Web & Desktop; Disabling Custom Instructions; character-limit FAQ"
   - id: replit-custom-instructions-current
     title: "Replit — Custom Instructions"
     href: "https://docs.replit.com/chat/custom-instructions"
@@ -224,6 +252,49 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Describe the job once; automation instructions"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "ordinary Markdown or text files; no Aider-specific rule syntax is required"
+          - type: runtime
+            value: "convention files are loaded read-only with /read or --read"
+          - type: policy
+            value: ".aider.conf.yml can persist the read list at home, repository-root, or current-directory scope; later locations take priority"
+        evidence:
+          - resourceId: aider-v0860-conventions
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-config
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available on every ChatGPT plan; Free and Go allow 1,500 characters, while Plus, Pro, Enterprise, Business, and Education allow 5,000"
+          - type: runtime
+            value: "web settings are under Personalization; changes apply immediately across chats, while edits affect future responses"
+        evidence:
+          - resourceId: openai-chatgpt-web-custom-instructions
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

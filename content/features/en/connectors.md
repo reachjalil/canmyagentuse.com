@@ -19,6 +19,8 @@ summary: Connect to external services authorized by the user or organization.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop connects authorized external services through local or organization-provided MCP connections and bundles a Google Workspace connector for Gmail, Calendar, Drive, and Chat actions."
   - id: 70
     text: "Evidence checked 2026-08-29: Perplexity web connects authorized services and exposes connector tools for searching, reading, updating, sharing, and other actions under per-tool user and organization controls."
   - id: 8
@@ -41,6 +43,22 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks can use user-authorized email or cloud-storage connectors and lets users link or unlink them, but the reviewed page does not enumerate a stable complete connector catalog."
 issues: []
 resources:
+  - id: openwork-v01839-connectors-doc
+    title: "OpenWork v0.18.39 — connectors, skills, and plugins"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/start-here/do-work-with-it/skills-plugins-and-mcp.mdx#L6-L24"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Choose the right unit and Connect the system first, lines 6–24"
+  - id: openwork-v01839-google-workspace
+    title: "OpenWork v0.18.39 — Google Workspace desktop extension"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/extensions/google-workspace.ts#L11-L46"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "OAuth scopes and optional features at lines 11–46; Calendar, Gmail, Drive, and Chat actions begin at lines 54–240"
   - id: perplexity-microsoft-365-connector
     title: "Perplexity — Microsoft 365 connector"
     href: https://www.perplexity.ai/help-center/en/articles/12569435-microsoft-365-connector-sharepoint-and-onedrive
@@ -204,6 +222,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How Tasks works; What data Tasks uses — Connectors"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "service OAuth and provider or workspace scopes determine available operations"
+          - type: format
+            value: "local Google Workspace connector plus arbitrary MCP services; organization connections can provide additional services"
+        evidence:
+          - resourceId: openwork-v01839-connectors-doc
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-google-workspace
+            type: documented
+            observedAt: 2026-08-29
   - harness: perplexity-web
     versions:
       - track: current

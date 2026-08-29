@@ -19,6 +19,8 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 documents /run for local code or shell-command execution and optional output ingestion; /test and configured auto-test commands can run code after edits and feed failures back for repair."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp runs shell commands and tests on the operator's behalf; CLI-launched orbs provide a complete machine where the agent can install dependencies, run apps, and test changes."
   - id: 6
@@ -35,6 +37,22 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: aider-v0860-lint-test
+    title: "Aider v0.86.0 — Linting and testing"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/lint-test.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Testing; Manually running code"
+  - id: aider-v0860-commands-run
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/run and /test"
   - id: amp-2026-08-code-execution
     title: "Amp — Tools"
     href: https://ampcode.com/docs/tools
@@ -198,6 +216,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What to expect"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "execution occurs in the operator's local environment or the container in which Aider runs"
+          - type: policy
+            value: "/run is operator-invoked and does not establish an autonomous shell tool"
+          - type: runtime
+            value: "--auto-test is disabled by default; manual /test remains available"
+        evidence:
+          - resourceId: aider-v0860-lint-test
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-run
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

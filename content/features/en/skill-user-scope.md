@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop optionally discovers global skills from the user's OpenCode, Claude, .agents, and legacy .agent directories and labels them separately from project skills."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit's Workspace Skill library makes reusable Skills available outside one project and permits a new Skill to remain private to its creator and Workspace administrators, but the page does not establish one personal library spanning all Workspaces."
   - id: 70
@@ -58,6 +60,14 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 discovers reusable skills from IDE-level, global, and configured local directories for its supported integrated agents."
 issues: []
 resources:
+  - id: openwork-v01839-global-skills
+    title: "OpenWork v0.18.39 — project and global skill discovery"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/skills.ts#L188-L209"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "global directories and scope labels, lines 188–209"
   - id: replit-agent-skills-current
     title: "Replit — Agent Skills"
     href: "https://docs.replit.com/features/agent/skills"
@@ -166,6 +176,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: Skill locations; IDE and Global directories
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "~/.config/opencode/skills, ~/.claude/skills, ~/.agents/skills, and ~/.agent/skills; global discovery is controlled by includeGlobal"
+        evidence:
+          - resourceId: openwork-v01839-global-skills
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

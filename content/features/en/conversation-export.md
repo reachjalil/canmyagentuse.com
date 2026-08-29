@@ -20,6 +20,10 @@ aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 writes chat history to configurable Markdown, can log the complete model conversation to a separate file, and exposes /copy-context for Markdown export of active code context."
+  - id: 77
+    text: "Evidence checked 2026-08-29: eligible signed-in ChatGPT web users can request a ZIP data export from Settings → Data controls; it includes chat history and other relevant account data."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes Open Thread as Markdown in the Agent Panel and a dedicated open-active-thread-as-Markdown action, producing a Markdown representation of the entire thread."
   - id: 74
@@ -49,6 +53,30 @@ notes:
   - id: 61
     text: "Evidence checked 2026-08-29: Grok.com Data Controls lets users download their data, but the current Consumer FAQ does not document the export format, included conversation fields, attachments, or restore support."
 resources:
+  - id: aider-v0860-options-history
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "History Files"
+  - id: aider-v0860-commands-copy
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/copy-context and /save"
+  - id: openai-chatgpt-web-data-export
+    title: "OpenAI — Exporting your ChatGPT history and data"
+    href: https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data.csv
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Availability; Export data from ChatGPT settings; Download your export"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L78-L85"
@@ -181,6 +209,49 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Data subject rights; download data through Grok.com Settings and Data Controls"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "default chat-history path is .aider.chat.history.md"
+          - type: runtime
+            value: "--llm-history-file logs the model conversation to an operator-selected path"
+          - type: format
+            value: "/copy-context exports code, read-only files, repository-map context, and optional instructions; it is narrower than the complete history log"
+        evidence:
+          - resourceId: aider-v0860-options-history
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-copy
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "self-service settings export is available for Free, Go, Plus, Pro, and eligible Edu accounts; Business, Enterprise, and Healthcare require workspace-managed access"
+          - type: format
+            value: "ZIP containing chat history and other relevant account data; delivery can take up to seven days and the download link expires after 24 hours"
+        evidence:
+          - resourceId: openai-chatgpt-web-data-export
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

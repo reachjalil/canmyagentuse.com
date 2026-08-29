@@ -20,9 +20,27 @@ aliases: [cache breakpoint, cache retention, explicit prompt cache]
 parent: models-and-context
 related: [prompt-cache-reuse, prompt-cache-telemetry]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 can enable or disable prompt caching and send a configurable number of five-minute keepalive pings to keep an eligible provider cache warm."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code exposes environment-variable controls to disable prompt caching globally or per model and to choose documented five-minute or one-hour TTL behavior in eligible environments."
 resources:
+  - id: aider-v0860-caching-controls
+    title: "Aider v0.86.0 — Prompt caching"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/caching.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Usage; Preventing cache expiration"
+  - id: aider-v0860-options-cache-controls
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Cache settings"
   - title: Methodology
     href: /methodology
     kind: note
@@ -34,6 +52,30 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "--cache-prompts and --no-cache-prompts toggle cache use"
+          - type: runtime
+            value: "--cache-keepalive-pings N sends up to N pings at five-minute intervals after each operator message"
+          - type: policy
+            value: "explicit cache-object creation, arbitrary cache breakpoints, and direct invalidation are not documented"
+        evidence:
+          - resourceId: aider-v0860-caching-controls
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-options-cache-controls
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

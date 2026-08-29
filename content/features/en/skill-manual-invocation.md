@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop lets users choose a named local or OpenWork Connect skill from the composer or slash menu and inserts an explicit skill token that is expanded into the model prompt."
   - id: 75
     text: "Evidence checked 2026-08-29: a Replit Agent user can explicitly select a named Skill from the Use a skill picker or ask Agent to load a Skill; a chat-attached Skill applies to that message only."
   - id: 70
@@ -58,6 +60,22 @@ notes:
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 lets users invoke an installed Agent Skill explicitly by naming it as $skill-name in chat with a supported integrated agent."
 issues: []
 resources:
+  - id: openwork-v01839-skill-selection
+    title: "OpenWork v0.18.39 — composer skill selection"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/surface/composer/composer.tsx#L838-L893"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "applyCommandSelection and applySkillSelection, lines 838–893"
+  - id: openwork-v01839-connect-skill-token
+    title: "OpenWork v0.18.39 — Connect skill invocation token"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/surface/composer/connect-skill-token.ts#L3-L51"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "token fields, encoding, parsing, and prompt expansion, lines 3–51"
   - id: replit-agent-skills-current
     title: "Replit — Agent Skills"
     href: "https://docs.replit.com/features/agent/skills"
@@ -158,6 +176,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: Use an Agent Skill; manual invocation
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "local [skill name] token; Connect token stores slug, name, marketplace, and capability"
+        evidence:
+          - resourceId: openwork-v01839-skill-selection
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-connect-skill-token
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

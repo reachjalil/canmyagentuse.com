@@ -237,3 +237,56 @@ CONTRADICTION feature=mcp-family harness=zed-agent date=2026-08-29 src1=https://
 - Preview: 9/3,192 (0.3%); delta +8
 - News counter: 0/approximately 150; entry `documentation-coverage-32-percent`
 - Incidents: Cline export and browser-runtime contradictions are preserved; Zed generic MCP structs were not mistaken for active product paths; Le Chat-to-Vibe identity migration is parked; Replit legacy mode-name cache was not used
+
+RECONCILE cycle=4 commit=e14e855f28089810dd709174bc0ac2fcf4c325c9 pushed=yes deployed=yes cloudflare=9c15a655-0611-4f6e-8300-d0b891882447 live=1145/3534 ci=success run=33276149996
+
+ATTEMPT feature=workspace-files harness=claude-web date=2026-08-29 outcome=not-found note="Hosted attachments and persistent Project files are documented, but the exact workspace-files boundary was not projected from ordinary uploads."
+ATTEMPT feature=workspace-search harness=claude-web date=2026-08-29 outcome=not-found note="Past-chat RAG search is documented, but it does not establish filename, file-text, or symbol search across a selected workspace."
+ATTEMPT feature=computer-use harness=claude-web date=2026-08-29 outcome=not-found note="Web Cowork can monitor cloud sessions, but native computer control requires a connected Claude Desktop app."
+ATTEMPT feature=git-pull-requests harness=claude-desktop date=2026-08-29 outcome=not-found note="The Desktop Code tab can monitor PR status, but this did not establish native PR creation or review for the broader ChatGPT-style Desktop surface."
+ATTEMPT feature=subagent-delegation harness=claude-desktop date=2026-08-29 outcome=not-found note="Cowork and Code subagent references lacked a sufficiently precise exact Desktop contract for activation, plans, and boundaries."
+ATTEMPT feature=mcp-revision harness=openwork-desktop date=2026-08-29 outcome=not-found note="A discovery helper initializes 2025-06-18 while the adopted client negotiates automatically; neither proves exact 2026-07-28 support."
+ATTEMPT feature=mcp-prompts harness=openwork-desktop date=2026-08-29 outcome=not-found note="The managed gateway advertises tools only and no exact Desktop prompt-list or prompt-selection surface was found."
+ATTEMPT feature=skill-progressive-loading harness=openwork-desktop date=2026-08-29 outcome=not-found note="The server parses SKILL.md metadata and the composer lists skills, but metadata-first then on-demand body loading was not established."
+ATTEMPT feature=skill-references-assets harness=openwork-desktop date=2026-08-29 outcome=not-found note="The Claude-plugin importer skips extra files and no exact user-skill supporting-file resolution contract was established."
+ATTEMPT feature=skill-scripts harness=openwork-desktop date=2026-08-29 outcome=not-found note="Repository-owned tooling includes scripts, but no exact Desktop user-skill script discovery or execution contract was established."
+ATTEMPT feature=agents-md harness=openwork-desktop date=2026-08-29 outcome=not-found note="Searched the tagged release for AGENTS.md discovery; custom instructions and .opencode agents do not establish the convention."
+ATTEMPT feature=workspace-search harness=openwork-desktop date=2026-08-29 outcome=not-found note="Tagged session search targets conversations, not file names, file text, or symbols across the workspace."
+ATTEMPT feature=data-retention-controls harness=openwork-desktop date=2026-08-29 outcome=not-found note="Session and credential deletion exist, but no complete covered-data retention duration or deletion scope was found."
+ATTEMPT feature=agents-md harness=aider date=2026-08-29 outcome=not-found note="Complete v0.86.0 docs and source show arbitrary convention files loaded by configuration, not automatic AGENTS.md discovery."
+ATTEMPT feature=native-rules harness=aider date=2026-08-29 outcome=not-found note="Aider conventions are arbitrary Markdown files, not a distinct native path-scoped rule hierarchy."
+ATTEMPT feature=skills harness=aider date=2026-08-29 outcome=not-found note="Complete stable source and commands show no Agent Skills discovery or metadata/loading model; generic /read and /run do not count."
+ATTEMPT feature=connectors harness=aider date=2026-08-29 outcome=not-found note="Model endpoints and /web retrieval do not establish authenticated external-data connectors."
+ATTEMPT feature=git-pull-requests harness=aider date=2026-08-29 outcome=not-found note="Local Git commands and commits do not establish a hosting-provider PR create, review, comment, or merge surface."
+ATTEMPT feature=browser-automation harness=aider date=2026-08-29 outcome=not-found note="Playwright-assisted scraping only documents webpage text ingestion, not navigation, clicks, typing, forms, or task-oriented browser control."
+ATTEMPT feature=computer-use harness=aider date=2026-08-29 outcome=not-found note="No screen observation, pointer control, keyboard control, or arbitrary application automation is documented."
+ATTEMPT feature=scheduled-runs harness=aider date=2026-08-29 outcome=not-found note="One-shot scripting can be externally scheduled, but Aider implements no product-native schedule, retry policy, or run history."
+ATTEMPT feature=background-agents harness=aider date=2026-08-29 outcome=not-found note="Foreground notifications do not establish detached, hosted, reconnectable, or after-exit execution."
+ATTEMPT feature=audit-logs harness=aider date=2026-08-29 outcome=not-found note="Chat history, model history, and analytics JSONL are not administrative security audit records."
+ATTEMPT feature=data-retention-controls harness=aider date=2026-08-29 outcome=not-found note="Local history paths do not establish complete retention and deletion behavior across analytics, providers, caches, backups, and legal copies."
+ATTEMPT feature=local-only-mode harness=aider date=2026-08-29 outcome=not-found note="Local model endpoints and disabled analytics do not establish an audited offline or air-gapped mode covering every outbound path."
+ATTEMPT feature=structured-output harness=aider date=2026-08-29 outcome=not-found note="Provider schema metadata and edit formats do not establish a product-level JSON-schema-constrained response feature."
+ATTEMPT feature=output-token-limit harness=aider date=2026-08-29 outcome=not-found note="Pinned metadata and request settings expose conflicting 8,192, 64,000, and beta-header concepts; no exact effective cap was authored."
+ATTEMPT feature=realtime-voice harness=aider date=2026-08-29 outcome=not-found note="Push-to-record transcription does not establish spoken responses, duplex audio, interruption, or live turn-taking."
+ATTEMPT feature=screenshots harness=aider date=2026-08-29 outcome=not-found note="Existing screenshot-file ingestion is image input, not product-provided screen or window capture."
+CONTRADICTION feature=background-agents harness=claude-web date=2026-08-29 src1=https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork src2=https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork note="Cloud Cowork continues without the browser or device, while local files, browser, and computer tasks require connected Desktop availability; the cell remains partial."
+CONTRADICTION feature=mcp-revision harness=openwork-desktop date=2026-08-29 src1=https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/connect-mcp-transport.ts src2=https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/enterprise-mcp-client/src/enterprise-mcp-client.ts note="Fixed 2025-06-18 initialization and automatic negotiation coexist; exact 2026-07-28 support remains unknown."
+CONTRADICTION feature=skill-scripts harness=openwork-desktop date=2026-08-29 src1=https://github.com/different-ai/openwork/tree/63625a4be566256370eebb84ad91b020a0f6cf06/.agents/skills src2=https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/claude-plugin-bundle.ts note="Developer skills contain supporting files while the imported user-plugin path installs only SKILL.md; no product-wide claim was made."
+CONTRADICTION feature=long-term-memory harness=openwork-desktop date=2026-08-29 src1=https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/mcp-ui-control-profile.md src2=https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/memory-bank-architecture.md note="Current UI-control docs say there is no separate memory database; the memory-bank document is draft architecture and was not treated as shipped."
+CONTRADICTION feature=output-token-limit harness=aider date=2026-08-29 src1=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/resources/model-metadata.json src2=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/resources/model-settings.yml note="Claude 3.7 Sonnet metadata and request settings expose different output values and beta entitlement concepts; the row remains unknown."
+CONTRADICTION feature=subagent-delegation harness=aider date=2026-08-29 src1=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/modes.md src2=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/architect_coder.py note="Architect/editor mode is a sequential two-model transformation, not a child-agent lifecycle."
+CONTRADICTION feature=browser-automation harness=aider date=2026-08-29 src1=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/scrape.py src2=https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/images-urls.md note="Playwright is an implementation detail of text scraping; documented behavior remains web fetch rather than browser automation."
+
+## Cycle 5 — 2026-08-29
+
+- Phase: A with exact-source family sweeps
+- Briefs: 5; ChatGPT web and Desktop, Claude Desktop and web, OpenWork Desktop v0.18.39, and Aider v0.86.0
+- Cells written: 105 current-track
+- Feature files changed: 70; collaboration, files, voice, browser/runtime, governance, models/context, MCP, Skills, subagents, and reliability rows
+- Commit: pending; prior live Cycle 4 commit `e14e855f28089810dd709174bc0ac2fcf4c325c9`
+- Pushed: no; Cycle 5 green ship checks pending
+- Deployed: no; Cycle 5 pending; prior Cloudflare version `9c15a655-0611-4f6e-8300-d0b891882447`
+- Coverage: 1,250/3,534 (35.4%); delta +105
+- Preview: 9/3,192 (0.3%); delta +0
+- News counter: 105/approximately 150; no entry this cycle
+- Incidents: deprecated ChatGPT agent-mode documentation was not reused for current Work claims; Aider MCP `no` cells are pinned to a complete stable-source audit; OpenWork and Claude scope contradictions remain explicit

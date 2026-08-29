@@ -739,3 +739,48 @@ discovery; pinned repository paths below preserve the reviewed release state.
 - https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/protocol.rs
 - https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/client.rs
 - https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/crates/context_server/src/types.rs
+
+## Cycle 5 exact source additions — 2026-08-29
+
+### OpenAI ChatGPT web and Desktop
+
+- https://help.openai.com/en/articles/8096356-chat-preferences-for-chatgpt
+- https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data.csv
+- https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq
+- https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+- https://help.openai.com/en/articles/8555545-file-uploads-faq
+- https://help.openai.com/en/articles/8983675-what-types-of-files-are-supported
+- https://help.openai.com/en/articles/10291617-what-is-agent-mode
+- https://help.openai.com/en/articles/20001275
+- https://help.openai.com/en/articles/20001280-using-cloud-browser-in-chatgpt
+- https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
+- https://help.openai.com/en/articles/9903489-data-residency-and-inference-residency-for-chatgpt
+- https://help.openai.com/en/articles/11750701-rbac/
+- https://help.openai.com/en/articles/9237897-chatgpt-search
+- https://help.openai.com/en/articles/20001274
+
+### Anthropic Claude web and Desktop
+
+- https://support.claude.com/en/articles/12626668-use-quick-entry-with-claude-desktop-on-mac
+- https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork
+- https://support.claude.com/en/articles/10684626-enable-and-use-web-search
+- https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
+- https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork
+
+### OpenWork Desktop v0.18.39
+
+- https://github.com/different-ai/openwork/releases/tag/v0.18.39
+- https://github.com/different-ai/openwork/tree/63625a4be566256370eebb84ad91b020a0f6cf06
+- https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/local-managed-mcp-oauth/README.md
+- https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/mcp-ui-control-profile.md
+- https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/desktop-app-policies.md
+
+### Aider v0.86.0
+
+- https://github.com/Aider-AI/aider/releases/tag/v0.86.0
+- https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider
+- https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/args.py
+- https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py
+- https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md
+- https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/caching.md
+- https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/legal/privacy.md

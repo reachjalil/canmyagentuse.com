@@ -20,6 +20,12 @@ aliases: [document upload, DOCX input, spreadsheet upload, presentation upload]
 parent: file-inputs
 related: [pdf-documents, upload-limits]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop accepts DOCX, PPTX, and XLSX attachments and its bundled Office transform extracts bounded text before sending the model request."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop Work accepts file context, and ChatGPT's maintained input-format list includes XLSX, XLS, CSV, TSV, DOCX, and PPTX."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web explicitly supports common spreadsheet, presentation, and document inputs including XLSX, XLS, CSV, TSV, DOCX, and PPTX."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit's hosted Conversation composer accepts documents and spreadsheets as request context and explicitly supports spreadsheet analysis."
   - id: 1
@@ -38,6 +44,46 @@ notes:
     text: "Evidence checked 2026-08-28: Mistral's current Vibe Work documentation, which supersedes Le Chat at chat.mistral.ai, accepts Word, PowerPoint, Excel, CSV, ODT, RTF, ODS, Numbers, and other document formats and reads their content as task context."
 issues: []
 resources:
+  - id: openwork-v01839-office-routing
+    title: "OpenWork v0.18.39 — Office attachment routing"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/sync/attachment-file-part.ts#L17-L20"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Office MIME constants and routing at lines 17–20 and 164–182"
+  - id: openwork-v01839-office-transform
+    title: "OpenWork v0.18.39 — Office attachment text transform"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/opencode-plugins/openwork-office-attachments.ts#L7-L28"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "formats and safety limits plus extraction and message transform at lines 7–28 and 640–725"
+  - id: openai-chatgpt-desktop-work-documents
+    title: "OpenAI — ChatGPT Work and Codex"
+    href: https://help.openai.com/en/articles/20001275
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Start on desktop — add files and context"
+  - id: openai-chatgpt-desktop-supported-files
+    title: "OpenAI — What types of files are supported?"
+    href: https://help.openai.com/en/articles/8983675-what-types-of-files-are-supported
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "supported file-extension list and Google Docs exception"
+  - id: openai-chatgpt-web-supported-files
+    title: "OpenAI — What types of files are supported?"
+    href: https://help.openai.com/en/articles/8983675-what-types-of-files-are-supported
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "supported file-extension list and Google Docs exception"
   - id: replit-upload-use-files-current
     title: "Replit — Upload and use files"
     href: "https://docs.replit.com/chat/upload-and-use-files"
@@ -114,6 +160,69 @@ resources:
     reviewedAt: 2026-08-28
     locator: Le Chat is now Vibe; product entry point
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "DOCX, PPTX, and XLSX; encrypted ZIP entries and unsupported compression are rejected"
+          - type: runtime
+            value: "12 MiB compressed input, 10 MiB total uncompressed, 128 ZIP-entry, and 24,000 extracted-character caps; XLSX has additional sheet, cell, and shared-string bounds"
+        evidence:
+          - resourceId: openwork-v01839-office-routing
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openwork-v01839-office-transform
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "Desktop Work and uploads remain subject to plan, workspace, and account eligibility"
+          - type: format
+            value: "XLSX, XLS, CSV, TSV, DOCX, PPTX, PDF, and TXT are listed; native .gdoc files are explicitly unsupported"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-work-documents
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: openai-chatgpt-desktop-supported-files
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "supported examples include XLSX, XLS, CSV, TSV, DOCX, PPTX, PDF, and TXT; native .gdoc files are not supported"
+          - type: runtime
+            value: "uploaded-file input on the hosted ChatGPT surface"
+        evidence:
+          - resourceId: openai-chatgpt-web-supported-files
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

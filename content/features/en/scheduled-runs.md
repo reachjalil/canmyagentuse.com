@@ -19,6 +19,16 @@ summary: Start a task on a schedule without a new human prompt.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop claims Den-scheduled Automation occurrences and runs them as visible local threads, but Den remains the scheduler and an authenticated Desktop runner must be online before the claim deadline."
+  - id: 80
+    text: "Evidence checked 2026-08-29: Claude web exposes Cowork scheduled tasks with remote hourly, daily, weekly, weekday, or manual execution and edit, pause, resume, delete, and run-now controls."
+  - id: 79
+    text: "Evidence checked 2026-08-29: ChatGPT Desktop can expose the Scheduled task list and supported task controls, but desktop availability varies and event-trigger creation or trigger editing remains a web or supported-mobile operation."
+  - id: 78
+    text: "Evidence checked 2026-08-29: Claude Desktop exposes Cowork scheduled tasks with recurring or on-demand execution, configurable cadence, model and approval mode, result history, and pause, resume, edit, delete, and run-now controls."
+  - id: 77
+    text: "Evidence checked 2026-08-29: ChatGPT web exposes one-time, recurring, monitoring, and eligible event-triggered tasks through Scheduled, with result review, notifications, sharing, and pause, resume, edit, and delete controls."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Routines schedule recurring Agent work from a hosted Conversation and return later results to the same thread without a new human prompt."
   - id: 74
@@ -47,6 +57,46 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations on grok.com run once, daily, weekdays, weekly, monthly, or yearly at a user-selected local time, with pause, resume, edit, delete, and Run now controls."
 issues: []
 resources:
+  - id: openwork-v01839-desktop-automations
+    title: "OpenWork v0.18.39 — Desktop runner for Den-scheduled Automations"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/automations-desktop-runner/README.md#L1-L32"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Outcome and Offline behavior, lines 1–32"
+  - id: anthropic-claude-web-scheduled-cowork
+    title: "Anthropic — Schedule recurring tasks in Claude Cowork"
+    href: https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "availability; How scheduled tasks work; Create a scheduled task; Manage your scheduled tasks"
+  - id: openai-chatgpt-desktop-scheduled-tasks
+    title: "OpenAI — Scheduled tasks in ChatGPT"
+    href: https://help.openai.com/en/articles/10291617-what-is-agent-mode
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "desktop-app availability FAQ; Scheduled page controls; event-trigger surface limitations"
+  - id: anthropic-claude-desktop-scheduled-cowork
+    title: "Anthropic — Schedule recurring tasks in Claude Cowork"
+    href: https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "availability; What scheduled tasks can do; How scheduled tasks work; Create and manage scheduled tasks"
+  - id: openai-chatgpt-web-scheduled-tasks
+    title: "OpenAI — Scheduled tasks in ChatGPT"
+    href: https://help.openai.com/en/articles/10291617-what-is-agent-mode
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Overview; Create an event-triggered task; Review scheduled task limits; FAQ"
   - id: replit-routines-current
     title: "Replit — Routines"
     href: "https://docs.replit.com/chat/routines"
@@ -166,6 +216,115 @@ resources:
     reviewedAt: 2026-08-29
     locator: "On a schedule or trigger; automation controls"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "requires an authenticated Desktop installation registered with Den"
+          - type: runtime
+            value: "Desktop must be online to claim an occurrence; otherwise Den records runner_unavailable, and Run now fails without an online runner"
+          - type: host-role
+            value: "Den is the durable scheduler and source of truth; Desktop is the execution runner"
+        evidence:
+          - resourceId: openwork-v01839-desktop-automations
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude web documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: preview
+            value: "Cowork on web is beta"
+          - type: plan
+            value: "paid plans; Pro, Max, and Team can use Cowork on web, while Enterprise availability requires owner enablement"
+          - type: runtime
+            value: "cloud sessions can use connectors and account-stored files but cannot attach a local computer folder"
+          - type: policy
+            value: "the user selects approval mode, model, and cadence"
+        evidence:
+          - resourceId: anthropic-claude-web-scheduled-cowork
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: "ChatGPT Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "scheduled tasks require an eligible ChatGPT account and workspace; active-task and cadence limits vary by plan"
+          - type: runtime
+            value: "the Desktop Scheduled page may be absent depending on app version and account; existing event-trigger tasks can be displayed but trigger conditions cannot be created or edited there"
+          - type: policy
+            value: "available controls include result and schedule review plus pause, resume, edit, and delete"
+        evidence:
+          - resourceId: openai-chatgpt-desktop-scheduled-tasks
+            type: documented
+            observedAt: 2026-08-29
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude Desktop documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "available with Cowork on paid Pro, Max, Team, and Enterprise plans"
+          - type: runtime
+            value: "the Scheduled page is accessible in Claude Desktop; cloud tasks continue after Desktop closes, while tasks needing local folders or native apps require the computer and app"
+          - type: policy
+            value: "the creator chooses an approval mode and can pause, resume, edit, delete, or run a task on demand"
+          - type: format
+            value: "hourly, daily, weekly, weekday, or manual cadence"
+        evidence:
+          - resourceId: anthropic-claude-desktop-scheduled-cowork
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: hosted-observation
+          revision: "ChatGPT web documentation observed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: "scheduled tasks cover eligible Free, Go, Plus, Pro, Business, Enterprise, Edu, and Healthcare users; event triggers require Work and an eligible paid account and are unavailable in FedRAMP"
+          - type: runtime
+            value: "web Scheduled surface supports one-time, recurring, monitoring, and supported Gmail, Slack, or GitHub event-triggered work"
+          - type: policy
+            value: "active-task and frequency limits vary by plan; tasks can pause for approval or required action, and project-created tasks cannot access project uploads"
+        evidence:
+          - resourceId: openai-chatgpt-web-scheduled-tasks
+            type: documented
+            observedAt: 2026-08-29
   - harness: replit-agent
     versions:
       - track: current

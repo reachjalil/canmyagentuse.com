@@ -21,6 +21,8 @@ parent: subagents
 related: [nested-subagents, subagent-concurrency, subagent-context-isolation, subagent-result-handoff]
 highlight: false
 notes:
+  - id: 80
+    text: "Evidence checked 2026-08-29: Claude web Cowork can split complex work into smaller tasks and coordinate multiple subagents in parallel, but the capability is limited to paid Cowork rather than standard web chat."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 documents spawn_agent as a native tool for delegating parallel investigations, self-contained tasks, or research to a child with its own context window."
   - id: 75
@@ -55,6 +57,14 @@ notes:
     text: "Evidence checked 2026-08-29: A hosted Devin coordinator decomposes a large task and delegates scoped prompts to managed child sessions while monitoring and compiling their work."
 issues: []
 resources:
+  - id: anthropic-claude-web-cowork-subagents
+    title: "Anthropic — Get started with Claude Cowork"
+    href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Key capabilities — sub-agent coordination; Start a Cowork session; parallel work"
   - id: zed-v1-17-2-tools
     title: "Zed v1.17.2 — Agent Tools"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L100-L112"
@@ -179,6 +189,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Managed Devins"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: "Anthropic Claude web documentation reviewed 2026-08-29"
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: preview
+            value: "Cowork on web is beta"
+          - type: plan
+            value: "paid Claude plans; Enterprise requires owner enablement"
+          - type: runtime
+            value: "Cowork mode only; Claude can automatically coordinate multiple subagents for complex tasks"
+        evidence:
+          - resourceId: anthropic-claude-web-cowork-subagents
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

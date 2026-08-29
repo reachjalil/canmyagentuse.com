@@ -20,6 +20,8 @@ aliases: [training opt-out, data use, improve models, human review]
 parent: data-security-controls
 related: [data-retention-controls, admin-policy-controls]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 says its analytics never collect code, prompts, chats, keys, or personal information and lets operators disable analytics, while model-provider data use remains outside this Aider control."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp and its subprocessors do not train on customer data unless the user opts in; workspaces require administrator approval and Enterprise workspaces can never enable training."
   - id: 70
@@ -46,6 +48,22 @@ notes:
     text: "Evidence checked 2026-08-29: Signed-in Grok.com users can disable Improve the Model for future conversations, while Private Chat content is excluded from model training."
 issues: []
 resources:
+  - id: aider-v0860-analytics
+    title: "Aider v0.86.0 — Analytics"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/more/analytics.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "data collected; Disabling analytics; logging and inspection"
+  - id: aider-v0860-privacy
+    title: "Aider v0.86.0 — Privacy policy"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/legal/privacy.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Analytics Information; Your Choices; International Visitors"
   - id: amp-2026-08-training
     title: "Amp — Security Reference"
     href: https://ampcode.com/security
@@ -154,6 +172,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Model training; Grok.com Data Controls; Private Chat"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: "--no-analytics disables analytics for one session and --analytics-disable disables them persistently"
+          - type: policy
+            value: "Aider analytics cover model names, token counts, edit formats, feature and command use, exceptions, and errors"
+          - type: runtime
+            value: "prompts, files, and outputs still go to the selected model endpoint unless a local model is used; provider training and retention policies are separate"
+        evidence:
+          - resourceId: aider-v0860-analytics
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-privacy
+            type: documented
+            observedAt: 2026-08-29
   - harness: amp-cli
     versions:
       - track: current

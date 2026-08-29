@@ -21,6 +21,8 @@ parent: models-and-context
 related: [output-token-limit, context-usage-visibility, automatic-context-compaction, upload-limits]
 highlight: true
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 embeds a 1,048,576-token maximum input for gemini/gemini-2.5-pro and /tokens reports the selected model's known maximum and remaining context."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 sends local Ollama a num_ctx context length and documents a 4,096-token default configurable globally or per model; this does not establish one limit for other provider paths."
   - id: 74
@@ -34,6 +36,22 @@ notes:
   - id: 50
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 publishes exact context windows for its supported hosted models, ranging from 128k to 1 million tokens, and documents a configurable local-model context default of 64k."
 resources:
+  - id: aider-v0860-model-metadata
+    title: "Aider v0.86.0 — Embedded model metadata"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/resources/model-metadata.json"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "gemini/gemini-2.5-pro max_input_tokens: 1048576"
+  - id: aider-v0860-commands-source-context
+    title: "Aider v0.86.0 — CLI command implementation"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/commands.py"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "cmd_tokens maximum and remaining context report"
   - id: zed-v1-17-2-local-models
     title: "Zed v1.17.2 — Use a Local Model"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/use-a-local-model.md#L117-L133"
@@ -91,6 +109,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: Configure context window and message trimming for local models
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "value is scoped to Aider v0.86.0 embedded metadata for gemini/gemini-2.5-pro only"
+          - type: format
+            value: "maximum input is 1,048,576 tokens; effective prompt capacity is lower after system prompts, history, files, repository map, images, and output reservation"
+          - type: policy
+            value: "the value does not transfer to other Aider models or providers"
+        evidence:
+          - resourceId: aider-v0860-model-metadata
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-source-context
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

@@ -220,46 +220,47 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-29 for cycle 3. Skip recorded attempts until their
+Queue rewritten: 2026-08-29 for cycle 6. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
-1. `cline` × atomic MCP rows from a pinned current release and maintained
-   first-party source.
-2. `continue` × atomic MCP rows from a pinned current release and maintained
-   first-party source.
-3. `copilot-web` × remaining Phase-A rows, separating consumer Microsoft
+1. `copilot-web` × remaining consumer collaboration, input, governance, and
+   runtime rows, separating consumer Microsoft
    Copilot from Microsoft 365 and GitHub Copilot products.
-4. `perplexity-web` × remaining Phase-A and hosted governance/input rows.
-5. `le-chat` × remaining Phase-A and hosted governance/input rows.
+2. `grok-web` × remaining consumer inputs, sharing, search, voice, and policy
+   rows from xAI Help Center and legal pages.
+3. `gemini-web` × remaining consumer Projects/Gems, files, sharing, search,
+   voice, history, and policy rows from exact Gemini Apps Help pages.
+4. `claude-desktop` × remaining exact Desktop/Cowork inputs, collaboration,
+   enterprise controls, and hosted-account rows.
+5. `le-chat` × current Vibe web files, projects, connectors, sharing,
+   governance, and runtime rows after preserving the identity migration.
 6. `windsurf` × remaining Phase-A rows after deliberate product-identity
    review; do not merge Devin Desktop or Devin Local evidence by default.
-7. `chrome-webmcp-preview` × remaining Phase-A rows, scoped to the exact Chrome
+7. `chrome-webmcp-preview` × remaining exact WebMCP rows, scoped to the Chrome
    WebMCP origin-trial preview rather than generic Chrome or Gemini features.
-8. `openwork-desktop` × remaining runtime, collaboration, governance, and MCP
-   rows from a pinned first-party release.
-9. `aider` × remaining rows outside active attempt cooldowns.
-10. `jetbrains-ai`, `opencode`, `warp`, and `devin-web` × rows reopened by exact
-   first-party changelog evidence; otherwise honor the 30-day attempt cooldown.
+8. Release-pinned `codex-cli`, `gemini-cli`, `copilot-cli`, and `claude-cli`
+   × models/context and subagent atomic rows with measured-value contracts.
+9. Stable-source exact-scope negative sweeps for narrowly defined MCP and
+   WebMCP families only where a complete maintained implementation is auditable.
+10. `jetbrains-ai`, `opencode`, `warp`, `devin-web`, and `aider` only for rows
+   reopened by exact first-party evidence; otherwise honor cooldowns.
 
-## Current Phase-A snapshot after Cycle 4
+## Current Phase-A snapshot after Cycle 5
 
-The validated local report is 1,145/3,534 current-track cells (32.4%). The
+The validated local report is 1,250/3,534 current-track cells (35.4%). The
 remaining sub-30 harnesses, in ascending sourced count, are:
 
 1. `chatgpt-cli` — 3/114; product identity blocked, so do not inherit Codex CLI
 2. `chrome-webmcp-preview` — 10/114; keep current and preview evidence separate
-3. `aider` — 12/114
-4. `windsurf` — 13/114; product identity migration remains unresolved
-5. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
-6. `openwork-desktop` — 18/114
-7. `copilot-web` — 19/114
-8. `grok-web` — 20/114
-9. `claude-desktop` — 24/114
-10. `gemini-web` — 27/114
-11. `chatgpt-web` — 29/114
+3. `windsurf` — 13/114; product identity migration remains unresolved
+4. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
+5. `copilot-web` — 19/114
+6. `grok-web` — 20/114
+7. `gemini-web` — 27/114
+8. `claude-desktop` — 29/114
 
-Cycle 5 should prioritize release-pinned or dated exact-surface evidence for
-OpenWork Desktop, Aider, Claude Desktop, and the remaining consumer-web rows.
+Cycle 6 should prioritize dated exact-surface evidence for the remaining
+consumer rows and release-pinned model/context sweeps for mature CLI products.
 Identity-blocked columns remain parked until an authoritative migration or
 product-boundary source permits a deliberate catalog decision.
 

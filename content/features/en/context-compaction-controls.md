@@ -20,6 +20,8 @@ aliases: [manual compact, compaction settings, context pinning]
 parent: models-and-context
 related: [automatic-context-compaction, context-usage-visibility]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 lets operators configure the automatic history-summarization threshold and weak model and offers destructive /clear, /drop, and /reset context-reduction commands."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes /compact, displays an expandable Context Compacted summary, accepts percentage or token-count thresholds, and lets users disable automatic compaction or choose a separate model."
   - id: 1
@@ -37,6 +39,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp exposes slash commands that manually compact the active conversation, optionally fork first, and send a follow-up after summarization."
 resources:
+  - id: aider-v0860-options-compaction-controls
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "--max-chat-history-tokens and --weak-model"
+  - id: aider-v0860-commands-context
+    title: "Aider v0.86.0 — In-chat commands"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/commands.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "/clear, /drop, and /reset"
   - id: zed-v1-17-2-agent-settings
     title: "Zed v1.17.2 — Agent Settings"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-settings.md#L58-L108"
@@ -125,6 +143,30 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Using the /fork-and-compact slash command"
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "--max-chat-history-tokens configures the automatic threshold"
+          - type: runtime
+            value: "--weak-model selects the history-summarization model"
+          - type: policy
+            value: "no summary-inspection or retained-fact pinning control is documented"
+        evidence:
+          - resourceId: aider-v0860-options-compaction-controls
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-commands-context
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

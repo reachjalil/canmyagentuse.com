@@ -21,11 +21,29 @@ parent: models-and-context
 related: [prompt-cache-controls, prompt-cache-telemetry, usage-metering]
 highlight: true
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Aider v0.86.0 documents prompt caching that orders the system prompt, read-only files, repository map, and editable files for provider cache reuse."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents automatic prefix-based prompt caching for its system prompt, project context, conversation history, and tool results, with explicit invalidation behavior."
   - id: 2
     text: "Evidence checked 2026-08-28: Gemini CLI documents automatic token caching for Gemini API-key and Vertex AI authentication, while OAuth through Code Assist does not support cached-content creation."
 resources:
+  - id: aider-v0860-caching
+    title: "Aider v0.86.0 — Prompt caching"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/caching.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Usage; prompt organization"
+  - id: aider-v0860-options-cache
+    title: "Aider v0.86.0 — Command-line options"
+    href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
+    kind: docs
+    publisher: Aider-AI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Cache settings"
   - title: Methodology
     href: /methodology
     kind: note
@@ -44,6 +62,30 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
 support:
+  - harness: aider
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: release
+          revision: "Aider v0.86.0, tag commit a4be6ccd87ebaa59b361f3f028d116ce1761b626"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "caching is opt-in through --cache-prompts or persistent configuration"
+          - type: runtime
+            value: "reviewed docs identify Anthropic Sonnet and Haiku plus DeepSeek Chat as supported"
+          - type: policy
+            value: "cache eligibility and billing behavior remain provider-dependent"
+        evidence:
+          - resourceId: aider-v0860-caching
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: aider-v0860-options-cache
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-cli
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [child result, agent handoff, subagent artifacts]
 parent: subagents
 related: [subagent-delegation, artifact-export, streaming-output]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-29: OpenWork Desktop receives a child task's result or error in the parent task-tool part, renders it inline in the parent transcript, and links to the child session when available."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 describes spawn_agent work as delegated tasks whose outcome returns to the parent, which then continues and reviews the child's findings."
   - id: 73
@@ -44,6 +46,14 @@ notes:
     text: "Evidence checked 2026-08-29: Dynamic Workflow children return JSON-Schema-constrained dictionaries, and isolated coding children hand off pushed git branches through structured output."
 issues: []
 resources:
+  - id: openwork-v01839-subagent-result
+    title: "OpenWork v0.18.39 — subagent result rendering"
+    href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/components/chat/subagent-run-line.tsx#L87-L140"
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "open child session and render part output or errorText, lines 87–140"
   - id: zed-v1-17-2-tools
     title: "Zed v1.17.2 — Agent Tools"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L108-L112"
@@ -141,6 +151,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Authoring model; separate VM branch handoff"
 support:
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "text result or error plus status; child session can be opened separately when the engine returns its ID"
+        evidence:
+          - resourceId: openwork-v01839-subagent-result
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current
