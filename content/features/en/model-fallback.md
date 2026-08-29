@@ -24,6 +24,10 @@ notes:
     text: "Evidence checked 2026-08-28: xAI documents automatic model failover for Grok Bot and says usage analytics show the model that actually served each request, including failovers. Users and administrators cannot choose models or disable fallback."
   - id: 2
     text: "Evidence checked 2026-08-28: Gemini CLI enables model fallback by default after quota or server errors, normally prompts before switching, and can apply policy-authorized silent fallback for a turn or session. Some internal utility calls use a separate silent fallback chain."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Claude Code documents --fallback-model and the fallbackModel setting for automatically using an ordered fallback model or chain when the primary model is overloaded or unavailable."
+  - id: 4
+    text: "Evidence checked 2026-08-28: Cursor documents that Auto detects degraded output performance and automatically switches models. This is Auto-routing behavior rather than fallback for an explicitly pinned model."
 issues: []
 resources:
   - title: Methodology
@@ -45,7 +49,61 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: How it works
+  - id: anthropic-claude-code-fallback-model
+    title: Anthropic — Claude Code CLI reference
+    href: https://code.claude.com/docs/en/cli-usage
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: CLI flags; --fallback-model
+  - id: cursor-auto-model-switching
+    title: Cursor — Models
+    href: https://docs.cursor.com/advanced/models
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Auto
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code CLI reference
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: --fallback-model or the fallbackModel setting supplies an ordered fallback model or comma-separated chain used when the primary model is overloaded or unavailable
+          - type: policy
+            value: fallback is operator-configured; the reviewed reference does not establish automatic fallback when no fallback model is configured
+        evidence:
+          - resourceId: anthropic-claude-code-fallback-model
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [4]
+        target:
+          kind: dated-documentation
+          revision: current Cursor Models documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: automatic switching is documented for Auto when it detects degraded output performance, not for an explicitly pinned model
+          - type: policy
+            value: the operator must select Auto to delegate model selection and switching to Cursor
+        evidence:
+          - resourceId: cursor-auto-model-switching
+            type: documented
+            observedAt: 2026-08-28
   - harness: grok-bot-desktop
     versions:
       - track: current
