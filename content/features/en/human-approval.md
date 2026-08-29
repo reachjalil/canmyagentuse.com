@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Pause before a tool or write until a person confirms.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1

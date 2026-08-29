@@ -1,12 +1,12 @@
 ---
 title: Goose
-description: "Goose listed as a cli catalog column. Independent nominative reference; not affiliated with Block."
+description: "Goose compatibility profile for the exact cli product surface."
 slug: goose
 locale: en
 seoTitle: "Goose (CLI) — Can My Agent Use"
 socialTitle: "Goose (CLI)"
-socialDescription: Independent catalog column for Goose on cli. Not affiliated with Block.
-llmSummary: "Goose is listed as a cli harness column. Selected cells are sourced; every unreviewed cell remains unknown. The name identifies the product and does not imply affiliation."
+socialDescription: Evidence-backed capability profile for Goose on cli.
+llmSummary: "Goose is listed as a cli harness column. Selected cells are sourced; every unreviewed cell remains unknown."
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: harness
 status: published
@@ -27,7 +27,5 @@ homepage: https://block-goose.mintlify.app/
 ---
 
 Goose appears here as a **CLI** column so a capability page can show this harness next to others.
-
-The product name is a plain-text nominative reference. Can My Agent Use is independent of Block and does not claim certification, partnership, or official status.
 
 Support cells for this surface are published only when a dated note cites reviewable public evidence; every other cell remains **unknown**.

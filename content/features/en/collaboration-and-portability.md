@@ -1,12 +1,12 @@
 ---
-title: Collaboration and portability
-description: Compare sharing, shared project context, access roles, accountable human handoff, and export of conversations and artifacts.
+title: Collaboration
+description: Group conversation sharing, shared workspaces, access control, and data export.
 slug: collaboration-and-portability
 locale: en
-seoTitle: Collaboration and portability capability coverage — Can My Agent Use
-socialTitle: How can teams share and move agent work?
-socialDescription: Compare conversation sharing, shared projects, roles, human handoff, and portable exports.
-llmSummary: Collaboration and portability is a family covering controlled conversation sharing, durable shared projects, role-based access, human handoff, conversation export, and artifact export.
+seoTitle: Collaboration feature coverage — Can My Agent Use
+socialTitle: Collaboration feature coverage
+socialDescription: Compare conversation sharing, shared workspaces, access control, and data export.
+llmSummary: Collaboration is an internal catalog grouping for conversation sharing, shared workspaces, role-based access control, conversation export, and artifact export.
 audience: Teams evaluating collaborative workflows and exit paths.
 contentKind: feature
 status: published
@@ -14,9 +14,9 @@ tags: [collaboration, sharing, portability, teams]
 updated: 2026-08-28
 published: 2026-08-28
 category: collaboration
-summary: Track team access, shared context, accountable handoff, and portable outputs independently.
-specLabel: Product capability family
-aliases: [team collaboration, sharing and export, workflow portability]
+summary: Group sharing, shared workspace, access-control, and export questions.
+specLabel: Catalog grouping
+aliases: [team collaboration, sharing and export]
 capabilityKind: family
 highlight: true
 resources:
@@ -26,6 +26,6 @@ resources:
 support: []
 ---
 
-A public read-only link, a shared editable project, a queue that transfers responsibility, and a complete machine-readable export solve different problems. This family keeps those capabilities separate.
+A public read-only link, a shared editable workspace, role-based access, and a data export solve different problems. This catalog grouping keeps those product features separate.
 
-Useful evidence records identity, view and edit rights, ownership, revocation, external access, inherited data permissions, comments and approvals, provenance, export fidelity, deletion behavior, and whether recipients need a paid account or matching organization.
+Useful evidence records identity, view and edit rights, revocation, external access, inherited data permissions, export fidelity, deletion behavior, and whether recipients need a paid account or matching organization.

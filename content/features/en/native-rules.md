@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: "Discover persistent or path-scoped instructions in the product's own rule format."
-specLabel: Product capability
+specLabel: Common product term
 aliases: ["agent rules"]
 parent: instructions
 related: []
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Visual Studio Code — Custom instructions
+    href: https://code.visualstudio.com/docs/agent-customization/custom-instructions
+    kind: docs
+    publisher: Microsoft
+    reviewedAt: 2026-08-28
 support: []
 ---
 

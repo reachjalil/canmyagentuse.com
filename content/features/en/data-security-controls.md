@@ -1,12 +1,12 @@
 ---
-title: Data security and administrative controls
+title: Security and privacy
 description: Compare retention, training use, residency, encryption, secrets, local-only operation, policy, and auditability independently.
 slug: data-security-controls
 locale: en
-seoTitle: Data security and administrative control coverage — Can My Agent Use
-socialTitle: Which data and security controls can my agent use?
+seoTitle: Security and privacy feature coverage — Can My Agent Use
+socialTitle: Security and privacy feature coverage
 socialDescription: Compare retention, training, residency, encryption, secrets, local-only operation, policy, and audit controls.
-llmSummary: Data security is a family of exact-surface claims covering retention and deletion, training use, residency, encryption and customer keys, secrets, local-only operation, administrative policy, and audit logs.
+llmSummary: Security and privacy is an internal catalog grouping for retention, training-data use, data residency, key management, secrets, offline operation, organization policy, and audit logs.
 audience: Security, privacy, compliance, platform, and procurement teams.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [security, privacy, governance, enterprise]
 updated: 2026-08-28
 published: 2026-08-28
 category: security-privacy
-summary: Track data handling and administrative control boundaries as independent capabilities.
-specLabel: Product capability family
+summary: Group common security, privacy, and organization-control questions.
+specLabel: Catalog grouping
 aliases: [enterprise controls, data governance, privacy controls, security controls]
 capabilityKind: family
 highlight: true

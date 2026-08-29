@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists MCP stdio for Grok Bot. This is registry evidence, not an independent transport test."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Anthropic documents adding local Claude Code MCP servers with the stdio transport and a command plus arguments."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,7 +45,32 @@ resources:
     evidenceType: listed
     reviewedAt: 2026-08-28
     locator: Grok Bot
+  - id: anthropic-claude-code-mcp
+    title: Anthropic — Connect Claude Code to tools via MCP
+    href: https://code.claude.com/docs/en/mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Add a local stdio server
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: server command, arguments, environment, and configuration scope are supplied by the operator or administrator
+        evidence:
+          - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
   - harness: grok-bot-desktop
     versions:
       - track: current

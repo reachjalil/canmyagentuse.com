@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Inspect diffs and open or review pull requests.
-specLabel: Product capability
+specLabel: Common product term
 highlight: true
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: GitHub — Copilot cloud agent
+    href: https://docs.github.com/en/copilot/tutorials/cloud-agent/pilot-cloud-agent
+    kind: docs
+    publisher: GitHub
+    reviewedAt: 2026-08-28
 support: []
 ---
 

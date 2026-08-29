@@ -60,15 +60,21 @@ export { isPublished, resolveMetadata } from "./metadata.ts";
 export type { ResolvedMetadata } from "./metadata.ts";
 export {
   PROVIDER_MARKS,
+  PROVIDER_MARK_SOURCES,
   PROVIDER_TONES,
   providerMark,
   providerMarkIsDisplayable,
+  providerMarkSource,
+  providerMarkSourceUrl,
   providerReference,
+  referenceIdentity,
 } from "./provider.ts";
 export type {
   ProviderMarkAuthorization,
   ProviderMarkSource,
+  ProviderMarkSourceId,
   ProviderReference,
+  ProviderReferenceIdentity,
   ProviderTone,
 } from "./provider.ts";
 export { validateCatalogRelations } from "./relations.ts";

@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Persist notes across sessions.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1

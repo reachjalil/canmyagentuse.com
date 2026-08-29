@@ -109,7 +109,7 @@ Before selecting a harness, preserve:
 2. Required capabilities and hard limits, including context, output, uploads, concurrency, duration, quotas, and cost ceiling.
 3. Data classes and permitted storage, processing, retention, training, sharing, and export paths.
 4. Required tool, connector, secret, approval, audit, and administrative controls.
-5. Failure, recovery, checkpoint, notification, and human-handoff expectations.
+5. Retry behavior, resumable sessions, approval prompts, and operational limits.
 6. Dated sources, tested observations, unresolved contradictions, and every remaining unknown.
 
 That record turns a vague product preference into a reviewable engineering and procurement decision.

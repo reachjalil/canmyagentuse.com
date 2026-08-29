@@ -17,32 +17,65 @@ export interface ProviderReference {
   tone: ProviderTone;
 }
 
-export type ProviderMarkSource = "lobe-icons" | "simple-icons";
+export type ProviderMarkSourceId = "lobe-icons" | "simple-icons";
+
+export interface ProviderMarkSource {
+  id: ProviderMarkSourceId;
+  label: string;
+  packageName: string;
+  packageVersion: string;
+  revision: string;
+  repositoryUrl: `https://${string}`;
+  license: "MIT" | "CC0-1.0";
+  licenseUrl: `https://${string}`;
+}
 
 export interface ProviderMarkAuthorization {
   id: string;
   label: string;
   assetPath: `/provider-marks/${string}`;
-  source: ProviderMarkSource;
-  sourcePackage: string;
-  sourceVersion: string;
-  sourceRevision: string;
+  source: ProviderMarkSourceId;
   sourceAsset: string;
-  sourceUrl: `https://${string}`;
-  repositoryUrl: `https://${string}`;
-  license: "MIT" | "CC0-1.0";
-  licenseUrl: `https://${string}`;
   brandGuidelinesUrl?: `https://${string}`;
   reviewedAt: `${number}-${number}-${number}`;
-  usage: "nominative-reference";
-  rightsNotice: string;
+}
+
+export interface ProviderReferenceIdentity extends ProviderReference {
+  product?: string;
+  productSlug?: string;
+  mark?: ProviderMarkAuthorization;
 }
 
 const MARK_REVIEW_DATE = "2026-08-28" as const;
 const LOBE_ICONS_REVISION = "fbd2d56e3f734e889f1373e71c8368cc4e60e0d7";
 const SIMPLE_ICONS_REVISION = "c956d67dfa7c37ae65206fc0775b0c02d1e695c2";
-const MARK_RIGHTS_NOTICE =
-  "Used only to identify the named catalog record. The mark belongs to its owner; no affiliation, sponsorship, certification, or endorsement is implied.";
+
+export const PROVIDER_MARK_SOURCES: readonly ProviderMarkSource[] = [
+  {
+    id: "lobe-icons",
+    label: "Lobe Icons",
+    packageName: "@lobehub/icons-static-svg",
+    packageVersion: "1.94.0",
+    revision: LOBE_ICONS_REVISION,
+    repositoryUrl: "https://github.com/lobehub/lobe-icons",
+    license: "MIT",
+    licenseUrl: `https://github.com/lobehub/lobe-icons/blob/${LOBE_ICONS_REVISION}/LICENSE`,
+  },
+  {
+    id: "simple-icons",
+    label: "Simple Icons",
+    packageName: "simple-icons",
+    packageVersion: "16.28.0",
+    revision: SIMPLE_ICONS_REVISION,
+    repositoryUrl: "https://github.com/simple-icons/simple-icons",
+    license: "CC0-1.0",
+    licenseUrl: `https://github.com/simple-icons/simple-icons/blob/${SIMPLE_ICONS_REVISION}/LICENSE.md`,
+  },
+] as const;
+
+const MARK_SOURCES_BY_ID = new Map(
+  PROVIDER_MARK_SOURCES.map((source) => [source.id, source])
+);
 
 function lobeMark(
   id: string,
@@ -55,18 +88,9 @@ function lobeMark(
     label,
     assetPath: `/provider-marks/${id}.svg`,
     source: "lobe-icons",
-    sourcePackage: "@lobehub/icons-static-svg",
-    sourceVersion: "1.94.0",
-    sourceRevision: LOBE_ICONS_REVISION,
     sourceAsset,
-    sourceUrl: `https://unpkg.com/@lobehub/icons-static-svg@1.94.0/icons/${sourceAsset}.svg`,
-    repositoryUrl: "https://github.com/lobehub/lobe-icons",
-    license: "MIT",
-    licenseUrl: `https://github.com/lobehub/lobe-icons/blob/${LOBE_ICONS_REVISION}/LICENSE`,
     brandGuidelinesUrl,
     reviewedAt: MARK_REVIEW_DATE,
-    usage: "nominative-reference",
-    rightsNotice: MARK_RIGHTS_NOTICE,
   };
 }
 
@@ -81,18 +105,9 @@ function simpleMark(
     label,
     assetPath: `/provider-marks/${id}.svg`,
     source: "simple-icons",
-    sourcePackage: "simple-icons",
-    sourceVersion: "16.28.0",
-    sourceRevision: SIMPLE_ICONS_REVISION,
     sourceAsset,
-    sourceUrl: `https://github.com/simple-icons/simple-icons/blob/${SIMPLE_ICONS_REVISION}/icons/${sourceAsset}.svg`,
-    repositoryUrl: "https://github.com/simple-icons/simple-icons",
-    license: "CC0-1.0",
-    licenseUrl: `https://github.com/simple-icons/simple-icons/blob/${SIMPLE_ICONS_REVISION}/LICENSE.md`,
     brandGuidelinesUrl,
     reviewedAt: MARK_REVIEW_DATE,
-    usage: "nominative-reference",
-    rightsNotice: MARK_RIGHTS_NOTICE,
   };
 }
 
@@ -100,6 +115,8 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
   lobeMark("amp", "Amp", "amp"),
   lobeMark("anthropic", "Anthropic", "anthropic"),
   lobeMark("aws", "Amazon Web Services", "aws-color"),
+  lobeMark("claude", "Claude", "claude-color"),
+  lobeMark("claude-code", "Claude Code", "claudecode-color"),
   lobeMark("cline", "Cline", "cline"),
   lobeMark("codex", "Codex", "codex-color", "https://openai.com/brand/"),
   lobeMark(
@@ -135,7 +152,7 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
     "https://about.google/brand-resource-center/"
   ),
   lobeMark("goose", "goose", "goose"),
-  lobeMark("grok", "Grok", "grok"),
+  lobeMark("grok", "Grok", "grok", "https://x.ai/legal/brand-guidelines"),
   lobeMark("hermes-agent", "Hermes Agent", "hermesagent"),
   lobeMark("kilocode", "Kilo Code", "kilocode"),
   lobeMark("langchain", "LangChain", "langchain-color"),
@@ -153,6 +170,7 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
   lobeMark("opencode", "OpenCode", "opencode"),
   lobeMark("openhands", "OpenHands", "openhands-color"),
   lobeMark("perplexity", "Perplexity", "perplexity-color"),
+  lobeMark("pi", "Pi", "pi"),
   lobeMark("poolside", "Poolside", "poolside-color"),
   lobeMark("qoder", "Qoder", "qoder-color"),
   lobeMark("qwen", "Qwen", "qwen-color"),
@@ -161,9 +179,10 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
   lobeMark("snowflake", "Snowflake", "snowflake-color"),
   lobeMark("tencent-codebuddy", "Tencent CodeBuddy", "codebuddy-color"),
   lobeMark("windsurf", "Windsurf", "windsurf", "https://windsurf.com/brand"),
-  lobeMark("xai", "xAI", "xai"),
+  lobeMark("xai", "xAI", "xai", "https://x.ai/legal/brand-guidelines"),
   lobeMark("zai", "Z.AI", "zai"),
   simpleMark("github", "GitHub", "github", "https://github.com/logos"),
+  simpleMark("chrome", "Google Chrome", "googlechrome"),
   simpleMark(
     "jetbrains",
     "JetBrains",
@@ -204,6 +223,7 @@ const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
   opencode: "opencode",
   openhands: "openhands",
   perplexity: "perplexity",
+  pi: "pi",
   poolside: "poolside",
   qoder: "qoder",
   replit: "replit",
@@ -217,9 +237,14 @@ const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
 
 const PRODUCT_MARK_ALIASES: Readonly<Record<string, string>> = {
   "amp-cli": "amp",
-  "claude-cli": "anthropic",
-  "claude-desktop": "anthropic",
-  "claude-web": "anthropic",
+  "chatgpt-cli": "openai",
+  "chatgpt-desktop": "openai",
+  "chatgpt-web": "openai",
+  "chrome-webmcp-preview": "chrome",
+  "claude-cli": "claude-code",
+  "claude-desktop": "claude",
+  "claude-web": "claude",
+  cline: "cline",
   "codex-cli": "codex",
   "copilot-cli": "github-copilot",
   "copilot-web": "copilot",
@@ -228,9 +253,17 @@ const PRODUCT_MARK_ALIASES: Readonly<Record<string, string>> = {
   "gemini-cli": "gemini-cli",
   "gemini-web": "gemini",
   goose: "goose",
+  "grok-bot-desktop": "grok",
   "grok-web": "grok",
+  "jetbrains-ai": "jetbrains",
+  "le-chat": "mistral",
+  opencode: "opencode",
+  "perplexity-web": "perplexity",
+  "replit-agent": "replit",
   "vscode-copilot": "github-copilot",
+  warp: "warp",
   windsurf: "windsurf",
+  "zed-agent": "zed",
 };
 
 const PROVIDER_OVERRIDES: Readonly<
@@ -288,6 +321,24 @@ export function providerReference(name: string): ProviderReference {
   };
 }
 
+export function providerMarkSource(
+  source: ProviderMarkSourceId
+): ProviderMarkSource {
+  const record = MARK_SOURCES_BY_ID.get(source);
+  if (!record) throw new Error(`Unknown provider mark source: ${source}`);
+  return record;
+}
+
+export function providerMarkSourceUrl(
+  mark: ProviderMarkAuthorization
+): `https://${string}` {
+  const source = providerMarkSource(mark.source);
+  if (source.id === "lobe-icons") {
+    return `https://unpkg.com/${source.packageName}@${source.packageVersion}/icons/${mark.sourceAsset}.svg`;
+  }
+  return `${source.repositoryUrl}/blob/${source.revision}/icons/${mark.sourceAsset}.svg`;
+}
+
 export function providerMark(
   provider: string,
   productSlug?: string
@@ -301,22 +352,36 @@ export function providerMark(
   return markId ? MARKS_BY_ID.get(markId) : undefined;
 }
 
+export function referenceIdentity(input: {
+  provider: string;
+  product?: string;
+  productSlug?: string;
+}): ProviderReferenceIdentity {
+  const reference = providerReference(input.provider);
+  return {
+    ...reference,
+    product: input.product?.trim() || undefined,
+    productSlug: input.productSlug?.trim() || undefined,
+    mark: providerMark(input.provider, input.productSlug),
+  };
+}
+
 export function providerMarkIsDisplayable(
   mark: ProviderMarkAuthorization | undefined
 ): mark is ProviderMarkAuthorization {
   if (!mark) return false;
+  const source = MARK_SOURCES_BY_ID.get(mark.source);
+  if (!source) return false;
   return (
     mark.assetPath.startsWith("/provider-marks/") &&
-    mark.sourceUrl.startsWith("https://") &&
-    mark.repositoryUrl.startsWith("https://") &&
-    mark.licenseUrl.startsWith("https://") &&
+    source.repositoryUrl.startsWith("https://") &&
+    source.licenseUrl.startsWith("https://") &&
     (!mark.brandGuidelinesUrl ||
       mark.brandGuidelinesUrl.startsWith("https://")) &&
     ["lobe-icons", "simple-icons"].includes(mark.source) &&
-    ["MIT", "CC0-1.0"].includes(mark.license) &&
-    /^[a-f0-9]{40}$/.test(mark.sourceRevision) &&
+    ["MIT", "CC0-1.0"].includes(source.license) &&
+    /^[a-f0-9]{40}$/.test(source.revision) &&
     /^\d{4}-\d{2}-\d{2}$/.test(mark.reviewedAt) &&
-    mark.usage === "nominative-reference" &&
-    mark.rightsNotice.trim().length >= 48
+    mark.sourceAsset.trim().length > 0
   );
 }

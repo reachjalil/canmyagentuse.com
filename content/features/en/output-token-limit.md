@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Record the maximum generated response budget by exact model and harness mode.
-specLabel: Measured product capability
+specLabel: Measured product property
 aliases: [max output tokens, response length limit, generation limit]
 parent: models-and-context
 related: [context-window, structured-output]
@@ -23,6 +23,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Create a model response
+    href: https://developers.openai.com/api/reference/cli/resources/responses/methods/create
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

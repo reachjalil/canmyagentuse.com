@@ -133,7 +133,7 @@ export const featureSchema = seoSchema("feature")
   .extend({
     category: z.string().min(1),
     summary: z.string().min(1),
-    specLabel: z.string().default("Product capability"),
+    specLabel: z.string().default("Common product term"),
     specification: specificationReferenceSchema.optional(),
     aliases: z.array(z.string().min(1)).default([]),
     capabilityKind: z.enum(CAPABILITY_KINDS).default("atomic"),
@@ -160,6 +160,34 @@ export const featureSchema = seoSchema("feature")
         message:
           "Family support is derived from atomic children; do not author support rows on a family.",
         path: ["support"],
+      });
+    }
+    if (
+      feature.capabilityKind === "atomic" &&
+      !feature.resources.some((resource) => /^https:\/\//.test(resource.href))
+    ) {
+      context.addIssue({
+        code: "custom",
+        message:
+          "A published atomic feature needs a public specification or first-party documentation reference. Internal methodology alone cannot establish a catalog term.",
+        path: ["resources"],
+      });
+    }
+    if (
+      [
+        "Product capability",
+        "Measured product capability",
+        "Product-native capability",
+        "Product capability family",
+        "Instruction capability family",
+        "Plugin capability family",
+      ].includes(feature.specLabel)
+    ) {
+      context.addIssue({
+        code: "custom",
+        message:
+          "Use an explicit terminology basis such as Common product term, Measured product property, Catalog grouping, or a named public specification.",
+        path: ["specLabel"],
       });
     }
     const noteIds = new Set<number>();

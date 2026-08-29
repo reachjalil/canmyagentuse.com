@@ -10,6 +10,7 @@ import {
   type HarnessData,
   type VersionCell,
 } from "@canmyagentuse/catalog";
+import ProviderMark from "./ProviderMark.astro";
 import StatusMark from "./StatusMark.astro";
 
 interface Props {
@@ -96,7 +97,10 @@ function evidenceLabel(version: VersionCell) {
               return (
                 <article class="support-column">
                   <header class="support-column__head">
-                    <a href={`/harnesses/${harness.slug}`}>{harness.title}</a>
+                    <a href={`/harnesses/${harness.slug}`}>
+                      <ProviderMark provider={harness.vendor} productSlug={harness.slug} variant="inline" />
+                      {harness.title}
+                    </a>
                     <small>{harness.family}</small>
                   </header>
                   <div class="support-column__records">
@@ -308,11 +312,16 @@ function evidenceLabel(version: VersionCell) {
   }
 
   .support-column__head a {
-    display: block;
+    display: flex;
+    align-items: center;
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
+  }
+
+  .support-column__head .provider-inline-token {
+    margin-right: 0.4rem;
   }
 
   .support-column__head a:hover {

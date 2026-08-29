@@ -53,7 +53,7 @@ function humanize(value: string): string {
 
 <BaseLayout
   title={`Agent harnesses we track | ${SITE.name}`}
-  description={`Browse ${harnessData.length} exact web, desktop, and CLI agent product surfaces with descriptions, official references, support detail, and dated evidence.`}
+  description={`Browse ${harnessData.length} exact web, desktop, and CLI agent product surfaces with product references, support detail, and dated evidence.`}
   canonicalPath="/harnesses"
   jsonLd={[websiteJsonLd()]}
 >
@@ -64,10 +64,9 @@ function humanize(value: string): string {
           <p class="eyebrow">Exact product surfaces</p>
           <h1>Agent harnesses<br /><em>we track.</em></h1>
           <p>
-            Browse {harnessData.length} independently researched web, desktop,
-            and CLI products. Every profile explains what the product is, links
-            to the provider when a current official reference is recorded, and
-            shows the evidence behind each capability status.
+            Browse {harnessData.length} researched web, desktop, and CLI
+            products. Every profile explains the exact surface, links to its
+            product site, and shows the evidence behind each capability status.
           </p>
           <nav class="harness-index-hero__actions" aria-label="Harness directory actions">
             <a class="harness-action harness-action--primary" href="#tracked-harnesses">
@@ -145,11 +144,7 @@ function humanize(value: string): string {
             <p class="eyebrow">Complete curated index</p>
             <h2 id="directory-title">Tracked harnesses</h2>
           </div>
-          <p>
-            Product names and reviewed reference marks identify catalog records
-            only. They do not imply affiliation, certification, sponsorship, or
-            endorsement.
-          </p>
+          <p>Filter by product, provider, exact surface, or current research state.</p>
         </div>
 
         <form class="harness-filters" data-harness-filters>

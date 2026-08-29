@@ -4,8 +4,7 @@ import {
   SITE,
   currentStatus,
   expandFeatureSupport,
-  providerMark,
-  providerReference,
+  referenceIdentity,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
 import ProviderMark from "../components/ProviderMark.astro";
@@ -52,7 +51,11 @@ const rows: ComparisonRow[] = features.map((entry) => {
 
 const compareData = {
   harnesses: harnesses.map((entry) => {
-    const mark = providerMark(entry.data.vendor, entry.data.slug);
+    const identity = referenceIdentity({
+      provider: entry.data.vendor,
+      product: entry.data.title,
+      productSlug: entry.data.slug,
+    });
     return {
       slug: entry.data.slug,
       title: entry.data.title,
@@ -63,9 +66,9 @@ const compareData = {
       targetKind: entry.data.targetKind,
       environment: entry.data.defaultEnvironmentProfile,
       homepage: entry.data.homepage,
-      providerMonogram: providerReference(entry.data.vendor).monogram,
-      providerTone: providerReference(entry.data.vendor).tone,
-      providerMarkPath: mark?.assetPath,
+      providerMonogram: identity.monogram,
+      providerTone: identity.tone,
+      providerMarkPath: identity.mark?.assetPath,
     };
   }),
   categories: categories.map((entry) => ({ slug: entry.data.slug, title: entry.data.title })),
@@ -152,7 +155,7 @@ const compareData = {
                   href={selected.homepage ?? "#"}
                   rel="noopener noreferrer"
                   hidden={!selected.homepage}
-                >Official site ↗</a>
+                >Product site ↗</a>
               </div>
             </article>
           ))}
@@ -187,7 +190,7 @@ const compareData = {
           <div data-comparison-rows></div>
           <div class="comparison-empty" data-comparison-empty hidden><strong>No capabilities match these filters.</strong><p>Try a broader lens, another group, or clear the search.</p></div>
         </div>
-        <p class="compare-disclaimer">Can My Agent Use is independent and is not affiliated with, endorsed by, or sponsored by the products referenced here. Names and small reference marks identify catalog columns only. <a href="/provider-marks">Review mark provenance.</a></p>
+        <p class="compare-disclaimer">Every result is scoped to the selected product surface and current evidence track. <a href="/methodology">Read the methodology.</a></p>
       </section>
 
       <script is:inline type="application/json" id="compare-data" set:html={JSON.stringify(compareData)} />

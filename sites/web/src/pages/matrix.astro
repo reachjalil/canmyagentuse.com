@@ -1,10 +1,13 @@
 ---
 import {
   SITE,
+  SUPPORT_STATUS_LABELS,
+  SUPPORT_STATUS_MARK,
   currentStatus,
   expandFeatureSupport,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
+import ProviderMark from "../components/ProviderMark.astro";
 import SiteChrome from "../components/SiteChrome.astro";
 import StatusMark from "../components/StatusMark.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -14,14 +17,39 @@ const [features, harnesses] = await Promise.all([
   publishedCollection("features"),
   publishedCollection("harnesses"),
 ]);
-const harnessData = harnesses.map((entry) => entry.data);
-const rows = features.map((entry) => ({
-  feature: entry.data,
-  cells: expandFeatureSupport(entry.data, harnessData).map((column) => ({
-    harness: column.harness.slug,
-    status: currentStatus(column.versions),
-  })),
-}));
+const orderedHarnesses = harnesses.toSorted(
+  (left, right) =>
+    left.data.order - right.data.order ||
+    left.data.title.localeCompare(right.data.title)
+);
+const harnessData = orderedHarnesses.map((entry) => entry.data);
+const rows = features
+  .map((entry) => {
+    const cells = expandFeatureSupport(entry.data, harnessData).map((column) => ({
+      harness: column.harness.slug,
+      status: currentStatus(column.versions),
+    }));
+    return {
+      feature: entry.data,
+      cells,
+      sourced: cells.filter((cell) => cell.status !== "unknown").length,
+      supported: cells.filter((cell) => cell.status === "yes").length,
+    };
+  })
+  .toSorted(
+    (left, right) =>
+      right.sourced - left.sourced ||
+      right.supported - left.supported ||
+      Number(right.feature.highlight) - Number(left.feature.highlight) ||
+      left.feature.title.localeCompare(right.feature.title)
+  );
+const legend = [
+  { status: "yes", description: "Confirmed for the current track" },
+  { status: "partial", description: "Works with documented limits" },
+  { status: "no", description: "Evidence says it is unsupported" },
+  { status: "unknown", description: "Not enough reviewed evidence" },
+  { status: "na", description: "Does not apply to this product" },
+] as const;
 ---
 
 <BaseLayout
@@ -43,18 +71,33 @@ const rows = features.map((entry) => ({
         <label>Filter capabilities<input type="search" name="q" placeholder="MCP, skills, terminal" /></label>
         <label>Surface<select name="surface"><option value="all">All surfaces</option><option value="web">Web</option><option value="desktop">Desktop</option><option value="cli">CLI</option></select></label>
         <label>Evidence scope<select name="coverage"><option value="all">All capabilities</option><option value="sourced">Sourced in view</option><option value="unknown">All unknown in view</option></select></label>
+        <label>Order<select name="sort"><option value="popular">Popularity and evidence</option><option value="alphabetical">Alphabetical A–Z</option></select></label>
         <output class="filter-count" data-matrix-count aria-live="polite">{rows.length} capabilities</output>
       </form>
-      <div class="table-scroll mt-4">
+      <aside class="matrix-legend" aria-labelledby="matrix-legend-title">
+        <div class="matrix-legend__intro">
+          <strong id="matrix-legend-title">How to read the cells</strong>
+          <span>Current track · open a capability for sources and conditions</span>
+        </div>
+        <ul>
+          {legend.map((item) => (
+            <li data-status={item.status}>
+              <b aria-hidden="true">{SUPPORT_STATUS_MARK[item.status]}</b>
+              <span><strong>{SUPPORT_STATUS_LABELS[item.status]}</strong><small>{item.description}</small></span>
+            </li>
+          ))}
+        </ul>
+      </aside>
+      <div class="table-scroll matrix-scroll">
         <table class="power-matrix" data-power-matrix>
-          <thead><tr><th>Capability</th>{harnesses.map((entry) => <th data-matrix-column data-surface={entry.data.surface}><a href={`/harnesses/${entry.data.slug}`}>{entry.data.title}<small>{entry.data.surface}</small></a></th>)}</tr></thead>
+          <thead><tr><th>Capability</th>{orderedHarnesses.map((entry, index) => <th data-matrix-column data-surface={entry.data.surface} data-sort-popularity={index} data-sort-alpha={entry.data.title.toLocaleLowerCase()}><a href={`/harnesses/${entry.data.slug}`}><ProviderMark provider={entry.data.vendor} productSlug={entry.data.slug} variant="inline" /><span class="matrix-product-name">{entry.data.title}</span><small>{entry.data.surface}</small></a></th>)}</tr></thead>
           <tbody>
-            {rows.map((row) => (
-              <tr data-title={`${row.feature.title} ${row.feature.aliases.join(" ")}`.toLowerCase()}>
+            {rows.map((row, index) => (
+              <tr data-matrix-row data-title={`${row.feature.title} ${row.feature.aliases.join(" ")}`.toLowerCase()} data-sort-popularity={index} data-sort-alpha={row.feature.title.toLocaleLowerCase()}>
                 <th scope="row"><a href={`/features/${row.feature.slug}`}>{row.feature.title}</a></th>
-                {harnesses.map((entry) => {
+                {orderedHarnesses.map((entry, columnIndex) => {
                   const status = row.cells.find((cell) => cell.harness === entry.data.slug)?.status ?? "unknown";
-                  return <td data-matrix-column data-surface={entry.data.surface} data-status={status}><StatusMark status={status} /></td>;
+                  return <td data-matrix-column data-surface={entry.data.surface} data-status={status} data-sort-popularity={columnIndex} data-sort-alpha={entry.data.title.toLocaleLowerCase()}><StatusMark status={status} /></td>;
                 })}
               </tr>
             ))}
@@ -77,6 +120,30 @@ const rows = features.map((entry) => ({
     const query = String(values.get("q") ?? "").trim().toLowerCase();
     const surface = String(values.get("surface") ?? "all");
     const coverage = String(values.get("coverage") ?? "all");
+    const sort = String(values.get("sort") ?? "popular");
+
+    const compareElements = (left: Element, right: Element) => {
+      if (sort === "alphabetical") {
+        return (left.getAttribute("data-sort-alpha") ?? "").localeCompare(
+          right.getAttribute("data-sort-alpha") ?? ""
+        );
+      }
+      return Number(left.getAttribute("data-sort-popularity")) - Number(right.getAttribute("data-sort-popularity"));
+    };
+    const matrix = document.querySelector("[data-power-matrix]");
+    const headRow = matrix?.querySelector("thead tr");
+    const body = matrix?.querySelector("tbody");
+    if (headRow && body) {
+      for (const heading of [...headRow.querySelectorAll(":scope > [data-matrix-column]")].sort(compareElements)) {
+        headRow.appendChild(heading);
+      }
+      for (const row of rows) {
+        for (const cell of [...row.querySelectorAll(":scope > [data-matrix-column]")].sort(compareElements)) {
+          row.appendChild(cell);
+        }
+      }
+      for (const row of [...rows].sort(compareElements)) body.appendChild(row);
+    }
 
     for (const column of columns) {
       column.toggleAttribute(
@@ -111,6 +178,7 @@ const rows = features.map((entry) => ({
       ["q", query],
       ["surface", surface === "all" ? "" : surface],
       ["coverage", coverage === "all" ? "" : coverage],
+      ["sort", sort === "popular" ? "" : sort],
     ]) {
       if (value) url.searchParams.set(name, value);
       else url.searchParams.delete(name);
@@ -120,7 +188,7 @@ const rows = features.map((entry) => ({
 
   if (controls instanceof HTMLFormElement) {
     const params = new URLSearchParams(window.location.search);
-    for (const name of ["q", "surface", "coverage"]) {
+    for (const name of ["q", "surface", "coverage", "sort"]) {
       const field = controls.elements.namedItem(name);
       const value = params.get(name);
       if (value && (field instanceof HTMLInputElement || field instanceof HTMLSelectElement)) {

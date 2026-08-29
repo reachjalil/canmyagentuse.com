@@ -41,6 +41,13 @@ const feature = featureSchema.parse({
   category: "interfaces",
   summary: "Call tools through the Model Context Protocol.",
   updated,
+  resources: [
+    {
+      title: "Public terminology reference",
+      href: "https://example.com/docs/feature",
+      kind: "docs",
+    },
+  ],
   support: [{ harness: "chatgpt-web", status: "unknown" }],
 });
 
@@ -132,6 +139,56 @@ const sourcedFeature = featureSchema.parse({
       ],
     },
   ],
+});
+
+describe("feature terminology provenance", () => {
+  it("rejects an atomic feature backed only by the catalog methodology", () => {
+    const result = featureSchema.safeParse({
+      ...feature,
+      resources: [
+        {
+          title: "Methodology",
+          href: "/methodology",
+          kind: "note",
+        },
+      ],
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues).toContainEqual(
+      expect.objectContaining({
+        path: ["resources"],
+        message: expect.stringContaining("public specification"),
+      })
+    );
+  });
+
+  it("rejects a generic label that hides the terminology basis", () => {
+    const result = featureSchema.safeParse({
+      ...feature,
+      specLabel: "Product capability",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues).toContainEqual(
+      expect.objectContaining({
+        path: ["specLabel"],
+        message: expect.stringContaining("explicit terminology basis"),
+      })
+    );
+  });
+
+  it("allows an unsourced family when it is explicitly a catalog grouping", () => {
+    const result = featureSchema.safeParse({
+      ...feature,
+      capabilityKind: "family",
+      specLabel: "Catalog grouping",
+      resources: [{ title: "Methodology", href: "/methodology", kind: "note" }],
+      support: [],
+    });
+
+    expect(result.success).toBe(true);
+  });
 });
 
 describe("paths", () => {
@@ -486,6 +543,24 @@ describe("evidence ledger", () => {
 });
 
 describe("search", () => {
+  it("tolerates serialized entries that omit schema-defaulted arrays", () => {
+    const serializedFeature = {
+      ...feature,
+      aliases: undefined,
+      related: undefined,
+      relations: undefined,
+      support: undefined,
+      tags: undefined,
+    } as unknown as typeof feature;
+
+    expect(
+      searchCatalog("MCP tools", {
+        features: [serializedFeature],
+        harnesses: [harness],
+      }).features.map((item) => item.slug)
+    ).toEqual(["mcp-tools"]);
+  });
+
   it("matches harness family names", () => {
     const result = searchCatalog("claude", {
       features: [feature],

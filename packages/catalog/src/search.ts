@@ -171,8 +171,8 @@ export function searchCatalog(
         )
       : [];
     const explicit = [
-      ...feature.related,
-      ...feature.relations.map((relation) => relation.feature),
+      ...(feature.related ?? []),
+      ...(feature.relations ?? []).map((relation) => relation.feature),
     ]
       .map((slug) => featuresBySlug.get(slug))
       .filter((candidate): candidate is FeatureData => Boolean(candidate));
@@ -181,7 +181,7 @@ export function searchCatalog(
       .flatMap((candidate) => [
         candidate.title,
         candidate.slug,
-        ...candidate.aliases,
+        ...(candidate.aliases ?? []),
       ]);
   };
   const featureScores = new Map(
@@ -192,13 +192,13 @@ export function searchCatalog(
         feature.slug,
         feature.summary,
         feature.description,
-        feature.aliases.join(" "),
-        feature.capabilityKind,
+        (feature.aliases ?? []).join(" "),
+        feature.capabilityKind ?? "atomic",
         feature.parent ?? "",
         ...relationTerms(feature),
         feature.specification?.id ?? "",
         feature.specification?.role ?? "",
-        feature.tags.join(" "),
+        (feature.tags ?? []).join(" "),
       ]),
     ])
   );
@@ -213,7 +213,7 @@ export function searchCatalog(
         harness.surface,
         harness.summary,
         harness.description,
-        harness.tags.join(" "),
+        (harness.tags ?? []).join(" "),
       ]),
     ])
   );
@@ -228,9 +228,9 @@ export function searchCatalog(
         specification.maturity,
         specification.summary,
         specification.description,
-        specification.aliases.join(" "),
-        specification.roles.join(" "),
-        specification.tags.join(" "),
+        (specification.aliases ?? []).join(" "),
+        (specification.roles ?? []).join(" "),
+        (specification.tags ?? []).join(" "),
       ]),
     ])
   );
@@ -257,7 +257,7 @@ export function searchCatalog(
         const harness = harnessBySlug.get(filters.harness);
         if (!harness) return false;
         const track = filters.track ?? "current";
-        const row = feature.support.find(
+        const row = (feature.support ?? []).find(
           (candidate) => candidate.harness === harness.slug
         );
         const version = row?.versions?.find(

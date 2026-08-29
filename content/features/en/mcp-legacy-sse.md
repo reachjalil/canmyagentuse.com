@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry explicitly lists legacy MCP SSE for Grok Bot. This is registry evidence, not an independent transport test."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Anthropic documents the `sse` transport for legacy remote Claude Code MCP servers while recommending HTTP for current servers."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -43,7 +45,32 @@ resources:
     evidenceType: listed
     reviewedAt: 2026-08-28
     locator: Grok Bot
+  - id: anthropic-claude-code-mcp
+    title: Anthropic — Connect Claude Code to tools via MCP
+    href: https://code.claude.com/docs/en/mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Add a remote SSE server
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: SSE is retained for legacy compatibility; Anthropic recommends the HTTP transport where the server supports it
+        evidence:
+          - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
   - harness: grok-bot-desktop
     versions:
       - track: current

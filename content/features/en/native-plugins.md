@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: Install and load a product-specific extension package.
-specLabel: Product-native capability
+specLabel: Common product term
 aliases: [native extensions, proprietary plugins]
 parent: plugins
 related: [agent-plugin-core]

@@ -1,42 +1,46 @@
-import { PROVIDER_MARKS, SITE } from "@canmyagentuse/catalog";
+import {
+  PROVIDER_MARKS,
+  SITE,
+  providerMarkSource,
+} from "@canmyagentuse/catalog";
 import type { APIRoute } from "astro";
 
 const handler: APIRoute = ({ request }) => {
   const rows = [...PROVIDER_MARKS]
     .toSorted((left, right) => left.label.localeCompare(right.label))
-    .map(
-      (mark) =>
-        `| ${mark.label} | [${mark.sourcePackage}@${mark.sourceVersion}](${mark.sourceUrl}) | [${mark.license}](${mark.licenseUrl}) | ${mark.brandGuidelinesUrl ? `[Brand guidance](${mark.brandGuidelinesUrl})` : "Not located in the manifest"} | ${mark.reviewedAt} |`
-    )
+    .map((mark) => {
+      const source = providerMarkSource(mark.source);
+      const guide = mark.brandGuidelinesUrl
+        ? `[Brand guide](${mark.brandGuidelinesUrl})`
+        : "—";
+      return `| ${mark.label} | [${source.label}](${source.repositoryUrl}) | ${guide} | ${mark.reviewedAt} |`;
+    })
     .join("\n");
   const body = `---
-title: "Provider mark provenance"
+title: "Brand references"
 canonical: "${SITE.url}/provider-marks"
 contentKind: "page"
 locale: "en"
-description: "Source, license, review date, and usage boundary for every third-party reference mark displayed by Can My Agent Use."
-llmSummary: "Auditable manifest for secondary provider and product marks used only to identify catalog records. Source licenses and trademark rights remain separate."
+description: "Brand marks used to identify providers and products throughout the Can My Agent Use catalog."
+llmSummary: "Index of provider and product marks used for clear, consistent catalog references."
 updatedAt: "2026-08-28T00:00:00.000Z"
 verifiedAt: "2026-08-28"
-tags: ["identity", "provenance", "provider-marks"]
+tags: ["identity", "providers", "products"]
 ---
 
-# Provider mark provenance
+# Brand references
 
-These local marks identify exact named catalog records. They are not badges,
-partner marks, endorsements, certifications, or compatibility evidence.
+Compact marks make product columns easier to scan across search, comparisons,
+matrices, and research profiles. Names remain visible beside every mark, and
+unmapped brands use a text fallback.
 
-The manifest records each asset's pinned source, source license, and review date.
-An open-source asset license does not grant trademark rights, and this record is
-not a blanket legal conclusion about fair use. Unknown or unreviewed brands use
-the original Can My Agent Use monogram fallback.
-
-| Reference | Pinned source | Asset license | Brand guidance | Reviewed |
-| --- | --- | --- | --- | --- |
+| Brand | Source collection | Brand guide | Reviewed |
+| --- | --- | --- | --- |
 ${rows}
 
-Can My Agent Use is independent and is not affiliated with, endorsed by, or
-sponsored by the providers and products referenced in the catalog.
+Can My Agent Use is an independent publication. Brand names and marks belong
+to their respective owners and are used to identify products covered by the
+catalog. [Report an outdated mark or incorrect mapping](/report.md).
 `;
 
   return new Response(request.method === "HEAD" ? null : body, {

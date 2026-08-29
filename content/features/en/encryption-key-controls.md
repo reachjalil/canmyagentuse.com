@@ -1,12 +1,12 @@
 ---
-title: Encryption and key controls
-description: Document encryption in transit and at rest plus customer-managed keys, key scope, rotation, and revocation.
+title: Encryption key management
+description: Document provider-managed or customer-managed encryption keys and their scope.
 slug: encryption-key-controls
 locale: en
-seoTitle: Encryption and key controls compatibility — Can My Agent Use
-socialTitle: Encryption and key controls
-socialDescription: Compare transport, at-rest encryption, customer-managed keys, rotation, revocation, and feature exclusions.
-llmSummary: Encryption-key controls distinguish baseline provider-managed encryption from customer-managed keys and record which content, indexes, logs, and backups each key actually covers.
+seoTitle: Encryption key management compatibility — Can My Agent Use
+socialTitle: Encryption key management
+socialDescription: Compare documented provider-managed and customer-managed encryption key options.
+llmSummary: Encryption key management covers documented provider-managed or customer-managed keys; coverage, rotation, and revocation are recorded as qualifiers.
 audience: Security and compliance teams evaluating cryptographic control.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [security, encryption, keys, enterprise]
 updated: 2026-08-28
 published: 2026-08-28
 category: security-privacy
-summary: Record transport and at-rest encryption plus customer key scope, rotation, and revocation.
-specLabel: Product capability
+summary: Record documented encryption key ownership, scope, rotation, and revocation.
+specLabel: Common product term
 aliases: [customer-managed keys, CMK, BYOK, encryption at rest]
 parent: data-security-controls
 related: [secrets-management, data-residency]
@@ -23,6 +23,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Enterprise Key Management overview
+    href: https://help.openai.com/en/articles/20000943
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

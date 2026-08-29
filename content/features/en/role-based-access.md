@@ -1,12 +1,12 @@
 ---
-title: Role-based collaboration access
-description: Assign and enforce viewer, contributor, operator, approver, owner, and administrator rights for agent work.
+title: Role-based access control (RBAC)
+description: Assign permissions to users through documented roles.
 slug: role-based-access
 locale: en
-seoTitle: Role-based collaboration access — Can My Agent Use
-socialTitle: Role-based collaboration access
-socialDescription: Compare granular roles for viewing, editing, running, approving, sharing, exporting, and administering agent work.
-llmSummary: Role-based access separates view, edit, run, tool, approval, sharing, export, billing, and administrative authority and attributes actions to the responsible actor.
+seoTitle: Role-based access control compatibility — Can My Agent Use
+socialTitle: Role-based access control
+socialDescription: Compare documented product roles and the permissions assigned to them.
+llmSummary: Role-based access control assigns permissions to users through roles; possession of a shared link alone is not RBAC.
 audience: Teams requiring least-privilege collaboration.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [collaboration, permissions, RBAC, teams]
 updated: 2026-08-28
 published: 2026-08-28
 category: collaboration
-summary: Enforce granular view, edit, run, approve, share, export, billing, and administrative rights.
-specLabel: Product capability
+summary: Assign and enforce permissions through documented roles.
+specLabel: Common product term
 aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
@@ -23,6 +23,16 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: NIST — Role Based Access Control
+    href: https://csrc.nist.gov/projects/role-based-access-control
+    kind: spec
+    publisher: NIST
+    reviewedAt: 2026-08-28
+  - title: OpenAI — Role-based access controls for ChatGPT Enterprise
+    href: https://help.openai.com/en/articles/11750701-rbac
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

@@ -1,8 +1,7 @@
 ---
 import {
-  providerMark,
   providerMarkIsDisplayable,
-  providerReference,
+  referenceIdentity,
   type ProviderMarkAuthorization,
 } from "@canmyagentuse/catalog";
 
@@ -21,8 +20,8 @@ const {
   variant = "reference",
   dataProductToken,
 } = Astro.props;
-const reference = providerReference(provider);
-const resolvedMark = mark ?? providerMark(provider, productSlug);
+const reference = referenceIdentity({ provider, productSlug });
+const resolvedMark = mark ?? reference.mark;
 const showMark = providerMarkIsDisplayable(resolvedMark);
 const className =
   variant === "inline"

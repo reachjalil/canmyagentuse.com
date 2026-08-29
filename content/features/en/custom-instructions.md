@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: Persist project or user instruction files.
-specLabel: Product capability
+specLabel: Common product term
 parent: instructions
 highlight: false
 notes:

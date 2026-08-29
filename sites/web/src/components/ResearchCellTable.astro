@@ -6,6 +6,7 @@ import {
   researchSurfacePath,
   researchVendorPath,
 } from "../lib/research";
+import ProviderMark from "./ProviderMark.astro";
 import ResearchStatus from "./ResearchStatus.astro";
 
 interface Props {
@@ -65,6 +66,7 @@ const { cells, focus } = Astro.props;
               <td><ResearchStatus status={cell.primary_status} /></td>
               {focus === "feature" ? (
                 <td>
+                  <ProviderMark provider={cell.vendor_name} variant="inline" />
                   <a href={researchVendorPath(cell.vendor_id)}>{cell.vendor_name}</a>
                   <small>{cell.surface_type} · tier {cell.coverage_tier}</small>
                 </td>

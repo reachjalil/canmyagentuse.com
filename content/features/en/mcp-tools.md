@@ -50,6 +50,8 @@ notes:
     text: "Evidence checked 2026-08-28: OpenWork Desktop documents workspace or global custom MCP servers, including an OAuth setup path, for use in agent sessions."
   - id: 10
     text: "Evidence checked 2026-08-28: xAI documents that Grok Bot connects to tools through plugins and MCP servers, while hosted MCP tool calls are run on the Bot computer's behalf; team MCP policy can disable servers or member-added configurations."
+  - id: 11
+    text: "Evidence checked 2026-08-28: xAI documents that Grok Web discovers tools exposed by a custom remote MCP connector and makes them available in conversations."
 issues: []
 resources:
   - id: openai-chatgpt-mcp
@@ -123,7 +125,34 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Plugins and MCP policy
+  - id: xai-grok-web-mcp
+    title: xAI — Grok connectors
+    href: https://docs.x.ai/grok/connectors
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Custom MCP connectors
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [11]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Web connector documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: custom MCP servers must be remotely reachable; local-only servers require a separate tunnel
+          - type: auth
+            value: server authentication and provider permissions can be required
+        evidence:
+          - resourceId: xai-grok-web-mcp
+            type: documented
+            observedAt: 2026-08-28
   - harness: chatgpt-web
     versions:
       - track: current

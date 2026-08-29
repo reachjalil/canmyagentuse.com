@@ -22,6 +22,6 @@ export const GET: APIRoute = async () => {
     siteUrl: SITE.url,
   });
   return textResponse(
-    `${catalog}\n## Evidence Atlas\n\n- [Full exact-surface research snapshot](${SITE.url}/atlas.md): ${researchAtlas.report.vendors} vendors, ${researchAtlas.report.surfaces} surfaces, ${researchAtlas.report.features} atomic features, and ${researchAtlas.report.compatibilityCells} cells as of ${researchAtlas.seed.research_cutoff}.\n- [Atlas source ledger](${SITE.url}/atlas/sources.md): ${researchAtlas.report.sources} public source records. Documentation and registry evidence are not runtime certification.\n\n## Identity provenance\n\n- [Provider mark provenance](${SITE.url}/provider-marks.md): pinned sources, asset licenses, review dates, and the non-affiliation boundary for secondary provider and product marks.\n`
+    `${catalog}\n## Evidence Atlas\n\n- [Full exact-surface research snapshot](${SITE.url}/atlas.md): ${researchAtlas.report.vendors} vendors, ${researchAtlas.report.surfaces} surfaces, ${researchAtlas.report.features} atomic features, and ${researchAtlas.report.compatibilityCells} cells as of ${researchAtlas.seed.research_cutoff}.\n- [Atlas source ledger](${SITE.url}/atlas/sources.md): ${researchAtlas.report.sources} public source records with explicit evidence classes and review dates.\n\n## Brand references\n\n- [Brand reference index](${SITE.url}/provider-marks.md): provider and product marks, source collections, and review dates.\n`
   );
 };

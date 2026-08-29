@@ -1,20 +1,20 @@
 ---
-title: Cost and operations
-description: Pricing, quotas, usage meters, timeouts, recovery, notifications, and day-two reliability.
+title: Usage and limits
+description: Usage metering, rate limits, quotas, and resumable runs.
 slug: operations
 locale: en
-seoTitle: "Cost and operations | Can My Agent Use"
-socialTitle: Cost and operations
-socialDescription: Compare price visibility, quotas, run limits, recovery, and operational controls.
-llmSummary: "Category Cost and operations: plan and price disclosure, usage metering, quotas, rate limits, run timeouts, resumability, failure recovery, and notifications."
-audience: Engineers and teams estimating the cost and reliability of agent harnesses.
+seoTitle: "Usage and limits | Can My Agent Use"
+socialTitle: Usage and limits
+socialDescription: Compare usage metering, rate limits, quotas, and resumable runs.
+llmSummary: "Category Usage and limits: usage metering, rate limits, quotas, and resumable runs."
+audience: Engineers and teams evaluating operating limits of agent products.
 contentKind: category
 status: published
-tags: [category, pricing, limits, reliability, operations]
+tags: [category, usage, limits, operations]
 updated: 2026-08-28
 published: 2026-08-28
-summary: Pricing, quotas, usage meters, timeouts, recovery, notifications, and day-two reliability.
+summary: Usage metering, rate limits, quotas, and resumable runs.
 order: 7
 ---
 
-This category tracks the operational envelope around a capability. Feature support alone does not reveal whether a task will fit a plan, hit a rate limit, time out, recover from a disconnect, or produce enough usage detail to estimate cost.
+This category groups common operating-limit questions. Feature support alone does not reveal whether a workload will fit a quota, hit a rate limit, resume after interruption, or expose enough usage data to estimate cost.

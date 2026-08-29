@@ -15,14 +15,19 @@ updated: 2026-08-28
 published: 2026-08-28
 category: operations
 summary: Reconnect or continue after closure, disconnection, restart, pause, or worker migration.
-specLabel: Product capability
+specLabel: Common product term
 aliases: [resume agent, reconnect run, run checkpoint, session recovery]
 parent: usage-and-reliability
-related: [background-agents, failure-recovery, conversation-export]
+related: [background-agents, conversation-export]
 resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Anthropic — Claude Code CLI reference
+    href: https://docs.anthropic.com/en/docs/claude-code/cli-usage
+    kind: docs
+    publisher: Anthropic
+    reviewedAt: 2026-08-28
 support: []
 ---
 

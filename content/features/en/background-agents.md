@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Keep a run going after the operator leaves the session.
-specLabel: Product capability
+specLabel: Common product term
 highlight: true
 notes:
   - id: 1

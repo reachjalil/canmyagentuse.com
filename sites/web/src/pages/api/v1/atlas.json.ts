@@ -12,6 +12,7 @@ import {
   researchVendorMarkdownPath,
   researchVendorPath,
 } from "../../../lib/research";
+import { brandReferencePayload } from "../../../lib/brand";
 import { jsonResponse } from "../../../lib/security";
 
 export const GET: APIRoute = async () => {
@@ -32,6 +33,7 @@ export const GET: APIRoute = async () => {
     },
     vendors: seed.vendors.map((vendor) => ({
       ...vendor,
+      brand: brandReferencePayload({ provider: vendor.vendor_name }),
       summary: researchAtlas.summariesByVendor.get(vendor.vendor_id),
       html: researchVendorPath(vendor.vendor_id),
       markdown: researchVendorMarkdownPath(vendor.vendor_id),

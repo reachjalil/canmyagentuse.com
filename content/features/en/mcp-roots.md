@@ -27,13 +27,40 @@ aliases: ["roots/list"]
 parent: mcp
 related: []
 highlight: false
-notes: []
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: Claude Code documents the MCP `roots/list` request returning the directory from which Claude Code was launched."
 issues: []
 resources:
   - title: Model Context Protocol specification
     href: https://modelcontextprotocol.io/specification/2026-07-28
     kind: spec
-support: []
+  - id: anthropic-claude-code-mcp
+    title: Anthropic — Connect Claude Code to tools via MCP
+    href: https://code.claude.com/docs/en/mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: MCP installation scopes and roots/list
+support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the documented root is the directory Claude Code was launched from
+        evidence:
+          - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Provide filesystem or workspace roots to an MCP server.

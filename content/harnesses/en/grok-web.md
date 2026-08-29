@@ -1,12 +1,12 @@
 ---
 title: Grok
-description: "Grok listed as a web catalog column. Independent nominative reference; not affiliated with xAI."
+description: "Grok compatibility profile for the exact web product surface."
 slug: grok-web
 locale: en
 seoTitle: "Grok (Web) — Can My Agent Use"
 socialTitle: "Grok (Web)"
-socialDescription: Independent catalog column for Grok on web. Not affiliated with xAI.
-llmSummary: "Grok is listed as a web harness column. Selected cells are sourced; every unreviewed cell remains unknown. The name identifies the product and does not imply affiliation."
+socialDescription: Evidence-backed capability profile for Grok on web.
+llmSummary: "Grok Web is the consumer browser chat at grok.com. Its reviewed file, document, image, audio, video, connector, and MCP cells are scoped to that web surface and do not apply to the separate Grok Bot desktop-plus-cloud agent product."
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: harness
 status: published
@@ -18,7 +18,7 @@ published: 2026-08-28
 family: Grok
 vendor: xAI
 surface: web
-summary: Grok in the browser.
+summary: Grok's consumer chat surface in the browser, distinct from Grok Bot.
 tracks:
   - current
   - preview
@@ -26,8 +26,6 @@ order: 50
 homepage: https://grok.com
 ---
 
-Grok appears here as a **Web** column so a capability page can show this harness next to others.
-
-The product name is a plain-text nominative reference. Can My Agent Use is independent of xAI and does not claim certification, partnership, or official status.
+Grok appears here as a **Web** column so a capability page can show this harness next to others. This record covers the consumer browser chat at `grok.com`; it is separate from **Grok Bot**, whose desktop client controls persistent agents running on a hosted computer.
 
 Support cells for this surface are published only when a dated note cites reviewable public evidence; every other cell remains **unknown**.

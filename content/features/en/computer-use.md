@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Inspect and act on a visual interface through screenshots and input actions.
-specLabel: Product capability
+specLabel: Common product term
 aliases: [GUI automation, visual browser, browser control]
 related: [browser-automation, screenshots]
 highlight: true

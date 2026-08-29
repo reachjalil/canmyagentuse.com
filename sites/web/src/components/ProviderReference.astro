@@ -1,6 +1,6 @@
 ---
 import {
-  providerReference,
+  referenceIdentity,
   type ProviderMarkAuthorization,
 } from "@canmyagentuse/catalog";
 import ProviderMark from "./ProviderMark.astro";
@@ -28,7 +28,9 @@ const {
   compact = false,
   mark,
 } = Astro.props;
-const reference = providerReference(provider);
+const reference = referenceIdentity({ provider, product, productSlug });
+const primaryName = product ?? provider;
+const referenceKind = product ? "Product" : "Provider";
 ---
 
 <div
@@ -37,9 +39,9 @@ const reference = providerReference(provider);
 >
   <ProviderMark provider={provider} productSlug={productSlug} mark={mark} />
   <div class="provider-reference__body">
-    <span class="provider-reference__label">Independent reference</span>
-    <strong>{provider}</strong>
-    {product ? <span class="provider-reference__product">{product}</span> : null}
+    <span class="provider-reference__label">{referenceKind}</span>
+    <strong>{primaryName}</strong>
+    {product && product !== provider ? <span class="provider-reference__product">{provider}</span> : null}
     {
       surface || evidenceLabel ? (
         <span class="provider-reference__meta">
@@ -53,10 +55,10 @@ const reference = providerReference(provider);
       <nav class="provider-reference__links" aria-label={`${provider} references`}>
         {homepage ? (
           <a href={homepage} rel="noopener noreferrer">
-            Official site <span aria-hidden="true">↗</span>
+            {product ? "Product site" : "Provider site"} <span aria-hidden="true">↗</span>
           </a>
         ) : null}
-        {catalogPath ? <a href={catalogPath}>Catalog record <span aria-hidden="true">→</span></a> : null}
+        {catalogPath ? <a href={catalogPath}>Research profile <span aria-hidden="true">→</span></a> : null}
       </nav>
     ) : null
   }

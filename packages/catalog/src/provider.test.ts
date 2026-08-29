@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   PROVIDER_MARKS,
+  PROVIDER_MARK_SOURCES,
   providerMark,
   providerMarkIsDisplayable,
+  providerMarkSource,
+  providerMarkSourceUrl,
   providerReference,
+  referenceIdentity,
   type ProviderMarkAuthorization,
 } from "./provider";
 
@@ -30,24 +34,14 @@ describe("providerReference", () => {
 });
 
 describe("providerMarkIsDisplayable", () => {
-  it("requires a local asset and complete HTTPS provenance", () => {
+  it("requires a local asset and a reviewed source record", () => {
     const mark: ProviderMarkAuthorization = {
       id: "example",
       label: "Example",
       assetPath: "/provider-marks/example.svg",
       source: "lobe-icons",
-      sourcePackage: "example-icons",
-      sourceVersion: "1.0.0",
-      sourceRevision: "0123456789abcdef0123456789abcdef01234567",
       sourceAsset: "example",
-      sourceUrl: "https://example.com/example.svg",
-      repositoryUrl: "https://example.com/repository",
-      license: "MIT",
-      licenseUrl: "https://example.com/license",
       reviewedAt: "2026-08-28",
-      usage: "nominative-reference",
-      rightsNotice:
-        "Used only to identify the named record; all trademark rights remain with the owner and no endorsement is implied.",
     };
     expect(providerMarkIsDisplayable(mark)).toBe(true);
     expect(
@@ -56,6 +50,15 @@ describe("providerMarkIsDisplayable", () => {
         assetPath: "https://cdn.example.com/example.svg" as never,
       })
     ).toBe(false);
+  });
+
+  it("stores shared source metadata once and builds exact asset URLs", () => {
+    expect(PROVIDER_MARK_SOURCES).toHaveLength(2);
+    expect(providerMarkSource("lobe-icons").label).toBe("Lobe Icons");
+    const mark = PROVIDER_MARKS.at(0);
+    expect(mark).toBeDefined();
+    if (!mark) throw new Error("Expected at least one provider mark.");
+    expect(providerMarkSourceUrl(mark)).toMatch(/^https:\/\//);
   });
 
   it("keeps every reviewed manifest record displayable and uniquely addressed", () => {
@@ -76,17 +79,47 @@ describe("providerMark", () => {
       "microsoft"
     );
     expect(providerMark("Zed Industries")?.id).toBe("zed");
+    expect(providerMark("pi")?.id).toBe("pi");
   });
 
   it("prefers an exact product mapping over a provider mark", () => {
     expect(providerMark("OpenAI", "codex-cli")?.id).toBe("codex");
     expect(providerMark("Google", "gemini-cli")?.id).toBe("gemini-cli");
     expect(providerMark("Anysphere", "cursor")?.id).toBe("cursor");
+    expect(providerMark("xAI", "grok-bot-desktop")?.id).toBe("grok");
+    expect(providerMark("OpenAI", "chatgpt-desktop")?.id).toBe("openai");
+    expect(providerMark("Anthropic", "claude-cli")?.id).toBe("claude-code");
+    expect(providerMark("Anthropic", "claude-web")?.id).toBe("claude");
+    expect(providerMark("Google", "chrome-webmcp-preview")?.id).toBe("chrome");
   });
 
   it("does not guess at unreviewed or fuzzy names", () => {
     expect(providerMark("Open AI")).toBeUndefined();
     expect(providerMark("Example Research Systems")).toBeUndefined();
     expect(providerMark("OpenAI", "not-a-real-surface")?.id).toBe("openai");
+  });
+});
+
+describe("referenceIdentity", () => {
+  it("resolves mark, fallback, and product context through one API", () => {
+    expect(
+      referenceIdentity({
+        provider: "OpenAI",
+        product: "Codex CLI",
+        productSlug: "codex-cli",
+      })
+    ).toMatchObject({
+      name: "OpenAI",
+      product: "Codex CLI",
+      productSlug: "codex-cli",
+      monogram: "OA",
+      mark: { id: "codex" },
+    });
+    expect(
+      referenceIdentity({
+        provider: "OpenWork",
+        productSlug: "openwork-desktop",
+      })
+    ).toMatchObject({ name: "OpenWork", monogram: "OW" });
   });
 });

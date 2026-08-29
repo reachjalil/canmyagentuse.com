@@ -1,12 +1,12 @@
 ---
-title: Conversation and run export
-description: Export prompts, responses, tool calls, approvals, sources, timing, model identity, and status in a documented portable format.
+title: Conversation export
+description: Export conversation history through a documented product feature.
 slug: conversation-export
 locale: en
-seoTitle: Conversation and run export compatibility — Can My Agent Use
-socialTitle: Conversation and run export
-socialDescription: Compare export fidelity, formats, provenance, bulk APIs, and re-import paths.
-llmSummary: Conversation export covers the run record and provenance, not only visible message text; useful exports include tools, approvals, citations, timing, models, status, and stable artifact references.
+seoTitle: Conversation export compatibility — Can My Agent Use
+socialTitle: Conversation export
+socialDescription: Compare documented conversation export formats and scope.
+llmSummary: Conversation export means a product provides a documented way to export chat or conversation history; exported fields and formats are recorded as qualifiers.
 audience: Teams preserving, auditing, migrating, or analyzing agent work.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [collaboration, portability, export, provenance]
 updated: 2026-08-28
 published: 2026-08-28
 category: collaboration
-summary: Export a documented, portable run record with messages, actions, provenance, and status.
-specLabel: Product capability
+summary: Export conversation history in a documented format.
+specLabel: Common product term
 aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
@@ -23,9 +23,24 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Exporting ChatGPT history and data
+    href: https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpthistory-and-data
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
+  - title: Anthropic — Export Claude data
+    href: https://support.anthropic.com/en/articles/9450526-how-can-i-export-my-claude-data
+    kind: docs
+    publisher: Anthropic
+    reviewedAt: 2026-08-28
+  - title: OpenAI — Exporting ChatGPT history and data
+    href: https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 
-This row asks whether an operator can take a useful run record out of the harness. Copying rendered chat text is narrower than an export containing roles, timestamps, selected and routed models, instructions, tool calls and results, approvals, citations, attachments, sub-agent relationships, errors, usage, and completion status.
+This row asks whether the product documents a conversation-export feature. A manual copy-and-paste action does not count as product-supported export.
 
-Evidence should record formats, schema and versioning, single and bulk export, administrator APIs, asynchronous availability, file and artifact references, redaction, signatures or checksums, retention window, and whether the data can be re-imported or replayed elsewhere.
+Evidence should record the export format, included fields, single or bulk scope, availability delay, attachment handling, and whether the export can be imported elsewhere. Those details qualify support; they are not additional requirements hidden inside the term.

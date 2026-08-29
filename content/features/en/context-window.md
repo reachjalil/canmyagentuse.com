@@ -15,16 +15,101 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Record the advertised and effective maximum input budget by model and harness mode.
-specLabel: Measured product capability
+specLabel: Measured product property
 aliases: [context length, token limit, input token limit, context size, long context]
 parent: models-and-context
 related: [output-token-limit, context-usage-visibility, automatic-context-compaction, upload-limits]
 highlight: true
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: Google publishes Gemini Apps context windows of 32k tokens without an AI plan, 128k with AI Plus, and 1 million with AI Pro or AI Ultra."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Anthropic documents 1 million-token Claude Code variants and plan/model eligibility; this is not a claim that every Claude Code session receives 1M context."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Cursor documents a normal 200k-token context window and Max Mode up to the maximum supported by the selected model, including models with windows up to 1M."
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-support: []
+  - id: google-gemini-limits
+    title: Google — Gemini Apps limits and context windows
+    href: https://support.google.com/gemini/answer/16275805?hl=en
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: anthropic-code-model-config
+    title: Anthropic — Claude Code model configuration
+    href: https://code.claude.com/docs/en/model-config
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: cursor-models-context
+    title: Cursor — Models and context windows
+    href: https://docs.cursor.com/advanced/models
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Gemini Apps limits documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: 32k tokens without an AI plan; 128k with AI Plus; 1 million with AI Pro or AI Ultra
+          - type: runtime
+            value: the published window is shared by prompt, chat, and uploaded content and is not a guarantee of uniform attention quality
+        evidence:
+          - resourceId: google-gemini-limits
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: Opus with 1M context is included on Max, Team, and Enterprise; Pro requires usage credits, and Sonnet 1M requires credits on subscription plans
+          - type: runtime
+            value: the [1m] model suffix selects an eligible 1M variant; effective input remains lower after system, tools, history, and output reservations
+        evidence:
+          - resourceId: anthropic-code-model-config
+            type: documented
+            observedAt: 2026-08-28
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Cursor models documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: normal mode uses 200k tokens; Max Mode extends to the selected model's maximum, with some supported models reaching 1M
+          - type: plan
+            value: Max Mode availability and billing depend on plan and model
+        evidence:
+          - resourceId: cursor-models-context
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 “Context length” is not one provider-wide number. The catalog records the exact harness, selected model or mode, advertised total context window, maximum accepted input when separately documented, reserved output budget, and observation date. Tool definitions, hidden instructions, memory, file extraction, images, video frames, and previous turns may all consume the same budget.

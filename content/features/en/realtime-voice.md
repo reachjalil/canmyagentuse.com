@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: perception
 summary: Speak and listen over a live audio session.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Realtime API reference
+    href: https://platform.openai.com/docs/api-reference/realtime
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

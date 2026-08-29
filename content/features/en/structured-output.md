@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: Return JSON or schema-validated objects.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Structured model outputs
+    href: https://developers.openai.com/api/docs/guides/structured-outputs
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

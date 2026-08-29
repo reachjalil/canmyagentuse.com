@@ -9,6 +9,7 @@ import {
   redirectCanonicalHost,
 } from "./lib/security";
 import { handleRepresentations } from "./lib/representations";
+import { isRuntimeCatalogDocument } from "./lib/request-routing";
 
 export interface CatalogWorkerEnv {
   ASSETS: Fetcher;
@@ -35,12 +36,7 @@ export default {
       const isDocumentAsset = Boolean(
         markdownPathForPagePath(pathname) || pagePathForMarkdownPath(pathname)
       );
-      const isRuntimeMarkdown = new Set([
-        "/compare.md",
-        "/matrix.md",
-        "/search.md",
-      ]).has(pathname);
-      if (isDocumentAsset && !isRuntimeMarkdown) {
+      if (isDocumentAsset && !isRuntimeCatalogDocument(pathname)) {
         return env.ASSETS.fetch(upstreamRequest);
       }
       return handle(upstreamRequest, env, ctx);

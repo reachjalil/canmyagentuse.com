@@ -16,6 +16,7 @@ import {
 import { render } from "astro:content";
 import NotesPanel from "../../components/NotesPanel.astro";
 import AssertionLedger from "../../components/AssertionLedger.astro";
+import ProviderMark from "../../components/ProviderMark.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import VersionMatrix from "../../components/VersionMatrix.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -50,6 +51,12 @@ const graph = capabilityNode(feature.data.slug, features.map((entry) => entry.da
 const familyProgress = feature.data.capabilityKind === "family"
   ? buildCapabilityProgress(feature.data.slug, features.map((entry) => entry.data), harnessData)
   : [];
+const terminologyReference = feature.data.specification
+  ? {
+      title: feature.data.specLabel,
+      href: feature.data.specification.canonicalUrl,
+    }
+  : feature.data.resources.find((resource) => resource.href.startsWith("https://"));
 ---
 
 <BaseLayout
@@ -78,7 +85,11 @@ const familyProgress = feature.data.capabilityKind === "family"
       <div class="feature-head">
         <div class="feature-head__copy">
           <p class="font-mono text-xs text-[color:var(--color-muted)]">
-            {feature.data.capabilityKind === "family" ? "Capability family" : "Atomic capability"} · {feature.data.category}
+            {feature.data.capabilityKind === "family"
+              ? "Catalog grouping"
+              : feature.data.specification
+                ? "Specification feature"
+                : "Product feature"} · {feature.data.category}
           </p>
           <h1 class="mt-2 text-4xl font-semibold tracking-tight">
             {feature.data.title}
@@ -94,6 +105,19 @@ const familyProgress = feature.data.capabilityKind === "family"
           </h1>
           <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
             {feature.data.summary}
+          </p>
+          <p class="term-basis">
+            <strong>Terminology basis:</strong>{" "}
+            {feature.data.capabilityKind === "family" ? (
+              <>Catalog grouping. This organizes related questions and is not itself a compatibility claim.</>
+            ) : terminologyReference ? (
+              <>
+                {feature.data.specLabel}.{" "}
+                <a href={terminologyReference.href}>{terminologyReference.title}</a>
+              </>
+            ) : (
+              <>{feature.data.specLabel}</>
+            )}
           </p>
           {feature.data.capabilityKind === "atomic" ? <p class="feature-verdict">{supportSnippet}</p> : null}
           <p class="feature-formats">
@@ -117,16 +141,38 @@ const familyProgress = feature.data.capabilityKind === "family"
           <p>Family support is derived per product. No umbrella yes/no value is authored.</p>
         </aside>}
       </div>
-      {graph?.parent ? (
-        <nav class="family-context" aria-label="Capability family">
-          <strong><a href={`/features/${graph.parent.slug}`}>{graph.parent.title}</a></strong>
-          <span> / {feature.data.title}</span>
-          {graph.siblings.length ? <p>Sibling capabilities: {graph.siblings.map((sibling, index) => <>{index ? " · " : ""}<a href={`/features/${sibling.slug}`}>{sibling.title}</a></>)}</p> : null}
+      <div class="feature-navigation">
+        <nav class="feature-breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/features">Capabilities</a></li>
+            {graph?.parent ? <li><a href={`/features/${graph.parent.slug}`}>{graph.parent.title}</a></li> : null}
+            <li aria-current="page">{feature.data.title}</li>
+          </ol>
         </nav>
-      ) : null}
+        {graph?.parent && graph.siblings.length ? (
+          <details class="family-context">
+            <summary>
+              <span>
+                <small>Explore this family</small>
+                <strong>More in {graph.parent.title}</strong>
+              </span>
+              <span class="family-context__count">
+                {graph.siblings.length} {graph.siblings.length === 1 ? "capability" : "capabilities"}
+              </span>
+            </summary>
+            <nav aria-label={`Other capabilities in ${graph.parent.title}`}>
+              <ul>
+                {graph.siblings.map((sibling) => (
+                  <li><a href={`/features/${sibling.slug}`}>{sibling.title}</a></li>
+                ))}
+              </ul>
+            </nav>
+          </details>
+        ) : null}
+      </div>
       {feature.data.capabilityKind === "atomic" ? <VersionMatrix feature={feature.data} harnesses={harnessData} /> : (
         <section class="feature-explainer" aria-labelledby="family-progress-title">
-          <p class="eyebrow">Independent support cells</p>
+          <p class="eyebrow">Product support cells</p>
           <h2 id="family-progress-title">Family progress by product</h2>
           <p>Counts combine {graph?.children.length ?? 0} atomic capabilities. “Reviewed” measures evidence coverage; supported includes yes and partial.</p>
           <div class="table-scroll"><table class="data-table">
@@ -134,7 +180,7 @@ const familyProgress = feature.data.capabilityKind === "family"
             <tbody>{familyProgress.map((progress) => {
               const harness = harnessData.find((candidate) => candidate.slug === progress.harness);
               return <tr>
-                <th><a href={`/harnesses/${progress.harness}`}>{harness?.title ?? progress.harness}</a><small>{harness?.surface}</small></th>
+                <th>{harness ? <ProviderMark provider={harness.vendor} productSlug={harness.slug} variant="inline" /> : null}<a href={`/harnesses/${progress.harness}`}>{harness?.title ?? progress.harness}</a><small>{harness?.surface}</small></th>
                 <td>{progress.supported}/{progress.total}</td>
                 <td>{progress.reviewed}/{progress.total}</td>
                 <td>{SUPPORT_STATUS_LABELS.yes} {progress.counts.yes} · {SUPPORT_STATUS_LABELS.partial} {progress.counts.partial} · {SUPPORT_STATUS_LABELS.no} {progress.counts.no} · {SUPPORT_STATUS_LABELS.unknown} {progress.counts.unknown}</td>

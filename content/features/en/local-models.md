@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Run against a model hosted on the operator's machine.
-specLabel: Product capability
+specLabel: Common product term
 aliases: [self-hosted model, local inference, on-device model]
 parent: models-and-context
 related: [model-selection]
@@ -29,6 +29,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Ollama — Quickstart
+    href: https://docs.ollama.com/quickstart
+    kind: docs
+    publisher: Ollama
+    reviewedAt: 2026-08-28
 support: []
 ---
 

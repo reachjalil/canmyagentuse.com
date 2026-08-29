@@ -5,6 +5,7 @@ import {
   harnessPath,
 } from "@canmyagentuse/catalog";
 import { entryBySlug, publishedCollection } from "../../../../lib/collections";
+import { brandReferencePayload } from "../../../../lib/brand";
 import { jsonResponse } from "../../../../lib/security";
 
 export async function getStaticPaths() {
@@ -23,6 +24,11 @@ export const GET: APIRoute = async ({ params }) => {
 
   return jsonResponse({
     ...harness.data,
+    brand: brandReferencePayload({
+      provider: harness.data.vendor,
+      product: harness.data.title,
+      productSlug: harness.data.slug,
+    }),
     html: harnessPath(harness.data.slug),
     markdown: harnessMarkdownPath(harness.data.slug),
     json: harnessJsonPath(harness.data.slug),

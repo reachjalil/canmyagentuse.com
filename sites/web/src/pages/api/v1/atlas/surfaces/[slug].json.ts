@@ -9,6 +9,7 @@ import {
   researchVendorPath,
 } from "../../../../../lib/research";
 import { jsonResponse } from "../../../../../lib/security";
+import { brandReferencePayload } from "../../../../../lib/brand";
 
 export function getStaticPaths() {
   return researchAtlas.seed.surfaces.map((surface) => ({
@@ -28,6 +29,10 @@ export const GET: APIRoute<{ surface: ResearchSurface }> = async ({
     surface: context.surface,
     product: context.product,
     vendor: context.vendor,
+    brand: brandReferencePayload({
+      provider: context.vendor.vendor_name,
+      product: context.product.product_name,
+    }),
     counts: context.statuses,
     html: researchSurfacePath(context.surface.surface_id),
     markdown: researchSurfaceMarkdownPath(context.surface.surface_id),

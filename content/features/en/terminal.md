@@ -17,7 +17,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Propose or execute shell commands in a project environment.
-specLabel: Product capability
+specLabel: Common product term
 highlight: true
 notes:
   - id: 1

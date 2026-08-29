@@ -1,12 +1,12 @@
 ---
-title: Controlled conversation sharing
-description: Share a conversation or run with defined viewers, permissions, revocation, redaction, and update behavior.
+title: Conversation sharing
+description: Share a conversation using a documented link or invitation feature.
 slug: conversation-sharing
 locale: en
-seoTitle: Controlled conversation sharing compatibility — Can My Agent Use
-socialTitle: Controlled conversation sharing
-socialDescription: Compare public and private links, permissions, revocation, redaction, snapshots, and live updates.
-llmSummary: Conversation sharing covers deliberate access to a run with documented identity, permissions, revocation, redaction, snapshot or live behavior, and treatment of files and tool data.
+seoTitle: Conversation sharing compatibility — Can My Agent Use
+socialTitle: Conversation sharing
+socialDescription: Compare documented conversation links, invitations, permissions, and revocation.
+llmSummary: Conversation sharing means a product provides a documented link or invitation for another person to view or use a conversation; permissions and revocation are qualifiers.
 audience: Teams sharing agent findings and work history.
 contentKind: feature
 status: published
@@ -14,18 +14,28 @@ tags: [collaboration, sharing, permissions]
 updated: 2026-08-28
 published: 2026-08-28
 category: collaboration
-summary: Share a run with explicit identity, permission, revocation, redaction, and update semantics.
-specLabel: Product capability
+summary: Share a conversation through a documented link or invitation.
+specLabel: Common product term
 aliases: [share chat, conversation link, run sharing]
 parent: collaboration-and-portability
-related: [role-based-access, conversation-export, human-handoff]
+related: [role-based-access, conversation-export, shared-projects]
 resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — ChatGPT shared links
+    href: https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq/
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
+  - title: OpenAI — ChatGPT shared links
+    href: https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 
-This row asks whether a conversation or run can be deliberately shared and what the recipient receives. Public anonymous links, organization-only access, named invitations, snapshots, and live collaborative views have different risk and utility.
+This row asks whether a product documents conversation sharing. Public links, organization-only access, named invitations, snapshots, and live views are recorded separately.
 
-Evidence should record view, comment, edit, continue, copy, and reshare rights; revocation; expiration; search indexing; recipient account requirements; sensitive-content warnings; redaction; files and tool output; later message updates; deletion; and organization policy controls.
+Evidence should record recipient permissions, revocation, expiration, account requirements, attachment handling, later-message behavior, deletion, and organization controls. These details qualify the product's sharing feature rather than redefining the common term.

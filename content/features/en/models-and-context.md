@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Track model access and the full lifecycle of input, output, compaction, and cached context.
-specLabel: Product capability family
+specLabel: Catalog grouping
 aliases: [model controls, context management, token budget, context length]
 capabilityKind: family
 highlight: true

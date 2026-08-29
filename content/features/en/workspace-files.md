@@ -17,7 +17,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Read and edit files inside a user-selected local project.
-specLabel: Product capability
+specLabel: Common product term
 highlight: true
 notes:
   - id: 1

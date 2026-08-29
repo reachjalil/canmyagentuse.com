@@ -15,15 +15,143 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Choose a documented reasoning depth, effort, or budget for a run.
-specLabel: Product capability
+specLabel: Common product term
 aliases: [thinking budget, reasoning mode, thinking level]
 parent: models-and-context
 related: [model-selection, usage-metering]
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: ChatGPT Work on the web and ChatGPT desktop expose a reasoning control beneath the composer; Codex CLI exposes reasoning effort through /model, with documented Low through Ultra levels when supported."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Claude web and desktop expose effort and extended-thinking controls; Claude Code documents per-session and configured effort levels, subject to model support."
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-support: []
+  - id: openai-models
+    title: OpenAI — Models in ChatGPT Work and Codex
+    href: https://learn.chatgpt.com/docs/models
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: anthropic-change-model
+    title: Anthropic — Change model, effort, and thinking settings
+    href: https://support.claude.com/en/articles/8664678-change-the-model-effort-and-thinking-settings
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: anthropic-code-model-config
+    title: Anthropic — Claude Code model configuration
+    href: https://code.claude.com/docs/en/model-config
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 ChatGPT Work web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: available reasoning levels depend on the selected model and account eligibility
+        evidence:
+          - resourceId: openai-models
+            type: documented
+            observedAt: 2026-08-28
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current ChatGPT desktop documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: plan
+            value: available reasoning levels depend on the selected model and account eligibility; Max may require enabling it in settings
+        evidence:
+          - resourceId: openai-models
+            type: documented
+            observedAt: 2026-08-28
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: documented selector includes Low, Medium, High, Extra high, Max, and Ultra when the selected model supports them
+        evidence:
+          - resourceId: openai-models
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Claude web documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: effort and extended thinking are distinct controls and depend on model availability
+        evidence:
+          - resourceId: anthropic-change-model
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Desktop documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: effort and extended thinking are distinct controls and depend on model availability
+        evidence:
+          - resourceId: anthropic-change-model
+            type: documented
+            observedAt: 2026-08-28
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: low, medium, high, xhigh, and max are documented where supported; ultrathink requests deeper reasoning for one turn
+        evidence:
+          - resourceId: anthropic-code-model-config
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 This row covers an operator-visible control over reasoning effort, depth, or budget. It does not assert that hidden reasoning is exposed, and it does not treat ordinary model selection as an equivalent control.

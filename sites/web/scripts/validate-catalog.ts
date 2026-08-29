@@ -5,6 +5,8 @@ import { parse } from "yaml";
 import {
   featureSchema,
   harnessSchema,
+  providerMarkIsDisplayable,
+  referenceIdentity,
   specificationSchema,
   validateCatalogRelations,
 } from "../../../packages/catalog/src/index.ts";
@@ -55,6 +57,19 @@ const [features, harnesses, specifications] = await Promise.all([
 ]);
 
 validateCatalogRelations({ features, harnesses, specifications });
+for (const harness of harnesses) {
+  const identity = referenceIdentity({
+    provider: harness.vendor,
+    product: harness.title,
+    productSlug: harness.slug,
+  });
+  if (!identity.name || !identity.monogram || !identity.tone) {
+    throw new Error(`Incomplete brand reference for harness ${harness.slug}.`);
+  }
+  if (identity.mark && !providerMarkIsDisplayable(identity.mark)) {
+    throw new Error(`Invalid brand mark mapping for harness ${harness.slug}.`);
+  }
+}
 process.stdout.write(
-  `Validated ${features.length} features, ${harnesses.length} harnesses, and ${specifications.length} specifications with cross-entry references.\n`
+  `Validated ${features.length} features, ${harnesses.length} harnesses, and ${specifications.length} specifications with cross-entry and brand references.\n`
 );

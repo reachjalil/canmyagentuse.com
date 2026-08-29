@@ -25,13 +25,21 @@ A support assertion answers one narrow question for a **capability revision × e
 - `unknown` is the default whenever evidence has not been reviewed or remains ambiguous.
 - `na` means the row does not apply to that kind of harness and still needs public evidence.
 
-## Capability families and atomic rows
+## Terminology and admission policy
 
-Broad labels such as MCP, plugins, Agent Skills, subagents, model and context management, file inputs, data security, operational reliability, collaboration, persistent instructions, and WebMCP are capability families, not compatibility cells. A family has independently testable atomic children. For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support. Likewise, basic subagent delegation does not imply concurrency, nesting, inherited tools, isolated context, independent model choice, or structured handoff.
+A published compatibility question must use terminology that readers can verify outside this site. The catalog admits three kinds of atomic entry:
 
-Family progress is derived from child rows for each exact product. The catalog reports both reviewed children and supported-or-partial children, plus the full status breakdown. It never authors or infers one umbrella family status.
+- A **specification feature** uses the name and scope of a public protocol, format, or convention and links the exact specification revision.
+- A **common product term** appears in first-party product documentation. The catalog may normalize capitalization or singular/plural form, but it does not add requirements that the source term does not contain.
+- A **measured product property** is a documented limit or quantity such as a context window, output-token maximum, upload limit, or rate limit.
 
-Atomic rows may also declare typed `requires`, `extends`, `alternative`, or `related` edges. Siblings are derived from their shared family parent.
+Every published atomic entry must link at least one public specification or first-party documentation page. A link to this site's methodology is not terminology provenance. Provider marketing language is kept only when it names a provider-specific record; it is not silently promoted into a generic industry term.
+
+Names should be short and recognizable. Avoid evaluative adjectives such as “accountable,” “safe,” or “controlled”; avoid combining several behaviors into one invented capability; and do not turn a desirable procurement question into a feature until public sources establish the term. If a useful distinction has no external vocabulary yet, keep it in research notes or a proposed test rather than publishing a compatibility row.
+
+Broad pages labeled **Catalog grouping** are internal navigation aids, not standards or standalone compatibility claims. Group progress is derived from child rows for each exact product; no umbrella yes/no value is authored. “Atomic” describes the catalog's internal granularity, not an industry designation.
+
+For example, MCP tool calling does not imply MCP prompts, resources, sampling, authorization, transport, or Apps support because those are separately named protocol features. Product documentation—not an internally invented checklist—determines whether non-protocol concepts deserve separate rows.
 
 ## Evidence contract
 
@@ -51,7 +59,7 @@ Some of the most useful harness facts are numeric: advertised and effective cont
 
 Every measured value should identify the exact harness, model or mode, plan, environment, region or policy when relevant, what the value limits, whether it is a documented maximum or a tested observation, the reset or billing period, the review date, and the boundary behavior. A model API limit is not copied into a chat, desktop, editor, or CLI surface without product evidence. When an advertised maximum and an effective usable limit differ, preserve both and explain the reservation, truncation, sampling, or compaction behavior.
 
-Prompt caching is split into three claims: reuse, operator controls, and telemetry. File upload is split from model-visible understanding and from preprocessing disclosure. These distinctions keep a paperclip icon, a provider model card, or a generic caching statement from becoming a broader compatibility claim than the evidence supports.
+Prompt caching is tracked only where first-party documentation names cache reuse, controls, or telemetry separately. File upload is kept separate from model-visible understanding because product documentation commonly distinguishes accepting a file from interpreting its contents. These distinctions keep a paperclip icon, a provider model card, or a generic caching statement from becoming a broader compatibility claim than the evidence supports.
 
 Do not source a claim from rumors, search snippets without a stable page, community recollection, private beta screens, or screenshots of interfaces that are not public. When a document describes a model or API rather than the named harness, it does not automatically prove harness support.
 
@@ -67,4 +75,4 @@ The feature-page percentage is the share of published product tracks that have m
 
 Public documentation changes. A correction should supersede the affected statement, update the review date, preserve a clear explanation of the documented limit, and replace stale resource links without erasing the reason for the change. Contributors should follow `CONTRIBUTING.md`; the shared schema rejects non-unknown cells without targets, environment profiles, notes, and typed evidence.
 
-The product deliberately does not publish a synthetic harness score or fabricated market-share figure. Useful operational metrics are evidence freshness, sourced-cell coverage, contradiction age, revision pinning, source diversity, review latency, and future conformance-test coverage.
+The product deliberately does not publish a synthetic harness score, fabricated market-share figure, or unsourced editorial capability. Useful operational metrics are evidence freshness, sourced-cell coverage, contradiction age, revision pinning, source diversity, review latency, and future conformance-test coverage.

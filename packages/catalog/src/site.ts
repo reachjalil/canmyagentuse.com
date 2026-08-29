@@ -20,7 +20,7 @@ export const SITE = {
   foundationNotice:
     "The first review covers selected current-version claims. Every other cell stays unknown until a public source is reviewed.",
   independentNotice:
-    "Can My Agent Use is independent. Product names identify catalog rows. They do not imply affiliation, endorsement, certification, or official status.",
+    "Independent compatibility research. Product names and marks belong to their respective owners.",
 } as const;
 
 export type SiteConfig = typeof SITE;

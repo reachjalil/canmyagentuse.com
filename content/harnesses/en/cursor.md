@@ -1,12 +1,12 @@
 ---
 title: Cursor
-description: "Cursor listed as a desktop catalog column. Independent nominative reference; not affiliated with Anysphere."
+description: "Cursor compatibility profile for the exact desktop product surface."
 slug: cursor
 locale: en
 seoTitle: "Cursor (Desktop) — Can My Agent Use"
 socialTitle: "Cursor (Desktop)"
-socialDescription: Independent catalog column for Cursor on desktop. Not affiliated with Anysphere.
-llmSummary: "Cursor is listed as a desktop harness column. Selected cells are sourced; every unreviewed cell remains unknown. The name identifies the product and does not imply affiliation."
+socialDescription: Evidence-backed capability profile for Cursor on desktop.
+llmSummary: "Cursor is listed as a desktop harness column. Selected cells are sourced; every unreviewed cell remains unknown."
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: harness
 status: published
@@ -27,7 +27,5 @@ homepage: https://cursor.com
 ---
 
 Cursor appears here as a **Desktop** column so a capability page can show this harness next to others.
-
-The product name is a plain-text nominative reference. Can My Agent Use is independent of Anysphere and does not claim certification, partnership, or official status.
 
 Support cells for this surface are published only when a dated note cites reviewable public evidence; every other cell remains **unknown**.

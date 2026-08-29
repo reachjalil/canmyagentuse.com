@@ -1,8 +1,9 @@
 ---
-import type {
-  FeatureData,
-  HarnessData,
-  SpecificationData,
+import {
+  referenceIdentity,
+  type FeatureData,
+  type HarnessData,
+  type SpecificationData,
 } from "@canmyagentuse/catalog";
 
 interface Props {
@@ -40,16 +41,26 @@ const index = [
     kind: "feature",
     kindLabel: "Capability",
   })),
-  ...harnesses.map((harness) => ({
-    title: `${harness.title} (${harness.surface})`,
-    aliases: [harness.slug, harness.title, harness.family, harness.vendor, harness.surface],
-    searchText: [harness.summary, harness.description, ...harness.tags].join(" "),
-    summary: harness.summary,
-    meta: `${harness.family} · ${harness.vendor}`,
-    path: `/harnesses/${harness.slug}`,
-    kind: "harness",
-    kindLabel: "Product",
-  })),
+  ...harnesses.map((harness) => {
+    const identity = referenceIdentity({
+      provider: harness.vendor,
+      product: harness.title,
+      productSlug: harness.slug,
+    });
+    return {
+      title: `${harness.title} (${harness.surface})`,
+      aliases: [harness.slug, harness.title, harness.family, harness.vendor, harness.surface],
+      searchText: [harness.summary, harness.description, ...harness.tags].join(" "),
+      summary: harness.summary,
+      meta: `${harness.family} · ${harness.vendor}`,
+      path: `/harnesses/${harness.slug}`,
+      kind: "harness",
+      kindLabel: "Product",
+      markPath: identity.mark?.assetPath,
+      monogram: identity.monogram,
+      tone: identity.tone,
+    };
+  }),
   ...specifications.map((specification) => ({
     title: specification.title,
     aliases: [specification.slug, ...specification.aliases],
@@ -147,6 +158,9 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
     path: string;
     kind: SearchKind;
     kindLabel: string;
+    markPath?: string;
+    monogram?: string;
+    tone?: string;
   };
 
   const form = document.querySelector("[data-search-belt]");
@@ -279,7 +293,7 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
       panel.appendChild(heading);
     };
 
-    const addOption = (title: string, path: string, kindLabel: string, meta: string, summary = "") => {
+    const addOption = (title: string, path: string, kindLabel: string, meta: string, summary = "", markPath?: string, monogram?: string, tone?: string) => {
       if (!(panel instanceof HTMLElement)) return;
       const link = document.createElement("a");
       link.id = `search-suggestion-${renderedOptions.length}`;
@@ -291,7 +305,25 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
 
       const badge = document.createElement("span");
       badge.className = "search-suggestion__kind";
-      badge.textContent = kindLabel;
+      if (markPath || monogram) {
+        const token = document.createElement("span");
+        token.className = "search-suggestion__mark";
+        if (tone) token.dataset.providerTone = tone;
+        if (markPath) {
+          const image = document.createElement("img");
+          image.src = markPath;
+          image.alt = "";
+          image.width = 24;
+          image.height = 24;
+          token.appendChild(image);
+        } else {
+          token.textContent = monogram ?? "";
+        }
+        badge.appendChild(token);
+      }
+      const badgeLabel = document.createElement("span");
+      badgeLabel.textContent = kindLabel;
+      badge.appendChild(badgeLabel);
       const body = document.createElement("span");
       body.className = "search-suggestion__body";
       const strong = document.createElement("strong");
@@ -326,14 +358,14 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
           .sort((left, right) => right.score - left.score || left.item.title.localeCompare(right.item.title))
           .slice(0, 7);
         addHeading(matches.length ? "Best matches" : "No close suggestions");
-        for (const { item } of matches) addOption(item.title, item.path, item.kindLabel, item.meta, item.summary);
+        for (const { item } of matches) addOption(item.title, item.path, item.kindLabel, item.meta, item.summary, item.markPath, item.monogram, item.tone);
         if (!matches.length) addOption(`Search for “${query}”`, `/search?q=${encodeURIComponent(query)}`, "Search", "See the complete catalog results");
       } else {
         const scope = selectedScope();
         const recent = readRecent().filter((item) => scope === "all" || item.kind === scope);
         if (recent.length) {
           addHeading("Recently viewed");
-          for (const item of recent) addOption(item.title, item.path, item.kindLabel, item.meta);
+          for (const item of recent) addOption(item.title, item.path, item.kindLabel, item.meta, "", item.markPath, item.monogram, item.tone);
         }
         addHeading(recent.length ? "Or explore" : "Explore the catalog");
         if (scope === "all" || scope === "feature") addOption("Browse capabilities", "/features", "Explore", `${items.filter((item) => item.kind === "feature").length} cataloged capabilities`);

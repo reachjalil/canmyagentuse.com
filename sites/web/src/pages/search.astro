@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import { SITE, SUPPORT_STAGES, SUPPORT_STATUSES, searchCatalog, websiteJsonLd } from "@canmyagentuse/catalog";
+import ProviderMark from "../components/ProviderMark.astro";
 import SiteChrome from "../components/SiteChrome.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { publishedCollection } from "../lib/collections";
@@ -41,6 +42,9 @@ const kindLabels = {
   harness: "Product",
   specification: "Specification",
 } as const;
+const harnessBySlug = new Map(
+  harnesses.map((entry) => [entry.data.slug, entry.data] as const)
+);
 const scopeLabels = {
   all: "the complete catalog",
   feature: "capabilities",
@@ -123,7 +127,16 @@ const scopeLabels = {
             {hits.map((hit) => (
               <li>
                 <a href={hit.path}>
-                  <span class="search-result__kind">{kindLabels[hit.kind]}</span>
+                  <div class="search-result__heading">
+                    {hit.kind === "harness" ? (
+                      <ProviderMark
+                        provider={harnessBySlug.get(hit.slug)?.vendor ?? hit.meta}
+                        productSlug={hit.slug}
+                        variant="inline"
+                      />
+                    ) : null}
+                    <span class="search-result__kind">{kindLabels[hit.kind]}</span>
+                  </div>
                   <h2>{hit.title}</h2>
                   <p>{hit.summary}</p>
                   <small>{hit.meta}</small>

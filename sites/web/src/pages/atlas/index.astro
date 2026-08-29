@@ -52,7 +52,7 @@ const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_
 
 <BaseLayout
   title={`Evidence Atlas — ${SITE.name}`}
-  description="The full 2026-08-28 documentation-backed compatibility seed: 50 vendors, 92 exact surfaces, 49 atomic features, 4,508 cells, and source-level evidence."
+  description={`The full ${seed.research_cutoff} evidence snapshot: ${report.vendors} vendors, ${report.surfaces} exact surfaces, ${report.features} atomic features, ${report.compatibilityCells.toLocaleString("en-US")} cells, and source-level evidence.`}
   canonicalPath="/atlas"
   jsonLd={[websiteJsonLd()]}
 >
@@ -68,10 +68,11 @@ const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_
       </p>
 
       <div class="trust-banner mt-6">
-        <strong>Documentation-backed, not independently certified.</strong>
-        Registry membership proves only the role or portable components the registry
-        lists. First-party documentation establishes a dated documented claim. No
-        runtime conformance suite was executed, and unknown never means unsupported.
+        <strong>How to read this snapshot.</strong>
+        Each cell carries its evidence class and date. Registry records describe the
+        listed role or portable components; documentation records a dated product
+        claim; tested observations are labeled separately. Unknown means no scoped
+        claim has been established.
       </div>
 
       <dl class="catalog-census research-census mt-7">
@@ -118,7 +119,7 @@ const surfaceTypes = [...new Set(seed.surfaces.map((surface) => surface.surface_
                   data-type={surface.surface_type}
                   data-tier={surface.coverage_tier}
                 >
-                  <td><a href={researchSurfacePath(surface.surface_id)}>{surface.surface_name}</a><small><a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a> · {product.product_name}</small></td>
+                  <td><ProviderMark provider={vendor.vendor_name} variant="inline" /><a href={researchSurfacePath(surface.surface_id)}>{surface.surface_name}</a><small><a href={researchVendorPath(vendor.vendor_id)}>{vendor.vendor_name}</a> · {product.product_name}</small></td>
                   <td>{surface.surface_type}<small>{surface.version_or_observation}</small></td>
                   <td>{surface.coverage_tier}<small>{surface.availability}</small></td>
                   <td class="status-yes">{statuses.supported}</td>

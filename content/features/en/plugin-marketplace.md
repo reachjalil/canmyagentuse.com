@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: "Discover, install, update, and remove extensions through a registry or marketplace."
-specLabel: Product capability
+specLabel: Common product term
 aliases: ["plugin registry"]
 parent: plugins
 related: []

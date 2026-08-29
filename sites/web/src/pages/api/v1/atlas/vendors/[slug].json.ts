@@ -12,6 +12,7 @@ import {
   researchVendorPath,
 } from "../../../../../lib/research";
 import { jsonResponse } from "../../../../../lib/security";
+import { brandReferencePayload } from "../../../../../lib/brand";
 
 export function getStaticPaths() {
   return researchAtlas.seed.vendors.map((vendor) => ({
@@ -25,8 +26,9 @@ export const GET: APIRoute<{ vendor: ResearchVendor }> = async ({ props }) => {
   return jsonResponse({
     research_cutoff: researchAtlas.seed.research_cutoff,
     evidence_notice:
-      "Provider names identify research targets and do not imply affiliation. Coverage is not a quality score.",
+      "Coverage measures research completeness, not product quality.",
     vendor: context.vendor,
+    brand: brandReferencePayload({ provider: context.vendor.vendor_name }),
     products: context.products,
     counts: context.statuses,
     summary: context.summary,

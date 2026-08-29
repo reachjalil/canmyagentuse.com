@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Propose and apply file diffs without a full git flow.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Visual Studio Code — Review and revert agent changes
+    href: https://code.visualstudio.com/docs/agents/run/review-code-edits
+    kind: docs
+    publisher: Microsoft
+    reviewedAt: 2026-08-28
 support: []
 ---
 

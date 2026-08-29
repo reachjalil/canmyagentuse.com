@@ -35,7 +35,7 @@ For the broader dated research snapshot, use \`/atlas.md\` or \`/api/v1/atlas.js
 ## Evidence rules
 
 - Treat documented, listed, vendor-attested, reported, inferred, and tested evidence classes literally.
-- Documentation or a compatibility listing is not independent runtime certification.
+- Read the evidence class literally: documented, listed, vendor-attested, reported, inferred, and tested describe different kinds of support.
 - Prefer newer scoped evidence, but surface contradictions rather than silently choosing a convenient source.
 - Preserve plan, policy, platform, region, configuration, preview, runtime, transport, and authorization conditions.
 
@@ -45,7 +45,7 @@ Use \`/compare?a={left-harness}&b={right-harness}&view=all\` for a readable comp
 
 ## Safety and scope
 
-This skill has no scripts and requests no credentials. The catalog is public and read-only. Do not infer private actions, authentication support, affiliation, certification, or official provider status from a catalog listing.
+This skill has no scripts and requests no credentials. The catalog is public and read-only. Do not infer private actions or authentication support from a catalog listing.
 `;
 
 export function catalogSkillIndex(digest: string) {

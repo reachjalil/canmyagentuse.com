@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Track child-agent execution, isolation, permissions, supervision, and handoff independently.
-specLabel: Product capability family
+specLabel: Catalog grouping
 aliases: [child agents, delegated agents, multi-agent delegation]
 capabilityKind: family
 related: [mcp]

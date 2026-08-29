@@ -30,13 +30,62 @@ related: [mcp-tools, mcp-prompts]
 highlight: false
 notes:
   - id: 1
-    text: No reviewed public evidence is attached to this capability row. Unknown records the evidence gap.
+    text: "Evidence checked 2026-08-28: Claude Code lists and reads MCP resources, exposes them through `@` mentions, and fetches referenced resources into conversation context."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Microsoft's VS Code MCP developer guide states that VS Code implements MCP tools, prompts, and resources; the end-user skill is scoped to GitHub Copilot's local VS Code agent surface."
 issues: []
 resources:
-  - title: Methodology
-    href: /methodology
-    kind: note
-support: []
+  - id: anthropic-claude-code-mcp
+    title: Anthropic — Connect Claude Code to tools via MCP
+    href: https://code.claude.com/docs/en/mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Use MCP resources
+  - id: vscode-mcp-developer-guide
+    title: Visual Studio Code — MCP developer guide
+    href: https://code.visualstudio.com/api/extension-guides/ai/mcp
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: MCP implementation overview
+support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: resource availability and media types depend on the connected server
+        evidence:
+          - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current VS Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: claim is scoped to GitHub Copilot's local VS Code agent surface, not every Copilot product surface
+        evidence:
+          - resourceId: vscode-mcp-developer-guide
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 Read MCP resources as live context.

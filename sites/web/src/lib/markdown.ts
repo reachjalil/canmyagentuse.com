@@ -22,6 +22,7 @@ import {
   newsPath,
   pageMarkdownPath,
   pagePath,
+  referenceIdentity,
   specificationJsonPath,
   specificationMarkdownPath,
   specificationPath,
@@ -180,6 +181,8 @@ export function featureMarkdown(input: {
       markdownPath: featureMarkdownPath(feature.slug),
       llmSummary: feature.llmSummary,
       body: [
+        "Terminology basis: Catalog grouping. This organizes related compatibility questions and is not itself a support claim.",
+        "",
         body.trim(),
         "",
         "## Atomic capabilities",
@@ -200,8 +203,14 @@ export function featureMarkdown(input: {
   );
   const specification = feature.specification
     ? `- Specification: [${feature.specification.id}](${specificationMarkdownPath(feature.specification.id)}) — revision ${feature.specification.revision}`
-    : `- Specification: ${feature.specLabel}`;
+    : `- Terminology basis: ${feature.specLabel}`;
+  const terminologyReference =
+    feature.specification?.canonicalUrl ??
+    feature.resources.find((resource) => resource.href.startsWith("https://"))
+      ?.href;
   const details = [
+    `Terminology basis: **${feature.specLabel}**${terminologyReference ? ` — ${terminologyReference}` : ""}.`,
+    "",
     "## Current support at a glance",
     "",
     currentSupportSnippet(feature.title, currentSupport),
@@ -251,6 +260,11 @@ export function harnessMarkdown(input: {
   body: string;
 }): string {
   const { harness, harnesses, features, body } = input;
+  const brand = referenceIdentity({
+    provider: harness.vendor,
+    product: harness.title,
+    productSlug: harness.slug,
+  });
   const atomicFeatures = features.filter(
     (feature) => feature.capabilityKind === "atomic"
   );
@@ -328,7 +342,8 @@ export function harnessMarkdown(input: {
       `- Target type: ${harness.targetKind}`,
       `- Default environment: ${harness.defaultEnvironmentProfile}`,
       `- Tracks: ${harness.tracks.join(", ")}`,
-      `- Official reference: ${harness.homepage ?? "Not recorded"}`,
+      `- Product site: ${harness.homepage ?? "Not recorded"}`,
+      `- Brand reference: ${brand.mark ? `[${brand.mark.label}](/provider-marks#${brand.mark.id})` : "Text fallback"}`,
       "",
       "## Current support summary",
       "",

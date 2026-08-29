@@ -1,12 +1,12 @@
 ---
-title: Shared projects and team context
-description: Maintain durable team-visible instructions, files, memory, conversations, agents, and permissions in a shared project boundary.
+title: Shared projects
+description: Share a project workspace containing documented product context such as chats, files, or instructions.
 slug: shared-projects
 locale: en
-seoTitle: Shared projects and team context — Can My Agent Use
-socialTitle: Shared projects and team context
-socialDescription: Compare shared instructions, files, memory, agents, conversations, ownership, and project-level permissions.
-llmSummary: Shared projects provide a durable team boundary for context and permissions; a folder of public conversation links is not equivalent.
+seoTitle: Shared projects compatibility — Can My Agent Use
+socialTitle: Shared projects
+socialDescription: Compare documented shared project workspaces, content, and permissions.
+llmSummary: Shared projects are product-defined workspaces that multiple people can access; included context and permissions vary by product.
 audience: Teams organizing ongoing agent work.
 contentKind: feature
 status: published
@@ -14,8 +14,8 @@ tags: [collaboration, projects, context, teams]
 updated: 2026-08-28
 published: 2026-08-28
 category: collaboration
-summary: Share durable project instructions, files, memory, conversations, agents, and access rules.
-specLabel: Product capability
+summary: Share a product-defined project workspace with other people.
+specLabel: Common product term
 aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
@@ -23,6 +23,21 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: OpenAI — Projects in ChatGPT
+    href: https://help.openai.com/en/articles/10169521-chatgpt-projects
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
+  - title: Anthropic — Projects in Claude
+    href: https://support.anthropic.com/en/articles/9517075-what-are-projects
+    kind: docs
+    publisher: Anthropic
+    reviewedAt: 2026-08-28
+  - title: OpenAI — Projects in ChatGPT
+    href: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    kind: docs
+    publisher: OpenAI
+    reviewedAt: 2026-08-28
 support: []
 ---
 

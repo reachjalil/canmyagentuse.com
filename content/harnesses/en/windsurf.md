@@ -1,12 +1,12 @@
 ---
 title: Windsurf
-description: "Windsurf listed as a desktop catalog column. Independent nominative reference; not affiliated with Codeium."
+description: "Windsurf compatibility profile for the exact desktop product surface."
 slug: windsurf
 locale: en
 seoTitle: "Windsurf (Desktop) — Can My Agent Use"
 socialTitle: "Windsurf (Desktop)"
-socialDescription: Independent catalog column for Windsurf on desktop. Not affiliated with Codeium.
-llmSummary: "Windsurf is listed as a desktop harness column. Selected cells are sourced; every unreviewed cell remains unknown. The name identifies the product and does not imply affiliation."
+socialDescription: Evidence-backed capability profile for Windsurf on desktop.
+llmSummary: "Windsurf is listed as a desktop harness column. Selected cells are sourced; every unreviewed cell remains unknown."
 audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: harness
 status: published
@@ -27,7 +27,5 @@ homepage: https://windsurf.com
 ---
 
 Windsurf appears here as a **Desktop** column so a capability page can show this harness next to others.
-
-The product name is a plain-text nominative reference. Can My Agent Use is independent of Codeium and does not claim certification, partnership, or official status.
 
 Support cells for this surface are published only when a dated note cites reviewable public evidence; every other cell remains **unknown**.

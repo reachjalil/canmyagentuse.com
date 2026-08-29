@@ -32,7 +32,7 @@ export const GET: APIRoute = async () => {
       body: [
         `This directory tracks ${harnessData.length} exact product surfaces across ${featureData.filter((feature) => feature.capabilityKind === "atomic").length} atomic capabilities. Web, desktop, editor, and CLI surfaces remain separate even when they share a provider or family name.`,
         "",
-        "Unknown means no sufficiently scoped public evidence has been published for the exact current cell. It does not mean unsupported. Product names identify catalog records only and do not imply affiliation or endorsement.",
+        "Unknown means no sufficiently scoped public evidence has been published for the exact current cell. It does not mean unsupported.",
         "",
         ...groups.flatMap((group) => [
           `## ${HARNESS_SURFACE_LABELS[group.surface]} (${group.items.length})`,
@@ -43,10 +43,10 @@ export const GET: APIRoute = async () => {
               featureData,
               harnessData
             );
-            const official = harness.homepage
-              ? `[Official reference](${harness.homepage})`
-              : "Official reference not recorded";
-            return `- [${harness.title}](${harnessMarkdownPath(harness.slug)}) — ${harness.summary} Provider: ${harness.vendor}; execution: ${harness.execution}; target: ${harness.targetKind}; current review: ${support.reviewed}/${support.total} (${formatPercent(support.coverage)}); supported ${support.counts.yes}, partial ${support.counts.partial}, unsupported ${support.counts.no}, unknown ${support.counts.unknown}; ${support.sourceCount} public sources; ${official}; [JSON](${harnessJsonPath(harness.slug)}).`;
+            const productSite = harness.homepage
+              ? `[Product site](${harness.homepage})`
+              : "Product site not recorded";
+            return `- [${harness.title}](${harnessMarkdownPath(harness.slug)}) — ${harness.summary} Provider: ${harness.vendor}; execution: ${harness.execution}; target: ${harness.targetKind}; current review: ${support.reviewed}/${support.total} (${formatPercent(support.coverage)}); supported ${support.counts.yes}, partial ${support.counts.partial}, unsupported ${support.counts.no}, unknown ${support.counts.unknown}; ${support.sourceCount} public sources; ${productSite}; [JSON](${harnessJsonPath(harness.slug)}).`;
           }),
           "",
         ]),

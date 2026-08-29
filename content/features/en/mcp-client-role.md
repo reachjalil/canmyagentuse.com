@@ -30,6 +30,10 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents Grok Bot connecting to tools through MCP servers and following Cursor team MCP policy; the Agent Plugins compatible-client registry independently lists Grok Bot's supported MCP transports."
+  - id: 2
+    text: "Evidence checked 2026-08-28: xAI documents custom MCP connectors in Grok Web, including server URL and authentication setup, tool discovery, and making the server's tools available in conversations."
+  - id: 3
+    text: "Evidence checked 2026-08-28: Anthropic documents Claude Code connecting to local and remote MCP servers, discovering their tools, prompts, and resources, and managing those servers through `claude mcp`."
 issues: []
 resources:
   - title: Model Context Protocol specification
@@ -51,7 +55,59 @@ resources:
     evidenceType: listed
     reviewedAt: 2026-08-28
     locator: Grok Bot
+  - id: xai-grok-web-mcp
+    title: xAI — Grok connectors
+    href: https://docs.x.ai/grok/connectors
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Custom MCP connectors
+  - id: anthropic-claude-code-mcp
+    title: Anthropic — Connect Claude Code to tools via MCP
+    href: https://code.claude.com/docs/en/mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+    locator: Add MCP servers; use MCP resources and prompts
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [3]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code MCP documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: configured server scope, enterprise managed configuration, tool permissions, and server health determine which MCP capabilities are available in a session
+        evidence:
+          - resourceId: anthropic-claude-code-mcp
+            type: documented
+            observedAt: 2026-08-28
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [2]
+        target:
+          kind: hosted-observation
+          revision: 2026-08-28 Grok Web connector documentation observation
+          observedAt: 2026-08-28
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: custom servers must be reachable over the public internet; local-only servers require a separate tunnel
+          - type: auth
+            value: server authentication and provider permissions can be required
+        evidence:
+          - resourceId: xai-grok-web-mcp
+            type: documented
+            observedAt: 2026-08-28
   - harness: grok-bot-desktop
     versions:
       - track: current

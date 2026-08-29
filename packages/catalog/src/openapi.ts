@@ -64,7 +64,7 @@ export function catalogOpenApi() {
     openapi: "3.1.0",
     info: {
       title: `${SITE.name} Catalog API`,
-      version: "1.1.0",
+      version: "1.2.0",
       summary: "Read-only compatibility catalog and evidence ledger.",
       description: `${SITE.description} Unknown means not yet sufficiently sourced; it does not mean unsupported. Documentation evidence is not runtime certification.`,
     },
@@ -498,6 +498,46 @@ export function catalogOpenApi() {
             },
           ],
         },
+        BrandReference: {
+          type: "object",
+          required: [
+            "provider",
+            "product",
+            "productSlug",
+            "mark",
+            "fallback",
+            "index",
+          ],
+          properties: {
+            provider: { type: "string" },
+            product: { type: ["string", "null"] },
+            productSlug: { type: ["string", "null"] },
+            mark: {
+              oneOf: [
+                {
+                  type: "object",
+                  required: ["id", "label", "path", "reviewedAt"],
+                  properties: {
+                    id: { type: "string" },
+                    label: { type: "string" },
+                    path: { type: "string", pattern: "^/provider-marks/" },
+                    reviewedAt: { type: "string", format: "date" },
+                  },
+                },
+                { type: "null" },
+              ],
+            },
+            fallback: {
+              type: "object",
+              required: ["monogram", "tone"],
+              properties: {
+                monogram: { type: "string" },
+                tone: { type: "string" },
+              },
+            },
+            index: { type: "string", const: "/provider-marks" },
+          },
+        },
         HarnessSummary: {
           type: "object",
           required: [
@@ -507,6 +547,7 @@ export function catalogOpenApi() {
             "vendor",
             "surface",
             "summary",
+            "brand",
             "html",
             "markdown",
             "json",
@@ -518,6 +559,7 @@ export function catalogOpenApi() {
             vendor: { type: "string" },
             surface: { type: "string", enum: HARNESS_SURFACES },
             summary: { type: "string" },
+            brand: reference("BrandReference"),
             tracks: { type: "array", items: { type: "string" } },
             order: { type: "integer" },
             homepage: { type: "string", format: "uri" },

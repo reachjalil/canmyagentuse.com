@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Reach mail, chat, calendar, or issue trackers the user authorizes.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1

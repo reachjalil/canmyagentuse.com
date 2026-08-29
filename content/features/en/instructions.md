@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: Track portable and product-native instruction discovery independently.
-specLabel: Instruction capability family
+specLabel: Catalog grouping
 aliases: [AGENTS.md, rules, custom instructions]
 capabilityKind: family
 related: [agent-skills]

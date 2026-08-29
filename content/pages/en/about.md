@@ -19,7 +19,7 @@ summary: Product purpose, independent status, and human and machine-readable for
 
 Can My Agent Use is an independent compatibility catalog for engineers choosing an agent product. It answers one question: **does this exact product support this capability, and which public source supports the status?**
 
-The task is familiar: search a capability, scan web, desktop, and CLI columns, read the limits, and open the cited source. Caniuse.com inspired that information structure. The implementation, night-ledger visual system, mark, assets, and copy are original.
+The task is familiar: search a capability, scan web, desktop, and CLI columns, read the limits, and open the cited source. Caniuse.com inspired that lookup–compare–cite information structure. The publication's visual identity, research, and editorial work are its own.
 
 ## Who it serves
 
@@ -33,4 +33,4 @@ The catalog separates workspace instructions, skills, package formats, tool prot
 
 ## Independent by design
 
-Names such as ChatGPT, Claude, Cursor, Gemini, Grok, Grok Bot, Copilot, Codex, OpenCode, and OpenWork Desktop appear as plain text to identify products. Can My Agent Use is not affiliated with, endorsed by, certified by, or official to any listed provider. The site does not use provider screenshots, fonts, product shells, or proprietary interface assets. Any secondary provider marks are locally copied, provenance-recorded nominative references with an original monogram fallback; they do not imply affiliation.
+Can My Agent Use publishes its own research, methodology, interface, and editorial voice. Product names and compact brand marks help readers find the right catalog record; they remain the property of their respective owners. See [Brand references](/provider-marks) for the current mark index and review dates.

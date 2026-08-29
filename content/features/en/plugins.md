@@ -15,7 +15,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: interfaces
 summary: Track portable and product-native extension capabilities independently.
-specLabel: Plugin capability family
+specLabel: Catalog grouping
 aliases: [plugins, extensions, agent plugins, plugin marketplace]
 capabilityKind: family
 related: [agent-skills, mcp]

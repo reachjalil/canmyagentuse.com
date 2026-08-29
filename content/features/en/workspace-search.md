@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: tools
 summary: Search a codebase or knowledge tree before editing.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Visual Studio Code — How Copilot understands your workspace
+    href: https://code.visualstudio.com/docs/agents/reference/workspace-context
+    kind: docs
+    publisher: Microsoft
+    reviewedAt: 2026-08-28
 support: []
 ---
 

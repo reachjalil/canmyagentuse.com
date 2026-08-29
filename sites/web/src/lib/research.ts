@@ -278,7 +278,7 @@ export function researchVendorMarkdown(vendor: ResearchVendor): string {
     .join("\n");
   return `${markdownHeader(
     vendor.vendor_name,
-    `${vendor.inclusion_basis}. Provider name is a plain-text reference; Can My Agent Use is independent and not affiliated with the provider.`,
+    `${vendor.inclusion_basis}.`,
     researchVendorPath(vendor.vendor_id),
     "page"
   )}\n- Coverage tier: ${vendor.coverage_tier}\n- Products: ${context.products.length}\n- Exact surfaces: ${context.surfaces.length}\n- Supported cells: ${context.statuses.supported}\n- Partial cells: ${context.statuses.partial}\n- Explicit unsupported cells: ${context.statuses.unsupported}\n- Unknown cells: ${context.statuses.unknown}\n\n| Exact surface | Type | Version / observation | Supported | Partial | Unsupported | Unknown |\n| --- | --- | --- | ---: | ---: | ---: | ---: |\n${rows}\n\n[HTML](${researchVendorPath(vendor.vendor_id)}) · [JSON](${researchVendorJsonPath(vendor.vendor_id)})\n`;

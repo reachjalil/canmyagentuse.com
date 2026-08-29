@@ -15,16 +15,73 @@ updated: 2026-08-28
 published: 2026-08-28
 category: models-context
 summary: Reuse eligible repeated prompt context with documented latency or billing semantics.
-specLabel: Product capability
+specLabel: Common product term
 aliases: [prompt caching, context caching, cached input, prefix caching]
 parent: models-and-context
 related: [prompt-cache-controls, prompt-cache-telemetry, usage-metering]
 highlight: true
+notes:
+  - id: 1
+    text: "Evidence checked 2026-08-28: Claude Code documents automatic prefix-based prompt caching for its system prompt, project context, conversation history, and tool results, with explicit invalidation behavior."
+  - id: 2
+    text: "Evidence checked 2026-08-28: Gemini CLI documents automatic token caching for Gemini API-key and Vertex AI authentication, while OAuth through Code Assist does not support cached-content creation."
 resources:
   - title: Methodology
     href: /methodology
     kind: note
-support: []
+  - id: anthropic-code-prompt-caching
+    title: Anthropic — How Claude Code uses prompt caching
+    href: https://code.claude.com/docs/en/prompt-caching
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+  - id: google-gemini-cli-token-caching
+    title: Google — Gemini CLI token caching
+    href: https://geminicli.com/docs/cli/token-caching/
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-08-28
+support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [1]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: automatic exact-prefix caching covers stable request layers; switching models, reconnecting MCP servers, compaction, and upgrades can invalidate all or part of the prefix
+          - type: policy
+            value: cache infrastructure and retention depend on the authentication and serving provider
+        evidence:
+          - resourceId: anthropic-code-prompt-caching
+            type: documented
+            observedAt: 2026-08-28
+  - harness: gemini-cli
+    versions:
+      - track: current
+        status: partial
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Gemini CLI documentation
+          observedAt: 2026-08-28
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: automatic caching reuses previous system instructions and context for Gemini API-key and Vertex AI users
+          - type: policy
+            value: OAuth users through Google Personal or Enterprise Code Assist do not receive cached-content creation
+        evidence:
+          - resourceId: google-gemini-cli-token-caching
+            type: documented
+            observedAt: 2026-08-28
 ---
 
 This row concerns model-request prompt or context caching: eligible repeated prefixes receive documented processing, latency, or billing reuse. It does not include browser caches, downloaded-file caches, embedding indexes, retrieval caches, build caches, or a conversation merely retaining its history.

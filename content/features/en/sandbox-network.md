@@ -16,7 +16,7 @@ updated: 2026-08-28
 published: 2026-08-28
 category: runtime
 summary: Allow or deny outbound network from a tool sandbox.
-specLabel: Product capability
+specLabel: Common product term
 highlight: false
 notes:
   - id: 1
@@ -26,6 +26,11 @@ resources:
   - title: Methodology
     href: /methodology
     kind: note
+  - title: Anthropic — Claude Code corporate proxy configuration
+    href: https://docs.anthropic.com/en/docs/claude-code/corporate-proxy
+    kind: docs
+    publisher: Anthropic
+    reviewedAt: 2026-08-28
 support: []
 ---
 
