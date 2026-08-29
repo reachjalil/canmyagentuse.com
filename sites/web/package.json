@@ -8,6 +8,7 @@
   "homepage": "https://canmyagentuse.com",
   "scripts": {
     "catalog:validate": "node --experimental-strip-types scripts/validate-catalog.ts && node --experimental-strip-types scripts/validate-research.ts && node --experimental-strip-types scripts/validate-representations.ts",
+    "coverage:report": "node --experimental-strip-types scripts/report-coverage.ts",
     "marks:generate": "node --experimental-strip-types scripts/generate-provider-marks.ts",
     "social:generate": "node --experimental-strip-types scripts/generate-social-cards.ts",
     "dev": "pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro dev",

@@ -12,6 +12,7 @@
       "!**/coverage",
       "!**/.agents",
       "!**/.harness/resources/skills",
+      "!**/ops",
       "!**/md/deep-dive-research-canmyagentuse-2026-08-28",
       "!**/md/deep-dive-research-canmyagentuse-compatibility-seed-2026-08-28",
       "!**/worker-configuration.generated.d.ts",
