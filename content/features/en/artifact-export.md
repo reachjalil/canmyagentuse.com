@@ -11,7 +11,7 @@ audience: Teams moving agent output into durable systems and downstream workflow
 contentKind: feature
 status: published
 tags: [collaboration, portability, artifacts, export]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: collaboration
 summary: Download generated files and other documented outputs.
@@ -30,6 +30,8 @@ notes:
     text: "Evidence checked 2026-08-28: Gemini Apps on the web can export responses to Google Docs or Gmail, tables to Google Sheets, and supported code to Colab or Replit; availability varies by account and destination."
   - id: 5
     text: "Evidence checked 2026-08-28: Perplexity's web session export supports PDF, Markdown, and DOCX, and its asset workflow supports downloading documents, spreadsheets, presentations, and HTML apps in documented formats."
+  - id: 6
+    text: "Evidence checked 2026-08-29: Codex CLI can write the final message from a non-interactive run to a file, including a JSON response constrained by a supplied JSON Schema; this is not a complete run or workspace archive."
 issues: []
 resources:
   - title: Methodology
@@ -43,6 +45,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Create files; review and download; preview capabilities
+  - id: openai-codex-cli-output-file
+    title: OpenAI — Codex non-interactive mode
+    href: https://learn.chatgpt.com/docs/non-interactive-mode
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Save the final output; Create structured outputs with a schema
   - id: xai-grok-bot-files
     title: xAI — Grok Bot files and results
     href: https://docs.x.ai/grok-bot/files-and-results
@@ -141,6 +151,27 @@ support:
           - resourceId: openai-artifacts-viewer
             type: documented
             observedAt: 2026-08-28
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [6]
+        target:
+          kind: dated-documentation
+          revision: current Codex non-interactive documentation
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: codex exec -o or --output-last-message writes the final response to a chosen file while still printing it to stdout
+          - type: runtime
+            value: --output-schema can constrain the final response to a JSON Schema before it is written to disk
+          - type: policy
+            value: the documented path exports the final response only, not the event stream, tool transcript, repository, or a reproducible run bundle
+        evidence:
+          - resourceId: openai-codex-cli-output-file
+            type: documented
+            observedAt: 2026-08-29
   - harness: claude-web
     versions:
       - track: current

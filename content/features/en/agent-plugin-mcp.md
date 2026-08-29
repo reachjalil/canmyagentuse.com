@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [interfaces, plugins]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: interfaces
 summary: "Load MCP server configuration contained in an Agent Plugins package."
@@ -30,6 +30,8 @@ highlight: false
 notes:
   - id: 1
     text: "Evidence checked 2026-08-28: the Agent Plugins compatible-client registry lists Grok Bot as a portable client with MCP stdio, Streamable HTTP, and legacy SSE transport support. This is registry evidence, not an independent runtime conformance test."
+  - id: 2
+    text: "Evidence checked 2026-08-29: Cursor's first-party documentation identifies MCP servers as available in Agent Plugins and shows the standard package containing mcp.json."
 issues: []
 resources:
   - title: Agent Plugins packaged MCP reference
@@ -43,7 +45,35 @@ resources:
     evidenceType: listed
     reviewedAt: 2026-08-28
     locator: Grok Bot
+  - id: cursor-agent-plugins-mcp
+    title: Cursor — Plugins
+    href: https://cursor.com/docs/plugins
+    kind: docs
+    publisher: Cursor
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: What plugins contain and Creating plugins
 support:
+  - harness: cursor
+    versions:
+      - track: current
+        status: yes
+        stage: stable
+        noteIds: [2]
+        target:
+          kind: dated-documentation
+          revision: current Cursor Agent Plugins documentation
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: Cursor documents MCP Servers as available in the Agent Plugins format and shows mcp.json in the portable package layout
+          - type: runtime
+            value: individual MCP transports, authentication flows, and primitives remain separate compatibility claims
+        evidence:
+          - resourceId: cursor-agent-plugins-mcp
+            type: documented
+            observedAt: 2026-08-29
   - harness: grok-bot-desktop
     versions:
       - track: current
