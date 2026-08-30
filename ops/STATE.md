@@ -12,9 +12,9 @@
 - Harnesses: 31
 - Last completed catalog commit: `012585f1865f61d099b2f73ca12478f99d405774` (Cycle 7)
 - Last content commit pushed: `012585f1865f61d099b2f73ca12478f99d405774` on `origin/main`; CI run `33292153994` succeeded
-- Last content deploy: Cycle 7 content is live in Cloudflare version `889ad868-ddfb-42e9-b28f-386756e72f93`; live 1,328/3,534
+- Last content deploy: Cycle 7 content and the refined coverage social card are live in Cloudflare version `def01aaf-3a0c-4306-8199-ff4488873fe3`; live 1,328/3,534
 - Last interface release: coverage facelift commit `a108b0d8e1e18e20beb7df8a0f9e0a02e4baf25b`; CI run `33322097863` succeeded; desktop and narrow production views verified
-- Last social release: data-driven coverage card commit `46f860c7ba6f75e8031650c349e949748c7730ca`; CI run `33323694848` succeeded; live card `/social/coverage-frontier-1328.png` verified at 1,200×630
+- Last social release: refined data-driven coverage card commit `ce83e02d6cb051a05bbfbdd5835c9a22479160a8`; CI run `33324487257` succeeded; live card `/social/coverage-frontier-v2-1328.png` verified at 1,200×630 with SHA-256 `a8cd8c71b4f852e7d697879bd54f72513dbb75ea80e7fc9b3b83a94689e91059`
 - Last correction smoke: receipt `CMAU-SPDEJSWZJC`; received, privacy-checked, and declined as a release-only test
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
 - In-flight briefs: none; Cycle 8 queue targets the five remaining sub-30 surfaces plus desert-family sweeps
