@@ -4,18 +4,19 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-08-29
-- Cycle: 7 complete locally; full release gates pending
+- Cycle: 7 released and reconciled
 - Phase: A — harness floor, with exact-source family sweeps interleaved
 - Coverage: 1,328/3,534 current-track cells assessed with direct reviewed evidence (37.6%); Cycle-7 delta +11
 - Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: `ac5a1af9e4583665e07e00221747eb3cc272594b` (Cycle 6)
-- Last commit pushed: `ac5a1af9e4583665e07e00221747eb3cc272594b` on `origin/main`; prior CI succeeded
-- Last content deploy: Cycle 6; Cloudflare version `9c4f7f95-596d-4142-ad69-bf311739ba54`; live 1,317/3,534
+- Last completed catalog commit: `012585f1865f61d099b2f73ca12478f99d405774` (Cycle 7)
+- Last content commit pushed: `012585f1865f61d099b2f73ca12478f99d405774` on `origin/main`; CI run `33292153994` succeeded
+- Last content deploy: Cycle 7; Cloudflare version `48769686-c958-4405-98d2-adc11d35533e`; live 1,328/3,534
+- Last correction smoke: receipt `CMAU-SPDEJSWZJC`; received, privacy-checked, and declined as a release-only test
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
 - In-flight briefs: none; Cycle 8 queue targets the five remaining sub-30 surfaces plus desert-family sweeps
-- Owned dirty paths: Cycle-7 feature, correction workflow, matrix UI, news, migration, and ops reconciliation files
+- Owned dirty paths: none
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: finish Cycle-7 full check/test/build, apply D1 migration 0002, commit/push/deploy, verify live 1,328/3,534 and correction flow, then reconcile this state and start Cycle 8
+- Next action: start Cycle 8 from `ops/BACKLOG.md`; preserve the verified production interface and correction privacy defaults

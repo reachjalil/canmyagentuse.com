@@ -345,10 +345,12 @@ ATTEMPT feature=subagent-mcp-access harness=claude-desktop date=2026-08-29 outco
 - Briefs: 0 new; audited all three completed Cycle 6 briefs against the catalog and original operations pack
 - Cells written: 11 atomic current-track plus one family rollup; Claude Desktop Skills broad assessment corrected from partial to supported
 - Feature files changed: 13; files, code execution, sandbox network, approvals, MCP client and stdio, secrets, chat and project sharing, training controls, Skills, delegation, and Agent Skills rollup
-- Commit: pending reconciliation; prior release `ac5a1af9e4583665e07e00221747eb3cc272594b`
-- Pushed: no; release gates pending
-- Deployed: no; Cloudflare migration and release pending
+- Commit: `012585f1865f61d099b2f73ca12478f99d405774`
+- Pushed: yes; fast-forwarded `origin/main` and preserved `origin/codex/research-50`
+- Deployed: yes; Cloudflare version `48769686-c958-4405-98d2-adc11d35533e`
 - Coverage: 1,328/3,534 assessed and direct reviewed (37.6%); delta +11
 - Preview: 9/3,192 (0.3%); delta +0
 - News counter: reset to 0 with entry `assessed-catalog-37-percent`
 - Incidents: the first remote D1 migration request returned transient Cloudflare code 7403; identity and database listing succeeded and the immediate retry applied migration 0002. MCP stdio remains a provisional editorial inference with human verification desired; no other brief cell was omitted without a documented attempt or exact-surface exclusion
+
+RECONCILE cycle=7 date=2026-08-29 commit=012585f1865f61d099b2f73ca12478f99d405774 pushed=origin/main deploy=48769686-c958-4405-98d2-adc11d35533e coverage=1328/3534 ci=33292153994:success d1=0002:applied correction=CMAU-SPDEJSWZJC:declined note="Production API, news, feature pages, desktop and mobile evidence expansion, correction privacy, public receipt, and moderation were verified on canmyagentuse.com."
