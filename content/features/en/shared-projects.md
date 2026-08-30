@@ -11,7 +11,7 @@ audience: Teams organizing ongoing agent work.
 contentKind: feature
 status: published
 tags: [collaboration, projects, context, teams]
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: collaboration
 summary: Share a product-defined project workspace with other people.
@@ -20,6 +20,8 @@ aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-29: Claude Projects are available in the Claude client, but member and organization sharing is limited to Team and Enterprise. Shared projects can include project knowledge and instructions and support invited members with view or edit access."
   - id: 83
     text: "Evidence checked 2026-08-29: Shared Gems are multi-person Gemini workspaces containing persistent Gem instructions and uploaded files, with Viewer and Editor access, optional expiry, and ownership transfer."
   - id: 82
@@ -37,6 +39,14 @@ notes:
   - id: 4
     text: "Evidence checked 2026-08-28: Replit projects can be shared with teammates who run separate Agent threads against the same project, see a shared task board, review completed work, and apply it to the main version. Team Workspaces extend access across projects, and owners can revoke project or workspace membership."
 resources:
+  - id: anthropic-claude-project-sharing
+    title: Anthropic — Manage project visibility and sharing
+    href: https://support.claude.com/en/articles/9519189-manage-project-visibility-and-sharing
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Team and Enterprise availability; project visibility; member roles; project knowledge and instructions
   - id: openwork-v01839-share-workspace
     title: "OpenWork v0.18.39 — Desktop workspace sharing"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/workspace/share-workspace-access-panel.tsx#L113-L147"
@@ -144,6 +154,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Share a Gem; Share access to files uploaded to the shared Gem; Transfer ownership; Gem access levels; Work or school users"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: current official Claude project-sharing documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: project collaboration is limited to Team and Enterprise plans
+          - type: policy
+            value: projects can be private or organization-visible with invited members assigned view or edit access
+          - type: runtime
+            value: the shared workspace is a Claude Project with project knowledge and instructions, not a live local Cowork folder
+        evidence:
+          - resourceId: anthropic-claude-project-sharing
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: gemini-web
     versions:
       - track: current

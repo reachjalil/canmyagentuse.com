@@ -4,18 +4,18 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-08-29
-- Cycle: 5 complete locally; green ship checks pending
+- Cycle: 7 complete locally; full release gates pending
 - Phase: A — harness floor, with exact-source family sweeps interleaved
-- Coverage: 1,250/3,534 current-track cells sourced (35.4%); Cycle-5 delta +105
-- Preview: 9/3,192 sourced (0.3%); Cycle-5 delta +0
+- Coverage: 1,328/3,534 current-track cells assessed with direct reviewed evidence (37.6%); Cycle-7 delta +11
+- Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: `e14e855f28089810dd709174bc0ac2fcf4c325c9` (Cycle 4)
-- Last commit pushed: `e14e855f28089810dd709174bc0ac2fcf4c325c9` on `origin/main`; CI run 33276149996 succeeded
-- Last content deploy: Cycle 4; Cloudflare version `9c15a655-0611-4f6e-8300-d0b891882447`; live 1,145/3,534
-- News counter: 105/approximately 150 after `documentation-coverage-32-percent`
-- In-flight briefs: none; Cycle 6 queue targets remaining low-floor consumer surfaces plus release-pinned family sweeps
-- Owned dirty paths: 70 feature files and Cycle-5 ops files
+- Last completed catalog commit: `ac5a1af9e4583665e07e00221747eb3cc272594b` (Cycle 6)
+- Last commit pushed: `ac5a1af9e4583665e07e00221747eb3cc272594b` on `origin/main`; prior CI succeeded
+- Last content deploy: Cycle 6; Cloudflare version `9c4f7f95-596d-4142-ad69-bf311739ba54`; live 1,317/3,534
+- News counter: 0/approximately 150 after `assessed-catalog-37-percent`
+- In-flight briefs: none; Cycle 8 queue targets the five remaining sub-30 surfaces plus desert-family sweeps
+- Owned dirty paths: Cycle-7 feature, correction workflow, matrix UI, news, migration, and ops reconciliation files
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: finish Cycle-5 check/test/build/commit/push/deploy, verify live 1,250/3,534, then start Cycle 6 immediately
+- Next action: finish Cycle-7 full check/test/build, apply D1 migration 0002, commit/push/deploy, verify live 1,328/3,534 and correction flow, then reconcile this state and start Cycle 8

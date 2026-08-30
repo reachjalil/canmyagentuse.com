@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-29: Claude Desktop extensions package and launch local MCP server processes with a bundled Node runtime. The standard local MCP process transport is assessed as stdio, although the reviewed help page does not literally name the wire transport."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no MCP stdio server configuration, subprocess-protocol client, or JSON-RPC transport."
   - id: 73
@@ -56,6 +58,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp launches local command-based MCP servers over stdio, including documented npx and Docker configurations."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-extension-mcp-process
+    title: Anthropic — Deploy enterprise-grade MCP servers with desktop extensions
+    href: https://support.claude.com/en/articles/12702546-deploying-enterprise-grade-mcp-servers-with-desktop-extensions
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Local MCP server packaging, runtime, authentication, and deployment
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -204,6 +214,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Adding an MCP Server; command-based examples selecting stdio"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Desktop extension documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: local packaged MCP process; stdio is an editorial inference because the reviewed help page does not name the wire token
+          - type: runtime
+            value: desktop extensions can bundle and launch a local MCP server with Anthropic's bundled Node runtime
+          - type: auth
+            value: local servers can reuse desktop SSO or session credentials under the documented deployment model
+        evidence:
+          - resourceId: anthropic-claude-desktop-extension-mcp-process
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: editorial-inference
+        confidence: provisional
+        assessedAt: 2026-08-29
+        humanVerificationDesired: true
   - harness: aider
     versions:
       - track: current

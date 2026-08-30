@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-29: Claude Desktop acts as an MCP host and client for local desktop-extension servers and for authorized remote MCP connectors brokered through Claude's hosted service."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no native MCP client implementation or MCP server-configuration surface."
   - id: 81
@@ -62,6 +64,22 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-remote-mcp
+    title: Anthropic — Get started with custom connectors using remote MCP
+    href: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Availability; remote network connection; local MCP distinction
+  - id: anthropic-claude-desktop-local-mcp
+    title: Anthropic — Deploy enterprise-grade MCP servers with desktop extensions
+    href: https://support.claude.com/en/articles/12702546-deploying-enterprise-grade-mcp-servers-with-desktop-extensions
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Desktop extensions package and run local MCP servers
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -234,6 +252,34 @@ resources:
     reviewedAt: 2026-08-29
     locator: "MCP SDK Client and transport imports; createClient; connectTransport"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Desktop MCP documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: Claude Desktop consumes tools and capabilities exposed by configured MCP servers
+          - type: transport
+            value: local desktop-extension servers and cloud-brokered remote connectors are documented
+          - type: auth
+            value: remote connectors require authorization and can be disconnected or revoked
+        evidence:
+          - resourceId: anthropic-claude-desktop-remote-mcp
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: anthropic-claude-desktop-local-mcp
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

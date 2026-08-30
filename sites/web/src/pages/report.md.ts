@@ -17,9 +17,10 @@ Use the interactive [correction form](/report) to submit a proposal. Include:
 - the proposed Supported, Partial, Unsupported, Unknown, or Not applicable status;
 - a bounded explanation and public HTTPS sources;
 - reproduction steps and affected version, plan, platform, and surface when material;
-- any provider affiliation and optional private contact permission.
+- any provider affiliation and optional private contact permission; and
+- whether the explanation must remain internal or may be quoted in public editorial history.
 
-A valid submission receives a CMAU receipt. It enters a moderated queue with received, triaged, needs-more-information, accepted, partially-accepted, declined, duplicate, and superseded states. It never updates the catalog automatically. Public receipt history never exposes contact details, network identifiers, or private moderation metadata. Do not include account secrets, customer data, tokens, private screenshots, or private beta material.
+A valid submission receives a CMAU receipt. It enters a moderated queue with received, triaged, needs-more-information, accepted, partially-accepted, declined, duplicate, and superseded states. It never updates the catalog automatically. Public receipt history never exposes contact details, network identifiers, private moderation metadata, or the submitter's explanation unless the submitter explicitly permits publication. Do not include account secrets, customer data, tokens, private screenshots, or private beta material.
 `,
     })
   );

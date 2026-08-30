@@ -20,6 +20,8 @@ aliases: [credential vault, secret redaction, environment secrets]
 parent: data-security-controls
 related: [subagent-approval-boundaries, connectors, mcp-oauth]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Claude Desktop extensions store API keys and other sensitive values in encrypted local storage, while remote connector authorizations can be disconnected or revoked. This claim is scoped to extension and connector credentials rather than a general project secret vault."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop protects managed remote-MCP OAuth secrets and tokens in an AES-256-GCM runtime vault whose key is stored through the operating system, withholds provider credentials from the engine, and deletes them on disconnect."
   - id: 73
@@ -39,6 +41,22 @@ notes:
   - id: 52
     text: "Evidence checked 2026-08-29: Warp securely stores reusable MCP OAuth credentials on-device, supports API tokens through environment variables or headers, and scrubs shared server configuration secrets."
 resources:
+  - id: anthropic-claude-desktop-extension-secrets
+    title: Anthropic — Install Claude Desktop
+    href: https://support.claude.com/en/articles/10065433-install-claude-desktop
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Desktop extensions; encrypted storage for sensitive values
+  - id: anthropic-claude-desktop-connector-revocation
+    title: Anthropic — Get started with custom connectors using remote MCP
+    href: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Connector authorization, disconnection, and revocation
   - id: openwork-v01839-managed-mcp-secrets
     title: "OpenWork v0.18.39 — Local managed MCP OAuth credential lifecycle"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/local-managed-mcp-oauth/README.md#L24-L36"
@@ -133,6 +151,34 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Sharing MCP servers; Authentication"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Desktop extension documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: credential management is scoped to Claude Desktop extensions and remote connectors
+          - type: format
+            value: extension API keys and sensitive values use encrypted local storage
+          - type: policy
+            value: remote connector authorization can be disconnected or revoked
+        evidence:
+          - resourceId: anthropic-claude-desktop-extension-secrets
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: anthropic-claude-desktop-connector-revocation
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: openwork-desktop
     versions:
       - track: current

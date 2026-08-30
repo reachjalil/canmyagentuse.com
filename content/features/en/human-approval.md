@@ -19,6 +19,8 @@ summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork supports manual, automatic, and skip-all approval modes, while permanent file deletion still requires explicit confirmation."
   - id: 81
     text: "Evidence checked 2026-08-29: Gemini Spark is designed to request review and confirmation before covered external actions such as sending communications, modifying data, making purchases, submitting forms, or editing shared Workspace files, and can require browser takeover for passwords or payment details."
   - id: 80
@@ -67,6 +69,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks requires approval or user takeover for payments, personal-data submission, communications, account changes, and other sensitive actions."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-cowork-approvals
+    title: Anthropic — Use Claude Cowork safely
+    href: https://support.claude.com/en/articles/13364135-use-claude-cowork-safely
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Approval modes; permanent file-deletion confirmation
   - id: anthropic-claude-web-cowork-approvals
     title: "Anthropic — Get started with Claude Cowork"
     href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
@@ -259,6 +269,29 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How Spark helps you keep you & your info safe; Supervise important & sensitive tasks; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Cowork safety documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: approval controls apply to Cowork tasks in Claude Desktop
+          - type: policy
+            value: manual, automatic, and skip-all modes change the approval boundary; permanent deletion always requires confirmation
+        evidence:
+          - resourceId: anthropic-claude-desktop-cowork-approvals
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: gemini-web
     versions:
       - track: current

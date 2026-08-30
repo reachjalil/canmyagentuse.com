@@ -28,6 +28,8 @@ parent: agent-skills
 related: [custom-instructions, plugins]
 highlight: true
 notes:
+  - id: 86
+    text: "Evidence checked 2026-08-29: Claude Desktop discovers enabled Skills, can load provider and custom reusable packages centered on a skill.md file, and supports uploaded custom Skill archives across Claude plans when code execution is enabled."
   - id: 85
     text: "Evidence checked 2026-08-29: Gemini Spark at gemini.google.com imports reusable Agent Skills packages centered on a root SKILL.md, discovers enabled skills by name and description, and loads a relevant skill automatically or by explicit selection."
   - id: 76
@@ -144,7 +146,16 @@ resources:
     kind: docs
     publisher: Anthropic
     evidenceType: documented
-    reviewedAt: 2026-08-28
+    reviewedAt: 2026-08-29
+    locator: Plan availability; discover and enable Skills; upload custom Skills
+  - id: anthropic-create-custom-skills
+    title: Anthropic — How to create custom Skills
+    href: https://support.claude.com/en/articles/12512198-how-to-create-custom-skills
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Create a skill.md file; package and upload a custom Skill
   - id: cursor-skills
     title: Cursor — Agent Skills
     href: https://prod.cursor.com/docs/skills
@@ -300,6 +311,34 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Overview; What you need; Create a skill; Upload a file; Use skills for a task"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Skills documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: reusable provider and custom Skills centered on a skill.md instruction file
+          - type: runtime
+            value: code execution must be enabled for Skills to run
+          - type: policy
+            value: organization owners can control Skill availability and custom uploads
+        evidence:
+          - resourceId: anthropic-use-skills
+            type: documented
+            observedAt: 2026-08-29
+          - resourceId: anthropic-create-custom-skills
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: gemini-web
     versions:
       - track: current

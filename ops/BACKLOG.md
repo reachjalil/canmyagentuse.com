@@ -220,48 +220,44 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-29 for cycle 6. Skip recorded attempts until their
+Queue rewritten: 2026-08-29 after cycle 7. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
-1. `copilot-web` × remaining consumer collaboration, input, governance, and
-   runtime rows, separating consumer Microsoft
-   Copilot from Microsoft 365 and GitHub Copilot products.
-2. `grok-web` × remaining consumer inputs, sharing, search, voice, and policy
-   rows from xAI Help Center and legal pages.
-3. `gemini-web` × remaining consumer Projects/Gems, files, sharing, search,
-   voice, history, and policy rows from exact Gemini Apps Help pages.
-4. `claude-desktop` × remaining exact Desktop/Cowork inputs, collaboration,
-   enterprise controls, and hosted-account rows.
-5. `le-chat` × current Vibe web files, projects, connectors, sharing,
-   governance, and runtime rows after preserving the identity migration.
-6. `windsurf` × remaining Phase-A rows after deliberate product-identity
+1. `grok-web` × remaining consumer inputs, sharing, search, voice, and policy
+   rows from current xAI Help Center and legal pages.
+2. `chrome-webmcp-preview` × the remaining exact WebMCP rows, keeping the
+   current and preview tracks distinct and excluding generic Chrome or Gemini.
+3. `le-chat` × current Vibe web files, projects, connectors, sharing,
+   governance, and runtime rows after a deliberate identity decision.
+4. `windsurf` × remaining Phase-A rows after deliberate product-identity
    review; do not merge Devin Desktop or Devin Local evidence by default.
-7. `chrome-webmcp-preview` × remaining exact WebMCP rows, scoped to the Chrome
-   WebMCP origin-trial preview rather than generic Chrome or Gemini features.
-8. Release-pinned `codex-cli`, `gemini-cli`, `copilot-cli`, and `claude-cli`
+5. `chatgpt-cli` × no capability research until a first-party identity source
+   establishes this as a distinct current product rather than Codex CLI.
+6. Release-pinned `codex-cli`, `gemini-cli`, `copilot-cli`, and `claude-cli`
    × models/context and subagent atomic rows with measured-value contracts.
-9. Stable-source exact-scope negative sweeps for narrowly defined MCP and
+7. Best-documented harnesses × `output-token-limit`, the only atomic feature
+   still at zero direct reviewed current-track cells.
+8. Stable-source exact-scope negative sweeps for narrowly defined MCP and
    WebMCP families only where a complete maintained implementation is auditable.
+9. MCP and models/context family sweeps until each reaches the Phase-B 40%
+   threshold; current baselines are 32.0% and 25.0% respectively.
 10. `jetbrains-ai`, `opencode`, `warp`, `devin-web`, and `aider` only for rows
    reopened by exact first-party evidence; otherwise honor cooldowns.
 
-## Current Phase-A snapshot after Cycle 5
+## Current Phase-A snapshot after Cycle 7
 
-The validated local report is 1,250/3,534 current-track cells (35.4%). The
+The validated local report is 1,328/3,534 current-track cells (37.6%). The
 remaining sub-30 harnesses, in ascending sourced count, are:
 
 1. `chatgpt-cli` — 3/114; product identity blocked, so do not inherit Codex CLI
 2. `chrome-webmcp-preview` — 10/114; keep current and preview evidence separate
 3. `windsurf` — 13/114; product identity migration remains unresolved
 4. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
-5. `copilot-web` — 19/114
-6. `grok-web` — 20/114
-7. `gemini-web` — 27/114
-8. `claude-desktop` — 29/114
+5. `grok-web` — 20/114
 
-Cycle 6 should prioritize dated exact-surface evidence for the remaining
-consumer rows and release-pinned model/context sweeps for mature CLI products.
-Identity-blocked columns remain parked until an authoritative migration or
+Copilot web, Gemini web, and Claude Desktop cleared the Phase-A floor in Cycles
+6 and 7. The next cycle should prioritize Grok web and exact WebMCP coverage;
+identity-blocked columns remain parked until an authoritative migration or
 product-boundary source permits a deliberate catalog decision.
 
 ## Ledger candidates

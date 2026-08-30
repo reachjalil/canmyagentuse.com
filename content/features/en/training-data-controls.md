@@ -20,6 +20,8 @@ aliases: [training opt-out, data use, improve models, human review]
 parent: data-security-controls
 related: [data-retention-controls, admin-policy-controls]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-29: Claude Incognito chats are excluded from model training and memory. This is partial support because the control applies to the Incognito path rather than establishing every ordinary-consumer training preference; chats are retained for 30 days or longer under Enterprise retention policy."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 says its analytics never collect code, prompts, chats, keys, or personal information and lets operators disable analytics, while model-provider data use remains outside this Aider control."
   - id: 73
@@ -48,6 +50,14 @@ notes:
     text: "Evidence checked 2026-08-29: Signed-in Grok.com users can disable Improve the Model for future conversations, while Private Chat content is excluded from model training."
 issues: []
 resources:
+  - id: anthropic-claude-incognito-data-controls
+    title: Anthropic — Use incognito chats
+    href: https://support.claude.com/en/articles/12260368-use-incognito-chats
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: What are incognito chats?; training, memory, and retention boundaries
   - id: aider-v0860-analytics
     title: "Aider v0.86.0 — Analytics"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/more/analytics.md"
@@ -172,6 +182,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Model training; Grok.com Data Controls; Private Chat"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Incognito documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: Incognito chats are not used to train models and do not enter memory
+          - type: plan
+            value: Incognito is available across Claude plans; ordinary chat controls and commercial terms remain separate
+          - type: format
+            value: Incognito chats are retained for 30 days or longer when an Enterprise retention policy requires it
+        evidence:
+          - resourceId: anthropic-claude-incognito-data-controls
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: aider
     versions:
       - track: current

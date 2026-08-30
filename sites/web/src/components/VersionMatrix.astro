@@ -64,6 +64,7 @@ function correctionHref(harness: HarnessData, version: VersionCell) {
     targetType: "cell",
     feature: feature.slug,
     harness: harness.slug,
+    surface: harness.surface,
     track: version.track,
     status: version.status,
     assessment: version.noteIds
@@ -226,6 +227,7 @@ function correctionHref(harness: HarnessData, version: VersionCell) {
   if (root) {
     const board = root.querySelector(".support-board");
     const tabs = root.querySelectorAll('[role="tab"]');
+    const records = root.querySelectorAll(".support-record");
     for (const tab of tabs) {
       tab.addEventListener("click", () => {
         const view = tab.getAttribute("data-view");
@@ -234,6 +236,21 @@ function correctionHref(harness: HarnessData, version: VersionCell) {
         for (const other of tabs) {
           other.setAttribute("aria-selected", other === tab ? "true" : "false");
         }
+      });
+    }
+    for (const record of records) {
+      record.addEventListener("toggle", () => {
+        if (!(record instanceof HTMLDetailsElement) || !record.open) return;
+        for (const other of records) {
+          if (other !== record && other instanceof HTMLDetailsElement) {
+            other.open = false;
+          }
+        }
+        record.closest(".support-column")?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
       });
     }
   }
@@ -360,18 +377,22 @@ function correctionHref(harness: HarnessData, version: VersionCell) {
   }
 
   .support-band__columns {
-    display: grid;
-    grid-auto-columns: minmax(8.7rem, 1fr);
-    grid-auto-flow: column;
+    display: flex;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
   }
 
   .support-column {
     display: flex;
-    min-width: 0;
+    min-width: 8.7rem;
+    flex: 1 0 8.7rem;
     flex-direction: column;
     border-right: 1px solid var(--color-line);
+  }
+
+  .support-column:has(.support-record[open]) {
+    flex: 0 0 min(22rem, calc(100vw - 2rem));
+    min-width: min(22rem, calc(100vw - 2rem));
   }
 
   .support-column:last-child { border-right: 0; }
@@ -465,7 +486,7 @@ function correctionHref(harness: HarnessData, version: VersionCell) {
     border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
     background: color-mix(in srgb, var(--status-bg) 86%, #fff);
     padding: 0.55rem;
-    font-size: 0.68rem;
+    font-size: 0.76rem;
     line-height: 1.45;
   }
 

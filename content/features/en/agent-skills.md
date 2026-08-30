@@ -43,7 +43,7 @@ notes:
   - id: 107
     text: "Broad practical assessment checked 2026-08-29: claude-cli supports reusable skills through Agent Skills and reusable slash-invoked workflows in Claude Code. This broad family assessment covers practical reusable capabilities and does not imply support for every exact Agent Skills child behavior."
   - id: 108
-    text: "Broad practical assessment checked 2026-08-29: claude-desktop partially supports reusable skills through native reusable skills through Cowork on the desktop product. The practical skills mechanism is limited to the Cowork mode, eligible plans, and its current preview boundary."
+    text: "Broad practical assessment checked 2026-08-29: claude-desktop supports native reusable Skills across Claude plans, including custom packages centered on skill.md. Code execution and organization policy remain operational conditions, not a reduction in the core reusable-skill capability."
   - id: 109
     text: "Broad practical assessment checked 2026-08-29: claude-web supports reusable skills through native reusable Agent Skills in Claude. This broad family assessment covers practical reusable capabilities and does not imply support for every exact Agent Skills child behavior."
   - id: 110
@@ -157,13 +157,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Reusable skills, instructions, workflows, commands, or product-surface scope"
   - id: practical-skills-claude-desktop
-    title: "Anthropic — Use Claude Cowork"
-    href: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"
+    title: "Anthropic — Use skills in Claude"
+    href: "https://support.claude.com/en/articles/12512180-use-skills-in-claude"
     kind: docs
     publisher: "Anthropic"
     evidenceType: documented
     reviewedAt: 2026-08-29
-    locator: "Reusable skills, instructions, workflows, commands, or product-surface scope"
+    locator: "Plan availability; discover, enable, and upload Skills; organization controls"
   - id: practical-skills-claude-web
     title: "Anthropic — Use skills in Claude"
     href: "https://support.claude.com/en/articles/12512180-use-skills-in-claude"
@@ -513,18 +513,18 @@ support:
   - harness: claude-desktop
     versions:
       - track: current
-        status: partial
+        status: yes
         noteIds: [108]
         target:
           kind: dated-documentation
           revision: "Broad practical reusable-skills assessment checked 2026-08-29"
           observedAt: 2026-08-29
-        environmentProfile: preview-enabled
+        environmentProfile: hosted-default
         qualifiers:
           - type: format
-            value: "native reusable skills through Cowork on the desktop product"
+            value: "native provider and custom reusable Skills in the Claude desktop product"
           - type: runtime
-            value: "The practical skills mechanism is limited to the Cowork mode, eligible plans, and its current preview boundary."
+            value: "Code execution must be enabled; organization controls can govern availability and custom uploads. Broad family assessment only; exact child behaviors remain separate checks."
         evidence:
           - resourceId: practical-skills-claude-desktop
             type: documented

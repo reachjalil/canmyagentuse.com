@@ -290,3 +290,65 @@ CONTRADICTION feature=browser-automation harness=aider date=2026-08-29 src1=http
 - Preview: 9/3,192 (0.3%); delta +0
 - News counter: 105/approximately 150; no entry this cycle
 - Incidents: deprecated ChatGPT agent-mode documentation was not reused for current Work claims; Aider MCP `no` cells are pinned to a complete stable-source audit; OpenWork and Claude scope contradictions remain explicit
+
+## Cycle 6 — 2026-08-29
+
+- Phase: A with a catalog-wide assessment and correction-operations release
+- Briefs: 3; Microsoft Copilot consumer web, Gemini web, and Claude Desktop
+- Cells written: 67 current-track; 39 exact brief cells plus reconciled broad assessments and source corrections
+- Feature files changed: 54; consumer collaboration, inputs, governance, runtime, Agent Skills, and exact-surface corrections
+- Commit: `ac5a1af9e4583665e07e00221747eb3cc272594b`; reconciles pending Cycle 5 and ships Cycle 6
+- Pushed: yes; fast-forwarded `origin/main`
+- Deployed: yes; Cloudflare version `9c4f7f95-596d-4142-ad69-bf311739ba54`
+- Coverage: 1,317/3,534 (37.3%); delta +67
+- Preview: 9/3,192 (0.3%); delta +0
+- News counter: 172/approximately 150; deferred to the end-to-end reconciliation release
+- Incidents: none; all Copilot and Gemini brief cells were integrated, while twelve valid Claude Desktop candidates were identified as an incomplete merge for Cycle 7
+
+ATTEMPT feature=context-window harness=copilot-web date=2026-08-29 outcome=not-found note="Cowork's prompt-entry cap and Notebook reference limits are not a model context-window limit."
+ATTEMPT feature=output-token-limit harness=copilot-web date=2026-08-29 outcome=not-found note="No exact maximum generated-token or output-length budget for current consumer Copilot web was found."
+ATTEMPT feature=automatic-context-compaction harness=copilot-web date=2026-08-29 outcome=not-found note="Current documentation covers recent history and memory but not summarization, pruning, compaction thresholds, or continuation semantics."
+ATTEMPT feature=context-usage-visibility harness=copilot-web date=2026-08-29 outcome=not-found note="No token or context meter or remaining-context indicator was documented."
+ATTEMPT feature=model-fallback harness=copilot-web date=2026-08-29 outcome=not-found note="Microsoft says Copilot selects a model but does not document failure-triggered fallback, disclosure, configuration, or opt-out."
+ATTEMPT feature=data-residency harness=copilot-web date=2026-08-29 outcome=not-found note="No exact storage or inference geography for current consumer Copilot web content was found; generic privacy-statement transfer language is not exact enough."
+ATTEMPT feature=video-input harness=copilot-web date=2026-08-29 outcome=not-found note="The free-chat file list is non-exhaustive and current Cowork documentation has no authoritative supported-video-format table; omission cannot establish no."
+ATTEMPT feature=native-plugins harness=copilot-web date=2026-08-29 outcome=not-found note="Personal plans document built-in Agents, but Agent Store installation documentation is organization-oriented and does not establish consumer installation."
+ATTEMPT feature=plugin-marketplace harness=copilot-web date=2026-08-29 outcome=not-found note="Agent Store pages do not state that personal Microsoft accounts can browse and install marketplace entries."
+ATTEMPT feature=role-based-access harness=copilot-web date=2026-08-29 outcome=not-found note="Consumer Notebook sharing is unavailable, generic Notebook roles do not apply, and Page or conversation links do not establish role-based access."
+CONTRADICTION feature=training-data-controls harness=copilot-web date=2026-08-29 src1=https://support.microsoft.com/en-US/microsoft-copilot/microsoft-copilot-privacy-controls src2=https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history note="The former page now identifies itself as older-app documentation; the current individual web app states that prompts, responses, and uploaded-file contents do not train foundation models. The catalog source and wording were replaced."
+CONTRADICTION feature=data-retention-controls harness=copilot-web date=2026-08-29 src1=https://support.microsoft.com/en-us/Microsoft-Copilot/privacy-faq-for-microsoft-copilot src2=https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls note="The older-app FAQ's 18-month duration no longer establishes the current individual web surface; current deletion controls were retained without the stale duration."
+
+ATTEMPT feature=pdf-documents harness=gemini-web date=2026-08-29 outcome=not-found note="Current exact Gemini web upload text says documents or most file types but did not explicitly identify PDF; older localized copies were not used."
+ATTEMPT feature=screenshots harness=gemini-web date=2026-08-29 outcome=not-found note="Explicit screen capture and sharing documentation applies to Android or Gemini in Chrome; ordinary image upload does not establish screenshot capture on gemini.google.com."
+ATTEMPT feature=skill-project-scope harness=gemini-web date=2026-08-29 outcome=not-found note="Gemini web Skills are account-level; no repository, workspace, or project-scoped installation or discovery contract was documented."
+ATTEMPT feature=multi-file-edit harness=gemini-web date=2026-08-29 outcome=not-found note="Plural file and artifact language did not establish one inspectable operation modifying multiple user files."
+ATTEMPT feature=diffs-and-patches harness=gemini-web date=2026-08-29 outcome=not-found note="Canvas recent-change visibility does not establish a unified diff, patch, hunk, or apply/reject interface."
+ATTEMPT feature=computer-use harness=gemini-web date=2026-08-29 outcome=not-found note="Spark documents qualified code execution and browser interaction, not a general-purpose remote desktop or unrestricted computer-use primitive."
+ATTEMPT feature=secrets-management harness=gemini-web date=2026-08-29 outcome=not-found note="Browser cookies, sign-in takeover, and session state do not establish an encrypted product secret store, named secret lifecycle, injection, or redaction."
+ATTEMPT feature=encryption-key-controls harness=gemini-web date=2026-08-29 outcome=not-found note="Workspace limitations involving customer-key-encrypted source content do not establish a Gemini Apps prompt/output customer-managed key contract."
+CONTRADICTION feature=realtime-voice harness=gemini-web date=2026-08-29 src1=https://support.google.com/gemini/answer/15274899?co=GENIE.Platform%3DAndroid%26hl=en src2=https://support.google.com/gemini/answer/16363185?hl=en note="The exact source states Gemini Live is unavailable in the web app while the adjacent source documents Live in Chrome; the web cell remains no and the Chrome capability is not transferred."
+CONTRADICTION feature=skill-references-assets harness=gemini-web date=2026-08-29 src1=https://support.google.com/gemini/answer/17102773?hl=en src2=https://support.google.com/gemini/answer/17094296?co=GENIE.Platform%3DDesktop%26hl=en note="One Skills page generically mentions spreadsheets while the upload contract excludes XLSX and rich binary formats; the cell is limited to enumerated plain-text supporting files."
+
+ATTEMPT feature=mcp-streamable-http harness=claude-desktop date=2026-08-29 outcome=not-found note="Remote MCP is explicit, but the reviewed Claude Desktop help page does not name the Streamable HTTP transport."
+ATTEMPT feature=mcp-oauth harness=claude-desktop date=2026-08-29 outcome=not-found note="Connector authorization and revocation are explicit, but the exact atomic OAuth protocol flow is not."
+ATTEMPT feature=structured-output harness=claude-desktop date=2026-08-29 outcome=not-found note="Claude Desktop documents polished files and artifacts, not schema-constrained structured output."
+ATTEMPT feature=video-input harness=claude-desktop date=2026-08-29 outcome=not-found note="The current supported-file list omits video but provides no explicit non-support statement."
+ATTEMPT feature=subagent-context-isolation harness=claude-desktop date=2026-08-29 outcome=not-found note="Cowork documents parallel subagents but not their context-isolation boundary."
+ATTEMPT feature=subagent-write-access harness=claude-desktop date=2026-08-29 outcome=not-found note="Cowork documents parallel subagents but not a distinct child-agent write-access policy."
+ATTEMPT feature=subagent-approval-boundaries harness=claude-desktop date=2026-08-29 outcome=not-found note="Cowork documents approvals and parallel subagents but not how approval boundaries propagate to children."
+ATTEMPT feature=subagent-lifecycle-controls harness=claude-desktop date=2026-08-29 outcome=not-found note="Cowork documents coordinated subagents but not explicit child create, pause, cancel, resume, or terminate controls."
+ATTEMPT feature=subagent-mcp-access harness=claude-desktop date=2026-08-29 outcome=not-found note="Claude Desktop documents MCP and Cowork subagents separately but not child-agent MCP inheritance or isolation."
+
+## Cycle 7 — 2026-08-29
+
+- Phase: A completion and end-to-end release reconciliation
+- Briefs: 0 new; audited all three completed Cycle 6 briefs against the catalog and original operations pack
+- Cells written: 11 atomic current-track plus one family rollup; Claude Desktop Skills broad assessment corrected from partial to supported
+- Feature files changed: 13; files, code execution, sandbox network, approvals, MCP client and stdio, secrets, chat and project sharing, training controls, Skills, delegation, and Agent Skills rollup
+- Commit: pending reconciliation; prior release `ac5a1af9e4583665e07e00221747eb3cc272594b`
+- Pushed: no; release gates pending
+- Deployed: no; Cloudflare migration and release pending
+- Coverage: 1,328/3,534 assessed and direct reviewed (37.6%); delta +11
+- Preview: 9/3,192 (0.3%); delta +0
+- News counter: reset to 0 with entry `assessed-catalog-37-percent`
+- Incidents: the first remote D1 migration request returned transient Cloudflare code 7403; identity and database listing succeeded and the immediate retry applied migration 0002. MCP stdio remains a provisional editorial inference with human verification desired; no other brief cell was omitted without a documented attempt or exact-surface exclusion

@@ -784,3 +784,54 @@ discovery; pinned repository paths below preserve the reviewed release state.
 - https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md
 - https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/caching.md
 - https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/legal/privacy.md
+
+## Cycle 6 exact source additions — 2026-08-29
+
+These sources were returned by the completed Copilot web, Gemini web, and
+Claude Desktop briefs and independently reconciled into the catalog. Adjacent
+surface sources remain boundary evidence rather than support for the named
+harness.
+
+### Microsoft Copilot consumer web
+
+- https://support.microsoft.com/en-us/microsoft-365-copilot/learning/changes-microsoft-copilot-app
+- https://support.microsoft.com/en-us/privacy/microsoft-copilot/transparency-note
+- https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls
+- https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history
+- https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-cowork
+- https://support.microsoft.com/en-US/Microsoft-365-Copilot/ai-credits-and-limits-for-microsoft-365-subscriptions
+- https://support.microsoft.com/en-us/Microsoft-365-Copilot/provide-custom-instructions-for-your-microsoft-365-copilot-notebook
+- https://support.microsoft.com/en-us/Microsoft-365-Copilot/add-references-to-your-microsoft-365-copilot-notebook
+- https://support.microsoft.com/en-us/microsoft-365-copilot/get-answers-and-insights-about-your-microsoft-365-copilot-notebook
+- https://support.microsoft.com/en-us/microsoft-365-copilot/share-a-microsoft-365-copilot-notebook
+- https://support.microsoft.com/en-US/Microsoft-365-Copilot/get-started-with-microsoft-365-copilot-notebooks
+- https://support.microsoft.com/en-US/microsoft-copilot/microsoft-copilot-privacy-controls — superseded for current web after the 2026-08-18 app migration
+- https://support.microsoft.com/en-us/Microsoft-Copilot/privacy-faq-for-microsoft-copilot — superseded for current web after the 2026-08-18 app migration
+
+### Gemini consumer and Workspace web
+
+- https://support.google.com/gemini/answer/17094507?co=GENIE.Platform%3DDesktop&hl=en
+- https://support.google.com/gemini/answer/14903178?co=GENIE.Platform%3DDesktop&hl=en
+- https://support.google.com/gemini/answer/15719111?co=GENIE.Platform%3DDesktop&hl=en
+- https://support.google.com/gemini/answer/16275805?hl=en
+- https://support.google.com/gemini/answer/15274899?co=GENIE.Platform%3DAndroid&hl=en
+- https://support.google.com/gemini/answer/17094296?co=GENIE.Platform%3DDesktop&hl=en
+- https://support.google.com/gemini/answer/17102773?hl=en
+- https://support.google.com/gemini/answer/16504957?co=GENIE.Platform%3DDesktop&hl=en
+- https://support.google.com/gemini/answer/14517446?co=GENIE.Platform%3DDesktop&hl=en
+- https://knowledge.workspace.google.com/admin/compliance/data-covered-by-data-regions?hl=en
+- https://support.google.com/gemini/answer/16363185?hl=en — adjacent Gemini-in-Chrome boundary only
+
+### Anthropic Claude Desktop
+
+- https://support.claude.com/en/articles/8241126-upload-files-to-claude
+- https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude
+- https://support.claude.com/en/articles/13364135-use-claude-cowork-safely
+- https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+- https://support.claude.com/en/articles/12702546-deploying-enterprise-grade-mcp-servers-with-desktop-extensions
+- https://support.claude.com/en/articles/10065433-install-claude-desktop
+- https://support.claude.com/en/articles/10593882-share-and-unshare-chats
+- https://support.claude.com/en/articles/9519189-manage-project-visibility-and-sharing
+- https://support.claude.com/en/articles/12260368-use-incognito-chats
+- https://support.claude.com/en/articles/12512180-use-skills-in-claude
+- https://support.claude.com/en/articles/12512198-how-to-create-custom-skills

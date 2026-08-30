@@ -19,6 +19,8 @@ summary: Allow, deny, or restrict outbound network access from a tool sandbox.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 77
+    text: "Evidence checked 2026-08-29: Claude Team and Enterprise owners can control outbound network access from the code and file-creation sandbox and restrict it with an approved-domain allowlist."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 blocks sandboxed outbound network access by default and supports one-action, thread, or persistent exact-host, wildcard-host, or all-host grants for native terminal and fetch tools."
   - id: 70
@@ -37,6 +39,14 @@ notes:
     text: "Evidence checked 2026-08-29: Hosted Devin security profiles enforce outbound hostname or CIDR allowlists on managed session VMs and block every other destination across shells, browsers, packages, and scripts."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-sandbox-network
+    title: Anthropic — Create and edit files with Claude
+    href: https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: For Team and Enterprise owners; network access controls
   - id: zed-v1-17-2-sandboxing
     title: "Zed v1.17.2 — Sandboxing"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/sandboxing.md#L23-L67"
@@ -102,6 +112,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Restrictions in a profile; Network policy"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: current official Claude sandbox-network documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: organization network controls require Team or Enterprise owner access
+          - type: policy
+            value: owners can disable network access or constrain destinations with an approved-domain allowlist
+          - type: runtime
+            value: controls govern the isolated code-execution and file-creation sandbox
+        evidence:
+          - resourceId: anthropic-claude-desktop-sandbox-network
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: zed-agent
     versions:
       - track: current

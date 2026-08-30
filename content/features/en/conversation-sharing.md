@@ -20,6 +20,8 @@ aliases: [share chat, conversation link, run sharing]
 parent: collaboration-and-portability
 related: [role-based-access, conversation-export, shared-projects]
 notes:
+  - id: 78
+    text: "Evidence checked 2026-08-29: Claude Desktop can create a revocable link to a chat snapshot. Consumer links can be public, Team and Enterprise links are organization-only, and later messages, attached files, and raw MCP tool results remain outside the snapshot unless it is shared again."
   - id: 77
     text: "Evidence checked 2026-08-29: ChatGPT web creates manageable shared links for conversations and eligible scheduled tasks, with personal links open to anyone holding the URL and managed-workspace links restricted to members."
   - id: 73
@@ -73,7 +75,7 @@ resources:
     kind: docs
     publisher: Anthropic
     evidenceType: documented
-    reviewedAt: 2026-08-28
+    reviewedAt: 2026-08-29
     locator: Share chats; files and MCP integrations; unshare chats
   - id: google-gemini-chat-sharing
     title: Google Gemini Apps Help — Share your chats from Gemini Apps
@@ -156,6 +158,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Can I share my Grok conversations?; revoke shared links"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [78]
+        target:
+          kind: dated-documentation
+          revision: current official Claude shared-chat documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: Free, Pro, and Max snapshots can be public; Team and Enterprise links are restricted to the same organization
+          - type: format
+            value: the share is a snapshot; later messages, attached files, and raw MCP tool-call data are excluded
+          - type: policy
+            value: changing visibility to Private revokes the shared link
+        evidence:
+          - resourceId: anthropic-chat-sharing
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: chatgpt-web
     versions:
       - track: current

@@ -26,9 +26,12 @@ The operating target is moderate intensity: normally 5–8 parallel research
 briefs and 30–60 fully contracted cells per cycle. Completeness and traceable
 evidence matter more than raw throughput.
 
-This is documentation-only research. Never install, run, authenticate to, or
-exercise a harness under study. Never describe vendor documentation as runtime
-testing and never produce `tested` evidence.
+Dispatched research briefs are documentation-only. Never install, run,
+authenticate to, or exercise a harness under study. Never describe vendor
+documentation as runtime testing and never produce `tested` evidence. The
+orchestrator may still make a clearly labeled best-effort assessment from the
+allowed basis ladder below when direct documentation does not state the status
+verbatim.
 
 ## 2. Bootstrap protocol
 
@@ -92,21 +95,25 @@ is handled by the failure playbook; a malformed catalog baseline is a
    they never hold compatibility facts.
 5. **Use the full cell contract.** Every sourced cell uses `versions[]`.
    Row-level `status:` shorthand is invalid for any non-`unknown` claim.
-6. **Unknown is honest.** Leave a cell unknown when evidence is absent,
-   ambiguous, mismatched to the exact product surface, or weaker than the row
-   definition.
-7. **No requires explicit evidence.** Silence, a search miss, or omission from
-   a marketing feature list does not prove `no`. Use `no` only for an explicit
-   current non-support statement or an explicit absence from a maintained,
-   first-party compatibility list whose scope exactly matches the row.
-8. **Community is a lead, not proof.** Forums, Reddit, social posts, third-party
-   comparisons, and search snippets may open a lead but never independently
-   source a definitive cell.
+6. **Unknown is a last responsible resort.** Use `unknown` when neither direct
+   evidence nor a responsible best-effort assessment supports a status. Do not
+   use evidence uncertainty as a synonym for `partial`; keep status, basis, and
+   confidence separate.
+7. **No is not silence.** A search miss or omission from marketing does not by
+   itself prove `no`. Use a scoped current non-support statement, an exact
+   maintained compatibility list, or a high-confidence editorial assessment
+   based on stronger evidence than absence alone.
+8. **Community is normally a lead.** Forums, social posts, and third-party
+   comparisons should lead to stronger sources. Credible reporting may support
+   an assessment only when it is named as the basis, carefully scoped, and not
+   presented as direct vendor confirmation. Search snippets never source a
+   cell.
 9. **Do not project API/model limits onto products.** A model card or API limit
    does not establish behavior in a web, desktop, editor, or CLI harness.
-10. **Park contradictions.** Do not resolve credible conflicting sources by
-    preference. Record both in `ops/LOG.md` and add a ledger candidate to
-    `ops/BACKLOG.md`.
+10. **Explain contradictions.** Prefer the strongest current exact-surface
+    source when the conflict can be responsibly resolved. Otherwise record both
+    in `ops/LOG.md`, add a ledger candidate to `ops/BACKLOG.md`, and reduce
+    confidence or retain `unknown`.
 11. **No rankings.** Never create scores, leaderboards, “best” claims, usage
     share, or market share. Coverage measures catalog completeness only.
 12. **Validators are guardrails.** Never weaken a schema, validator, test, or
@@ -123,9 +130,10 @@ is handled by the failure playbook; a malformed catalog baseline is a
     harness uses the existing original monogram fallback.
 16. **One writer.** Research sub-agents return text only. The orchestrator owns
     every file edit, validation, commit, push, deploy, and state transition.
-17. **HTTPS and exact surfaces.** Evidence must be public HTTPS and describe
-    the exact named harness/surface. Marketing-only language and unsupported
-    inference stay out.
+17. **HTTPS and exact surfaces.** Evidence resources must be public HTTPS and
+    the assessment must describe the exact named harness/surface. Editorial
+    inference is allowed only with an explicit basis, confidence, scope, date,
+    and human-verification flag when appropriate.
 18. **Routine cycles do not edit the atlas.** Contradictions and ecosystem
     changes remain parked. Changes to `packages/catalog/src/atlas.ts` are
     occasional deliberate `feat:` work, not part of the research loop.
@@ -168,7 +176,7 @@ support:
             observedAt: YYYY-MM-DD
 ```
 
-Every non-`unknown` cell must satisfy all eight requirements:
+Every non-`unknown` cell must satisfy all twelve requirements:
 
 1. Name an existing harness slug.
 2. Target a track declared by that harness.
@@ -180,6 +188,12 @@ Every non-`unknown` cell must satisfy all eight requirements:
 7. Include typed, dated evidence resolving to a resource ID on the feature.
 8. Make every referenced resource public HTTPS with matching `evidenceType`,
    plus `publisher` and `reviewedAt` metadata.
+9. Record `assessmentBasis` when the source type alone does not fully explain
+   the editorial decision.
+10. Record `confidence` as `verified`, `high`, or `provisional`.
+11. Record `assessedAt` for every best-effort assessment.
+12. Set `humanVerificationDesired` when first-party testing or clarification
+    would materially improve confidence.
 
 Allowed evidence types:
 
@@ -191,9 +205,11 @@ Allowed evidence types:
 - `inferred`
 - `not-found`
 
-This mission may author documentation/listing evidence only. It never authors
-`tested`. `not-found` records an investigation attempt; it does not move a
-matrix cell off `unknown`.
+This mission never authors `tested` evidence because it does not exercise the
+products. It may author documented, vendor-attested, listed, reported,
+inferred, or not-found records when their source and basis match those labels.
+`not-found` records an investigation attempt; it does not move a matrix cell
+off `unknown` by itself.
 
 Allowed qualifier types:
 
@@ -229,10 +245,26 @@ Status discipline:
   limit.
 - `partial`: the capability exists but a plan, platform, transport, rollout,
   environment, authorization, or interaction limit materially narrows it.
-- `no`: a current first-party source explicitly establishes non-support.
+  Uncertain evidence alone is not partial.
+- `no`: a current source or responsible high-confidence assessment establishes
+  non-support for the exact surface; silence alone never does.
 - `na`: public evidence shows the question does not apply to that exact harness
   kind; it still needs the full contract.
-- `unknown`: the default; author no override when evidence is insufficient.
+- `unknown`: use only when the orchestrator cannot yet make a responsible
+  assessment; author no override merely to record a search miss.
+
+Assessment discipline:
+
+- Keep support status independent from `assessmentBasis` and `confidence`.
+- Prefer, in order: verified testing, official documentation, maintained
+  first-party source, official demonstration, first-party signal, credible
+  reporting, and editorial inference.
+- Direct reviewed evidence and assessed coverage are separate metrics even
+  when their totals happen to match.
+- A researcher confidence label is triage input. The orchestrator owns the
+  final basis, confidence, assessment date, and verification flag.
+- Every assessment is correctable through `/report`; accepted corrections use
+  the same review, validation, and deployment path as research changes.
 
 For measured values, record the numeric value, unit, what the value limits,
 scope, exact product surface, model or mode, plan, environment, region/policy,
@@ -312,9 +344,11 @@ Sub-agents have no write assignment. Tell them to return text only.
 
 ### Step 5 — Triage findings
 
-Reject a finding when it is non-HTTPS, community-only, marketing-only, scoped
-to a different surface, based on a search snippet, based on private UI, based
-on silence, or projects a model/API limit onto a product.
+Reject a finding as direct evidence when it is non-HTTPS, community-only,
+marketing-only, scoped to a different surface, based on a search snippet,
+based on private UI, based on silence, or projects a model/API limit onto a
+product. It may remain a lead or a carefully labeled assessment input when the
+basis ladder and exact-surface rules allow it.
 
 Check every accepted finding against the row definition. Convert credible
 conflicts into `CONTRADICTION` records and backlog ledger candidates. Convert

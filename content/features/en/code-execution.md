@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-29
 published: 2026-08-28
 category: tools
 summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 85
+    text: "Evidence checked 2026-08-29: Claude Desktop can execute code and create or edit files in an isolated Anthropic-hosted sandbox, shows action summaries for auditability, and lets the user stop execution."
   - id: 84
     text: "Evidence checked 2026-08-29: Gemini Spark uses a product-provided remote computer to run code and can retain remote code-execution files and data across sessions until the user deletes them or turns off Spark."
   - id: 83
@@ -41,6 +43,14 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: anthropic-claude-desktop-code-execution
+    title: Anthropic — Create and edit files with Claude
+    href: https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: Availability; Security and isolation; Team and Enterprise owner controls
   - id: aider-v0860-lint-test
     title: "Aider v0.86.0 — Linting and testing"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/lint-test.md"
@@ -236,6 +246,31 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Delete remote browser & computer data — Delete remote code execution data; Remote browser & computer"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [85]
+        target:
+          kind: dated-documentation
+          revision: current official Claude code-execution documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: generated code runs in an isolated Anthropic-hosted sandbox
+          - type: plan
+            value: available across Claude plans, subject to usage limits
+          - type: policy
+            value: Team and Enterprise owners can control whether code execution and file creation are enabled
+        evidence:
+          - resourceId: anthropic-claude-desktop-code-execution
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: gemini-web
     versions:
       - track: current

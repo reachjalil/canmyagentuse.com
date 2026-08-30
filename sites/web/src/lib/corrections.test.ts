@@ -30,6 +30,19 @@ describe("correction submission validation", () => {
       "Official docs now establish this exact behavior."
     );
     expect(result.value.sourceUrls).toEqual(["https://example.com/docs"]);
+    expect(result.value.publicationPreference).toBe("internal-only");
+  });
+
+  it("records explicit permission to publish the submitted explanation", () => {
+    const result = validateCorrectionSubmission({
+      targetType: "general",
+      explanation: "This explanation is deliberately long enough to validate.",
+      affiliation: "none",
+      publicationPreference: "may-publish",
+    });
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.value.publicationPreference).toBe("may-publish");
   });
 
   it("rejects short explanations, invalid contact, and the honeypot", () => {

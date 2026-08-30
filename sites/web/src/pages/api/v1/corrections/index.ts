@@ -206,9 +206,10 @@ export const POST: APIRoute = async ({ request }) => {
           source_snapshot_json, submitted_snapshot_json, catalog_permalink,
           proposed_status, explanation, source_urls_json, reproduction_steps,
           product_version, plan, platform, surface, affiliation,
-          affiliation_details, contact, permission_to_contact, submitter_hash,
-          submission_hash, spam_score, duplicate_of
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          affiliation_details, contact, permission_to_contact,
+          publication_preference, submitter_hash, submission_hash, spam_score,
+          duplicate_of
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         id,
@@ -235,6 +236,7 @@ export const POST: APIRoute = async ({ request }) => {
         submission.affiliationDetails,
         submission.contact,
         submission.permissionToContact ? 1 : 0,
+        submission.publicationPreference,
         submitterHash,
         submissionHash,
         score,

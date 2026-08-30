@@ -44,6 +44,8 @@ const AFFILIATIONS = [
   "other",
 ] as const;
 
+const PUBLICATION_PREFERENCES = ["internal-only", "may-publish"] as const;
+
 export interface CorrectionSubmission {
   targetType: CorrectionTargetType;
   feature: string;
@@ -61,6 +63,7 @@ export interface CorrectionSubmission {
   affiliationDetails: string;
   contact: string;
   permissionToContact: boolean;
+  publicationPreference: (typeof PUBLICATION_PREFERENCES)[number];
   catalogPermalink: string;
   submittedAssessment: string;
   submittedSources: string;
@@ -165,6 +168,11 @@ export function validateCorrectionSubmission(
   )
     ? (source.affiliation as (typeof AFFILIATIONS)[number])
     : "none";
+  const publicationPreference = PUBLICATION_PREFERENCES.includes(
+    source.publicationPreference as (typeof PUBLICATION_PREFERENCES)[number]
+  )
+    ? (source.publicationPreference as (typeof PUBLICATION_PREFERENCES)[number])
+    : "internal-only";
   const value: CorrectionSubmission = {
     targetType,
     feature: slug(source.feature),
@@ -186,6 +194,7 @@ export function validateCorrectionSubmission(
     affiliationDetails: sanitizeCorrectionText(source.affiliationDetails, 500),
     contact: sanitizeCorrectionText(source.contact, 254),
     permissionToContact: boolean(source.permissionToContact),
+    publicationPreference,
     catalogPermalink: validatedHttpsUrls(source.catalogPermalink)[0] ?? "",
     submittedAssessment: sanitizeCorrectionText(
       source.submittedAssessment,

@@ -21,6 +21,8 @@ parent: subagents
 related: [nested-subagents, subagent-concurrency, subagent-context-isolation, subagent-result-handoff]
 highlight: false
 notes:
+  - id: 85
+    text: "Evidence checked 2026-08-29: Claude Desktop Cowork can divide complex work into bounded tasks and coordinate multiple subagents in parallel, but the capability is limited to paid Cowork rather than ordinary Claude chat."
   - id: 80
     text: "Evidence checked 2026-08-29: Claude web Cowork can split complex work into smaller tasks and coordinate multiple subagents in parallel, but the capability is limited to paid Cowork rather than standard web chat."
   - id: 76
@@ -223,6 +225,29 @@ resources:
     reviewedAt: 2026-08-29
     locator: "complete stable runtime dependency manifest"
 support:
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: partial
+        noteIds: [85]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Cowork documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: Cowork requires a paid Claude plan and Enterprise owner enablement can apply
+          - type: runtime
+            value: delegation is limited to Cowork mode; Claude coordinates multiple subagents for complex tasks
+        evidence:
+          - resourceId: anthropic-claude-web-cowork-subagents
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
+        confidence: high
+        assessedAt: 2026-08-29
+        humanVerificationDesired: false
   - harness: claude-web
     versions:
       - track: current

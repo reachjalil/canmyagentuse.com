@@ -77,7 +77,7 @@ const harnesses = await publishedCollection("harnesses");
               <select name="harness">
                 <option value="">Choose when applicable</option>
                 {harnesses.map((harness) => (
-                  <option value={harness.data.slug}>
+                  <option value={harness.data.slug} data-surface={harness.data.surface}>
                     {harness.data.title} ({harness.data.surface})
                   </option>
                 ))}
@@ -168,12 +168,21 @@ const harnesses = await publishedCollection("harnesses");
             </label>
           </div>
 
+          <label>
+            How may we use your explanation?
+            <select name="publicationPreference">
+              <option value="internal-only">Editorial review only — do not publish my wording</option>
+              <option value="may-publish">The explanation may be quoted in public editorial history</option>
+            </select>
+          </label>
+
           <div class="report-form__notice">
             The server sanitizes text, validates source URLs, limits submission size
             and frequency, hashes network identifiers for abuse controls, and
-            records a moderation event. Contact details remain private. Accepted
-            changes receive a public editorial history; every valid submission
-            receives a CMAU receipt.
+            records a moderation event. Contact details remain private. Your
+            explanation stays internal unless you explicitly allow publication.
+            Accepted changes receive a public editorial history; every valid
+            submission receives a CMAU receipt.
           </div>
 
           <button class="report-form__submit" type="submit" data-submit-correction>
@@ -240,6 +249,20 @@ const harnesses = await publishedCollection("harnesses");
   setField("submittedSources", params.get("sources"));
   setField("catalogPermalink", params.get("permalink"));
   setField("observedAt", params.get("assessedAt"));
+  setField("surface", params.get("surface"));
+
+  const harnessField = form instanceof HTMLFormElement
+    ? form.elements.namedItem("harness")
+    : null;
+  const syncSurface = () => {
+    if (!(harnessField instanceof HTMLSelectElement)) return;
+    const selected = harnessField.selectedOptions[0];
+    setField("surface", selected?.dataset.surface ?? null);
+  };
+  if (harnessField instanceof HTMLSelectElement) {
+    harnessField.addEventListener("change", syncSurface);
+    if (!params.get("surface")) syncSurface();
+  }
 
   if (form instanceof HTMLFormElement) {
     form.addEventListener("submit", async (event) => {
