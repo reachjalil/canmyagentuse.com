@@ -26,6 +26,16 @@ const harnessRows = report.harnesses.toSorted(
   (left, right) =>
     right.sourced - left.sourced || left.title.localeCompare(right.title)
 );
+const clearHalfTarget = Math.floor(report.totals.total / 2) + 1;
+const remainingToHalf = Math.max(
+  0,
+  clearHalfTarget - report.totals.assessed
+);
+const milestoneProgress = Math.min(
+  report.totals.assessed / clearHalfTarget,
+  1
+);
+const precisePercent = (share: number) => `${(share * 100).toFixed(1)}%`;
 ---
 
 <BaseLayout
@@ -35,47 +45,117 @@ const harnessRows = report.harnesses.toSorted(
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
-    <main id="main" class="shell py-8">
-      <p class="eyebrow">Catalog completeness</p>
-      <h1 class="text-4xl font-semibold tracking-tight">Catalog coverage</h1>
-      <p class="mt-3 max-w-3xl text-lg text-[color:var(--color-muted)]">
-        {report.totals.assessed} of {report.totals.total} current-track cells have a
-        responsible public status assessment; {report.totals.directEvidence} have
-        direct reviewed evidence. These are research-completeness measures, not
-        rankings of product quality, popularity, or conformance.
-      </p>
-      <div class="trust-banner mt-6">
-        <strong>Unknown is a deliberate result.</strong> It means this catalog
-        has not yet published a sufficiently scoped, dated source for that
-        capability and exact surface. It does not mean unsupported.
-      </div>
+    <main id="main" class="shell coverage-page">
+      <section class="coverage-hero" aria-labelledby="coverage-title">
+        <div class="coverage-hero__copy">
+          <p class="eyebrow">Research progress · Current track</p>
+          <h1 id="coverage-title">Catalog coverage</h1>
+          <p class="coverage-lede">
+            <strong>
+              {report.totals.assessed.toLocaleString("en-US")} of {report.totals.total.toLocaleString("en-US")}
+            </strong>{" "}
+            capability-and-product checks now have a responsible public status.
+            Every assessed check is backed by direct reviewed evidence.
+          </p>
 
-      <section class="coverage-overview mt-8" aria-labelledby="coverage-overview-title">
-        <div class="coverage-dials">
-          <div class="coverage-dial">
-            <span id="coverage-overview-title">Assessed status share</span>
-            <strong>{formatPercent(report.totals.assessedShare)}</strong>
-            <small>{report.totals.unknown} unknown cells remain</small>
-          </div>
-          <div class="coverage-dial coverage-dial--secondary">
-            <span>Compatible among assessed</span>
-            <strong>{formatPercent(report.totals.compatibleShareOfAssessed)}</strong>
-            <small>{report.totals.compatible} supported or partial assessments</small>
-          </div>
-          <div class="coverage-dial coverage-dial--secondary">
-            <span>Direct reviewed evidence</span>
-            <strong>{formatPercent(report.totals.directEvidenceShare)}</strong>
-            <small>{report.totals.directEvidence} documentation, test, attestation, or listing contracts</small>
+          <dl class="coverage-facts" aria-label="Catalog scope and evidence">
+            <div>
+              <dt>Direct evidence</dt>
+              <dd>{report.totals.directEvidence.toLocaleString("en-US")}</dd>
+            </div>
+            <div>
+              <dt>Capabilities</dt>
+              <dd>{report.totals.features}</dd>
+            </div>
+            <div>
+              <dt>Products</dt>
+              <dd>{report.totals.harnesses}</dd>
+            </div>
+          </dl>
+
+          <div class="coverage-unknown-note">
+            <span aria-hidden="true">?</span>
+            <p>
+              <strong>Unknown is not unsupported.</strong> It means a sufficiently
+              scoped, dated source has not been published for that exact check yet.
+            </p>
           </div>
         </div>
-        <div class="coverage-surface-grid">
-          {report.surfaces.map((surface) => (
+
+        <aside class="coverage-goal" aria-labelledby="coverage-goal-title">
+          <header>
+            <p class="eyebrow">Next milestone</p>
+            <h2 id="coverage-goal-title">Clear 50%</h2>
+          </header>
+          <div class="coverage-goal__current">
+            <strong>{precisePercent(report.totals.assessedShare)}</strong>
+            <span>of the full current-track catalog</span>
+          </div>
+          <div
+            class="coverage-goal__meter"
+            role="progressbar"
+            aria-label={`${report.totals.assessed} of ${clearHalfTarget} assessments needed to clear 50 percent`}
+            aria-valuemin="0"
+            aria-valuemax={clearHalfTarget}
+            aria-valuenow={report.totals.assessed}
+          >
+            <span style={`width:${milestoneProgress * 100}%`} />
+          </div>
+          <div class="coverage-goal__scale" aria-hidden="true">
+            <span>0</span>
+            <strong>{precisePercent(milestoneProgress)} of milestone</strong>
+            <span>50%+</span>
+          </div>
+          <dl class="coverage-goal__counts">
+            <div>
+              <dt>Assessed now</dt>
+              <dd>{report.totals.assessed.toLocaleString("en-US")}</dd>
+            </div>
+            <div>
+              <dt>Milestone</dt>
+              <dd>{clearHalfTarget.toLocaleString("en-US")}</dd>
+            </div>
+          </dl>
+          <p class="coverage-goal__remaining">
+            <strong>{remainingToHalf}</strong>
+            <span>more reviewed cells to move beyond halfway.</span>
+          </p>
+        </aside>
+      </section>
+
+      <section class="coverage-surfaces" aria-labelledby="coverage-surfaces-title">
+        <header class="coverage-surfaces__heading">
+          <div>
+            <p class="eyebrow">Coverage by surface</p>
+            <h2 id="coverage-surfaces-title">Where the research stands</h2>
+          </div>
+          <p>
+            {precisePercent(report.totals.compatibleShareOfAssessed)} of assessed
+            checks are supported or partial. Coverage measures research work,
+            not product quality.
+          </p>
+        </header>
+        <div class="coverage-surface-cards">
+          {report.surfaces.map((surface, index) => (
             <article>
-              <header><strong>{HARNESS_SURFACE_LABELS[surface.surface]}</strong><span>{surface.harnesses} surfaces</span></header>
-              <div class="coverage-meter" aria-label={`${surface.assessed} of ${surface.total} current-track cells assessed`}>
+              <header>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{HARNESS_SURFACE_LABELS[surface.surface]}</strong>
+                <b>{precisePercent(surface.assessedShare)}</b>
+              </header>
+              <div
+                class="coverage-surface-meter"
+                aria-label={`${surface.assessed} of ${surface.total} current-track cells assessed`}
+              >
                 <span style={`width:${surface.assessedShare * 100}%`} />
               </div>
-              <p><b>{surface.assessed}</b> assessed · {surface.directEvidence} direct evidence · {surface.unknown} unknown</p>
+              <p class="coverage-surface-count">
+                <strong>{surface.assessed}</strong>
+                <span>of {surface.total} assessed</span>
+              </p>
+              <p class="coverage-surface-detail">
+                {surface.harnesses} products · {surface.unknown} still unknown
+              </p>
             </article>
           ))}
         </div>
@@ -132,6 +212,390 @@ const harnessRows = report.harnesses.toSorted(
 </BaseLayout>
 
 <style>
-  .coverage-dials { display: grid; gap: 0.55rem; }
-  .coverage-dial--secondary strong { font-size: clamp(2.1rem, 5vw, 3.3rem); }
+  .coverage-page {
+    padding-block: clamp(1.5rem, 3vw, 2.25rem) 3rem;
+  }
+
+  .coverage-hero {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .coverage-hero__copy {
+    border: 1px solid var(--color-line);
+    background:
+      linear-gradient(135deg, rgb(255 248 235 / 96%), rgb(255 248 235 / 72%)),
+      var(--color-paper);
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .coverage-hero__copy h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    line-height: 0.95;
+  }
+
+  .coverage-lede {
+    max-width: 47rem;
+    margin: 1rem 0 0;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 1.7vw, 1.2rem);
+    line-height: 1.55;
+  }
+
+  .coverage-lede strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .coverage-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 1.25rem 0 0;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .coverage-facts > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column-reverse;
+    gap: 0.15rem;
+    padding: 0.75rem 0.8rem;
+  }
+
+  .coverage-facts > div + div {
+    border-left: 1px solid var(--color-line);
+  }
+
+  .coverage-facts dt,
+  .coverage-facts dd {
+    margin: 0;
+  }
+
+  .coverage-facts dt {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .coverage-facts dd {
+    font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+
+  .coverage-unknown-note {
+    display: grid;
+    grid-template-columns: 1.8rem minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .coverage-unknown-note > span {
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    place-items: center;
+    border: 1px solid var(--color-ink);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .coverage-unknown-note p {
+    margin: 0.2rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .coverage-unknown-note strong {
+    color: var(--color-ink);
+  }
+
+  .coverage-goal {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-ink);
+    border-top: 0.35rem solid var(--color-copper);
+    background:
+      linear-gradient(90deg, rgb(255 248 235 / 4%) 1px, transparent 1px),
+      linear-gradient(rgb(255 248 235 / 4%) 1px, transparent 1px),
+      var(--color-ink);
+    background-size: 2rem 2rem;
+    box-shadow: 0.42rem 0.42rem 0 color-mix(in srgb, var(--color-copper) 42%, var(--color-line));
+    color: var(--color-paper);
+    padding: clamp(1.15rem, 3vw, 1.7rem);
+  }
+
+  .coverage-goal .eyebrow {
+    color: color-mix(in srgb, var(--color-paper) 64%, var(--color-ink));
+  }
+
+  .coverage-goal header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .coverage-goal h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    letter-spacing: -0.04em;
+  }
+
+  .coverage-goal__current {
+    display: grid;
+    margin-top: clamp(1.3rem, 3vw, 2.4rem);
+  }
+
+  .coverage-goal__current strong {
+    font-size: clamp(3.75rem, 8vw, 6.6rem);
+    font-weight: 600;
+    letter-spacing: -0.075em;
+    line-height: 0.86;
+  }
+
+  .coverage-goal__current span,
+  .coverage-goal__scale,
+  .coverage-goal__counts dt {
+    color: color-mix(in srgb, var(--color-paper) 66%, var(--color-ink));
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+  }
+
+  .coverage-goal__current span {
+    margin-top: 0.6rem;
+  }
+
+  .coverage-goal__meter {
+    height: 0.78rem;
+    margin-top: 1.25rem;
+    border: 1px solid rgb(255 248 235 / 35%);
+    background: rgb(255 248 235 / 12%);
+  }
+
+  .coverage-goal__meter > span {
+    display: block;
+    height: 100%;
+    background: var(--color-copper);
+  }
+
+  .coverage-goal__scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.35rem;
+  }
+
+  .coverage-goal__scale strong {
+    color: var(--color-paper);
+    font-weight: 500;
+  }
+
+  .coverage-goal__counts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 1.25rem 0 0;
+    border-top: 1px solid rgb(255 248 235 / 18%);
+    border-bottom: 1px solid rgb(255 248 235 / 18%);
+  }
+
+  .coverage-goal__counts > div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.15rem;
+    padding: 0.75rem 0;
+  }
+
+  .coverage-goal__counts > div + div {
+    border-left: 1px solid rgb(255 248 235 / 18%);
+    padding-left: 1rem;
+  }
+
+  .coverage-goal__counts dt,
+  .coverage-goal__counts dd {
+    margin: 0;
+  }
+
+  .coverage-goal__counts dd {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .coverage-goal__remaining {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.9rem 0 0;
+  }
+
+  .coverage-goal__remaining strong {
+    color: color-mix(in srgb, var(--color-copper) 76%, var(--color-paper));
+    font-size: 1.9rem;
+    letter-spacing: -0.04em;
+  }
+
+  .coverage-goal__remaining span {
+    max-width: 13rem;
+    color: color-mix(in srgb, var(--color-paper) 75%, var(--color-ink));
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .coverage-surfaces {
+    margin-top: clamp(1.6rem, 3vw, 2.25rem);
+  }
+
+  .coverage-surfaces__heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.6rem 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .coverage-surfaces__heading h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+    letter-spacing: -0.04em;
+  }
+
+  .coverage-surfaces__heading > p {
+    max-width: 38rem;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .coverage-surface-cards {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .coverage-surface-cards article {
+    --surface-accent: var(--color-copper-deep);
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    box-shadow: inset 0.22rem 0 0 var(--surface-accent);
+    padding: 0.8rem 0.9rem 0.8rem 1.05rem;
+  }
+
+  .coverage-surface-cards article:nth-child(2) {
+    --surface-accent: var(--color-yes);
+  }
+
+  .coverage-surface-cards article:nth-child(3) {
+    --surface-accent: var(--color-ink);
+  }
+
+  .coverage-surface-cards header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+
+  .coverage-surface-cards header span,
+  .coverage-surface-cards header b,
+  .coverage-surface-detail {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+  }
+
+  .coverage-surface-cards header span {
+    color: var(--surface-accent);
+  }
+
+  .coverage-surface-cards header b {
+    font-weight: 500;
+  }
+
+  .coverage-surface-meter {
+    height: 0.42rem;
+    margin-top: 0.7rem;
+    background: color-mix(in srgb, var(--color-line) 68%, white);
+  }
+
+  .coverage-surface-meter > span {
+    display: block;
+    height: 100%;
+    background: var(--surface-accent);
+  }
+
+  .coverage-surface-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin: 0.65rem 0 0;
+  }
+
+  .coverage-surface-count strong {
+    font-size: 1.2rem;
+    letter-spacing: -0.04em;
+  }
+
+  .coverage-surface-count span,
+  .coverage-surface-detail {
+    color: var(--color-muted);
+  }
+
+  .coverage-surface-count span {
+    font-size: 0.75rem;
+  }
+
+  .coverage-surface-detail {
+    margin: 0.18rem 0 0;
+  }
+
+  @media (min-width: 780px) {
+    .coverage-hero {
+      grid-template-columns: minmax(0, 1.35fr) minmax(19rem, 0.65fr);
+    }
+
+    .coverage-surface-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .coverage-hero__copy,
+    .coverage-goal {
+      padding: 1rem;
+    }
+
+    .coverage-facts {
+      grid-template-columns: 1fr;
+    }
+
+    .coverage-facts > div {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .coverage-facts > div + div {
+      border-top: 1px solid var(--color-line);
+      border-left: 0;
+    }
+
+    .coverage-facts dd {
+      font-size: 1.3rem;
+    }
+
+    .coverage-goal__scale strong {
+      display: none;
+    }
+  }
 </style>
