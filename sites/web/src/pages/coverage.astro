@@ -42,6 +42,10 @@ const precisePercent = (share: number) => `${(share * 100).toFixed(1)}%`;
   title={`Catalog coverage | ${SITE.name}`}
   description="Current catalog completeness by product type, capability, and exact product column. Coverage is not a product score."
   canonicalPath="/coverage"
+  socialTitle="Most of the AI agent compatibility map is still unknown"
+  socialDescription={`${report.totals.assessed.toLocaleString("en-US")} of ${report.totals.total.toLocaleString("en-US")} agent capability checks have direct reviewed evidence. Explore the live ${precisePercent(report.totals.assessedShare)} coverage map.`}
+  socialImagePath={`/social/coverage-frontier-${report.totals.assessed}.png`}
+  socialImageAlt={`${precisePercent(report.totals.assessedShare)} of ${report.totals.total.toLocaleString("en-US")} agent capability checks have direct reviewed evidence, visualized as an illuminated copper evidence frontier.`}
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>

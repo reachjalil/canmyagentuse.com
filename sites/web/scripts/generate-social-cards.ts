@@ -1,8 +1,14 @@
+import { Buffer } from "node:buffer";
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { parse } from "yaml";
+import {
+  buildCoverageReport,
+  featureSchema,
+  harnessSchema,
+} from "../../../packages/catalog/src/index.ts";
 import {
   renderSocialCardSvg,
   type SocialCard,
@@ -19,6 +25,10 @@ const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "../../..");
 const contentRoot = resolve(repositoryRoot, "content");
 const outputRoot = resolve(repositoryRoot, "sites/web/public/social");
+const coverageBackgroundPath = resolve(
+  repositoryRoot,
+  "sites/web/src/assets/social/coverage-evidence-frontier-v1.png"
+);
 const PRIMARY_SOCIAL_FAMILIES = [
   "ChatGPT",
   "Claude",
@@ -86,14 +96,6 @@ const SYSTEM_CARDS: SocialCard[] = [
     meta: "Documented is not runtime-tested",
   },
   {
-    canonicalPath: "/coverage",
-    eyebrow: "Measure the catalog",
-    title: "Catalog coverage",
-    description:
-      "Transparent current-track research completeness by surface, capability, and harness.",
-    meta: "Evidence progress · never a product score",
-  },
-  {
     canonicalPath: "/search",
     eyebrow: "Unified catalog search",
     title: "Search every catalog record",
@@ -154,8 +156,8 @@ function slugFor(path: string): string {
   return path === "/" ? "home" : path.slice(1).replaceAll("/", "--");
 }
 
-function socialPath(path: string): string {
-  return `/social/${slugFor(path)}.png`;
+function socialPath(card: SocialCard): string {
+  return `/social/${card.imageSlug ?? slugFor(card.canonicalPath)}.png`;
 }
 
 function recordValue(value: unknown): Record<string, unknown> | undefined {
@@ -261,8 +263,28 @@ async function collectCards(): Promise<SocialCard[]> {
       frontmatterFiles("pages"),
     ]);
 
+  const coverage = buildCoverageReport(
+    features.map((entry) => featureSchema.parse(entry)),
+    harnesses.map((entry) => harnessSchema.parse(entry))
+  );
+  const assessed = coverage.totals.assessed;
+  const total = coverage.totals.total;
+  const unknown = coverage.totals.unknown;
+  const percentLabel = `${(coverage.totals.assessedShare * 100).toFixed(1)}%`;
+  const coverageCard: SocialCard = {
+    canonicalPath: "/coverage",
+    eyebrow: "How much can we actually prove?",
+    title: "Most of the map is still unknown.",
+    description: `${assessed.toLocaleString("en-US")} of ${total.toLocaleString("en-US")} agent capability checks have direct reviewed evidence.`,
+    meta: "Explore the living catalog",
+    variant: "coverage",
+    imageSlug: `coverage-frontier-${assessed}`,
+    coverage: { assessed, total, unknown, percentLabel },
+  };
+
   const cards: SocialCard[] = [
     ...SYSTEM_CARDS,
+    coverageCard,
     ...features.map((entry) => ({
       canonicalPath: `/features/${stringValue(entry.slug)}`,
       eyebrow: "Capability compatibility",
@@ -334,17 +356,28 @@ async function collectCards(): Promise<SocialCard[]> {
 
 async function main() {
   const cards = await collectCards();
+  const coverageBackground = await readFile(coverageBackgroundPath);
+  const coverageBackgroundDataUri = `data:image/png;base64,${Buffer.from(coverageBackground).toString("base64")}`;
   await rm(outputRoot, { recursive: true, force: true });
   await mkdir(outputRoot, { recursive: true });
 
   const manifest: CardManifestEntry[] = await Promise.all(
     cards.map(async (card) => {
-      const imagePath = socialPath(card.canonicalPath);
+      const imagePath = socialPath(card);
       const outputPath = resolve(
         repositoryRoot,
         `sites/web/public${imagePath}`
       );
-      const png = await sharp(Buffer.from(renderSocialCardSvg(card)))
+      const png = await sharp(
+        Buffer.from(
+          renderSocialCardSvg(card, {
+            backgroundImageDataUri:
+              card.variant === "coverage"
+                ? coverageBackgroundDataUri
+                : undefined,
+          })
+        )
+      )
         .png({ quality: 92 })
         .toBuffer();
       await writeFile(outputPath, png);

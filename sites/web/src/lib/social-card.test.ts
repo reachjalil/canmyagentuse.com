@@ -56,6 +56,36 @@ describe("social cards", () => {
     expect(svg).not.toContain("MATRIX CELL STATUS");
   });
 
+  it("renders coverage from exact report data", () => {
+    const svg = renderSocialCardSvg(
+      {
+        ...card,
+        canonicalPath: "/coverage",
+        eyebrow: "How much can we actually prove?",
+        title: "Most of the map is still unknown.",
+        description:
+          "1,328 of 3,534 agent capability checks have direct reviewed evidence.",
+        meta: "Explore the living catalog",
+        variant: "coverage",
+        coverage: {
+          assessed: 1328,
+          total: 3534,
+          unknown: 2206,
+          percentLabel: "37.6%",
+        },
+      },
+      { backgroundImageDataUri: "data:image/png;base64,AAAA" }
+    );
+
+    expect(svg).toContain("37.6%");
+    expect(svg).toContain("1,328 EVIDENCED");
+    expect(svg).toContain("2,206 RESPONSIBLY UNKNOWN");
+    expect(svg).toContain("3,534 TOTAL");
+    expect(svg).toContain("data:image/png;base64,AAAA");
+    expect(svg).toContain("LIVE EVIDENCE MAP");
+    expect(svg).not.toContain("MATRIX CELL STATUS");
+  });
+
   it("groups the four main provider families by exact surface", () => {
     const svg = renderSocialCardSvg({
       ...card,

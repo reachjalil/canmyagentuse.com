@@ -17,8 +17,19 @@ export interface SocialCard {
   title: string;
   description: string;
   meta: string;
-  variant?: "home";
+  variant?: "home" | "coverage";
+  imageSlug?: string;
+  coverage?: {
+    assessed: number;
+    total: number;
+    unknown: number;
+    percentLabel: string;
+  };
   compatibility?: SocialCompatibilityGroup[];
+}
+
+export interface SocialCardRenderOptions {
+  backgroundImageDataUri?: string;
 }
 
 const SOCIAL_STATUS = {
@@ -104,6 +115,75 @@ function renderHomepageSocialCardSvg(card: SocialCard): string {
     <line x1="76" y1="524" x2="1124" y2="524" stroke="#4b4037" stroke-width="2"/>
     <text x="76" y="563" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" font-weight="500" letter-spacing="1">${escapeXml(card.meta.toUpperCase())}</text>
     <text x="1124" y="563" text-anchor="end" fill="#9f9587" font-family="IBM Plex Mono,Menlo,monospace" font-size="14" letter-spacing="1">INDEPENDENT · EVIDENCE-LED</text>
+  </svg>`;
+}
+
+function renderCoverageSocialCardSvg(
+  card: SocialCard,
+  options: SocialCardRenderOptions
+): string {
+  const titleLines = wrapSocialText(card.title, 25, 2);
+  const descriptionLines = wrapSocialText(card.description, 47, 2);
+  const assessed = card.coverage?.assessed.toLocaleString("en-US") ?? "—";
+  const total = card.coverage?.total.toLocaleString("en-US") ?? "—";
+  const unknown = card.coverage?.unknown.toLocaleString("en-US") ?? "—";
+  const percentLabel = card.coverage?.percentLabel ?? "—";
+  const backgroundImage = options.backgroundImageDataUri
+    ? `<image href="${options.backgroundImageDataUri}" x="0" y="0" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>`
+    : "";
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="coverage-card-title coverage-card-description">
+    <title id="coverage-card-title">${escapeXml(card.title)}</title>
+    <desc id="coverage-card-description">${escapeXml(card.description)}</desc>
+    <defs>
+      <linearGradient id="coverage-shade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#12100e" stop-opacity="1"/>
+        <stop offset="0.46" stop-color="#12100e" stop-opacity="0.97"/>
+        <stop offset="0.66" stop-color="#12100e" stop-opacity="0.4"/>
+        <stop offset="1" stop-color="#12100e" stop-opacity="0.08"/>
+      </linearGradient>
+      <linearGradient id="coverage-floor" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0.66" stop-color="#12100e" stop-opacity="0"/>
+        <stop offset="1" stop-color="#12100e" stop-opacity="0.96"/>
+      </linearGradient>
+      <pattern id="coverage-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+        <path d="M42 0H0V42" fill="none" stroke="#fff8eb" stroke-opacity="0.035" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="1200" height="630" fill="#12100e"/>
+    ${backgroundImage}
+    <rect width="1200" height="630" fill="url(#coverage-shade)"/>
+    <rect width="1200" height="630" fill="url(#coverage-floor)"/>
+    <rect width="1200" height="630" fill="url(#coverage-grid)"/>
+    <rect width="18" height="630" fill="#c45c26"/>
+    <rect x="42" y="30" width="1132" height="570" fill="none" stroke="#fff8eb" stroke-opacity="0.17" stroke-width="2"/>
+
+    <g aria-label="Can My Agent Use">
+      <path d="M78 51H65V64M91 51H104V64M104 77V90H91M78 90H65V77" fill="none" stroke="#fff8eb" stroke-width="4"/>
+      <rect x="78" y="64" width="13" height="13" fill="#c45c26"/>
+      <text x="123" y="68" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="25" font-weight="600" letter-spacing="-0.2">CAN MY AGENT USE</text>
+      <text x="123" y="91" fill="#a89d8d" font-family="IBM Plex Mono,Menlo,monospace" font-size="12.5" letter-spacing="2">LOOKUP · COMPARE · CITE</text>
+    </g>
+    <g aria-label="Live evidence map">
+      <rect x="942" y="51" width="182" height="38" fill="#12100e" fill-opacity="0.8" stroke="#df7138" stroke-width="1.5"/>
+      <circle cx="964" cy="70" r="5" fill="#df7138"/>
+      <text x="980" y="75" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" font-weight="500" letter-spacing="1.2">LIVE EVIDENCE MAP</text>
+    </g>
+
+    <text x="65" y="143" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" font-weight="500" letter-spacing="2">${escapeXml(card.eyebrow.toUpperCase())}</text>
+    ${titleLines.map((line, index) => `<text x="65" y="${215 + index * 67}" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="61" font-weight="600" letter-spacing="-1.7">${escapeXml(line)}</text>`).join("")}
+
+    <g aria-label="${escapeXml(`${percentLabel} directly evidenced`)}">
+      <text x="65" y="407" fill="#df7138" font-family="IBM Plex Sans,Arial,sans-serif" font-size="104" font-weight="600" letter-spacing="-4">${escapeXml(percentLabel)}</text>
+      <text x="382" y="370" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">DIRECT PUBLIC</text>
+      <text x="382" y="395" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">EVIDENCE</text>
+    </g>
+
+    ${descriptionLines.map((line, index) => `<text x="65" y="${461 + index * 29}" fill="#d4c7ae" font-family="IBM Plex Sans,Arial,sans-serif" font-size="22">${escapeXml(line)}</text>`).join("")}
+
+    <line x1="65" y1="535" x2="1124" y2="535" stroke="#fff8eb" stroke-opacity="0.2" stroke-width="2"/>
+    <text x="65" y="568" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="14" font-weight="500" letter-spacing="1">${escapeXml(`${assessed} EVIDENCED · ${unknown} RESPONSIBLY UNKNOWN · ${total} TOTAL`)}</text>
+    <text x="1124" y="568" text-anchor="end" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="0.5">canmyagentuse.com/coverage</text>
   </svg>`;
 }
 
@@ -211,9 +291,15 @@ function renderFeatureCompatibilitySvg(card: SocialCard): string {
   </svg>`;
 }
 
-export function renderSocialCardSvg(card: SocialCard): string {
+export function renderSocialCardSvg(
+  card: SocialCard,
+  options: SocialCardRenderOptions = {}
+): string {
   if (card.variant === "home") {
     return renderHomepageSocialCardSvg(card);
+  }
+  if (card.variant === "coverage") {
+    return renderCoverageSocialCardSvg(card, options);
   }
   if (card.compatibility?.length) {
     return renderFeatureCompatibilitySvg(card);
