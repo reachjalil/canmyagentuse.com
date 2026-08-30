@@ -15,6 +15,7 @@ export interface SocialCard {
   canonicalPath: string;
   eyebrow: string;
   title: string;
+  subtitle?: string;
   description: string;
   meta: string;
   variant?: "home" | "coverage";
@@ -123,6 +124,7 @@ function renderCoverageSocialCardSvg(
   options: SocialCardRenderOptions
 ): string {
   const titleLines = wrapSocialText(card.title, 25, 2);
+  const subtitle = card.subtitle ?? "";
   const descriptionLines = wrapSocialText(card.description, 47, 2);
   const assessed = card.coverage?.assessed.toLocaleString("en-US") ?? "—";
   const total = card.coverage?.total.toLocaleString("en-US") ?? "—";
@@ -149,12 +151,17 @@ function renderCoverageSocialCardSvg(
       <pattern id="coverage-grid" width="42" height="42" patternUnits="userSpaceOnUse">
         <path d="M42 0H0V42" fill="none" stroke="#fff8eb" stroke-opacity="0.035" stroke-width="1"/>
       </pattern>
+      <clipPath id="coverage-frame-clip">
+        <rect x="42" y="30" width="1132" height="570"/>
+      </clipPath>
     </defs>
     <rect width="1200" height="630" fill="#12100e"/>
-    ${backgroundImage}
-    <rect width="1200" height="630" fill="url(#coverage-shade)"/>
-    <rect width="1200" height="630" fill="url(#coverage-floor)"/>
-    <rect width="1200" height="630" fill="url(#coverage-grid)"/>
+    <g clip-path="url(#coverage-frame-clip)">
+      ${backgroundImage}
+      <rect width="1200" height="630" fill="url(#coverage-shade)"/>
+      <rect width="1200" height="630" fill="url(#coverage-floor)"/>
+      <rect width="1200" height="630" fill="url(#coverage-grid)"/>
+    </g>
     <rect width="18" height="630" fill="#c45c26"/>
     <rect x="42" y="30" width="1132" height="570" fill="none" stroke="#fff8eb" stroke-opacity="0.17" stroke-width="2"/>
 
@@ -165,21 +172,22 @@ function renderCoverageSocialCardSvg(
       <text x="123" y="91" fill="#a89d8d" font-family="IBM Plex Mono,Menlo,monospace" font-size="12.5" letter-spacing="2">LOOKUP · COMPARE · CITE</text>
     </g>
     <g aria-label="Live evidence map">
-      <rect x="942" y="51" width="182" height="38" fill="#12100e" fill-opacity="0.8" stroke="#df7138" stroke-width="1.5"/>
-      <circle cx="964" cy="70" r="5" fill="#df7138"/>
-      <text x="980" y="75" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" font-weight="500" letter-spacing="1.2">LIVE EVIDENCE MAP</text>
+      <rect x="902" y="51" width="222" height="38" fill="#12100e" fill-opacity="0.88" stroke="#df7138" stroke-width="1.5"/>
+      <circle cx="924" cy="70" r="5" fill="#df7138"/>
+      <text x="941" y="75" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" font-weight="500" letter-spacing="1.2">LIVE EVIDENCE MAP</text>
     </g>
 
     <text x="65" y="143" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" font-weight="500" letter-spacing="2">${escapeXml(card.eyebrow.toUpperCase())}</text>
-    ${titleLines.map((line, index) => `<text x="65" y="${215 + index * 67}" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="61" font-weight="600" letter-spacing="-1.7">${escapeXml(line)}</text>`).join("")}
+    ${titleLines.map((line, index) => `<text x="65" y="${205 + index * 58}" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="54" font-weight="600" letter-spacing="-1.5">${escapeXml(line)}</text>`).join("")}
+    <text x="65" y="312" fill="#d4c7ae" font-family="IBM Plex Sans,Arial,sans-serif" font-size="25" font-weight="500">${escapeXml(subtitle)}</text>
 
     <g aria-label="${escapeXml(`${percentLabel} directly evidenced`)}">
-      <text x="65" y="407" fill="#df7138" font-family="IBM Plex Sans,Arial,sans-serif" font-size="104" font-weight="600" letter-spacing="-4">${escapeXml(percentLabel)}</text>
-      <text x="382" y="370" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">DIRECT PUBLIC</text>
-      <text x="382" y="395" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">EVIDENCE</text>
+      <text x="65" y="425" fill="#df7138" font-family="IBM Plex Sans,Arial,sans-serif" font-size="104" font-weight="600" letter-spacing="-4">${escapeXml(percentLabel)}</text>
+      <text x="382" y="388" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">DIRECT PUBLIC</text>
+      <text x="382" y="413" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="500" letter-spacing="1.6">EVIDENCE</text>
     </g>
 
-    ${descriptionLines.map((line, index) => `<text x="65" y="${461 + index * 29}" fill="#d4c7ae" font-family="IBM Plex Sans,Arial,sans-serif" font-size="22">${escapeXml(line)}</text>`).join("")}
+    ${descriptionLines.map((line, index) => `<text x="65" y="${471 + index * 27}" fill="#d4c7ae" font-family="IBM Plex Sans,Arial,sans-serif" font-size="21">${escapeXml(line)}</text>`).join("")}
 
     <line x1="65" y1="535" x2="1124" y2="535" stroke="#fff8eb" stroke-opacity="0.2" stroke-width="2"/>
     <text x="65" y="568" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="14" font-weight="500" letter-spacing="1">${escapeXml(`${assessed} EVIDENCED · ${unknown} RESPONSIBLY UNKNOWN · ${total} TOTAL`)}</text>

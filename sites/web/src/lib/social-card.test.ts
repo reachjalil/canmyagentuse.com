@@ -61,8 +61,9 @@ describe("social cards", () => {
       {
         ...card,
         canonicalPath: "/coverage",
-        eyebrow: "How much can we actually prove?",
-        title: "Most of the map is still unknown.",
+        eyebrow: "The public evidence map",
+        title: "What can AI agents actually do?",
+        subtitle: "Most of the map is still unknown.",
         description:
           "1,328 of 3,534 agent capability checks have direct reviewed evidence.",
         meta: "Explore the living catalog",
@@ -78,11 +79,14 @@ describe("social cards", () => {
     );
 
     expect(svg).toContain("37.6%");
+    expect(svg).toContain("What can AI agents actually do?");
+    expect(svg).toContain("Most of the map is still unknown.");
     expect(svg).toContain("1,328 EVIDENCED");
     expect(svg).toContain("2,206 RESPONSIBLY UNKNOWN");
     expect(svg).toContain("3,534 TOTAL");
     expect(svg).toContain("data:image/png;base64,AAAA");
     expect(svg).toContain("LIVE EVIDENCE MAP");
+    expect(svg).toContain('clip-path="url(#coverage-frame-clip)"');
     expect(svg).not.toContain("MATRIX CELL STATUS");
   });
 

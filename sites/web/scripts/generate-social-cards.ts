@@ -273,12 +273,13 @@ async function collectCards(): Promise<SocialCard[]> {
   const percentLabel = `${(coverage.totals.assessedShare * 100).toFixed(1)}%`;
   const coverageCard: SocialCard = {
     canonicalPath: "/coverage",
-    eyebrow: "How much can we actually prove?",
-    title: "Most of the map is still unknown.",
+    eyebrow: "The public evidence map",
+    title: "What can AI agents actually do?",
+    subtitle: "Most of the map is still unknown.",
     description: `${assessed.toLocaleString("en-US")} of ${total.toLocaleString("en-US")} agent capability checks have direct reviewed evidence.`,
     meta: "Explore the living catalog",
     variant: "coverage",
-    imageSlug: `coverage-frontier-${assessed}`,
+    imageSlug: `coverage-frontier-v2-${assessed}`,
     coverage: { assessed, total, unknown, percentLabel },
   };
 
