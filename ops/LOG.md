@@ -383,9 +383,11 @@ RECONCILE cycle=8 date=2026-08-31 commit=f9d066c6f0be0689e69aa77925d9f7e0a1fc053
 - Briefs: 1 narrow Grok.com consumer-web first-party FAQ review
 - Cells written: 1 current-track; public real-time web retrieval
 - Feature files changed: 1; web fetch
-- Commit: pending
-- Pushed: no; Cycle 9 green ship checks pending
-- Deployed: no; Cycle 9 pending
+- Commit: `7d5472b`
+- Pushed: yes; fast-forwarded `origin/main`
+- Deployed: yes; Cloudflare version `37cb25d0-7929-4325-9392-8f28074bf61e`
 - Coverage: 1,353/3,534 assessed and direct reviewed (38.3%); delta +1
 - Preview: 9/3,192 (0.3%); delta +0
 - Incidents: no additional Grok web cells were written because the reviewed consumer FAQ's other direct claims already had evidence or did not establish the exact atomic boundary
+
+RECONCILE cycle=9 date=2026-09-01 commit=7d5472b pushed=origin/main deploy=37cb25d0-7929-4325-9392-8f28074bf61e coverage=1353/3534 note="Production coverage and the Grok web-fetch cell were cache-busted and verified on canmyagentuse.com."
