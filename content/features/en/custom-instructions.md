@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: interfaces
 summary: Persist instructions at user or project scope.
@@ -20,6 +20,8 @@ specLabel: Common product term
 parent: instructions
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-09-01: Vibe Work Projects can store Project-specific instructions that apply to every chat in that Project. The source does not establish an account-wide instruction for every Vibe chat or a Vibe Code instruction format."
   - id: 83
     text: "Evidence checked 2026-08-29: Copilot Notebooks, which Microsoft expressly makes available to Microsoft 365 Personal, Family, and Premium subscribers, let a user save editable Notebook instructions governing response language, format, focus, tone, and other preferences. The evidence establishes Notebook-scoped instructions, not an account-wide instruction applied to every ordinary consumer chat."
   - id: 82
@@ -50,6 +52,14 @@ notes:
     text: "Evidence checked 2026-08-29: Each Grok Automation persists a named instruction message and reuses it for fresh scheduled or triggered runs, but this does not establish account-wide instructions for every ordinary Grok chat."
 issues: []
 resources:
+  - id: mistral-vibe-work-projects
+    title: "Mistral Docs — Group tasks with Projects"
+    href: https://docs.mistral.ai/vibe/work/projects
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Project instructions and context"
   - id: aider-v0860-conventions
     title: "Aider v0.86.0 — Specifying coding conventions"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/conventions.md"
@@ -262,6 +272,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Availability notes; Provide specific guidelines for Copilot"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Work Projects documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Project-specific instructions apply to every chat inside that Vibe Work Project
+          - type: format
+            value: account-wide Chat instructions and Vibe Code instruction formats are not established by this Project-scoped evidence
+        evidence:
+          - resourceId: mistral-vibe-work-projects
+            type: documented
+            observedAt: 2026-09-01
   - harness: copilot-web
     versions:
       - track: current

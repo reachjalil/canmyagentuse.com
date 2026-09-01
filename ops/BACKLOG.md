@@ -220,13 +220,13 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-31 after cycle 8 research. Skip recorded attempts until their
+Queue rewritten: 2026-09-01 after cycle 10 research. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
 1. `grok-web` × remaining consumer inputs, sharing, search, voice, and policy
    rows from current xAI Help Center and legal pages.
-2. `le-chat` × current Vibe web files, projects, connectors, sharing,
-   governance, and runtime rows after a deliberate identity decision.
+2. `le-chat` × remaining current Vibe Work and Chat web rows, keeping Vibe
+   Code terminal/editor and remote-session behavior outside this column.
 3. `chrome-webmcp-preview` × only newly documented exact WebMCP rows; Cycle 8
    completed the currently supportable MCP-boundary and runtime cells.
 4. `windsurf` × remaining Devin Desktop rows, preserving qualifiers that
@@ -244,19 +244,21 @@ Queue rewritten: 2026-08-31 after cycle 8 research. Skip recorded attempts until
 10. `jetbrains-ai`, `opencode`, `warp`, `devin-web`, and `aider` only for rows
    reopened by exact first-party evidence; otherwise honor cooldowns.
 
-## Current Phase-A snapshot after Cycle 8 research
+## Current Phase-A snapshot after Cycle 10 research
 
-The validated local report is 1,352/3,534 current-track cells (38.3%). The
+The validated local report is 1,359/3,534 current-track cells (38.5%). The
 remaining sub-30 harnesses, in ascending sourced count, are:
 
 1. `chatgpt-cli` — 3/114; product identity blocked, so do not inherit Codex CLI
-2. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
-3. `chrome-webmcp-preview` — 17/114; keep current and preview evidence separate
-4. `grok-web` — 20/114
+2. `chrome-webmcp-preview` — 17/114; keep current and preview evidence separate
+3. `grok-web` — 21/114
+4. `le-chat` — 21/114; stable slug now names the Vibe browser continuation
 
 Windsurf cleared the Phase-A floor at 30/114 after Cognition's first-party
 rename statement permitted the catalog to track the in-place Devin Desktop
-continuation deliberately. The next cycle should prioritize Grok web and Vibe;
+continuation deliberately. Mistral's current Vibe docs likewise establish an
+in-place browser continuation at chat.mistral.ai while keeping Work/Chat and
+Code modes distinct. The next cycle should prioritize Grok web and Vibe;
 the ambiguous ChatGPT CLI column remains parked.
 
 ## Ledger candidates
@@ -283,11 +285,11 @@ but do not edit the atlas.
   issue=The current support article states no more than 30 days for opted-in detailed data while the June 2026 legal notice states one year for detailed code-related data.
   next=Obtain a current authoritative JetBrains scope or version statement reconciling which retention term governs AI Assistant before authoring the cell.
 
-- feature=custom-instructions harness=le-chat first_seen=2026-08-29
+- feature=custom-instructions harness=le-chat first_seen=2026-08-29 status=resolved-2026-09-01
   src1=https://help.mistral.ai/en/articles/682992-le-chat-is-now-vibe
   src2=https://content.mistral.ai/le-chat/
   issue=Mistral says Le Chat became Vibe while retaining the same URL, account, and conversations, leaving the existing exact-surface catalog identity stale or ambiguous.
-  next=Deliberately migrate or alias the catalog harness after confirming whether Vibe Work, Code, and Chat are one replacement surface or require separate records.
+  next=Resolved: keep the stable le-chat slug as Vibe (formerly Le Chat) for the browser entry point, source Work/Chat browser behavior only, and do not transfer Vibe Code terminal, editor, or remote-session behavior into this web column.
 
 - feature=conversation-export harness=cline first_seen=2026-08-29
   src1=https://github.com/cline/cline/blob/ebee8ca912a3fd6a4aa97ae615b88f60f8d8ef20/apps/vscode/src/core/controller/task/exportTaskWithId.ts#L5-L20

@@ -11,7 +11,7 @@ audience: Privacy, compliance, and security teams evaluating agent data lifecycl
 contentKind: feature
 status: published
 tags: [security, privacy, retention, deletion]
-updated: 2026-08-31
+updated: 2026-09-01
 published: 2026-08-28
 category: security-privacy
 summary: Configure or document retention and deletion for covered product data.
@@ -20,6 +20,8 @@ aliases: [retention policy, delete chat data, zero retention, data lifecycle]
 parent: data-security-controls
 related: [conversation-export, audit-logs]
 notes:
+  - id: 81
+    text: "Evidence checked 2026-09-01: Vibe Work and Chat do not offer Zero Data Retention because they must store state; Mistral says conversations are removed after user deletion or account deletion, typically after a short grace period, subject to monitoring and legal retention. The reviewed documentation does not establish a user-configurable general retention schedule."
   - id: 80
     text: "Evidence checked 2026-08-31: configured Cascade transcript hooks write local JSONL files with mode 0600 and retain at most 100 transcripts by pruning the oldest; this is limited to hook-generated transcripts, not all product data."
   - id: 79
@@ -60,6 +62,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok.com users can delete selected conversations, all history, or the account; deleted and Private Chat conversations are removed within 30 days subject to de-identification and legal or safety exceptions."
 issues: []
 resources:
+  - id: mistral-vibe-zdr
+    title: "Mistral Help Center — Can I activate Zero Data Retention (ZDR)?"
+    href: https://help.mistral.ai/en/articles/347612-can-i-activate-zero-data-retention-zdr
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "ZDR on Vibe; ZDR on Vibe CLI; ZDR, training opt-out, and DPA"
   - id: cognition-windsurf-hooks-retention
     title: "Cognition — Cascade hooks"
     href: https://docs.devin.ai/desktop/cascade/hooks
@@ -272,6 +282,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Private Chat; data and account deletion; retention"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe retention documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: stateful Vibe Work and Chat do not offer ZDR; user-deleted conversations and account-deleted conversations are removed after a short grace period, subject to monitoring and legal retention
+          - type: runtime
+            value: the reviewed documentation does not establish a configurable general retention period, backup expiry, or a verified deletion-completion timeline
+        evidence:
+          - resourceId: mistral-vibe-zdr
+            type: documented
+            observedAt: 2026-09-01
   - harness: windsurf
     versions:
       - track: current

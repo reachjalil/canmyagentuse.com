@@ -391,3 +391,13 @@ RECONCILE cycle=8 date=2026-08-31 commit=f9d066c6f0be0689e69aa77925d9f7e0a1fc053
 - Incidents: no additional Grok web cells were written because the reviewed consumer FAQ's other direct claims already had evidence or did not establish the exact atomic boundary
 
 RECONCILE cycle=9 date=2026-09-01 commit=7d5472b pushed=origin/main deploy=37cb25d0-7929-4325-9392-8f28074bf61e coverage=1353/3534 note="Production coverage and the Grok web-fetch cell were cache-busted and verified on canmyagentuse.com."
+
+## Cycle 10 — 2026-09-01
+
+- Phase: A low-coverage harness sweep
+- Briefs: 1 Mistral first-party Vibe browser identity and exact-feature review
+- Cells written: 6 current-track; Project instructions and files, MCP connectors, retention boundaries, training opt-out, and Memories
+- Feature files changed: 6; custom instructions, workspace files, connectors, retention, training controls, and long-term memory
+- Identity decision: Mistral documents that Le Chat is now Vibe while the `chat.mistral.ai` entry point, plan, history, and settings continue; the stable `le-chat` slug now displays Vibe (formerly Le Chat) and remains restricted to documented browser Work and Chat behavior
+- Validation: narrow catalog validation and coverage report passed; full gate pending
+- Coverage: 1,359/3,534 assessed and direct reviewed (38.5%); delta +6

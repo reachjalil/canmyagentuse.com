@@ -13,13 +13,15 @@ status: published
 tags:
   - workspace
   - files
-updated: 2026-08-31
+updated: 2026-09-01
 published: 2026-08-28
 category: tools
 summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 83
+    text: "Evidence checked 2026-09-01: Vibe Work Projects store shared uploaded files as Project context, and every chat in the Project can reference those files without re-uploading. The reviewed material does not establish file editing or arbitrary local-file access."
   - id: 82
     text: "Evidence checked 2026-08-31: Devin Desktop Code Mode can create, edit, and delete files in a selected local workspace; agent operations are unavailable while the workspace is in Restricted Mode."
   - id: 81
@@ -74,6 +76,14 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Agent writes code and sets up a hosted project in the Project Editor, including projects imported from GitHub or uploaded files; the workspace is Replit-hosted rather than an arbitrary local directory."
 issues: []
 resources:
+  - id: mistral-vibe-work-projects
+    title: "Mistral Docs — Group tasks with Projects"
+    href: https://docs.mistral.ai/vibe/work/projects
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Additional context — Files"
   - id: cognition-devin-desktop-modes-files
     title: "Cognition — Cascade modes"
     href: https://docs.devin.ai/desktop/cascade/modes
@@ -298,6 +308,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Create a task; Check files Gemini read or updated; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Work Projects documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Project-uploaded files provide persistent shared context to every chat in the hosted Vibe Work Project
+          - type: format
+            value: the reviewed documentation does not establish editing those files or arbitrary local-workspace access
+        evidence:
+          - resourceId: mistral-vibe-work-projects
+            type: documented
+            observedAt: 2026-09-01
   - harness: windsurf
     versions:
       - track: current

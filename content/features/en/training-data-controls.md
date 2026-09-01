@@ -11,7 +11,7 @@ audience: Privacy, legal, security, and procurement teams.
 contentKind: feature
 status: published
 tags: [security, privacy, training, data-use]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: security-privacy
 summary: Control or document model-training and service-improvement use of product content.
@@ -20,6 +20,8 @@ aliases: [training opt-out, data use, improve models, human review]
 parent: data-security-controls
 related: [data-retention-controls, admin-policy-controls]
 notes:
+  - id: 84
+    text: "Evidence checked 2026-09-01: Vibe users can opt out of use of their inputs and outputs for model training in Vibe settings, while Vibe Enterprise is opted out by default and manages an opt-in at the administrator level. This setting is distinct from the Mistral Studio/API control."
   - id: 83
     text: "Evidence checked 2026-08-29: Claude Incognito chats are excluded from model training and memory. This is partial support because the control applies to the Incognito path rather than establishing every ordinary-consumer training preference; chats are retained for 30 days or longer under Enterprise retention policy."
   - id: 82
@@ -50,6 +52,14 @@ notes:
     text: "Evidence checked 2026-08-29: Signed-in Grok.com users can disable Improve the Model for future conversations, while Private Chat content is excluded from model training."
 issues: []
 resources:
+  - id: mistral-vibe-training-opt-out
+    title: "Mistral Help Center — Can I opt out of my input or output data being used for training?"
+    href: https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Opt out of Vibe data training; Vibe and API opt-out toggles are separate"
   - id: anthropic-claude-incognito-data-controls
     title: Anthropic — Use incognito chats
     href: https://support.claude.com/en/articles/12260368-use-incognito-chats
@@ -182,6 +192,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Model training; Grok.com Data Controls; Private Chat"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [84]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe training-control documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: Vibe users are not opted out by default but can opt out in settings; Vibe Enterprise customers are opted out by default and administrators manage an opt-in
+          - type: policy
+            value: uploaded or attached Vibe documents count as input data; the Vibe control is separate from Mistral Studio and API controls
+        evidence:
+          - resourceId: mistral-vibe-training-opt-out
+            type: documented
+            observedAt: 2026-09-01
   - harness: claude-desktop
     versions:
       - track: current

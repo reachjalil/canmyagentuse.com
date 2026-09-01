@@ -273,7 +273,7 @@ row definition.
      Assistant behavior is publicly implemented and revision-pinned
   4. Status: https://status.jetbrains.ai/
 
-### `le-chat` — Le Chat
+### `le-chat` — Vibe (formerly Le Chat)
 
 - Vendor: Mistral AI
 - Surface: Web

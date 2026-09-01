@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: tools
 summary: Connect to external services authorized by the user or organization.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-09-01: Vibe Work can connect to Mistral's featured and custom third-party MCP services. An administrator adds the connector, while each user can choose per-function approval or pre-authorization; Mistral warns that it does not control third-party MCP servers."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop connects authorized external services through local or organization-provided MCP connections and bundles a Google Workspace connector for Gmail, Calendar, Drive, and Chat actions."
   - id: 70
@@ -43,6 +45,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks can use user-authorized email or cloud-storage connectors and lets users link or unlink them, but the reviewed page does not enumerate a stable complete connector catalog."
 issues: []
 resources:
+  - id: mistral-vibe-work-mcp-connectors
+    title: "Mistral Docs — MCP Connectors"
+    href: https://docs.mistral.ai/vibe/work/connectors/mcp-connectors
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "MCP Connectors; Browsing the directory; Configuring a custom Connector; Per-function permissions"
   - id: openwork-v01839-connectors-doc
     title: "OpenWork v0.18.39 — connectors, skills, and plugins"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/start-here/do-work-with-it/skills-plugins-and-mcp.mdx#L6-L24"
@@ -222,6 +232,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How Tasks works; What data Tasks uses — Connectors"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Work MCP Connector documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: Vibe Work supports directory-provided and custom remotely hosted MCP servers, with no-auth, bearer or Basic authorization, or OAuth 2.1 paths detected from the server
+          - type: policy
+            value: connector setup requires an administrator; each user controls per-function approval versus pre-authorization
+          - type: policy
+            value: Mistral does not control third-party MCP-server behavior or data handling
+        evidence:
+          - resourceId: mistral-vibe-work-mcp-connectors
+            type: documented
+            observedAt: 2026-09-01
   - harness: openwork-desktop
     versions:
       - track: current

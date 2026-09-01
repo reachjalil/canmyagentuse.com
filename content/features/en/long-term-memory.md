@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: runtime
 summary: Persist notes across sessions.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 76
+    text: "Evidence checked 2026-09-01: Vibe's optional Memories can preserve preferences from past interactions, including automatic or explicit saves, and users can view, add, edit, delete, clear, enable, or disable those memories. Disabling the feature does not itself delete existing memories."
   - id: 75
     text: "Evidence checked 2026-08-29: Replit Memories retain preferences and working context across Conversations and Projects, with distinct user, project, and custom memory scopes plus view, edit, disable, and sharing controls."
   - id: 70
@@ -41,6 +43,14 @@ notes:
     text: "Evidence checked 2026-08-29: Signed-in consumer Microsoft Copilot remembers key details across conversations and lets users view, add, edit, delete, or completely disable saved memory."
 issues: []
 resources:
+  - id: mistral-vibe-memories
+    title: "Mistral Help Center — How do you handle my data when using the Memories feature?"
+    href: https://help.mistral.ai/en/articles/396497-how-do-you-handle-my-data-when-using-the-memories-feature
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "What is the Memories feature?; What about privacy?; How do I turn off Memories?; How long does Vibe store my Memories?"
   - id: replit-memories-current
     title: "Replit — Memories"
     href: "https://docs.replit.com/chat/memories"
@@ -138,6 +148,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Personalization and memory"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [76]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Memories documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: optional memories preserve explicit or automatically saved preferences from Vibe interactions and are retained for the subscription duration while the feature is in beta
+          - type: policy
+            value: users can view, add, edit, delete, or clear memories and enable or disable the feature; disabling alone does not delete existing memories
+        evidence:
+          - resourceId: mistral-vibe-memories
+            type: documented
+            observedAt: 2026-09-01
   - harness: replit-agent
     versions:
       - track: current
