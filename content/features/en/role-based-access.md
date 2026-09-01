@@ -11,7 +11,7 @@ audience: Teams requiring least-privilege collaboration.
 contentKind: feature
 status: published
 tags: [collaboration, permissions, RBAC, teams]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: collaboration
 summary: Assign and enforce permissions through documented roles.
@@ -20,6 +20,8 @@ aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
 notes:
+  - id: 80
+    text: "Evidence checked 2026-09-01: Grok Enterprise organizations support custom roles mapped from identity-provider groups; roles are prioritized, can be assigned teams, permissions, and product licenses, and include a default Member role. This is Enterprise organization governance, not a claim about personal Grok.com accounts."
   - id: 79
     text: "Evidence checked 2026-08-29: eligible ChatGPT workspace roles control member access to desktop-visible tools and models, with direct and group assignments, inherited defaults, additive grants, and a separate Lockdown restriction path."
   - id: 77
@@ -176,7 +178,36 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Creating and assigning roles; organization and account roles"
+  - id: spacexai-grok-organization-rbac
+    title: "SpaceXAI Docs — Organization Management"
+    href: https://docs.x.ai/grok/organization
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Understanding Organizations; Map groups to roles; Configure roles with teams, permissions, and licenses; Managing roles after activation"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [80]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Grok Enterprise organization-management documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: Enterprise tier organization administration in the xAI console and Grok Business environment
+          - type: policy
+            value: custom roles map identity-provider groups to teams, access-control-list permissions, and product licenses; administrators can create roles and reorder priority after SCIM activation
+          - type: runtime
+            value: the built-in Member role is the default for users without a specified group; personal Grok.com accounts are outside this evidence
+        evidence:
+          - resourceId: spacexai-grok-organization-rbac
+            type: documented
+            observedAt: 2026-09-01
   - harness: chatgpt-desktop
     versions:
       - track: current
