@@ -11,7 +11,7 @@ audience: Engineers and administrators controlling agent spend.
 contentKind: feature
 status: published
 tags: [operations, usage, cost, metering]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: operations
 summary: Inspect documented product usage such as requests, tokens, or cost.
@@ -20,6 +20,8 @@ aliases: [cost meter, token usage, spend dashboard, usage dashboard]
 parent: usage-and-reliability
 related: [prompt-cache-telemetry, context-usage-visibility, rate-limit-disclosure]
 notes:
+  - id: 85
+    text: "Evidence checked 2026-09-01: Grok's current web/app FAQ describes one shared weekly usage pool across Grok products and says it provides clear usage visibility in one place. The reviewed FAQ does not establish token, cost, per-run, tool, or export telemetry."
   - id: 84
     text: "Evidence checked 2026-08-29: Gemini web exposes a Usage Limits view and near-limit or exhausted-limit notifications with refresh timing, and Deep Research reports remaining daily research requests when the user is near that feature's limit."
   - id: 83
@@ -45,6 +47,14 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin reports per-session and account consumption through actions, VM time, bandwidth, ACUs, quota, remaining credits, and enterprise organization totals."
 resources:
+  - id: spacexai-grok-web-app-faq
+    title: "SpaceXAI Docs — FAQ: Grok Website / Apps"
+    href: https://docs.x.ai/grok/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Usage & Limits — How do SuperGrok's weekly usage limits work?"
   - id: aider-v0860-coder-source-usage
     title: "Aider v0.86.0 — Coder runtime"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/coders/base_coder.py"
@@ -161,6 +171,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "About Deep Research models & limits"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [85]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Grok website and apps FAQ observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: SuperGrok combines Chat, Imagine, Voice, and Build consumption into a shared weekly pool with stated visibility in one place
+          - type: format
+            value: token, cost, per-run, tool, export, attribution, refresh-delay, and billing-final dimensions are not established by the reviewed FAQ
+        evidence:
+          - resourceId: spacexai-grok-web-app-faq
+            type: documented
+            observedAt: 2026-09-01
   - harness: gemini-web
     versions:
       - track: current

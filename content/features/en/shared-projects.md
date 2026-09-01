@@ -11,7 +11,7 @@ audience: Teams organizing ongoing agent work.
 contentKind: feature
 status: published
 tags: [collaboration, projects, context, teams]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: collaboration
 summary: Share a product-defined project workspace with other people.
@@ -20,6 +20,8 @@ aliases: [team workspace, shared workspace, project context]
 parent: collaboration-and-portability
 related: [role-based-access, long-term-memory, instructions]
 notes:
+  - id: 85
+    text: "Evidence checked 2026-09-01: Grok Business lets organization administrators set the maximum sharing audience for Projects, from Private to Team or Organization; members may share more narrowly, and a tighter policy immediately restricts existing wider shares. The reviewed policy does not enumerate which Project context objects are shared."
   - id: 84
     text: "Evidence checked 2026-08-29: Claude Projects are available in the Claude client, but member and organization sharing is limited to Team and Enterprise. Shared projects can include project knowledge and instructions and support invited members with view or edit access."
   - id: 83
@@ -39,6 +41,14 @@ notes:
   - id: 4
     text: "Evidence checked 2026-08-28: Replit projects can be shared with teammates who run separate Agent threads against the same project, see a shared task board, review completed work, and apply it to the main version. Team Workspaces extend access across projects, and owners can revoke project or workspace membership."
 resources:
+  - id: spacexai-grok-business-sharing-policy
+    title: "SpaceXAI Docs — Manage Licenses and Users"
+    href: https://docs.x.ai/grok/management
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Sharing policy; resource types; policy levels; policy propagation"
   - id: anthropic-claude-project-sharing
     title: Anthropic — Manage project visibility and sharing
     href: https://support.claude.com/en/articles/9519189-manage-project-visibility-and-sharing
@@ -154,6 +164,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Share a Gem; Share access to files uploaded to the shared Gem; Transfer ownership; Gem access levels; Work or school users"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [85]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Grok Business sharing-policy documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: Grok Business or Enterprise team workspace on grok.com
+          - type: policy
+            value: administrators set Project sharing ceilings of Private, Team, or Organization; a member may choose a narrower audience and tightening applies immediately to wider existing shares
+          - type: format
+            value: the reviewed policy does not identify shared Project files, instructions, conversations, roles, ownership, or export behavior
+        evidence:
+          - resourceId: spacexai-grok-business-sharing-policy
+            type: documented
+            observedAt: 2026-09-01
   - harness: claude-desktop
     versions:
       - track: current

@@ -11,7 +11,7 @@ audience: Engineers planning production and high-volume agent workflows.
 contentKind: feature
 status: published
 tags: [operations, rate-limits, quotas, concurrency]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: operations
 summary: Record documented product usage limits and reset periods.
@@ -20,6 +20,8 @@ aliases: [quota, usage cap, fair use limit, concurrency limit]
 parent: usage-and-reliability
 related: [subagent-concurrency, upload-limits, usage-metering]
 notes:
+  - id: 74
+    text: "Evidence checked 2026-09-01: paid Grok users have a shared weekly usage pool across Chat, Imagine, Voice, and Build, and may pay as they go or upgrade after reaching the pool. The current FAQ does not publish a fixed numeric allotment, reset timestamp, or complete feature-specific quota envelope."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp documents a burst of 20 metered orb starts per user followed by one new orb every five minutes, with excess starts queued rather than failed."
   - id: 70
@@ -35,6 +37,14 @@ notes:
   - id: 60
     text: "Evidence checked 2026-08-29: Microsoft publishes numeric quotas for selected consumer Copilot capabilities by Microsoft 365 plan, while ordinary chat is described only as extensive use and preview-task limits may vary."
 resources:
+  - id: spacexai-grok-web-app-faq
+    title: "SpaceXAI Docs — FAQ: Grok Website / Apps"
+    href: https://docs.x.ai/grok/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Usage & Limits — How do SuperGrok's weekly usage limits work?"
   - id: amp-2026-08-orb-limits
     title: "Amp — Orbs"
     href: https://ampcode.com/docs/orbs
@@ -119,6 +129,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Limits and credits for each plan"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Grok website and apps FAQ observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: plan
+            value: paid SuperGrok products draw from one shared weekly pool; users may pay as they go or upgrade at the boundary
+          - type: runtime
+            value: the reviewed FAQ does not establish fixed numeric allowances, reset timestamp, retry behavior, priority treatment, or the complete per-product quota envelope
+        evidence:
+          - resourceId: spacexai-grok-web-app-faq
+            type: documented
+            observedAt: 2026-09-01
   - harness: amp-cli
     versions:
       - track: current

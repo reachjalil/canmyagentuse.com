@@ -11,7 +11,7 @@ audience: Enterprise administrators, security teams, and platform owners.
 contentKind: feature
 status: published
 tags: [security, governance, policy, enterprise]
-updated: 2026-08-29
+updated: 2026-09-01
 published: 2026-08-28
 category: security-privacy
 summary: Centrally configure and enforce product settings for an organization.
@@ -20,6 +20,8 @@ aliases: [enterprise policy, organization controls, managed settings]
 parent: data-security-controls
 related: [audit-logs, training-data-controls, human-approval]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-09-01: Grok Business administrators centrally set the widest permitted sharing audience for conversations, Projects, and Skills. The policy is enforced immediately, prevents members from creating broader shares, and can restrict access to existing shares; it does not establish a complete model, tool, connector, or retention policy matrix."
   - id: 81
     text: "Evidence checked 2026-08-29: signed-in OpenWork Desktop loads organization policy from OpenWork Cloud and enforces centralized feature, model, provider, and multiple-workspace gates with cached-first loading and periodic refresh."
   - id: 77
@@ -52,6 +54,14 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
+  - id: spacexai-grok-business-sharing-policy
+    title: "SpaceXAI Docs — Manage Licenses and Users"
+    href: https://docs.x.ai/grok/management
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Sharing policy; Product Sharing; policy levels; tightening a policy"
   - id: openwork-v01839-desktop-policies
     title: "OpenWork v0.18.39 — Desktop App Policies"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/desktop-app-policies.md#L1-L15"
@@ -215,6 +225,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Bindings; mandatory enforcement; permissions and governance"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Grok Business sharing-policy documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: team administrators centrally constrain conversation, Project, and Skill sharing from Private through Team and Organization, with Public available only for conversations
+          - type: runtime
+            value: tightening the ceiling immediately blocks newly broader shares and limits existing wider shares
+          - type: format
+            value: reviewed documentation does not establish a complete Grok policy surface for models, connectors, tools, training, data retention, or agent behavior
+        evidence:
+          - resourceId: spacexai-grok-business-sharing-policy
+            type: documented
+            observedAt: 2026-09-01
   - harness: openwork-desktop
     versions:
       - track: current
