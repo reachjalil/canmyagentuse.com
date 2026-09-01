@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-31
+updated: 2026-09-01
 published: 2026-08-28
 category: tools
 summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 907
+    text: "Evidence checked 2026-09-01: Vibe Work can search the live web and fetch a user-provided URL into chat context. Open URL does not crawl sites, access login- or paywall-protected pages, or guarantee full rendering of highly interactive pages."
   - id: 906
     text: "Evidence checked 2026-09-01: the consumer Grok web product can perform real-time web searches to return current information; the reviewed FAQ does not establish arbitrary authenticated URL access, raw response retention, or a user-configurable fetch policy."
   - id: 905
@@ -69,6 +71,14 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
+  - id: mistral-vibe-work-web-search-open-url
+    title: "Mistral Docs — Search the web"
+    href: https://docs.mistral.ai/vibe/work/web-search-open-url
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Web search; Open URL; Limitations"
   - id: spacexai-grok-consumer-faq-web-search
     title: "SpaceXAI — Consumer FAQs"
     href: https://x.ai/legal/faq
@@ -313,6 +323,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Overview; Start a Deep Research report"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [907]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Work web-search and Open URL documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Work searches the live web and can fetch a user-provided page or online-file URL into a chat as context
+          - type: policy
+            value: Open URL does not crawl a site, access login- or paywall-protected pages, or guarantee full rendering of highly interactive pages
+        evidence:
+          - resourceId: mistral-vibe-work-web-search-open-url
+            type: documented
+            observedAt: 2026-09-01
   - harness: grok-web
     versions:
       - track: current

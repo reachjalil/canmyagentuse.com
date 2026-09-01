@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-31
+updated: 2026-09-01
 published: 2026-08-28
 category: runtime
 summary: Start a task on a schedule without a new human prompt.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 85
+    text: "Evidence checked 2026-09-01: Vibe Work Public Preview Scheduled Tasks run a prompt once or on daily, weekly, monthly, or yearly schedules. Users can edit, pause, resume, or delete schedules; sensitive Connector actions normally require confirmation unless pre-authorized."
   - id: 82
     text: "Evidence checked 2026-08-31: the official Devin MCP integration can create and manage cron or one-time scheduled cloud sessions after API or service-user authentication; this is a vendor integration rather than a local Desktop scheduler."
   - id: 81
@@ -59,6 +61,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations on grok.com run once, daily, weekdays, weekly, monthly, or yearly at a user-selected local time, with pause, resume, edit, delete, and Run now controls."
 issues: []
 resources:
+  - id: mistral-vibe-work-scheduled-tasks
+    title: "Mistral Docs — Schedule tasks"
+    href: https://docs.mistral.ai/vibe/work/scheduled-tasks
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "Public Preview; Creating a scheduled task; Scheduling options; Tools, Connectors, and approvals; Managing your schedules; Limits"
   - id: cognition-devin-mcp-schedules
     title: "Cognition — Devin MCP"
     href: https://docs.devin.ai/desktop/devin-mcp
@@ -226,6 +236,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "On a schedule or trigger; automation controls"
 support:
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [85]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-01 Vibe Work scheduled-tasks documentation observation
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: feature-flag
+            value: Scheduled Tasks are a Public Preview feature available only in Vibe Work
+          - type: runtime
+            value: users can schedule one-time, daily, weekly, monthly, or yearly prompts and later edit, pause, resume, or delete them; runs use Work capabilities including Skills, Connectors, web search, Libraries, and Projects
+          - type: policy
+            value: sensitive Connector actions normally ask for confirmation; unattended completion requires pre-authorizing the relevant Connector actions
+        evidence:
+          - resourceId: mistral-vibe-work-scheduled-tasks
+            type: documented
+            observedAt: 2026-09-01
   - harness: windsurf
     versions:
       - track: current
