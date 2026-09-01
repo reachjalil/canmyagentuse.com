@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Open or review pull requests through a documented integration.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 74
+    text: "Evidence checked 2026-08-31: Devin Desktop can manage GitHub pull requests through configured GitHub MCP tooling or a connected cloud Devin session; neither path is an unauthenticated local-default PR feature."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp projects support a Push to Branch workflow that returns a GitHub pull-request URL, while automatic PR creation relies on authenticated gh plus explicit AGENTS.md guidance."
   - id: 10
@@ -45,6 +47,22 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 can create and review pull requests through its separately installed GitHub Actions integration rather than through local TUI-native PR handling."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp-prs
+    title: "Cognition — MCP servers in Devin Desktop"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "GitHub pull-request management"
+  - id: cognition-devin-desktop-cloud-agent
+    title: "Cognition — Devin in Desktop"
+    href: https://docs.devin.ai/desktop/devin
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Start and monitor Devin sessions"
   - id: amp-2026-08-pull-requests
     title: "Amp — Projects"
     href: https://ampcode.com/docs/projects
@@ -158,6 +176,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Features; Installation; Supported Events"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [74]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: requires a configured GitHub MCP credential or an authenticated cloud Devin session
+          - type: plan
+            value: cloud Devin availability depends on plan, administrator enablement, and rollout
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp-prs
+            type: documented
+            observedAt: 2026-08-31
+          - resourceId: cognition-devin-desktop-cloud-agent
+            type: documented
+            observedAt: 2026-08-31
   - harness: amp-cli
     versions:
       - track: current

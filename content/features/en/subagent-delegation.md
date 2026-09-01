@@ -11,7 +11,7 @@ audience: Engineers comparing multi-agent execution.
 contentKind: feature
 status: published
 tags: [runtime, subagents, delegation]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: runtime
 summary: Delegate a bounded task to another agent process.
@@ -21,6 +21,8 @@ parent: subagents
 related: [nested-subagents, subagent-concurrency, subagent-context-isolation, subagent-result-handoff]
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-08-31: preview-enabled Devin Local can create foreground or background child agents with separate conversations and shared tools to handle bounded subtasks."
   - id: 85
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork can divide complex work into bounded tasks and coordinate multiple subagents in parallel, but the capability is limited to paid Cowork rather than ordinary Claude chat."
   - id: 80
@@ -61,6 +63,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: cognition-devin-local-subagents
+    title: "Cognition — Devin Local"
+    href: https://docs.devin.ai/desktop/devin-local
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Key improvements — subagents; preview toggle"
   - id: anthropic-claude-web-cowork-subagents
     title: "Anthropic — Get started with Claude Cowork"
     href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
@@ -225,6 +235,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "complete stable runtime dependency manifest"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        stage: preview
+        qualifiers:
+          - type: preview
+            value: subagents require the Devin Local preview toggle
+          - type: runtime
+            value: child agents can run in foreground or background with their own conversation and shared tools
+        evidence:
+          - resourceId: cognition-devin-local-subagents
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-desktop
     versions:
       - track: current

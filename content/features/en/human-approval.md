@@ -12,13 +12,17 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: runtime
 summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-31: declarative WebMCP forms can preserve a manual Submit confirmation and sites can request confirmation for sensitive actions, but auto-submit and imperative tools mean the API has no universal per-call human gate."
+  - id: 83
+    text: "Evidence checked 2026-08-31: Devin Local applies allow, ask, or deny decisions to file, command, HTTP, and MCP operations and surfaces approval cards when a requested action needs a person."
   - id: 82
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork supports manual, automatic, and skip-all approval modes, while permanent file deletion still requires explicit confirmation."
   - id: 81
@@ -69,6 +73,30 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks requires approval or user takeover for payments, personal-data submission, communications, account changes, and other sensitive actions."
 issues: []
 resources:
+  - id: chrome-webmcp-declarative-approval
+    title: "Google Chrome — WebMCP Declarative API"
+    href: https://developer.chrome.com/docs/ai/webmcp/declarative-api
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Form submission; toolautosubmit"
+  - id: chrome-webmcp-security-approval
+    title: "Google Chrome — Agent security considerations for WebMCP"
+    href: https://developer.chrome.com/docs/agents/security
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Sensitive actions and human confirmation guidance"
+  - id: cognition-devin-local-permissions
+    title: "Cognition — Devin Local"
+    href: https://docs.devin.ai/desktop/devin-local
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Differences — Permissions model; Responding to permission requests"
   - id: anthropic-claude-desktop-cowork-approvals
     title: Anthropic — Use Claude Cowork safely
     href: https://support.claude.com/en/articles/13364135-use-claude-cowork-safely
@@ -269,6 +297,48 @@ resources:
     reviewedAt: 2026-08-29
     locator: "How Spark helps you keep you & your info safe; Supervise important & sensitive tasks; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: partial
+        stage: experimental
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: policy
+            value: a declarative form can require manual Submit, but toolautosubmit and imperative tools prevent a universal human-approval guarantee
+          - type: runtime
+            value: sites are advised to request confirmation for sensitive actions
+        evidence:
+          - resourceId: chrome-webmcp-declarative-approval
+            type: documented
+            observedAt: 2026-08-31
+          - resourceId: chrome-webmcp-security-approval
+            type: documented
+            observedAt: 2026-08-31
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: file, command, HTTP, and MCP operations can resolve to allow, ask, or deny; ask produces an approval card
+        evidence:
+          - resourceId: cognition-devin-local-permissions
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-desktop
     versions:
       - track: current

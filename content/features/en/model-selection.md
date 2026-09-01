@@ -11,7 +11,7 @@ audience: Engineers comparing model access and routing control.
 contentKind: feature
 status: published
 tags: [models, routing, control]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: models-context
 summary: Choose the model or documented model class used for a run.
@@ -20,6 +20,8 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-31: Devin Desktop exposes an explicit model picker for agent work; the named roster and availability can change by runtime, plan, and provider availability."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop exposes a searchable per-session model picker and applies the selected provider, model, and optional behavior variant; organization policy can hide blocked choices."
   - id: 76
@@ -64,6 +66,14 @@ notes:
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot on the web exposes selectable conversation modes, including Smart explicitly powered by GPT-5, plus Quick response, Think Deeper, Study and learn, and Search."
 issues: []
 resources:
+  - id: cognition-devin-desktop-models
+    title: "Cognition — Models"
+    href: https://docs.devin.ai/desktop/models
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Model picker; available models"
   - id: openwork-v01839-model-picker
     title: "OpenWork v0.18.39 — desktop model picker"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/modals/model-picker-modal.tsx#L34-L53"
@@ -248,6 +258,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Supported modes; how to select a mode; Smart"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: the explicit picker's model roster varies by product runtime, plan, and current provider availability
+        evidence:
+          - resourceId: cognition-devin-desktop-models
+            type: documented
+            observedAt: 2026-08-31
   - harness: openwork-desktop
     versions:
       - track: current

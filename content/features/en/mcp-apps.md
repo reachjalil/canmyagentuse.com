@@ -13,7 +13,7 @@ status: published
 tags:
   - interfaces
   - mcp
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: interfaces
 summary: Render an interactive interface returned by an MCP server inside the product.
@@ -30,6 +30,8 @@ parent: mcp
 related: [mcp-tools, mcp-resources]
 highlight: true
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-31: WebMCP lets an agent interact with the website's existing UI, whereas MCP Apps render server-provided UI inside an agent host; Chrome WebMCP does not implement the MCP Apps extension."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable CLI package, arguments, commands, and dependencies establishes that it implements no MCP client or MCP Apps UI-resource host."
   - id: 74
@@ -54,6 +56,14 @@ notes:
     text: "Evidence checked 2026-08-29: goose v1.48.0 explicitly sets MCP Apps capability off for Goose CLI while enabling it for the separate Goose Desktop path."
 issues: []
 resources:
+  - id: chrome-webmcp-compare-mcp-apps
+    title: "Google Chrome — When to use WebMCP and MCP"
+    href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Control UI access"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -218,6 +228,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Goose CLI sets mcpui false while Desktop sets true, lines 407-426"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: no
+        stage: experimental
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: protocol-revision
+            value: WebMCP acts on an existing website UI; it does not render MCP App UI inside an agent host
+        evidence:
+          - resourceId: chrome-webmcp-compare-mcp-apps
+            type: documented
+            observedAt: 2026-08-31
   - harness: aider
     versions:
       - track: current

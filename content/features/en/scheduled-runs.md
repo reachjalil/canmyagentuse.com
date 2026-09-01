@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: runtime
 summary: Start a task on a schedule without a new human prompt.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-31: the official Devin MCP integration can create and manage cron or one-time scheduled cloud sessions after API or service-user authentication; this is a vendor integration rather than a local Desktop scheduler."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop claims Den-scheduled Automation occurrences and runs them as visible local threads, but Den remains the scheduler and an authenticated Desktop runner must be online before the claim deadline."
   - id: 80
@@ -57,6 +59,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations on grok.com run once, daily, weekdays, weekly, monthly, or yearly at a user-selected local time, with pause, resume, edit, delete, and Run now controls."
 issues: []
 resources:
+  - id: cognition-devin-mcp-schedules
+    title: "Cognition — Devin MCP"
+    href: https://docs.devin.ai/desktop/devin-mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Schedule management; Windsurf setup"
   - id: openwork-v01839-desktop-automations
     title: "OpenWork v0.18.39 — Desktop runner for Den-scheduled Automations"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/docs/features/automations-desktop-runner/README.md#L1-L32"
@@ -216,6 +226,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "On a schedule or trigger; automation controls"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: vendor-extension
+            value: scheduling is exposed through the official Devin MCP integration and executes as cloud Devin sessions
+          - type: auth
+            value: requires a Devin API key or service-user credential
+          - type: runtime
+            value: supports cron and one-time scheduled sessions
+        evidence:
+          - resourceId: cognition-devin-mcp-schedules
+            type: documented
+            observedAt: 2026-08-31
   - harness: openwork-desktop
     versions:
       - track: current

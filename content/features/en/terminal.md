@@ -13,13 +13,15 @@ status: published
 tags:
   - workspace
   - terminal
-updated: 2026-08-28
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Propose or execute shell commands in a project environment.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 902
+    text: "Evidence checked 2026-08-31: Devin Desktop provides an integrated terminal and lets agents execute commands under Cascade auto-execution levels or Devin Local allow, ask, and deny permissions."
   - id: 901
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork executes shell commands inside an isolated hosted environment; local developer tools require separately granted Desktop access."
   - id: 73
@@ -62,6 +64,14 @@ notes:
     text: "Evidence checked 2026-08-28: Aider includes a user-invoked `/run` command for executing shell commands and optionally adding output to chat, but the cited reference does not establish an autonomous model tool for proposing and running commands."
 issues: []
 resources:
+  - id: cognition-devin-desktop-terminal
+    title: "Cognition — Terminal"
+    href: https://docs.devin.ai/desktop/terminal
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Auto-executed agent commands; Auto-Execution Levels; Dedicated terminal"
   - id: amp-2026-08-terminal
     title: "Amp — Orbs"
     href: https://ampcode.com/docs/orbs
@@ -231,6 +241,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Current capability, permissions, and workflow sections"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [902]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: command execution follows Cascade auto-execution levels or Devin Local allow, ask, and deny permissions
+        evidence:
+          - resourceId: cognition-devin-desktop-terminal
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-desktop
     versions:
       - track: current

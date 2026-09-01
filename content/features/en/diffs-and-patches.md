@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Propose or apply file changes as diffs or patches.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 77
+    text: "Evidence checked 2026-08-31: Devin Local Quick Review analyzes the current diff, while legacy Cascade Arena presents independent accept or reject controls; the exact review workflow varies by runtime."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 opens agent changes in a multi-buffer review diff, supports accepting or rejecting individual hunks or the whole change set, and can show the same controls inline."
   - id: 73
@@ -47,6 +49,22 @@ notes:
     text: "Evidence checked 2026-08-28: Aider documents generating a file diff and applying the edit directly during a chat."
 issues: []
 resources:
+  - id: cognition-devin-desktop-quick-review
+    title: "Cognition — Quick Review"
+    href: https://docs.devin.ai/desktop/quick-review
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Review a diff with Devin Local"
+  - id: cognition-devin-desktop-arena
+    title: "Cognition — Cascade Arena"
+    href: https://docs.devin.ai/desktop/cascade/arena
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Accept and reject model changes"
   - id: zed-v1-17-2-agent-panel
     title: "Zed v1.17.2 — Agent Panel"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/agent-panel.md#L114-L123"
@@ -163,6 +181,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Ready; task settings"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: Quick Review is a Devin Local diff-analysis workflow; independent accept and reject controls are documented for legacy Cascade Arena
+        evidence:
+          - resourceId: cognition-devin-desktop-quick-review
+            type: documented
+            observedAt: 2026-08-31
+          - resourceId: cognition-devin-desktop-arena
+            type: documented
+            observedAt: 2026-08-31
   - harness: zed-agent
     versions:
       - track: current

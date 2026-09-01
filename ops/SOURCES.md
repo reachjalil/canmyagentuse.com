@@ -352,18 +352,20 @@ row definition.
   3. First-party repository/issue tracker: https://github.com/warpdotdev/Warp
   4. Status: https://status.warp.dev/
 
-### `windsurf` — Windsurf
+### `windsurf` — Devin Desktop (formerly Windsurf)
 
-- Vendor: Codeium / Cognition
+- Vendor: Cognition
 - Surface: Desktop editor
-- Defaults: `local-default`; target `release`
+- Defaults: `local-default`; target `dated-documentation`
 - Source ladder:
-  1. Docs: https://docs.windsurf.com/ and, for post-acquisition desktop
-     integration pages, https://docs.devin.ai/desktop/
-  2. Changelog: https://windsurf.com/changelog
-  3. First-party repository: use only repositories linked by current Windsurf
-     or Cognition docs for the exact behavior
-  4. Status: https://status.windsurf.com/
+  1. Identity and product root: https://devin.ai/desktop — Cognition states
+     that Devin Desktop is the new name for Windsurf and the update preserves
+     the IDE, extensions, workflows, settings, and in-progress work
+  2. Docs: https://docs.devin.ai/desktop/
+  3. Changelog: https://windsurf.com/changelog
+  4. First-party repository: use only repositories linked by current Cognition
+     docs for the exact behavior
+  5. Status: https://status.windsurf.com/
 
 ### `zed-agent` — Zed Agent
 
@@ -527,6 +529,7 @@ They remain leads until an individual feature cell cites and scopes them.
 
 ### Windsurf / Devin Desktop transition
 
+- https://devin.ai/desktop
 - https://docs.devin.ai/desktop/getting-started
 - https://docs.devin.ai/desktop/cascade/agents-md
 - https://docs.devin.ai/desktop/cascade/memories

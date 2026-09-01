@@ -3,10 +3,10 @@
 2. Inspect `git status`; recover only work explicitly listed below, then pull `--ff-only`.
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
-- State updated: 2026-08-30
-- Cycle: 7 released and reconciled; coverage interface facelift released
+- State updated: 2026-08-31
+- Cycle: 8 validated locally; release pending
 - Phase: A — harness floor, with exact-source family sweeps interleaved
-- Coverage: 1,328/3,534 current-track cells assessed with direct reviewed evidence (37.6%); Cycle-7 delta +11
+- Coverage: 1,352/3,534 current-track cells assessed with direct reviewed evidence (38.3%); Cycle-8 delta +24
 - Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
 - Atomic features: 114
 - Harnesses: 31
@@ -17,8 +17,8 @@
 - Last social release: refined data-driven coverage card commit `ce83e02d6cb051a05bbfbdd5835c9a22479160a8`; CI run `33324487257` succeeded; live card `/social/coverage-frontier-v2-1328.png` verified at 1,200×630 with SHA-256 `a8cd8c71b4f852e7d697879bd54f72513dbb75ea80e7fc9b3b83a94689e91059`
 - Last correction smoke: receipt `CMAU-SPDEJSWZJC`; received, privacy-checked, and declined as a release-only test
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
-- In-flight briefs: none; Cycle 8 queue targets the five remaining sub-30 surfaces plus desert-family sweeps
-- Owned dirty paths: none
+- In-flight briefs: none; Cycle 8 integrated 17 Devin Desktop/Windsurf and 7 Chrome WebMCP cells
+- Owned dirty paths: 22 feature files, the Windsurf harness record, and Cycle 8 operations files in the isolated release worktree
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: start Cycle 8 from `ops/BACKLOG.md`; preserve the verified production interface and correction privacy defaults
+- Next action: run full check, test, and build; commit, push, deploy, and reconcile Cycle 8

@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [runtime, browser, visual-interaction]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: runtime
 summary: Inspect and act on a visual interface through screenshots and input actions.
@@ -20,6 +20,8 @@ aliases: [GUI automation, visual browser, browser control]
 related: [browser-automation, screenshots]
 highlight: true
 notes:
+  - id: 79
+    text: "Evidence checked 2026-08-31: cloud Devin exposes mouse, keyboard, screenshot, and browser or GUI interaction inside its hosted Linux VM when launched through eligible Devin Desktop access."
   - id: 78
     text: "Evidence checked 2026-08-29: Claude Desktop can click, type, navigate desktop apps, open files, and operate browsers through Cowork or Code, but Anthropic labels the capability a Pro/Max research preview."
   - id: 74
@@ -48,6 +50,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks captures webpage screenshots and performs clicks, scrolling, and typing, but current documentation establishes browser interaction rather than general desktop application control."
 issues: []
 resources:
+  - id: cognition-devin-computer-use-vm
+    title: "Cognition — Computer use"
+    href: https://docs.devin.ai/work-with-devin/computer-use
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Mouse, keyboard, screenshots, browser, and GUI in the Devin VM"
   - id: anthropic-claude-desktop-computer-use
     title: "Anthropic — Let Claude use your computer in Cowork"
     href: https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork
@@ -156,6 +166,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Browser-based tasks; screenshots and control"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [79]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: controls a cloud Devin Linux VM, not arbitrary applications on the operator's computer
+          - type: plan
+            value: Desktop access to cloud Devin depends on plan, administrator enablement, and rollout
+        evidence:
+          - resourceId: cognition-devin-computer-use-vm
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-desktop
     versions:
       - track: current

@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-08-31: Devin Desktop Code Mode can execute project commands and install dependencies while performing multi-step coding work, subject to its terminal and permission settings."
   - id: 85
     text: "Evidence checked 2026-08-29: Claude Desktop can execute code and create or edit files in an isolated Anthropic-hosted sandbox, shows action summaries for auditability, and lets the user stop execution."
   - id: 84
@@ -43,6 +45,14 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: cognition-devin-desktop-code-mode-execution
+    title: "Cognition — Cascade modes"
+    href: https://docs.devin.ai/desktop/cascade/modes
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Code Mode"
   - id: anthropic-claude-desktop-code-execution
     title: Anthropic — Create and edit files with Claude
     href: https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude
@@ -246,6 +256,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Delete remote browser & computer data — Delete remote code execution data; Remote browser & computer"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: execution is governed by local workspace permissions and terminal auto-execution settings
+        evidence:
+          - resourceId: cognition-devin-desktop-code-mode-execution
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-desktop
     versions:
       - track: current

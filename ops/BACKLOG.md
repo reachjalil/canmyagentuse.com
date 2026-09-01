@@ -220,17 +220,17 @@ add a provider mark; use the catalog's original monogram fallback.
 
 ## Current queue
 
-Queue rewritten: 2026-08-29 after cycle 7. Skip recorded attempts until their
+Queue rewritten: 2026-08-31 after cycle 8 research. Skip recorded attempts until their
 30-day cooldown expires unless a first-party changelog directly reopens them.
 
 1. `grok-web` × remaining consumer inputs, sharing, search, voice, and policy
    rows from current xAI Help Center and legal pages.
-2. `chrome-webmcp-preview` × the remaining exact WebMCP rows, keeping the
-   current and preview tracks distinct and excluding generic Chrome or Gemini.
-3. `le-chat` × current Vibe web files, projects, connectors, sharing,
+2. `le-chat` × current Vibe web files, projects, connectors, sharing,
    governance, and runtime rows after a deliberate identity decision.
-4. `windsurf` × remaining Phase-A rows after deliberate product-identity
-   review; do not merge Devin Desktop or Devin Local evidence by default.
+3. `chrome-webmcp-preview` × only newly documented exact WebMCP rows; Cycle 8
+   completed the currently supportable MCP-boundary and runtime cells.
+4. `windsurf` × remaining Devin Desktop rows, preserving qualifiers that
+   distinguish Devin Local, legacy Cascade, and hosted Devin execution.
 5. `chatgpt-cli` × no capability research until a first-party identity source
    establishes this as a distinct current product rather than Codex CLI.
 6. Release-pinned `codex-cli`, `gemini-cli`, `copilot-cli`, and `claude-cli`
@@ -244,21 +244,20 @@ Queue rewritten: 2026-08-29 after cycle 7. Skip recorded attempts until their
 10. `jetbrains-ai`, `opencode`, `warp`, `devin-web`, and `aider` only for rows
    reopened by exact first-party evidence; otherwise honor cooldowns.
 
-## Current Phase-A snapshot after Cycle 7
+## Current Phase-A snapshot after Cycle 8 research
 
-The validated local report is 1,328/3,534 current-track cells (37.6%). The
+The validated local report is 1,352/3,534 current-track cells (38.3%). The
 remaining sub-30 harnesses, in ascending sourced count, are:
 
 1. `chatgpt-cli` — 3/114; product identity blocked, so do not inherit Codex CLI
-2. `chrome-webmcp-preview` — 10/114; keep current and preview evidence separate
-3. `windsurf` — 13/114; product identity migration remains unresolved
-4. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
-5. `grok-web` — 20/114
+2. `le-chat` — 15/114; Le Chat-to-Vibe identity migration remains unresolved
+3. `chrome-webmcp-preview` — 17/114; keep current and preview evidence separate
+4. `grok-web` — 20/114
 
-Copilot web, Gemini web, and Claude Desktop cleared the Phase-A floor in Cycles
-6 and 7. The next cycle should prioritize Grok web and exact WebMCP coverage;
-identity-blocked columns remain parked until an authoritative migration or
-product-boundary source permits a deliberate catalog decision.
+Windsurf cleared the Phase-A floor at 30/114 after Cognition's first-party
+rename statement permitted the catalog to track the in-place Devin Desktop
+continuation deliberately. The next cycle should prioritize Grok web and Vibe;
+the ambiguous ChatGPT CLI column remains parked.
 
 ## Ledger candidates
 
@@ -266,11 +265,11 @@ Contradictions awaiting possible deliberate promotion to
 `packages/catalog/src/atlas.ts` belong here. Routine cycles append candidates
 but do not edit the atlas.
 
-- feature=native-rules harness=windsurf first_seen=2026-08-29
+- feature=native-rules harness=windsurf first_seen=2026-08-29 status=resolved-2026-08-31
   src1=https://windsurf.com
-  src2=https://docs.devin.ai/desktop/getting-started
-  issue=The active marketing site retains Windsurf branding while current installation documentation calls the package Devin Desktop and labels Windsurf transitional.
-  next=Obtain a first-party product-identity or migration statement that defines the durable catalog name and whether the exact desktop surface changed.
+  src2=https://devin.ai/desktop
+  issue=Cognition now states that Devin Desktop is the new name for Windsurf, delivered as an in-place update with the IDE, extensions, workflows, settings, and in-progress work preserved.
+  next=Keep the stable windsurf slug for compatibility while labeling the exact surface Devin Desktop and qualifying Devin Local, legacy Cascade, and hosted Devin behavior separately.
 
 - feature=workspace-files harness=chatgpt-cli first_seen=2026-08-29
   src1=https://learn.chatgpt.com/docs/llms.txt

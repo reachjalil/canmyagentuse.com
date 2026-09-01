@@ -13,13 +13,15 @@ status: published
 tags:
   - workspace
   - files
-updated: 2026-08-28
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Read or edit files inside a user-selected project.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-31: Devin Desktop Code Mode can create, edit, and delete files in a selected local workspace; agent operations are unavailable while the workspace is in Restricted Mode."
   - id: 81
     text: "Evidence checked 2026-08-29: The Gemini web app accepts a selected code folder or GitHub repository as chat context, while Gemini Spark tasks can read and update hosted task files and create or edit connected Drive documents, spreadsheets, and presentations."
   - id: 80
@@ -72,6 +74,14 @@ notes:
     text: "Evidence checked 2026-08-28: Replit Agent writes code and sets up a hosted project in the Project Editor, including projects imported from GitHub or uploaded files; the workspace is Replit-hosted rather than an arbitrary local directory."
 issues: []
 resources:
+  - id: cognition-devin-desktop-modes-files
+    title: "Cognition — Cascade modes"
+    href: https://docs.devin.ai/desktop/cascade/modes
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Code Mode; Restricted Mode"
   - id: openai-chatgpt-desktop-work-files
     title: "OpenAI — ChatGPT Work and Codex"
     href: https://help.openai.com/en/articles/20001275
@@ -288,6 +298,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Create a task; Check files Gemini read or updated; What Workspace actions can Gemini Spark perform?"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: agents are unavailable in Restricted Mode; Code Mode operates on the selected local workspace
+        evidence:
+          - resourceId: cognition-devin-desktop-modes-files
+            type: documented
+            observedAt: 2026-08-31
   - harness: gemini-web
     versions:
       - track: current

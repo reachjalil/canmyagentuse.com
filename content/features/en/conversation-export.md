@@ -11,7 +11,7 @@ audience: Teams preserving, auditing, migrating, or analyzing agent work.
 contentKind: feature
 status: published
 tags: [collaboration, portability, export, provenance]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: collaboration
 summary: Export conversation history in a documented format.
@@ -20,6 +20,8 @@ aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-08-31: a configured legacy Cascade hook can write the complete conversation from its beginning to a local JSONL transcript; this is a vendor hook workflow rather than a general one-click Devin Desktop export."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 writes chat history to configurable Markdown, can log the complete model conversation to a separate file, and exposes /copy-context for Markdown export of active code context."
   - id: 77
@@ -53,6 +55,14 @@ notes:
   - id: 61
     text: "Evidence checked 2026-08-29: Grok.com Data Controls lets users download their data, but the current Consumer FAQ does not document the export format, included conversation fields, attachments, or restore support."
 resources:
+  - id: cognition-windsurf-hooks-transcript
+    title: "Cognition — Cascade hooks"
+    href: https://docs.devin.ai/desktop/cascade/hooks
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Hook Events — post_cascade_response_with_transcript"
   - id: aider-v0860-options-history
     title: "Aider v0.86.0 — Command-line options"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/options.md"
@@ -209,6 +219,27 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Data subject rights; download data through Grok.com Settings and Data Controls"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: vendor-extension
+            value: requires a configured legacy Cascade post-response hook
+          - type: format
+            value: full conversation transcript in JSONL at ~/.windsurf/transcripts/{trajectory_id}.jsonl
+          - type: host-role
+            value: the documented mechanism is a legacy Cascade hook, not a general Devin Desktop export action
+        evidence:
+          - resourceId: cognition-windsurf-hooks-transcript
+            type: documented
+            observedAt: 2026-08-31
   - harness: aider
     versions:
       - track: current

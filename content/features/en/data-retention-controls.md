@@ -11,7 +11,7 @@ audience: Privacy, compliance, and security teams evaluating agent data lifecycl
 contentKind: feature
 status: published
 tags: [security, privacy, retention, deletion]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: security-privacy
 summary: Configure or document retention and deletion for covered product data.
@@ -20,6 +20,8 @@ aliases: [retention policy, delete chat data, zero retention, data lifecycle]
 parent: data-security-controls
 related: [conversation-export, audit-logs]
 notes:
+  - id: 80
+    text: "Evidence checked 2026-08-31: configured Cascade transcript hooks write local JSONL files with mode 0600 and retain at most 100 transcripts by pruning the oldest; this is limited to hook-generated transcripts, not all product data."
   - id: 79
     text: "Evidence checked 2026-08-29: ChatGPT's current retention and deletion contract covers chats and uploaded files used through the desktop client, including separate Library management and workspace retention policies."
   - id: 77
@@ -58,6 +60,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok.com users can delete selected conversations, all history, or the account; deleted and Private Chat conversations are removed within 30 days subject to de-identification and legal or safety exceptions."
 issues: []
 resources:
+  - id: cognition-windsurf-hooks-retention
+    title: "Cognition — Cascade hooks"
+    href: https://docs.devin.ai/desktop/cascade/hooks
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Transcript path, permissions, and pruning"
   - id: openai-chatgpt-desktop-retention
     title: "OpenAI — Chat and File Retention Policies in ChatGPT"
     href: https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
@@ -262,6 +272,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Private Chat; data and account deletion; retention"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: hook-generated JSONL transcripts use file mode 0600 and a 100-file cap that prunes the oldest files
+          - type: policy
+            value: the documented limit covers configured legacy Cascade transcripts only, not prompts, telemetry, cloud sessions, backups, or every other retained object
+        evidence:
+          - resourceId: cognition-windsurf-hooks-retention
+            type: documented
+            observedAt: 2026-08-31
   - harness: chatgpt-desktop
     versions:
       - track: current

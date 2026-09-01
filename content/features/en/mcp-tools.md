@@ -13,7 +13,7 @@ status: published
 tags:
   - interfaces
   - mcp
-updated: 2026-08-28
+updated: 2026-08-31
 published: 2026-08-28
 category: interfaces
 summary: Invoke operations exposed by a Model Context Protocol server.
@@ -30,6 +30,8 @@ parent: mcp
 related: [mcp-resources, mcp-prompts, mcp-apps]
 highlight: true
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-31: Chrome WebMCP is an MCP-inspired page API rather than an MCP client; it does not implement MCP tools/list or tools/call even though both systems expose structured tools."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP tools/list or tools/call; shell commands and model-provider APIs are not MCP tools."
   - id: 28
@@ -90,6 +92,14 @@ notes:
     text: "Evidence checked 2026-08-28: current Devin Desktop documentation preserves MCP tool consumption for the legacy Cascade agent, while new tabs default to Devin Local and use a separate configuration path."
 issues: []
 resources:
+  - id: chrome-webmcp-compare-mcp-tools
+    title: "Google Chrome — When to use WebMCP and MCP"
+    href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Functions and purpose; MCP is for backend; WebMCP is for frontend"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -370,6 +380,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Adding a new MCP; Configuring MCP tools; General Information"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: no
+        stage: experimental
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: protocol-revision
+            value: the cell covers MCP server tools/list and tools/call; WebMCP exposes its own page-local APIs instead
+        evidence:
+          - resourceId: chrome-webmcp-compare-mcp-tools
+            type: documented
+            observedAt: 2026-08-31
   - harness: aider
     versions:
       - track: current

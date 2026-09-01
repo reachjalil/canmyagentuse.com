@@ -12,13 +12,17 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: runtime
 summary: Keep a run going after the operator leaves the session.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-31: Chrome WebMCP tools are ephemeral and tab-bound; once the user navigates away or closes the tab, the agent cannot access the site or continue its actions."
+  - id: 81
+    text: "Evidence checked 2026-08-31: an eligible cloud Devin session launched from Devin Desktop runs in a hosted VM and can continue after the operator closes the laptop."
   - id: 80
     text: "Evidence checked 2026-08-29: Claude web Cowork sessions can continue in Anthropic's cloud after the browser closes or computer sleeps, while local-file, browser, or native-computer access requires connected Desktop availability."
   - id: 79
@@ -57,6 +61,22 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations run on their own after setup, including before the user is awake or when matching email arrives, then save and report results."
 issues: []
 resources:
+  - id: chrome-webmcp-ephemeral-lifecycle
+    title: "Google Chrome — When to use WebMCP and MCP"
+    href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Control UI access; ephemeral tab-bound lifecycle"
+  - id: cognition-devin-desktop-background
+    title: "Cognition — Devin in Desktop"
+    href: https://docs.devin.ai/desktop/devin
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Cloud sessions; continue after laptop closes"
   - id: anthropic-claude-web-cowork-background
     title: "Anthropic — Get started with Claude Cowork"
     href: https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
@@ -212,6 +232,45 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Automations introduction; schedules and triggers; reporting"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: no
+        stage: experimental
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: runtime
+            value: WebMCP tools exist only while the page remains open; navigation or tab closure ends access and actions
+        evidence:
+          - resourceId: chrome-webmcp-ephemeral-lifecycle
+            type: documented
+            observedAt: 2026-08-31
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [81]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: continuation occurs in a cloud Devin VM rather than the ordinary local Desktop process
+          - type: plan
+            value: availability depends on plan, administrator enablement, and rollout
+        evidence:
+          - resourceId: cognition-devin-desktop-background
+            type: documented
+            observedAt: 2026-08-31
   - harness: claude-web
     versions:
       - track: current

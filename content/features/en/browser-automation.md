@@ -12,13 +12,17 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Control a browser for navigation, clicks, forms, and page reading.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 81
+    text: "Evidence checked 2026-08-31: Chrome WebMCP lets an in-browser agent invoke site-exposed, DOM-aware tools for form input, navigation, and page actions, but only while the eligible page is open and authorized."
+  - id: 80
+    text: "Evidence checked 2026-08-31: a cloud Devin session launched and monitored from Devin Desktop can operate a browser inside its hosted VM; this is a qualified hosted path rather than ordinary local Devin Desktop browser automation."
   - id: 79
     text: "Evidence checked 2026-08-29: Gemini Spark in the Gemini web app can open a remote browser, navigate websites, interact with pages such as by adding items to a cart, and hand browser control to the user."
   - id: 78
@@ -53,6 +57,38 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks can browse, click, scroll, type, and navigate websites on a user's behalf with observable progress and takeover controls."
 issues: []
 resources:
+  - id: chrome-webmcp-browser-actions
+    title: "Google Chrome — WebMCP"
+    href: https://developer.chrome.com/docs/ai/webmcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Why WebMCP; Use WebMCP APIs; Security and permissions"
+  - id: chrome-webmcp-compare-browser-actions
+    title: "Google Chrome — When to use WebMCP and MCP"
+    href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Control UI access; ephemeral tab-bound lifecycle"
+  - id: cognition-devin-desktop-browser-agent
+    title: "Cognition — Devin in Desktop"
+    href: https://docs.devin.ai/desktop/devin
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Cloud Devin sessions in Desktop"
+  - id: cognition-devin-computer-use-browser
+    title: "Cognition — Computer use"
+    href: https://docs.devin.ai/work-with-devin/computer-use
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Browser and GUI interaction in the Devin VM"
   - id: anthropic-claude-desktop-browser-use
     title: "Anthropic — Let Claude use your computer in Cowork"
     href: https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork
@@ -183,6 +219,53 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What you need; Monitor & take over a task; Delete remote browser & computer data; Remote browser & computer"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: partial
+        stage: experimental
+        noteIds: [81]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: runtime
+            value: automation is limited to DOM-aware tools explicitly exposed by the open website; it is not unrestricted actuation across arbitrary pages
+          - type: policy
+            value: origin isolation and the tools Permissions Policy gate registration and cross-origin iframe access
+        evidence:
+          - resourceId: chrome-webmcp-browser-actions
+            type: documented
+            observedAt: 2026-08-31
+          - resourceId: chrome-webmcp-compare-browser-actions
+            type: documented
+            observedAt: 2026-08-31
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: browser automation runs in a connected cloud Devin VM rather than the local Desktop workspace
+          - type: plan
+            value: Desktop access to cloud Devin depends on plan, administrator enablement, and rollout
+        evidence:
+          - resourceId: cognition-devin-desktop-browser-agent
+            type: documented
+            observedAt: 2026-08-31
+          - resourceId: cognition-devin-computer-use-browser
+            type: documented
+            observedAt: 2026-08-31
   - harness: gemini-web
     versions:
       - track: current

@@ -12,13 +12,17 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 905
+    text: "Evidence checked 2026-08-31: a Chrome WebMCP page can register a site-defined tool whose JavaScript calls fetch and honors cancellation, but that example does not give the browser agent a general cross-site fetch primitive."
+  - id: 904
+    text: "Evidence checked 2026-08-31: Devin Desktop can read a specifically supplied URL locally, and Devin Local supplies its own web-fetch tools; some pages remain unparseable and open-search policy is separate."
   - id: 903
     text: "Evidence checked 2026-08-29: Gemini Spark retrieves information from live websites it interacts with through its remote browser, while Deep Research performs real-time multi-source research with Google Search included by default."
   - id: 902
@@ -63,6 +67,22 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
+  - id: chrome-webmcp-imperative-fetch
+    title: "Google Chrome — WebMCP Imperative API"
+    href: https://developer.chrome.com/docs/ai/webmcp/imperative-api
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Handle tool cancellation — fetch_tool"
+  - id: cognition-devin-desktop-web-search
+    title: "Cognition — Web search"
+    href: https://docs.devin.ai/desktop/cascade/web-search
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Read a specific URL; Devin Local web tools"
   - id: aider-v0860-images-urls
     title: "Aider v0.86.0 — Images and web pages"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage/images-urls.md"
@@ -283,6 +303,47 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Overview; Start a Deep Research report"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: partial
+        stage: experimental
+        noteIds: [905]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: vendor-extension
+            value: fetching is implemented by a site-defined WebMCP tool, not a universal browser-agent fetch capability
+          - type: runtime
+            value: the tool executes in the open page's context and can pass cancellation to fetch
+        evidence:
+          - resourceId: chrome-webmcp-imperative-fetch
+            type: documented
+            observedAt: 2026-08-31
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [904]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: a supplied URL can be read locally; some pages cannot be parsed
+          - type: policy
+            value: direct URL retrieval is distinct from administrator-controlled open web search
+        evidence:
+          - resourceId: cognition-devin-desktop-web-search
+            type: documented
+            observedAt: 2026-08-31
   - harness: gemini-web
     versions:
       - track: current

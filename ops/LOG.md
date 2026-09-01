@@ -360,3 +360,17 @@ RECONCILE ui=coverage-facelift date=2026-08-30 commit=a108b0d8e1e18e20beb7df8a0f
 RECONCILE ui=coverage-social-card date=2026-08-30 commit=46f860c7ba6f75e8031650c349e949748c7730ca pushed=origin/main deploy=889ad868-ddfb-42e9-b28f-386756e72f93 coverage=1328/3534 ci=33323694848:success asset=/social/coverage-frontier-1328.png sha256=e33d5e7df02076832aaceecf7423ee769ce1887d576511cbb512b6f1fee1f4ad note="The coverage Open Graph and X summary card now renders the live 37.6% figure with 1,328 evidenced, 2,206 responsibly unknown, and 3,534 total cells from the catalog report; production metadata, dimensions, asset bytes, and browser rendering were verified."
 
 RECONCILE ui=coverage-social-card-v2 date=2026-08-30 commit=ce83e02d6cb051a05bbfbdd5835c9a22479160a8 pushed=origin/main deploy=def01aaf-3a0c-4306-8199-ff4488873fe3 coverage=1328/3534 ci=33324487257:success asset=/social/coverage-frontier-v2-1328.png sha256=a8cd8c71b4f852e7d697879bd54f72513dbb75ea80e7fc9b3b83a94689e91059 note="The coverage social card now leads with the question 'What can AI agents actually do?', retains 'Most of the map is still unknown' as its answer, clips the generated evidence artwork to the inner frame, insets the live-map badge, and preserves the data-driven 37.6%, 1,328 evidenced, 2,206 responsibly unknown, and 3,534 total figures; live metadata, asset bytes, deployment traffic, native dimensions, and browser rendering were verified."
+
+## Cycle 8 — 2026-08-31
+
+- Phase: A harness floor with an exact WebMCP boundary sweep
+- Briefs: 2 integrated; Devin Desktop/Windsurf and Chrome WebMCP origin trial
+- Cells written: 24 current-track; 17 Devin Desktop/Windsurf and 7 Chrome WebMCP
+- Feature files changed: 22; 20 workspace/runtime, collaboration, models, governance, MCP, and browser rows plus stale non-atomic support removal from two family pages
+- Identity decision: the stable `windsurf` slug now labels Devin Desktop after Cognition documented an in-place rename that preserves the product workspace and settings
+- Commit: pending
+- Pushed: no; Cycle 8 green ship checks pending
+- Deployed: no; Cycle 8 pending
+- Coverage: 1,352/3,534 assessed and direct reviewed (38.3%); delta +24
+- Preview: 9/3,192 (0.3%); delta +0
+- Incidents: an uncached Astro check exposed stale authored support blocks on the Agent Skills and file-input family pages; those non-atomic blocks were removed as required by the current derived-family schema without changing atomic coverage. WebMCP rows explicitly remain experimental, tab-bound, and distinct from MCP

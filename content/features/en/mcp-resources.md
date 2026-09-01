@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - interfaces
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: interfaces
 summary: Read MCP resources as live context.
@@ -29,6 +29,8 @@ parent: mcp
 related: [mcp-tools, mcp-prompts]
 highlight: false
 notes:
+  - id: 84
+    text: "Evidence checked 2026-08-31: Chrome explicitly describes WebMCP as omitting server-side MCP concepts such as resources, so the origin-trial browser surface is not an MCP resources client."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP resources/list, resources/read, or resource templates."
   - id: 81
@@ -59,6 +61,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp's local MCP client lists available server resources and current release notes explicitly document MCP resource reads respecting autonomy settings."
 issues: []
 resources:
+  - id: chrome-webmcp-compare-mcp-resources
+    title: "Google Chrome — When to use WebMCP and MCP"
+    href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
+    kind: docs
+    publisher: Google Chrome
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "WebMCP is for frontend — omitted server-side resources"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -228,6 +238,26 @@ resources:
     reviewedAt: 2026-08-29
     locator: "2026.03.25 resource reads respect autonomy settings"
 support:
+  - harness: chrome-webmcp-preview
+    versions:
+      - track: current
+        status: no
+        stage: experimental
+        noteIds: [84]
+        target:
+          kind: dated-documentation
+          revision: Chrome 153 WebMCP origin-trial documentation
+          observedAt: 2026-08-31
+        environmentProfile: preview-enabled
+        qualifiers:
+          - type: origin-trial
+            value: WebMCP is an experimental Chrome origin trial from Chrome 149; local development requires the enable-webmcp-testing flag
+          - type: protocol-revision
+            value: Chrome explicitly says WebMCP omits MCP resources rather than implementing resources/list or resources/read
+        evidence:
+          - resourceId: chrome-webmcp-compare-mcp-resources
+            type: documented
+            observedAt: 2026-08-31
   - harness: aider
     versions:
       - track: current

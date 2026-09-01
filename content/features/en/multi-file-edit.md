@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-28
+updated: 2026-08-31
 published: 2026-08-28
 category: tools
 summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 903
+    text: "Evidence checked 2026-08-31: Devin Desktop Code Mode supports complex refactors across files, and its worktree workflow isolates parallel edits before merging them back into the main workspace."
   - id: 902
     text: "Evidence checked 2026-08-29: personal-account Cowork can create and edit Word documents, Excel spreadsheets, PowerPoint presentations, and PDFs in a task, and Microsoft expressly describes tasks that produce multiple output files downloadable together. The documentation does not promise coordinated source-controlled changes or atomic edits across arbitrary local files."
   - id: 901
@@ -47,6 +49,14 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code documents reading multiple files and making coordinated edits across them in one task, but its CLI permission modes can review edits individually rather than as one grouped step."
 issues: []
 resources:
+  - id: cognition-devin-desktop-worktrees-edits
+    title: "Cognition — Worktrees"
+    href: https://docs.devin.ai/desktop/cascade/worktrees
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Parallel tasks; merge changes back"
   - id: aider-v0860-usage
     title: "Aider v0.86.0 — Usage"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/usage.md"
@@ -179,6 +189,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "For personal accounts (preview); What you can do with Cowork; Review files and results; Limitations"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [903]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: worktrees can isolate parallel multi-file work before changes are merged back
+        evidence:
+          - resourceId: cognition-devin-desktop-worktrees-edits
+            type: documented
+            observedAt: 2026-08-31
   - harness: copilot-web
     versions:
       - track: current

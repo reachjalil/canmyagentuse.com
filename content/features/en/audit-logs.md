@@ -11,7 +11,7 @@ audience: Security operations, compliance, and platform teams.
 contentKind: feature
 status: published
 tags: [security, audit, observability, enterprise]
-updated: 2026-08-29
+updated: 2026-08-31
 published: 2026-08-28
 category: security-privacy
 summary: Record security-relevant activity in an administrative audit log.
@@ -20,6 +20,8 @@ aliases: [activity log, security log, admin audit]
 parent: data-security-controls
 related: [admin-policy-controls, subagent-approval-boundaries, conversation-export]
 notes:
+  - id: 82
+    text: "Evidence checked 2026-08-31: configured Cascade audit hooks can record file reads, edits, commands, and prompt or response boundaries, but this is legacy hook output rather than a complete built-in administrative audit system."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop records workspace security and administrative actions as local JSONL with actor, action, target, summary, and timestamp and exposes recent entries through an authenticated workspace endpoint."
   - id: 74
@@ -48,6 +50,14 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise exposes customer-facing security and administrative audit records with actor, action, organization, timestamp, data, filters, and pagination."
 issues: []
 resources:
+  - id: cognition-windsurf-hooks-audit
+    title: "Cognition — Cascade hooks"
+    href: https://docs.devin.ai/desktop/cascade/hooks
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-08-31
+    locator: "Audit hooks; file, command, prompt, and response events"
   - id: openwork-v01839-audit-store
     title: "OpenWork v0.18.39 — workspace audit store"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/audit.ts#L11-L73"
@@ -180,6 +190,25 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Account-Level Roles — View Audit Logs"
 support:
+  - harness: windsurf
+    versions:
+      - track: current
+        status: partial
+        noteIds: [82]
+        target:
+          kind: dated-documentation
+          revision: current Devin Desktop documentation for the product formerly named Windsurf
+          observedAt: 2026-08-31
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: vendor-extension
+            value: requires configured legacy Cascade audit hooks
+          - type: policy
+            value: hook events do not establish a complete searchable administrator audit log, retention contract, or SIEM export
+        evidence:
+          - resourceId: cognition-windsurf-hooks-audit
+            type: documented
+            observedAt: 2026-08-31
   - harness: openwork-desktop
     versions:
       - track: current
