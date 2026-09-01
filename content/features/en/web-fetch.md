@@ -19,6 +19,8 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 906
+    text: "Evidence checked 2026-09-01: the consumer Grok web product can perform real-time web searches to return current information; the reviewed FAQ does not establish arbitrary authenticated URL access, raw response retention, or a user-configurable fetch policy."
   - id: 905
     text: "Evidence checked 2026-08-31: a Chrome WebMCP page can register a site-defined tool whose JavaScript calls fetch and honors cancellation, but that example does not give the browser agent a general cross-site fetch primitive."
   - id: 904
@@ -67,6 +69,14 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 includes a built-in webfetch tool for retrieving content from a specified URL, separately from web search."
 issues: []
 resources:
+  - id: spacexai-grok-consumer-faq-web-search
+    title: "SpaceXAI — Consumer FAQs"
+    href: https://x.ai/legal/faq
+    kind: docs
+    publisher: SpaceXAI
+    evidenceType: documented
+    reviewedAt: 2026-09-01
+    locator: "How does Grok work? — real-time web searches"
   - id: chrome-webmcp-imperative-fetch
     title: "Google Chrome — WebMCP Imperative API"
     href: https://developer.chrome.com/docs/ai/webmcp/imperative-api
@@ -303,6 +313,23 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Overview; Start a Deep Research report"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [906]
+        target:
+          kind: dated-documentation
+          revision: current Grok.com consumer FAQ
+          observedAt: 2026-09-01
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: Grok performs real-time public-web searches for current information; the FAQ does not establish arbitrary authenticated URL retrieval or raw-response controls
+        evidence:
+          - resourceId: spacexai-grok-consumer-faq-web-search
+            type: documented
+            observedAt: 2026-09-01
   - harness: chrome-webmcp-preview
     versions:
       - track: current

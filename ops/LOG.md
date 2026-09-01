@@ -376,3 +376,16 @@ RECONCILE ui=coverage-social-card-v2 date=2026-08-30 commit=ce83e02d6cb051a05bbf
 - Incidents: an uncached Astro check exposed stale authored support blocks on the Agent Skills and file-input family pages; those non-atomic blocks were removed as required by the current derived-family schema without changing atomic coverage. WebMCP rows explicitly remain experimental, tab-bound, and distinct from MCP
 
 RECONCILE cycle=8 date=2026-08-31 commit=f9d066c6f0be0689e69aa77925d9f7e0a1fc0537 pushed=origin/main deploy=e5dca0d2-d1a0-414a-af0e-77776e21cf95 coverage=1352/3534 ci=not-observed note="Production coverage, the Devin Desktop formerly Windsurf harness identity, a representative Windsurf workspace-files cell, and the Chrome WebMCP MCP-tools boundary were cache-busted and verified on canmyagentuse.com."
+
+## Cycle 9 — 2026-09-01
+
+- Phase: A low-coverage harness sweep
+- Briefs: 1 narrow Grok.com consumer-web first-party FAQ review
+- Cells written: 1 current-track; public real-time web retrieval
+- Feature files changed: 1; web fetch
+- Commit: pending
+- Pushed: no; Cycle 9 green ship checks pending
+- Deployed: no; Cycle 9 pending
+- Coverage: 1,353/3,534 assessed and direct reviewed (38.3%); delta +1
+- Preview: 9/3,192 (0.3%); delta +0
+- Incidents: no additional Grok web cells were written because the reviewed consumer FAQ's other direct claims already had evidence or did not establish the exact atomic boundary
