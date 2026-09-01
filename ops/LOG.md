@@ -414,3 +414,14 @@ RECONCILE cycle=10 date=2026-09-01 commit=80da182 pushed=origin/main deploy=7437
 - Coverage: 1,363/3,534 assessed and direct reviewed (38.6%); delta +4
 
 RECONCILE cycle=11 date=2026-09-01 commit=3b9b58f pushed=origin/main deploy=ccfd5090-958d-4f05-981f-a90dd9ab5357 coverage=1363/3534 note="Cache-busted production coverage reported 1,363/3,534 and Grok web reported 25/114 assessed cells."
+
+## Cycle 12 — 2026-09-01
+
+- Phase: A low-coverage harness sweep
+- Briefs: 1 current SpaceXAI Grok Enterprise organization-management review
+- Cells written: 1 current-track; identity-provider group-mapped custom RBAC roles for Enterprise Grok
+- Feature files changed: 1; role-based access
+- Validation: narrow catalog validation, uncached `check`, 97 tests, and an uncached build passed with Astro reporting 0 errors, 0 warnings, and 0 hints
+- Coverage: 1,364/3,534 assessed and direct reviewed (38.6%); delta +1
+
+RECONCILE cycle=12 date=2026-09-01 commit=c8531ed pushed=origin/main deploy=5ec204f6-855b-435e-9525-a49746282b19 coverage=1364/3534 note="Cache-busted production coverage reported 1,364/3,534 and Grok web reported 26/114 assessed cells."
