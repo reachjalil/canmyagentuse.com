@@ -368,9 +368,11 @@ RECONCILE ui=coverage-social-card-v2 date=2026-08-30 commit=ce83e02d6cb051a05bbf
 - Cells written: 24 current-track; 17 Devin Desktop/Windsurf and 7 Chrome WebMCP
 - Feature files changed: 22; 20 workspace/runtime, collaboration, models, governance, MCP, and browser rows plus stale non-atomic support removal from two family pages
 - Identity decision: the stable `windsurf` slug now labels Devin Desktop after Cognition documented an in-place rename that preserves the product workspace and settings
-- Commit: pending
-- Pushed: no; Cycle 8 green ship checks pending
-- Deployed: no; Cycle 8 pending
+- Commit: `f9d066c6f0be0689e69aa77925d9f7e0a1fc0537`
+- Pushed: yes; fast-forwarded `origin/main`
+- Deployed: yes; Cloudflare version `e5dca0d2-d1a0-414a-af0e-77776e21cf95`
 - Coverage: 1,352/3,534 assessed and direct reviewed (38.3%); delta +24
 - Preview: 9/3,192 (0.3%); delta +0
 - Incidents: an uncached Astro check exposed stale authored support blocks on the Agent Skills and file-input family pages; those non-atomic blocks were removed as required by the current derived-family schema without changing atomic coverage. WebMCP rows explicitly remain experimental, tab-bound, and distinct from MCP
+
+RECONCILE cycle=8 date=2026-08-31 commit=f9d066c6f0be0689e69aa77925d9f7e0a1fc0537 pushed=origin/main deploy=e5dca0d2-d1a0-414a-af0e-77776e21cf95 coverage=1352/3534 ci=not-observed note="Production coverage, the Devin Desktop formerly Windsurf harness identity, a representative Windsurf workspace-files cell, and the Chrome WebMCP MCP-tools boundary were cache-busted and verified on canmyagentuse.com."
