@@ -1,0 +1,763 @@
+---
+import {
+  HARNESS_SURFACE_LABELS,
+  SUPPORT_STATUS_LABELS,
+  SUPPORT_STATUS_MARK,
+  formatPercent,
+  groupHarnesses,
+  supportStatusForFeature,
+  type CapabilityProgress,
+  type FeatureData,
+  type HarnessData,
+  type SupportStatus,
+} from "@canmyagentuse/catalog";
+import ProviderMark from "./ProviderMark.astro";
+
+interface Props {
+  family: FeatureData;
+  features: FeatureData[];
+  harnesses: HarnessData[];
+  progress: CapabilityProgress[];
+}
+
+const { family, features, harnesses, progress } = Astro.props;
+const groups = groupHarnesses(harnesses);
+const progressMap = new Map(progress.map((item) => [item.harness, item]));
+const statuses = ["yes", "partial", "no", "unknown", "na"] as const satisfies readonly SupportStatus[];
+const aggregateCounts: Record<SupportStatus, number> = {
+  yes: 0,
+  partial: 0,
+  no: 0,
+  unknown: 0,
+  na: 0,
+};
+
+for (const item of progress) {
+  for (const status of statuses) aggregateCounts[status] += item.counts[status];
+}
+
+const totalCells = features.length * harnesses.length;
+const reviewedCells = totalCells - aggregateCounts.unknown;
+const reviewedShare = totalCells === 0 ? 0 : reviewedCells / totalCells;
+const describedStatuses = statuses.filter((status) => status !== "na" || aggregateCounts.na > 0);
+const surfaceGroups = groups.map((group) => {
+  const items = group.items.map((harness) => progressMap.get(harness.slug)).filter(Boolean);
+  const total = items.reduce((sum, item) => sum + (item?.total ?? 0), 0);
+  const reviewed = items.reduce((sum, item) => sum + (item?.reviewed ?? 0), 0);
+  const supported = items.reduce((sum, item) => sum + (item?.supported ?? 0), 0);
+  return { ...group, total, reviewed, supported };
+});
+---
+
+<section class="family-support" data-family-support aria-labelledby="family-support-title">
+  <header class="family-support__header">
+    <div>
+      <p class="eyebrow">Current support map</p>
+      <h2 id="family-support-title">{family.title} at a glance</h2>
+      <p>
+        Choose a product surface, then read one evidence cell for each of the {features.length}
+        separate checks defined below.
+      </p>
+    </div>
+    <dl class="family-support__coverage">
+      <div>
+        <dt>Evidence reviewed</dt>
+        <dd>{formatPercent(reviewedShare)}</dd>
+      </div>
+      <div>
+        <dt>Reviewed cells</dt>
+        <dd>{reviewedCells}<small>/{totalCells}</small></dd>
+      </div>
+    </dl>
+  </header>
+
+  <div class="family-support__totals-heading">
+    <span>All current evidence cells</span>
+    <small>{features.length} checks × {harnesses.length} products = {totalCells} cells</small>
+  </div>
+  <ul class="family-support__totals" aria-label="Current support totals across all products">
+    {describedStatuses.map((status) => (
+      <li data-status={status}>
+        <span class="family-support__status-mark" aria-hidden="true">{SUPPORT_STATUS_MARK[status]}</span>
+        <span>{SUPPORT_STATUS_LABELS[status]}</span>
+        <strong>{aggregateCounts[status]}</strong>
+      </li>
+    ))}
+  </ul>
+
+  <div class="family-support__surface-tabs" role="tablist" aria-label="Product surface">
+    {surfaceGroups.map((group, index) => (
+      <button
+        type="button"
+        role="tab"
+        id={`family-surface-tab-${group.surface}`}
+        aria-controls={`family-surface-panel-${group.surface}`}
+        aria-selected={index === 0 ? "true" : "false"}
+        tabindex={index === 0 ? 0 : -1}
+        data-surface-tab={group.surface}
+      >
+        <strong>{HARNESS_SURFACE_LABELS[group.surface]}</strong>
+        <span>{group.items.length} products</span>
+        <small>{group.supported} of {group.total} support found</small>
+      </button>
+    ))}
+  </div>
+
+  {surfaceGroups.map((group, index) => (
+    <section
+      class="family-support__panel"
+      role="tabpanel"
+      id={`family-surface-panel-${group.surface}`}
+      aria-labelledby={`family-surface-tab-${group.surface}`}
+      data-surface-panel={group.surface}
+      hidden={index !== 0}
+    >
+      <div class="family-support__panel-bar">
+        <h3>{HARNESS_SURFACE_LABELS[group.surface]} products</h3>
+        <span>{group.reviewed}/{group.total} cells reviewed</span>
+      </div>
+      <div
+        class="family-support__table-scroll"
+        role="region"
+        aria-label={`${HARNESS_SURFACE_LABELS[group.surface]} product support matrix`}
+        tabindex="0"
+      >
+        <table class="family-support__matrix">
+          <caption class="family-support__visually-hidden">
+            Current {family.title} support for {HARNESS_SURFACE_LABELS[group.surface]} products
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Capability check</th>
+              {group.items.map((harness) => {
+                const item = progressMap.get(harness.slug);
+                return (
+                  <th scope="col">
+                    <a href={`/harnesses/${harness.slug}`} title={`${harness.title} product profile`}>
+                      <ProviderMark provider={harness.vendor} productSlug={harness.slug} variant="inline" />
+                      <span>{harness.title}</span>
+                      <small title={`${item?.supported ?? 0} of ${item?.total ?? features.length} checks are supported or partial`}>
+                        {item?.supported ?? 0} of {item?.total ?? features.length}
+                        <span class="family-support__visually-hidden"> checks have support found</span>
+                      </small>
+                    </a>
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {features.map((feature) => (
+              <tr>
+                <th scope="row">
+                  <a href={`/features/${feature.slug}`}>{feature.title}</a>
+                </th>
+                {group.items.map((harness) => {
+                  const status = supportStatusForFeature(feature, harness);
+                  const label = SUPPORT_STATUS_LABELS[status];
+                  return (
+                    <td data-status={status}>
+                      <a
+                        href={`/features/${feature.slug}#surface-${group.surface}`}
+                        title={`${harness.title} — ${feature.title}: ${label}`}
+                        aria-label={`${harness.title} — ${feature.title}: ${label}`}
+                      >
+                        <span aria-hidden="true">{SUPPORT_STATUS_MARK[status]}</span>
+                      </a>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+  <footer class="family-support__footer">
+    <p><strong>Unknown</strong> means no public evidence has been reviewed. It does not mean unsupported.</p>
+    <a href="/methodology">How support states are assigned</a>
+  </footer>
+
+  <section id="family-capability-guide" class="family-support__guide" aria-labelledby="family-capability-guide-title">
+    <header>
+      <p class="eyebrow">Score denominator</p>
+      <h3 id="family-capability-guide-title">What the {features.length} checks actually are</h3>
+      <p>
+        Every product summary uses this same set. A result such as 5 of {features.length} means
+        support was found for five individual checks—not that the whole family has one combined status.
+      </p>
+    </header>
+    <ol>
+      {features.map((feature) => (
+        <li>
+          <div>
+            <a href={`/features/${feature.slug}`}>{feature.title}</a>
+            <p>{feature.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-family-support]")) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-surface-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-surface-panel]"));
+
+    const selectTab = (selected: HTMLButtonElement) => {
+      const surface = selected.dataset.surfaceTab;
+      for (const tab of tabs) {
+        const active = tab === selected;
+        tab.setAttribute("aria-selected", active ? "true" : "false");
+        tab.tabIndex = active ? 0 : -1;
+      }
+      for (const panel of panels) panel.hidden = panel.dataset.surfacePanel !== surface;
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectTab(tab));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = tabs[(index + direction + tabs.length) % tabs.length];
+        if (!next) return;
+        selectTab(next);
+        next.focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .family-support {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+
+  .family-support__panel {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .family-support__header {
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1rem, 2.4vw, 1.5rem);
+  }
+
+  .family-support__header h2 {
+    margin: 0.15rem 0 0;
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+    letter-spacing: -0.04em;
+  }
+
+  .family-support__header p:last-child {
+    max-width: 48rem;
+    margin: 0.35rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .family-support__coverage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    border: 1px solid var(--color-line);
+  }
+
+  .family-support__coverage > div {
+    min-width: 7.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .family-support__coverage > div + div {
+    border-left: 1px solid var(--color-line);
+  }
+
+  .family-support__coverage dt {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .family-support__coverage dd {
+    margin: 0.2rem 0 0;
+    font-size: 1.3rem;
+    font-weight: 650;
+  }
+
+  .family-support__coverage small {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  .family-support__guide {
+    scroll-margin-top: 1rem;
+    border-top: 1px solid var(--color-ink);
+    background: color-mix(in srgb, var(--color-canvas) 48%, var(--color-paper));
+    padding: clamp(1rem, 2.4vw, 1.5rem);
+  }
+
+  .family-support__guide > header {
+    max-width: 48rem;
+  }
+
+  .family-support__guide h3 {
+    margin: 0.15rem 0 0;
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+  }
+
+  .family-support__guide > header > p:last-child {
+    max-width: 44rem;
+    margin: 0.5rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .family-support__guide ol {
+    display: grid;
+    margin: 1rem 0 0;
+    border-top: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-line);
+    padding: 0;
+    counter-reset: family-check;
+    list-style: none;
+  }
+
+  .family-support__guide li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.7rem;
+    min-width: 0;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-paper) 82%, transparent);
+    padding: 0.75rem;
+    counter-increment: family-check;
+  }
+
+  .family-support__guide li::before {
+    color: var(--color-copper-deep);
+    content: counter(family-check, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding-top: 0.16rem;
+  }
+
+  .family-support__guide li > div {
+    min-width: 0;
+  }
+
+  .family-support__guide a {
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration-color: color-mix(in srgb, var(--color-copper-deep) 42%, transparent);
+    text-underline-offset: 0.2em;
+  }
+
+  .family-support__guide li p {
+    margin: 0.22rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
+  .family-support__totals-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem 1rem;
+    border-top: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.6rem 0.75rem 0.45rem;
+  }
+
+  .family-support__totals-heading span,
+  .family-support__totals-heading small {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+  }
+
+  .family-support__totals-heading span {
+    color: var(--color-ink);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .family-support__totals-heading small {
+    color: var(--color-muted);
+  }
+
+  .family-support__totals {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+    border-bottom: 1px solid var(--color-line);
+    list-style: none;
+  }
+
+  .family-support__totals li {
+    --status-fill: #b9ad97;
+    --status-soft: #eee7da;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.9rem;
+    border-top: 0.28rem solid var(--status-fill);
+    background: var(--status-soft);
+    padding: 0.4rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+  }
+
+  .family-support__totals li + li {
+    border-left: 1px solid var(--color-line);
+  }
+
+  .family-support__totals li[data-status="yes"] {
+    --status-fill: #2a6f54;
+    --status-soft: #d7e9df;
+  }
+
+  .family-support__totals li[data-status="partial"] {
+    --status-fill: #a96f16;
+    --status-soft: #f3dfb8;
+  }
+
+  .family-support__totals li[data-status="no"] {
+    --status-fill: #953d2d;
+    --status-soft: #ecd2cc;
+  }
+
+  .family-support__totals li[data-status="na"] {
+    --status-fill: #756c5f;
+    --status-soft: #e1d8c8;
+  }
+
+  .family-support__status-mark {
+    display: grid;
+    width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    background: var(--status-fill);
+    color: #fff;
+    font-weight: 750;
+  }
+
+  .family-support__totals li[data-status="partial"] .family-support__status-mark,
+  .family-support__totals li[data-status="unknown"] .family-support__status-mark {
+    color: #18160f;
+  }
+
+  .family-support__totals strong {
+    font-size: 0.85rem;
+  }
+
+  .family-support__surface-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    background: var(--color-canvas);
+  }
+
+  .family-support__surface-tabs button {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.08rem 0.5rem;
+    min-height: 4rem;
+    border: 0;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: transparent;
+    color: var(--color-ink);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .family-support__surface-tabs button:last-child {
+    border-right: 0;
+  }
+
+  .family-support__surface-tabs button[aria-selected="true"] {
+    border-bottom-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .family-support__surface-tabs button:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: -3px;
+  }
+
+  .family-support__surface-tabs strong {
+    font-size: 0.85rem;
+  }
+
+  .family-support__surface-tabs span {
+    justify-self: end;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .family-support__surface-tabs small {
+    grid-column: 1 / -1;
+    color: var(--color-muted);
+    font-size: 0.61rem;
+  }
+
+  .family-support__surface-tabs button[aria-selected="true"] small {
+    color: color-mix(in srgb, var(--color-paper) 70%, transparent);
+  }
+
+  .family-support__panel-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 0.45rem 0.65rem;
+  }
+
+  .family-support__panel-bar h3 {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .family-support__panel-bar span {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+  }
+
+  .family-support__table-scroll {
+    contain: layout paint;
+    overflow-x: auto;
+  }
+
+  .family-support__matrix {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .family-support__matrix th,
+  .family-support__matrix td {
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .family-support__matrix tr > :last-child {
+    border-right: 0;
+  }
+
+  .family-support__matrix thead th {
+    height: 5.3rem;
+    background: #f5eedf;
+    padding: 0.35rem 0.2rem;
+    vertical-align: top;
+  }
+
+  .family-support__matrix thead th:first-child {
+    width: 12rem;
+    padding: 0.55rem 0.65rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .family-support__matrix thead a {
+    display: grid;
+    justify-items: center;
+    gap: 0.18rem;
+    color: inherit;
+    font-size: 0.61rem;
+    line-height: 1.08;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .family-support__matrix thead a:hover span:not(.provider-inline-token) {
+    text-decoration: underline;
+  }
+
+  .family-support__matrix thead small {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    font-weight: 500;
+  }
+
+  .family-support__matrix tbody th {
+    background: #fbf7ed;
+    padding: 0.38rem 0.65rem;
+    font-size: 0.72rem;
+    line-height: 1.18;
+    text-align: left;
+  }
+
+  .family-support__matrix tbody th a {
+    color: inherit;
+    text-decoration-color: color-mix(in srgb, var(--color-ink) 28%, transparent);
+    text-underline-offset: 0.18em;
+  }
+
+  .family-support__matrix td {
+    --cell-fill: #c4b9a5;
+    height: 2.35rem;
+    background: var(--cell-fill);
+    padding: 0;
+    text-align: center;
+  }
+
+  .family-support__matrix td[data-status="yes"] { --cell-fill: #2f7b58; }
+  .family-support__matrix td[data-status="partial"] { --cell-fill: #cf922c; }
+  .family-support__matrix td[data-status="no"] { --cell-fill: #a64635; }
+  .family-support__matrix td[data-status="unknown"] { --cell-fill: #ded5c5; }
+  .family-support__matrix td[data-status="na"] { --cell-fill: #746c60; }
+
+  .family-support__matrix td a {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 2.35rem;
+    place-items: center;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .family-support__matrix td[data-status="partial"] a,
+  .family-support__matrix td[data-status="unknown"] a {
+    color: #18160f;
+  }
+
+  .family-support__matrix td a:hover,
+  .family-support__matrix td a:focus-visible {
+    box-shadow: inset 0 0 0 3px #18160f;
+  }
+
+  .family-support__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem 1.5rem;
+    padding: 0.65rem 0.8rem;
+    color: var(--color-muted);
+    font-size: 0.7rem;
+  }
+
+  .family-support__footer p {
+    margin: 0;
+  }
+
+  .family-support__footer a {
+    flex: 0 0 auto;
+  }
+
+  .family-support__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  :global(.family-support .provider-inline-token) {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0;
+    font-size: 0.42rem;
+  }
+
+  @media (min-width: 760px) {
+    .family-support__header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+    .family-support__guide ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 759px) {
+    .family-support__totals {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .family-support__totals li:nth-child(odd) {
+      border-left: 0;
+    }
+
+    .family-support__surface-tabs button {
+      grid-template-columns: 1fr;
+      min-width: 0;
+    }
+
+    .family-support__surface-tabs span {
+      justify-self: start;
+    }
+
+    .family-support__surface-tabs small {
+      display: none;
+    }
+
+    .family-support__matrix {
+      width: 54rem;
+    }
+
+    .family-support__matrix thead th:first-child {
+      position: sticky;
+      z-index: 2;
+      left: 0;
+      width: 10rem;
+    }
+
+    .family-support__matrix tbody th {
+      position: sticky;
+      z-index: 1;
+      left: 0;
+    }
+
+    .family-support__footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

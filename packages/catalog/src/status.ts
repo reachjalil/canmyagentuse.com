@@ -85,6 +85,7 @@ export const CONTENT_KINDS = [
   "category",
   "page",
   "news",
+  "report",
 ] as const;
 
 export type ContentKind = (typeof CONTENT_KINDS)[number];

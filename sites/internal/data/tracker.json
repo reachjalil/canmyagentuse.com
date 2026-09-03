@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-29T19:23:21.556Z",
+  "phases": [
+    {
+      "id": "ship",
+      "num": "0",
+      "window": "Day 0",
+      "title": "Ship and verify",
+      "summary": "Nothing else can start until the press kit and prompts are live on the production domain.",
+      "tasks": [
+        {
+          "id": "ship-commit",
+          "title": "Commit and deploy",
+          "detail": "git commit → pnpm deploy → spot-check /press, /prompt, /prompt.txt on canmyagentuse.com",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-cards",
+          "title": "Verify social cards",
+          "detail": "Paste /press and /prompt into a link-preview checker; both should show their 1200×630 cards",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-gsc",
+          "title": "Google Search Console verified",
+          "detail": "Domain property + submit sitemap.xml",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-bing",
+          "title": "Bing Webmaster Tools + IndexNow",
+          "detail": "Bing feeds ChatGPT search and DuckDuckGo",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-email",
+          "title": "press@canmyagentuse.com live",
+          "detail": "Cloudflare Email Routing, ~10 minutes; then replace the “no press inbox yet” line in press.ts",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-handles",
+          "title": "Claim social handles",
+          "detail": "X, LinkedIn company page, Bluesky, GitHub org — same mark, same boilerplate",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "ship-sameas",
+          "title": "Ship sameAs + logo in Organization JSON-LD",
+          "detail": "Feeds Google's Knowledge Graph once profiles exist",
+          "done": false,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "owned",
+      "num": "1",
+      "window": "Day 0–1",
+      "title": "Owned surfaces",
+      "summary": "The site reports its own changes as dated news — use that machinery for the launch itself.",
+      "tasks": [
+        {
+          "id": "owned-news",
+          "title": "Launch post in content/news/en/",
+          "detail": "Flows into RSS, JSON Feed, and llms.txt automatically",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "owned-founder",
+          "title": "Founder posts on X and LinkedIn",
+          "detail": "Founder voice outperforms brand voice at this stage",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "owned-wikidata",
+          "title": "Create Wikidata item",
+          "detail": "Independent compatibility catalog, inception 2026-08-28",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "owned-crunchbase",
+          "title": "Free Crunchbase profile",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "owned-editor",
+          "title": "Named editor on /about and news posts",
+          "detail": "E-E-A-T: anonymous research catalogs rank and pitch worse",
+          "done": false,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "community",
+      "num": "2",
+      "window": "Week 1",
+      "title": "Communities — free, highest expected value",
+      "summary": "One channel at a time, written natively for each. Answer questions; don't broadcast.",
+      "tasks": [
+        {
+          "id": "comm-hn",
+          "title": "Show HN",
+          "detail": "Tue–Thu 8–10am ET. Draft title is in the copy bank. Stay in the thread all day.",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "comm-ph",
+          "title": "Product Hunt launch",
+          "detail": "12:01am PT, a few days after HN; PH pages rank for years",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "comm-lobsters",
+          "title": "Lobsters",
+          "detail": "The day after HN if it lands well",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "comm-reddit",
+          "title": "Reddit posts, spaced days apart",
+          "detail": "r/LocalLLaMA, r/ClaudeAI, r/ChatGPTCoding, r/SideProject",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "comm-newsletters",
+          "title": "Newsletter pitches",
+          "detail": "Ben's Bites, TLDR AI, The Rundown, Latent Space — one stat + link to /press",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "comm-discord",
+          "title": "MCP / Cursor / Claude / OpenAI dev Discords",
+          "detail": "Share where capability questions get asked, as an answer not an ad",
+          "done": false,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "paid",
+      "num": "3",
+      "window": "Week 1–2",
+      "title": "Paid press release — one, budget tier",
+      "summary": "A wire buys legitimacy and a Google News footprint, not ranking links. Cap spend until metrics argue otherwise.",
+      "tasks": [
+        {
+          "id": "paid-pick",
+          "title": "Pick the wire",
+          "detail": "EIN Presswire ~$149 or eReleases ~$399; skip PR Newswire / Business Wire at this stage",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "paid-draft",
+          "title": "Finalize release from the copy bank",
+          "detail": "Recheck the numbers against /press before sending — they refresh at build",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "paid-send",
+          "title": "Send timed to the HN/PH week",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "paid-pitches",
+          "title": "10 direct journalist pitches",
+          "detail": "Named AI/dev-tools reporters, using /press — one real story beats 400 syndications",
+          "done": false,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "directories",
+      "num": "4",
+      "window": "Week 2–4",
+      "title": "Directories and listings",
+      "summary": "Quality few, not mass submission. Skip bulk services — link farms hurt.",
+      "tasks": [
+        {
+          "id": "dir-ai",
+          "title": "AI directories",
+          "detail": "There's An AI For That, Toolify.ai, TopAI.tools free paths first",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "dir-dev",
+          "title": "Dev directories",
+          "detail": "AlternativeTo, SaaSHub, StackShare, LibHunt, Uneed, Peerlist Launchpad",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "dir-llmstxt",
+          "title": "llms.txt directories",
+          "detail": "llmstxthub.com, llmstxt-site GitHub PR, llms-text.com — unusually on-brand",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "dir-awesome",
+          "title": "3–5 awesome-list PRs",
+          "detail": "awesome-ai-agents, awesome-mcp ecosystems, awesome-claude/chatgpt resources",
+          "done": false,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "engine",
+      "num": "5",
+      "window": "Ongoing",
+      "title": "Durable ranking engine",
+      "summary": "The 125 × 31 capability matrix is programmatic SEO that already exists. Feed it.",
+      "tasks": [
+        {
+          "id": "eng-badges",
+          "title": "Build embeddable README badges",
+          "detail": "“MCP tools: yes — canmyagentuse.com” — every embed is a natural backlink",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "eng-report",
+          "title": "Quarterly “State of Agent Capabilities” report",
+          "detail": "The classic linkable asset for newsletters and journalists",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "eng-changes",
+          "title": "Weekly changes cadence",
+          "detail": "Freshness signals plus a reason to re-cover",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "eng-sourcereq",
+          "title": "Answer journalist source requests",
+          "detail": "Qwoted and HARO successors, as an independent AI-agent compatibility researcher",
+          "done": false,
+          "note": ""
+        },
+        {
+          "id": "eng-gsc",
+          "title": "Weekly Search Console review",
+          "detail": "Write capability pages toward queries showing impressions without clicks",
+          "done": false,
+          "note": ""
+        }
+      ]
+    }
+  ],
+  "log": [
+    {
+      "id": "log-open-data",
+      "date": "2026-08-29",
+      "text": "Open-data presence published: public GitHub repo canmyagentuse-data (CC BY 4.0, 10 topics, homepage set), Hugging Face dataset reachjalil/canmyagentuse with six viewer configs, and a static HF Space landing in the ledger style."
+    },
+    {
+      "id": "log-issue-tracker",
+      "date": "2026-08-29",
+      "text": "Report page issue tracker wired: PUBLIC_ISSUE_TRACKER_URL now points at the public data repo's issues. Press kit, llms.txt, and internal quick links cross-link the mirrors."
+    },
+    {
+      "id": "log-seed-1",
+      "date": "2026-08-28",
+      "text": "Catalog foundation, Evidence Atlas v1, harness columns, and unknown-by-default policy published."
+    },
+    {
+      "id": "log-seed-2",
+      "date": "2026-08-29",
+      "text": "Press kit (/press) and canonical prompts (/prompt, /prompt.txt) built with full machine-surface wiring, 10 brand guardrail tests, and social cards. Verified locally; not yet deployed."
+    }
+  ]
+}

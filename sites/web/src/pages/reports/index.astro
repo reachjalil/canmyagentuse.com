@@ -1,0 +1,381 @@
+---
+import { SITE, reportPath, websiteJsonLd } from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publishedCollection } from "../../lib/collections";
+import { stateOfHarnessesReport } from "../../lib/reports";
+
+const reports = await publishedCollection("reports");
+const featured = reports[0];
+---
+
+<BaseLayout
+  title={`Reports | ${SITE.name}`}
+  description="Data-driven reporting on agent harnesses, interoperability, capability evidence, and the questions the public record cannot yet answer."
+  canonicalPath="/reports"
+  socialTitle="Can My Agent Use Reports"
+  socialDescription="Independent, data-driven reporting on the state of agent harnesses and interoperability."
+  jsonLd={[websiteJsonLd()]}
+>
+  <SiteChrome>
+    <main id="main" class="reports-index">
+      <section class="reports-index__hero">
+        <div class="reports-index__grid" aria-hidden="true"></div>
+        <div class="shell reports-index__hero-inner">
+          <p class="reports-index__kicker"><span></span> Can My Agent Use Reports</p>
+          <h1>Evidence, shaped<br />into a point of view.</h1>
+          <p>
+            Data-driven reporting on the agent harness market—built from exact
+            surfaces, atomic capabilities, dated sources, and visible unknowns.
+          </p>
+        </div>
+      </section>
+
+      {
+        featured ? (
+          <section class="shell reports-feature" aria-labelledby="featured-report-title">
+            <div class="reports-feature__copy">
+              <p class="reports-index__label">Flagship report · {featured.data.edition}</p>
+              <h2 id="featured-report-title">{featured.data.title}</h2>
+              <p>{featured.data.summary}</p>
+              <div class="reports-feature__actions">
+                <a class="reports-index__button reports-index__button--primary" href={reportPath(featured.data.slug)}>
+                  Read the report <span aria-hidden="true">→</span>
+                </a>
+                <a class="reports-index__button" href={`/reports/${featured.data.slug}.md`}>
+                  Markdown edition
+                </a>
+              </div>
+            </div>
+            <div class="reports-feature__data" aria-label="Report snapshot">
+              <div class="reports-feature__number">
+                <strong>{stateOfHarnessesReport.totals.surfaces}</strong>
+                <span>exact surfaces</span>
+              </div>
+              <dl>
+                <div><dt>Vendors</dt><dd>{stateOfHarnessesReport.totals.vendors}</dd></div>
+                <div><dt>Capabilities</dt><dd>{stateOfHarnessesReport.totals.features}</dd></div>
+                <div><dt>Cells</dt><dd>{stateOfHarnessesReport.totals.compatibilityCells.toLocaleString("en-US")}</dd></div>
+                <div><dt>Sources</dt><dd>{stateOfHarnessesReport.totals.sources}</dd></div>
+              </dl>
+              <p>Research cutoff · {featured.data.snapshotDate}</p>
+            </div>
+          </section>
+        ) : null
+      }
+
+      <section class="shell reports-contract" aria-labelledby="reports-contract-title">
+        <header>
+          <p class="reports-index__label">The editorial contract</p>
+          <h2 id="reports-contract-title">A report should be inspectable.</h2>
+        </header>
+        <ol>
+          <li>
+            <span>01</span>
+            <div><h3>One named snapshot</h3><p>Every edition states its research cutoff and source corpus.</p></div>
+          </li>
+          <li>
+            <span>02</span>
+            <div><h3>Unknown stays visible</h3><p>Missing evidence never becomes an unsupported claim or an inferred yes.</p></div>
+          </li>
+          <li>
+            <span>03</span>
+            <div><h3>Charts lead to records</h3><p>Interactive views retain the definitions, denominators, and paths to source data.</p></div>
+          </li>
+          <li>
+            <span>04</span>
+            <div><h3>Humans and agents agree</h3><p>HTML, Markdown, and JSON editions derive from the same typed report snapshot.</p></div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="shell reports-library" aria-labelledby="reports-library-title">
+        <header>
+          <p class="reports-index__label">All editions</p>
+          <h2 id="reports-library-title">The report library</h2>
+        </header>
+        <div class="reports-library__grid">
+          {reports.map((report) => (
+            <article>
+              <p>{report.data.series} · {report.data.edition}</p>
+              <h3><a href={reportPath(report.data.slug)}>{report.data.title}</a></h3>
+              <p>{report.data.summary}</p>
+              <footer>
+                <span>Snapshot {report.data.snapshotDate}</span>
+                <a href={reportPath(report.data.slug)}>Read →</a>
+              </footer>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .reports-index {
+    --report-dark: #15120f;
+    --report-cream: #f5ead6;
+  }
+
+  .reports-index__hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--report-dark);
+    color: var(--report-cream);
+  }
+
+  .reports-index__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--color-copper) 42%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-copper) 42%, transparent) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    mask-image: linear-gradient(100deg, transparent 2%, black 58%, transparent 100%);
+  }
+
+  .reports-index__hero-inner {
+    position: relative;
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  .reports-index__kicker,
+  .reports-index__label {
+    margin: 0;
+    color: var(--color-copper);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .reports-index__kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .reports-index__kicker span {
+    width: 0.48rem;
+    height: 0.48rem;
+    background: var(--color-copper);
+  }
+
+  .reports-index__hero h1 {
+    max-width: 59rem;
+    margin: 1rem 0 0;
+    font-size: clamp(3.1rem, 8vw, 7.2rem);
+    font-weight: 500;
+    letter-spacing: -0.075em;
+    line-height: 0.9;
+  }
+
+  .reports-index__hero-inner > p:last-child {
+    max-width: 41rem;
+    margin: 1.5rem 0 0;
+    color: color-mix(in srgb, var(--report-cream) 70%, var(--report-dark));
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+
+  .reports-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    border-bottom: 1px solid var(--color-line);
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .reports-feature__copy {
+    padding-right: clamp(1rem, 5vw, 5rem);
+  }
+
+  .reports-feature__copy h2,
+  .reports-contract h2,
+  .reports-library h2 {
+    margin: 0.65rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .reports-feature__copy > p:not(.reports-index__label) {
+    max-width: 43rem;
+    margin: 1.1rem 0 0;
+    color: var(--color-muted);
+    font-size: 1.08rem;
+  }
+
+  .reports-feature__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .reports-index__button {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+    min-height: 2.8rem;
+    border: 1px solid var(--color-ink);
+    padding: 0.55rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-decoration: none;
+  }
+
+  .reports-index__button--primary {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .reports-feature__data {
+    border-left: 1px solid var(--color-line);
+    padding-left: clamp(1rem, 4vw, 3rem);
+  }
+
+  .reports-feature__number strong {
+    display: block;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.82;
+  }
+
+  .reports-feature__number span,
+  .reports-feature__data > p {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+
+  .reports-feature__data dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin: 1.6rem 0;
+  }
+
+  .reports-feature__data dl div {
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.45rem;
+  }
+
+  .reports-feature__data dt {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .reports-feature__data dd {
+    margin: 0.25rem 0 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .reports-contract,
+  .reports-library {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .reports-contract {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.65fr) minmax(0, 1.35fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .reports-contract h2,
+  .reports-library h2 {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+
+  .reports-contract ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reports-contract li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.7rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.7rem;
+  }
+
+  .reports-contract li > span,
+  .reports-library article > p:first-child,
+  .reports-library article footer {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .reports-contract h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .reports-contract li p {
+    margin: 0.35rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
+
+  .reports-library__grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.7rem;
+  }
+
+  .reports-library article {
+    border-top: 1px solid var(--color-line);
+    padding-top: 1rem;
+  }
+
+  .reports-library article > p {
+    max-width: 45rem;
+    color: var(--color-muted);
+  }
+
+  .reports-library article h3 {
+    margin: 0.35rem 0 0;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+  }
+
+  .reports-library article footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 760px) {
+    .reports-feature,
+    .reports-contract {
+      grid-template-columns: 1fr;
+    }
+
+    .reports-feature__copy {
+      padding-right: 0;
+    }
+
+    .reports-feature__data {
+      border-top: 1px solid var(--color-line);
+      border-left: 0;
+      padding-top: 2rem;
+      padding-left: 0;
+    }
+
+    .reports-contract ol {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -11,6 +11,7 @@
     "build": "turbo run build",
     "check": "turbo run check",
     "dev": "pnpm --filter @canmyagentuse/web dev",
+    "internal": "pnpm --filter @canmyagentuse/internal dev",
     "test": "turbo run test",
     "lint": "pnpm biome:check",
     "lint:fix": "pnpm biome:fix",

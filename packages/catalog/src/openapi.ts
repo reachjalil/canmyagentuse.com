@@ -66,7 +66,7 @@ export function catalogOpenApi() {
     openapi: "3.1.0",
     info: {
       title: `${SITE.name} Catalog API`,
-      version: "1.2.0",
+      version: "1.3.0",
       summary: "Read-only compatibility catalog and evidence ledger.",
       description: `${SITE.description} Unknown means not yet sufficiently sourced; it does not mean unsupported. Documentation evidence is not runtime certification.`,
     },
@@ -239,6 +239,34 @@ export function catalogOpenApi() {
               reference("CoverageReport"),
               "Coverage by total, surface, capability, and harness."
             ),
+          },
+        },
+      },
+      [MACHINE_PATHS.reportsJson]: {
+        get: {
+          operationId: "listReports",
+          tags: ["Research"],
+          summary: "List published data-driven reports",
+          responses: {
+            "200": jsonResponse(
+              { type: "object" },
+              "Published report metadata and representation links."
+            ),
+          },
+        },
+      },
+      "/api/v1/reports/{slug}.json": {
+        get: {
+          operationId: "getReport",
+          tags: ["Research"],
+          summary: "Get one report and its typed data snapshot",
+          parameters: [slugParameter],
+          responses: {
+            "200": jsonResponse(
+              { type: "object" },
+              "Report metadata, source links, and chart-ready aggregate data."
+            ),
+            "404": jsonResponse(reference("Error"), "Unknown report slug."),
           },
         },
       },

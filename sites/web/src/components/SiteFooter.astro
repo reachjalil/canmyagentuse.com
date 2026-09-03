@@ -10,6 +10,7 @@ const links = [
   { href: "/specs", label: "Specifications" },
   { href: "/evidence", label: "Evidence" },
   { href: "/coverage", label: "Coverage" },
+  { href: "/reports", label: "Reports" },
   { href: "/tests", label: "Conformance tests" },
   { href: "/changes", label: "Changes" },
   { href: "/contradictions", label: "Contradictions" },
@@ -17,10 +18,12 @@ const links = [
   { href: "/report?targetType=missing-harness", label: "Request a product" },
   { href: "/report?targetType=missing-feature", label: "Request a capability" },
   { href: "/contribute", label: "Contribute" },
+  { href: "/prompt", label: "Prompt this catalog" },
   { href: "/news", label: "News" },
   { href: "/methodology", label: "Methodology" },
   { href: "/about", label: "About" },
   { href: "/provider-marks", label: "Brand references" },
+  { href: "/press", label: "Press kit" },
   { href: "/privacy", label: "Privacy" },
 ];
 ---
@@ -44,6 +47,7 @@ const links = [
     <nav aria-label="Catalog copies">
       <ul class="space-y-1 font-mono text-xs">
         <li><a href={MACHINE_PATHS.llms}>/llms.txt</a></li>
+        <li><a href={MACHINE_PATHS.promptText}>/prompt.txt</a></li>
         <li><a href={MACHINE_PATHS.feedXml}>/feed.xml</a></li>
         <li><a href={MACHINE_PATHS.llmsFull}>/llms-full.txt</a></li>
         <li><a href={MACHINE_PATHS.openapi}>/api/v1/openapi.json</a></li>
@@ -51,6 +55,7 @@ const links = [
         <li><a href={MACHINE_PATHS.specificationsJson}>/api/v1/specs.json</a></li>
         <li><a href={MACHINE_PATHS.evidenceJson}>/api/v1/evidence.json</a></li>
         <li><a href={MACHINE_PATHS.coverageJson}>/api/v1/coverage.json</a></li>
+        <li><a href={MACHINE_PATHS.reportsJson}>/api/v1/reports.json</a></li>
         <li><a href={MACHINE_PATHS.testsJson}>/api/v1/tests.json</a></li>
         <li><a href={MACHINE_PATHS.matrixJson}>/api/v1/matrix.json</a></li>
       </ul>

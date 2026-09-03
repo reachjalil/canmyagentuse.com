@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="only light" />
+    <meta name="robots" content="noindex" />
+    <title>Internal · Can My Agent Use</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="shell masthead__grid">
+        <svg class="masthead__mark" width="52" height="52" viewBox="0 0 64 64" role="img" aria-label="Can My Agent Use evidence aperture mark">
+          <rect width="64" height="64" rx="10" fill="#12100e" />
+          <path d="M27 13H13V27M37 13H51V27M51 37V51H37M27 51H13V37" fill="none" stroke="#fff8eb" stroke-width="5" stroke-linecap="square" />
+          <rect x="25" y="25" width="14" height="14" rx="1" fill="#c45c26" />
+        </svg>
+        <div>
+          <p class="masthead__eyebrow">Can My Agent Use · internal</p>
+          <h1>Launch operations</h1>
+          <p class="masthead__lede">
+            Track the launch, keep the announcement copy at hand, and log what
+            shipped. Saves to <code>sites/internal/data/tracker.json</code> —
+            commit it and the record travels with the repo.
+          </p>
+        </div>
+        <div class="masthead__save" data-save-status aria-live="polite">loading…</div>
+      </div>
+      <nav class="tab-nav" aria-label="Sections">
+        <div class="shell tab-nav__row" data-tabs>
+          <button type="button" data-tab="dashboard" aria-current="page">Dashboard</button>
+          <button type="button" data-tab="tracker">Launch tracker</button>
+          <button type="button" data-tab="copy">Copy bank</button>
+          <button type="button" data-tab="log">Ship log</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="shell">
+      <section data-panel="dashboard" aria-label="Dashboard"></section>
+      <section data-panel="tracker" hidden aria-label="Launch tracker"></section>
+      <section data-panel="copy" hidden aria-label="Copy bank"></section>
+      <section data-panel="log" hidden aria-label="Ship log"></section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="shell">
+        <span>Internal tool · never deployed · the public catalog is canmyagentuse.com</span>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

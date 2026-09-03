@@ -66,6 +66,18 @@ export function newsMarkdownPath(slug: string): string {
   return `/news/${slug}.md`;
 }
 
+export function reportPath(slug: string): string {
+  return `/reports/${slug}`;
+}
+
+export function reportMarkdownPath(slug: string): string {
+  return `/reports/${slug}.md`;
+}
+
+export function reportJsonPath(slug: string): string {
+  return `/api/v1/reports/${slug}.json`;
+}
+
 export function pagePath(slug: string): string {
   if (slug === "home") return "/";
   return `/${slug}`;
@@ -82,6 +94,7 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
   ["/harnesses", "/harnesses.md"],
   ["/specs", "/specs.md"],
   ["/news", "/news.md"],
+  ["/reports", "/reports.md"],
   ["/about", "/about.md"],
   ["/methodology", "/methodology.md"],
   ["/privacy", "/privacy.md"],
@@ -99,6 +112,8 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
   ["/contribute", "/contribute.md"],
   ["/report", "/report.md"],
   ["/provider-marks", "/provider-marks.md"],
+  ["/press", "/press.md"],
+  ["/prompt", "/prompt.md"],
 ]);
 
 const DYNAMIC_MARKDOWN_PREFIXES = [
@@ -107,6 +122,7 @@ const DYNAMIC_MARKDOWN_PREFIXES = [
   "/specs/",
   "/categories/",
   "/news/",
+  "/reports/",
   "/atlas/features/",
   "/atlas/surfaces/",
   "/atlas/vendors/",
@@ -157,6 +173,7 @@ export function jsonPathForPagePath(path: string): string | undefined {
     ["/atlas", MACHINE_PATHS.atlasJson],
     ["/atlas/sources", MACHINE_PATHS.atlasJson],
     ["/coverage", MACHINE_PATHS.coverageJson],
+    ["/reports", MACHINE_PATHS.reportsJson],
     ["/tests", MACHINE_PATHS.testsJson],
     ["/changes", MACHINE_PATHS.changesJson],
     ["/contradictions", MACHINE_PATHS.contradictionsJson],
@@ -165,7 +182,7 @@ export function jsonPathForPagePath(path: string): string | undefined {
   if (known) return known;
 
   const detail = pathname.match(
-    /^\/(features|harnesses|specs)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/
+    /^\/(features|harnesses|specs|reports)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/
   );
   if (detail?.[1] && detail[2]) {
     return `/api/v1/${detail[1]}/${detail[2]}.json`;
@@ -197,12 +214,14 @@ export const MACHINE_PATHS = {
   apiRoot: "/api/v1/",
   agentSkillsIndex: "/.well-known/agent-skills/index.json",
   catalogSkill: "/skills/can-my-agent-use/SKILL.md",
+  promptText: "/prompt.txt",
   featuresJson: "/api/v1/features.json",
   harnessesJson: "/api/v1/harnesses.json",
   specificationsJson: "/api/v1/specs.json",
   evidenceJson: "/api/v1/evidence.json",
   atlasJson: "/api/v1/atlas.json",
   coverageJson: "/api/v1/coverage.json",
+  reportsJson: "/api/v1/reports.json",
   testsJson: "/api/v1/tests.json",
   changesJson: "/api/v1/changes.json",
   contradictionsJson: "/api/v1/contradictions.json",

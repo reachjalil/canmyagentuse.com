@@ -218,6 +218,19 @@ broad role boolean.
 Each candidate must be decomposed into exact web/desktop/CLI surfaces. Do not
 add a provider mark; use the catalog's original monogram fallback.
 
+## Cycle 1 live queue snapshot — 2026-08-31
+
+- Completed and integrated: `aider` 12/114, `amp-cli` 25/114, `goose` 28/114,
+  `jetbrains-ai` 17/114.
+- Completed research briefs awaiting single-writer integration:
+  `copilot-web` (26 Top-30 candidates plus 10 adjacent candidates), `windsurf`
+  (22 Top-30 candidates), and `chrome-webmcp-preview` (7 Top-30 candidates).
+- `chatgpt-cli` remains 0/114 because the reviewed first-party OpenAI terminal
+  product is Codex CLI, not an exact ChatGPT CLI surface; searched Top-30 pairs
+  are recorded as attempts rather than projected from Codex.
+- Next lowest unresearched Phase-A harnesses after the completed briefs:
+  `devin-web`, `grok-web`, `warp`, `opencode`, `le-chat`, and `replit-agent`.
+
 ## Current queue
 
 Queue rewritten: 2026-09-01 after cycle 10 research. Skip recorded attempts until their

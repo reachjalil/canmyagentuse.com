@@ -1,0 +1,408 @@
+---
+import {
+  CANONICAL_PROMPTS,
+  MACHINE_PATHS,
+  SITE,
+  breadcrumbJsonLd,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const entryPoints = [
+  {
+    step: "01",
+    title: "Paste a canonical prompt",
+    body: "Copy one of the prompts below into a chat, a system prompt, or your agent's custom instructions. Each one routes the agent to exact-surface records with citation rules attached.",
+  },
+  {
+    step: "02",
+    title: "Install the read-only skill",
+    body: "Agent runtimes that load skills can install the catalog skill directly. It carries the same retrieval workflow, status semantics, and safety scope.",
+    href: MACHINE_PATHS.catalogSkill,
+    linkLabel: "SKILL.md",
+  },
+  {
+    step: "03",
+    title: "Wire the machine surfaces",
+    body: "Building an integration? Start from the llms.txt index, the OpenAPI description, or the RFC 9727 API catalog. Markdown twins mirror every page.",
+    href: MACHINE_PATHS.openapi,
+    linkLabel: "openapi.json",
+  },
+];
+
+const enforced = [
+  {
+    term: "Exact surfaces",
+    detail:
+      "Answers name one product surface — web, desktop, or CLI — and never generalize to the provider's product family.",
+  },
+  {
+    term: "Honest unknowns",
+    detail:
+      "Unknown means no public evidence has been reviewed. The prompts forbid reading it as unsupported.",
+  },
+  {
+    term: "Qualifications survive",
+    detail:
+      "Plan, platform, region, configuration, transport, and rollout limits stay attached when a result is restated.",
+  },
+  {
+    term: "Dated citations",
+    detail:
+      "Every claim cites the catalog page and the underlying public evidence with its verification date.",
+  },
+];
+
+const builderLinks = [
+  { href: MACHINE_PATHS.promptText, label: "Plain-text prompt" },
+  { href: MACHINE_PATHS.llms, label: "Agent entry index" },
+  { href: MACHINE_PATHS.catalogSkill, label: "Read-only catalog skill" },
+  { href: MACHINE_PATHS.agentSkillsIndex, label: "Agent-skills discovery index" },
+  { href: MACHINE_PATHS.openapi, label: "OpenAPI description" },
+  { href: MACHINE_PATHS.apiCatalog, label: "RFC 9727 API catalog" },
+];
+---
+
+<BaseLayout
+  title={`Prompt this catalog | ${SITE.name}`}
+  description="Canonical prompts that point any AI assistant at the compatibility catalog: exact surfaces, honest unknowns, and dated citations."
+  canonicalPath="/prompt"
+  socialTitle="Prompt this catalog"
+  socialDescription="Copy a canonical prompt that sends any agent to the evidence: exact surfaces, honest unknowns, dated citations."
+  socialImageAlt="Canonical agent prompts for the Can My Agent Use compatibility catalog."
+  jsonLd={[
+    websiteJsonLd(),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Prompt this catalog", path: "/prompt" },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Canonical agent entry</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Prompt this catalog</h1>
+      <p class="prompt-lede">
+        These are the canonical prompts maintained by {SITE.name}. They send any
+        AI assistant to the catalog's evidence — exact product surfaces, honest
+        unknowns, and dated citations — instead of letting it guess from
+        training data.
+      </p>
+
+      <ol class="prompt-entries mt-8" aria-label="Ways to point an agent at the catalog">
+        {entryPoints.map((entry) => (
+          <li>
+            <span>{entry.step}</span>
+            <div>
+              <h2>{entry.title}</h2>
+              <p>{entry.body}</p>
+              {entry.href ? (
+                <a href={entry.href}><code>{entry.linkLabel}</code></a>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <section class="mt-12" aria-labelledby="prompts-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Copy and paste</p>
+            <h2 id="prompts-title">The canonical prompts</h2>
+          </div>
+          <p>
+            Same rules at three sizes. The full prompt is also served as plain
+            text at <a href={MACHINE_PATHS.promptText}><code>/prompt.txt</code></a>.
+          </p>
+        </div>
+
+        <div class="prompt-grid mt-4">
+          {CANONICAL_PROMPTS.map((prompt) => (
+            <article class="prompt-card" aria-labelledby={`prompt-title-${prompt.id}`}>
+              <header>
+                <h3 id={`prompt-title-${prompt.id}`}>{prompt.label}</h3>
+                <p>{prompt.useWhen}</p>
+              </header>
+              <pre class="prompt-card__text" id={`prompt-${prompt.id}`} tabindex="0">{prompt.text}</pre>
+              <div class="prompt-card__actions">
+                <button type="button" data-copy-prompt={`prompt-${prompt.id}`}>
+                  Copy prompt
+                </button>
+                {prompt.id === "research" ? (
+                  <a href={MACHINE_PATHS.promptText} download>Download .txt</a>
+                ) : null}
+                <span data-copy-status aria-live="polite"></span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="enforced-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">What the prompts enforce</p>
+            <h2 id="enforced-title">Rules, not vibes</h2>
+          </div>
+          <p>
+            The full definitions live in the <a href="/methodology">methodology</a>.
+          </p>
+        </div>
+        <dl class="prompt-rules mt-4">
+          {enforced.map((rule) => (
+            <div>
+              <dt>{rule.term}</dt>
+              <dd>{rule.detail}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section class="mt-12 max-w-3xl" aria-labelledby="builders-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">For agent builders</p>
+            <h2 id="builders-title">Machine entry points</h2>
+          </div>
+        </div>
+        <ul class="prompt-builder-list mt-4">
+          {builderLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+              <code>{link.href}</code>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-4 text-sm text-[color:var(--color-muted)]">
+          Writing about the catalog instead? The <a href="/press">press kit</a> has
+          boilerplate, the fact sheet, and brand assets.
+        </p>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy-prompt]")) {
+    button.addEventListener("click", async () => {
+      const target = document.getElementById(button.getAttribute("data-copy-prompt") ?? "");
+      const status = button.parentElement?.querySelector("[data-copy-status]");
+      if (!target) return;
+      const text = target.textContent ?? "";
+      try {
+        await navigator.clipboard.writeText(text);
+        if (status) status.textContent = "Copied.";
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        if (status) status.textContent = "Copy is blocked in this browser. The prompt text is selected.";
+      }
+      window.setTimeout(() => {
+        if (status) status.textContent = "";
+      }, 4000);
+    });
+  }
+</script>
+
+<style>
+  .prompt-lede {
+    max-width: 46rem;
+    margin: 0.8rem 0 0;
+    color: var(--color-muted);
+    font-size: 1.05rem;
+  }
+
+  .prompt-entries {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .prompt-entries li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.6rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 1rem;
+  }
+
+  .prompt-entries li > span {
+    color: var(--color-copper-deep);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .prompt-entries h2 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .prompt-entries p {
+    margin: 0.35rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .prompt-entries a {
+    display: inline-block;
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+  }
+
+  .prompt-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .prompt-card {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 1rem;
+  }
+
+  .prompt-card header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .prompt-card header p {
+    margin: 0.3rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .prompt-card__text {
+    margin: 0;
+    max-height: 21rem;
+    overflow: auto;
+    border: 1px solid var(--color-line);
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .prompt-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .prompt-card__actions button,
+  .prompt-card__actions a {
+    display: inline-flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-ink);
+    border-radius: 0;
+    padding: 0.45rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .prompt-card__actions button {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .prompt-card__actions a {
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .prompt-card__actions [data-copy-status] {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .prompt-rules {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-line);
+    max-width: 58rem;
+  }
+
+  .prompt-rules > div {
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-paper) 72%, transparent);
+    padding: 0.8rem 0.9rem;
+  }
+
+  .prompt-rules dt {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--color-copper-deep);
+  }
+
+  .prompt-rules dd {
+    margin: 0.35rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .prompt-builder-list {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .prompt-builder-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.45rem 0;
+  }
+
+  .prompt-builder-list code {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  @media (min-width: 760px) {
+    .prompt-entries {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .prompt-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .prompt-grid .prompt-card:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .prompt-rules {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

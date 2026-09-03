@@ -35,6 +35,7 @@ const PUBLIC_MACHINE_PATHS = new Set([
   "/feed.xml",
   "/manifest.webmanifest",
   "/opensearch.xml",
+  "/prompt.txt",
   "/robots.txt",
   "/sitemap.md",
   "/sitemap.xml",

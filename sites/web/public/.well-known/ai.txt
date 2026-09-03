@@ -9,6 +9,8 @@
 - [API Catalog](https://canmyagentuse.com/.well-known/api-catalog)
 - [OpenAPI](https://canmyagentuse.com/api/v1/openapi.json)
 - [Read-only catalog skill](https://canmyagentuse.com/skills/can-my-agent-use/SKILL.md)
+- [Canonical agent prompt](https://canmyagentuse.com/prompt.txt)
+- [Press kit](https://canmyagentuse.com/press.md)
 - [Harnesses JSON](https://canmyagentuse.com/api/v1/harnesses.json)
 - [Support matrix JSON](https://canmyagentuse.com/api/v1/matrix.json)
 - [Coverage JSON](https://canmyagentuse.com/api/v1/coverage.json)

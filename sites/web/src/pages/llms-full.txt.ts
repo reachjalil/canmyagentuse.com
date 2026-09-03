@@ -5,13 +5,15 @@ import { researchAtlasMarkdown } from "../lib/research";
 import { textResponse } from "../lib/security";
 
 export const GET: APIRoute = async () => {
-  const [features, harnesses, specifications, pages, news] = await Promise.all([
-    publishedCollection("features"),
-    publishedCollection("harnesses"),
-    publishedCollection("specifications"),
-    publishedCollection("pages"),
-    publishedCollection("news"),
-  ]);
+  const [features, harnesses, specifications, pages, news, reports] =
+    await Promise.all([
+      publishedCollection("features"),
+      publishedCollection("harnesses"),
+      publishedCollection("specifications"),
+      publishedCollection("pages"),
+      publishedCollection("news"),
+      publishedCollection("reports"),
+    ]);
 
   const catalog = toLlmsFullTxt({
     features: features.map((entry) => ({
@@ -31,6 +33,10 @@ export const GET: APIRoute = async () => {
       body: entry.body ?? "",
     })),
     news: news.map((entry) => ({
+      data: entry.data,
+      body: entry.body ?? "",
+    })),
+    reports: reports.map((entry) => ({
       data: entry.data,
       body: entry.body ?? "",
     })),

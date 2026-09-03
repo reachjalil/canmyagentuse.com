@@ -228,11 +228,22 @@ describe("paths", () => {
       "/api/v1/atlas/vendors/openai.json"
     );
     expect(markdownPathForPagePath("/report")).toBe("/report.md");
+    expect(markdownPathForPagePath("/reports")).toBe("/reports.md");
+    expect(
+      markdownPathForPagePath("/reports/state-of-agent-harnesses-2026")
+    ).toBe("/reports/state-of-agent-harnesses-2026.md");
+    expect(jsonPathForPagePath("/reports/state-of-agent-harnesses-2026")).toBe(
+      "/api/v1/reports/state-of-agent-harnesses-2026.json"
+    );
     expect(markdownPathForPagePath("/provider-marks")).toBe(
       "/provider-marks.md"
     );
     expect(markdownPathForPagePath("/harness-guide")).toBe("/harness-guide.md");
     expect(pagePathForMarkdownPath("/harness-guide.md")).toBe("/harness-guide");
+    expect(markdownPathForPagePath("/press")).toBe("/press.md");
+    expect(pagePathForMarkdownPath("/press.md")).toBe("/press");
+    expect(markdownPathForPagePath("/prompt")).toBe("/prompt.md");
+    expect(pagePathForMarkdownPath("/prompt.md")).toBe("/prompt");
   });
 });
 
@@ -879,6 +890,12 @@ describe("OpenAPI", () => {
     const document = catalogOpenApi();
     expect(document.paths["/api/v1/coverage.json"].get.operationId).toBe(
       "getCoverage"
+    );
+    expect(document.paths["/api/v1/reports.json"].get.operationId).toBe(
+      "listReports"
+    );
+    expect(document.paths["/api/v1/reports/{slug}.json"].get.operationId).toBe(
+      "getReport"
     );
     expect(document.components.schemas.VersionCell).toBeDefined();
     expect(document.openapi).toBe("3.1.0");

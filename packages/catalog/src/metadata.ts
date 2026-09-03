@@ -5,6 +5,7 @@ import {
   newsPath,
   normalizeSitePath,
   pagePath,
+  reportPath,
   specificationPath,
 } from "./paths.ts";
 import type { ContentKind, SeoFields } from "./status.ts";
@@ -38,6 +39,8 @@ function defaultPath(kind: ContentKind, slug: string): string {
       return categoryPath(slug);
     case "news":
       return newsPath(slug);
+    case "report":
+      return reportPath(slug);
     case "page":
       return pagePath(slug);
   }

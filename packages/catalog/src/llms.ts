@@ -9,6 +9,8 @@ import {
   newsPath,
   pageMarkdownPath,
   pagePath,
+  reportMarkdownPath,
+  reportPath,
   specificationMarkdownPath,
   specificationPath,
 } from "./paths.ts";
@@ -17,6 +19,7 @@ import type {
   HarnessData,
   NewsData,
   PageData,
+  ReportData,
   SpecificationData,
 } from "./schema.ts";
 import { SITE } from "./site.ts";
@@ -27,6 +30,7 @@ export function toLlmsTxt(input: {
   pages: readonly PageData[];
   specifications?: readonly SpecificationData[];
   news?: readonly NewsData[];
+  reports?: readonly ReportData[];
   siteUrl?: string;
 }): string {
   const siteUrl = input.siteUrl ?? SITE.url;
@@ -52,6 +56,7 @@ export function toLlmsTxt(input: {
     `- [Specifications JSON](${absoluteUrl(MACHINE_PATHS.specificationsJson, siteUrl)})`,
     `- [Evidence JSON](${absoluteUrl(MACHINE_PATHS.evidenceJson, siteUrl)})`,
     `- [Coverage JSON](${absoluteUrl(MACHINE_PATHS.coverageJson, siteUrl)})`,
+    `- [Reports JSON](${absoluteUrl(MACHINE_PATHS.reportsJson, siteUrl)})`,
     `- [Conformance test definitions](${absoluteUrl(MACHINE_PATHS.testsJson, siteUrl)})`,
     `- [Evidence Atlas JSON](${absoluteUrl(MACHINE_PATHS.atlasJson, siteUrl)})`,
     `- [Read-only catalog skill](${absoluteUrl(MACHINE_PATHS.catalogSkill, siteUrl)})`,
@@ -62,6 +67,7 @@ export function toLlmsTxt(input: {
     `- [Harnesses](${absoluteUrl(MACHINE_PATHS.harnessesLlms, siteUrl)}): ${input.harnesses.length} exact web, desktop, and CLI surfaces.`,
     `- [Specifications](${absoluteUrl(MACHINE_PATHS.specificationsLlms, siteUrl)}): ${input.specifications?.length ?? 0} revision-aware references.`,
     `- [News](${absoluteUrl(MACHINE_PATHS.newsLlms, siteUrl)}): ${input.news?.length ?? 0} dated catalog updates.`,
+    `- [Reports](${absoluteUrl("/reports.md", siteUrl)}): ${input.reports?.length ?? 0} data-driven research editions.`,
   ];
 
   lines.push("", "## Pages", "");
@@ -80,6 +86,7 @@ export function toLlmsFullTxt(input: {
   pages: readonly { data: PageData; body: string }[];
   specifications?: readonly { data: SpecificationData; body: string }[];
   news?: readonly { data: NewsData; body: string }[];
+  reports?: readonly { data: ReportData; body: string }[];
   siteUrl?: string;
 }): string {
   const siteUrl = input.siteUrl ?? SITE.url;
@@ -149,6 +156,22 @@ export function toLlmsFullTxt(input: {
       `Markdown: ${absoluteUrl(newsMarkdownPath(item.data.slug), siteUrl)}`,
       "",
       item.body.trim(),
+      "",
+      "---",
+      ""
+    );
+  }
+
+  for (const report of input.reports ?? []) {
+    sections.push(
+      `## ${report.data.title}`,
+      "",
+      `HTML: ${absoluteUrl(reportPath(report.data.slug), siteUrl)}`,
+      `Markdown: ${absoluteUrl(reportMarkdownPath(report.data.slug), siteUrl)}`,
+      "",
+      report.body
+        .replace(/<div\s+data-report-chart="[^"]+"\s*><\/div>/g, "")
+        .trim(),
       "",
       "---",
       ""

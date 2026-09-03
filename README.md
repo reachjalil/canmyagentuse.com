@@ -114,6 +114,7 @@ Cloudflare's current Custom Domains guide is the operational source:
 | --- | --- |
 | `/llms.txt` | Bounded index of Markdown twins |
 | `/llms-full.txt` | Full corpus |
+| `/prompt.txt` | Canonical agent prompt (HTML page at `/prompt`, press kit at `/press`) |
 | `/features/{slug}.md` | Capability as Markdown |
 | `/harnesses/{slug}.md` | Harness as Markdown |
 | `/specs/{slug}.md` | Specification reference as Markdown |

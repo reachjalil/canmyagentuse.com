@@ -1,0 +1,633 @@
+---
+import {
+  PRESS_BOILERPLATES,
+  PRESS_KIT,
+  SITE,
+  breadcrumbJsonLd,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@canmyagentuse/catalog";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publishedCollection } from "../lib/collections";
+import { researchAtlas } from "../lib/research";
+
+const [features, harnesses, news] = await Promise.all([
+  publishedCollection("features"),
+  publishedCollection("harnesses"),
+  publishedCollection("news"),
+]);
+
+const report = researchAtlas.report;
+const milestoneDate = (entry: (typeof news)[number]) =>
+  entry.data.published ?? entry.data.updated;
+const milestones = [...news].toSorted(
+  (left, right) => milestoneDate(left).getTime() - milestoneDate(right).getTime()
+);
+const generatedOn = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  title={`Press kit | ${SITE.name}`}
+  description="Boilerplate, fact sheet, naming rules, brand assets, and catalog figures for writing about the independent compatibility catalog."
+  canonicalPath="/press"
+  socialTitle="Press kit"
+  socialDescription="Boilerplate, fact sheet, brand assets, and usage rules for covering the independent compatibility catalog."
+  socialImageAlt="Press kit for the Can My Agent Use compatibility catalog."
+  jsonLd={[
+    websiteJsonLd(),
+    organizationJsonLd(),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Press kit", path: "/press" },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <p class="eyebrow">Media resources</p>
+      <h1 class="text-4xl font-semibold tracking-tight">Press kit</h1>
+      <p class="press-lede">
+        Everything needed to write about {SITE.name} accurately: boilerplate,
+        the fact sheet, naming rules, brand assets, and current catalog
+        figures. Quote it, screenshot it, link it — no permission request
+        needed for editorial coverage.
+      </p>
+      <p class="press-crosslink">
+        Pointing an agent here instead? Use the <a href="/prompt">canonical prompts</a>.
+      </p>
+
+      <dl class="catalog-census mt-7">
+        <div><dt>Catalog capabilities</dt><dd>{features.length}</dd></div>
+        <div><dt>Exact product columns</dt><dd>{harnesses.length}</dd></div>
+        <div><dt>Atlas exact surfaces</dt><dd>{report.surfaces}</dd></div>
+        <div><dt>Atlas compatibility cells</dt><dd>{report.compatibilityCells}</dd></div>
+        <div><dt>Public source records</dt><dd>{report.sources}</dd></div>
+      </dl>
+      <p class="press-figures-note">
+        Figures are generated from the catalog at build time (checked {generatedOn}).
+        Re-check them against this page before publishing; catalog coverage is
+        research progress, never usage share.
+      </p>
+
+      <section class="mt-12" aria-labelledby="boilerplate-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Copy that is safe to paste</p>
+            <h2 id="boilerplate-title">Boilerplate</h2>
+          </div>
+          <p>Three lengths, one set of claims. All of it holds without a citation footnote.</p>
+        </div>
+        <div class="press-boilerplates mt-4">
+          {PRESS_BOILERPLATES.map((boilerplate) => (
+            <article class="press-boilerplate" aria-labelledby={`boilerplate-${boilerplate.id}`}>
+              <header>
+                <h3 id={`boilerplate-${boilerplate.id}`}>{boilerplate.label}</h3>
+                <span>{boilerplate.words} words</span>
+              </header>
+              <p id={`boilerplate-text-${boilerplate.id}`}>{boilerplate.text}</p>
+              <div class="press-copy-actions">
+                <button type="button" data-copy-press={`boilerplate-text-${boilerplate.id}`}>
+                  Copy
+                </button>
+                <span data-copy-status aria-live="polite"></span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="facts-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Checkable claims</p>
+            <h2 id="facts-title">Fact sheet</h2>
+          </div>
+        </div>
+        <div class="table-scroll mt-4">
+          <table class="data-table press-facts">
+            <tbody>
+              {PRESS_KIT.factSheet.map((fact) => (
+                <tr>
+                  <th scope="row">{fact.label}</th>
+                  <td>{fact.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="naming-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Name and usage</p>
+            <h2 id="naming-title">What to call it</h2>
+          </div>
+        </div>
+        <div class="press-naming mt-4">
+          <div>
+            <h3>Use</h3>
+            <ul>
+              {PRESS_KIT.naming.use.map((rule) => (
+                <li>{rule}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Avoid</h3>
+            <ul>
+              {PRESS_KIT.naming.avoid.map((rule) => (
+                <li>{rule}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="assets-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Downloads</p>
+            <h2 id="assets-title">Brand assets</h2>
+          </div>
+          <p>
+            The mark is the <strong>evidence aperture</strong>: four ledger
+            corners framing one copper compatibility cell.
+          </p>
+        </div>
+        <div class="press-assets mt-4">
+          {PRESS_KIT.assets.map((asset) => (
+            <article class="press-asset">
+              <div class="press-asset__preview" data-format={asset.format}>
+                <img src={asset.path} alt={`${asset.label} preview`} loading="lazy" />
+              </div>
+              <div class="press-asset__body">
+                <h3>{asset.label}</h3>
+                <p>{asset.note}</p>
+                <p class="press-asset__meta">{asset.format} · {asset.dimensions}</p>
+                <a href={asset.path} download>Download <code>{asset.path}</code></a>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="press-asset-rules mt-6">
+          <div>
+            <h3>Allowed</h3>
+            <ul>
+              {PRESS_KIT.assetRules.allowed.map((rule) => (
+                <li>{rule}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Not allowed</h3>
+            <ul>
+              {PRESS_KIT.assetRules.notAllowed.map((rule) => (
+                <li>{rule}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-12" aria-labelledby="palette-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Night ledger</p>
+            <h2 id="palette-title">Color and type</h2>
+          </div>
+          <p>{PRESS_KIT.colorRule}</p>
+        </div>
+        <ul class="press-swatches mt-4" aria-label="Identity colors">
+          {PRESS_KIT.colors.map((color) => (
+            <li>
+              <span class="press-swatch" style={`background:${color.hex}`}></span>
+              <strong>{color.name}</strong>
+              <code>{color.hex}</code>
+              <small>{color.role}</small>
+            </li>
+          ))}
+        </ul>
+        <ul class="press-swatches press-swatches--status mt-3" aria-label="Reserved status colors">
+          {PRESS_KIT.statusColors.map((color) => (
+            <li>
+              <span class="press-swatch" style={`background:${color.hex}`}></span>
+              <strong>{color.name}</strong>
+              <code>{color.hex}</code>
+              <small>{color.role}</small>
+            </li>
+          ))}
+        </ul>
+        <div class="press-type mt-6">
+          {PRESS_KIT.typefaces.map((typeface) => (
+            <div>
+              <strong>{typeface.name}</strong>
+              <span>{typeface.weights}</span>
+              <small>{typeface.role}</small>
+            </div>
+          ))}
+        </div>
+        <p class="press-figures-note">{PRESS_KIT.typefaceNote}</p>
+      </section>
+
+      <section class="mt-12" aria-labelledby="milestones-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dated record</p>
+            <h2 id="milestones-title">Milestones</h2>
+          </div>
+          <p>Catalog changes are reported as <a href="/news">news</a>, separate from vendor marketing.</p>
+        </div>
+        <ol class="press-milestones mt-4">
+          {milestones.map((item) => (
+            <li>
+              <span>{milestoneDate(item).toISOString().slice(0, 10)}</span>
+              <div>
+                <a href={`/news/${item.data.slug}`}>{item.data.title}</a>
+                <p>{item.data.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="mt-12 max-w-3xl" aria-labelledby="contact-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Questions and corrections</p>
+            <h2 id="contact-title">Contact</h2>
+          </div>
+        </div>
+        <p class="mt-3">{PRESS_KIT.contactNote}</p>
+        <ul class="press-contact mt-4">
+          <li>
+            <a href={PRESS_KIT.repositoryUrl} rel="noopener noreferrer">Open data on GitHub ↗</a>
+            <code>{PRESS_KIT.repositoryUrl.replace("https://", "")}</code>
+          </li>
+          <li>
+            <a href={PRESS_KIT.datasetUrl} rel="noopener noreferrer">Open data on Hugging Face ↗</a>
+            <code>{PRESS_KIT.datasetUrl.replace("https://", "")}</code>
+          </li>
+          <li>
+            <a href="/report">Catalog correction route</a>
+            <code>/report</code>
+          </li>
+        </ul>
+        <p class="mt-6 text-sm text-[color:var(--color-muted)]">
+          {SITE.independentNotice} Provider marks used inside the catalog are
+          documented on the <a href="/provider-marks">brand references</a> page.
+        </p>
+      </section>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy-press]")) {
+    button.addEventListener("click", async () => {
+      const target = document.getElementById(button.getAttribute("data-copy-press") ?? "");
+      const status = button.parentElement?.querySelector("[data-copy-status]");
+      if (!target) return;
+      try {
+        await navigator.clipboard.writeText(target.textContent ?? "");
+        if (status) status.textContent = "Copied.";
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        if (status) status.textContent = "Copy is blocked in this browser. The text is selected.";
+      }
+      window.setTimeout(() => {
+        if (status) status.textContent = "";
+      }, 4000);
+    });
+  }
+</script>
+
+<style>
+  .press-lede {
+    max-width: 46rem;
+    margin: 0.8rem 0 0;
+    color: var(--color-muted);
+    font-size: 1.05rem;
+  }
+
+  .press-crosslink {
+    margin: 0.6rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .press-figures-note {
+    max-width: 46rem;
+    margin: 0.7rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .press-boilerplates {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .press-boilerplate {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 1rem;
+  }
+
+  .press-boilerplate header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .press-boilerplate h3 {
+    margin: 0;
+    font-size: 1.02rem;
+  }
+
+  .press-boilerplate header span {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+  }
+
+  .press-boilerplate p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .press-copy-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .press-copy-actions button {
+    display: inline-flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-ink);
+    border-radius: 0;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .press-copy-actions [data-copy-status] {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .press-facts th {
+    width: 14rem;
+    text-align: left;
+    vertical-align: top;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .press-naming,
+  .press-asset-rules {
+    display: grid;
+    gap: 1rem;
+    max-width: 58rem;
+  }
+
+  .press-naming > div,
+  .press-asset-rules > div {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 1rem;
+  }
+
+  .press-naming h3,
+  .press-asset-rules h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: var(--color-copper-deep);
+  }
+
+  .press-naming ul,
+  .press-asset-rules ul {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .press-naming li,
+  .press-asset-rules li {
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.45rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .press-assets {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .press-asset {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 0.9rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.9rem;
+  }
+
+  .press-asset__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-line);
+    background: var(--color-chrome);
+    padding: 0.9rem;
+  }
+
+  .press-asset__preview img {
+    max-width: 100%;
+    height: auto;
+    max-height: 5rem;
+  }
+
+  .press-asset__body h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .press-asset__body p {
+    margin: 0.3rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .press-asset__meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .press-asset__body a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .press-swatches {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: 58rem;
+  }
+
+  .press-swatches li {
+    display: grid;
+    gap: 0.15rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .press-swatch {
+    display: block;
+    height: 2.2rem;
+    border: 1px solid var(--color-line);
+  }
+
+  .press-swatches code {
+    font-size: 0.72rem;
+  }
+
+  .press-swatches small {
+    color: var(--color-muted);
+  }
+
+  .press-type {
+    display: grid;
+    gap: 0.6rem;
+    max-width: 58rem;
+  }
+
+  .press-type > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    padding: 0.7rem 0.9rem;
+  }
+
+  .press-type strong {
+    font-size: 0.95rem;
+  }
+
+  .press-type span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-copper-deep);
+  }
+
+  .press-type small {
+    color: var(--color-muted);
+  }
+
+  .press-milestones {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: 58rem;
+  }
+
+  .press-milestones li {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 0.7rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.6rem;
+  }
+
+  .press-milestones span {
+    color: var(--color-copper-deep);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  .press-milestones p {
+    margin: 0.2rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  .press-contact {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .press-contact li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.45rem 0;
+  }
+
+  .press-contact code {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  @media (min-width: 760px) {
+    .press-boilerplates {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .press-naming,
+    .press-asset-rules {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .press-assets {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .press-swatches {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

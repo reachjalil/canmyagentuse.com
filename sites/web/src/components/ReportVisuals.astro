@@ -1,0 +1,1170 @@
+---
+import type { StateOfHarnessesReport } from "@canmyagentuse/catalog";
+
+interface Props {
+  snapshot: StateOfHarnessesReport;
+}
+
+const { snapshot } = Astro.props;
+const snapshotJson = JSON.stringify(snapshot).replaceAll("<", "\\u003c");
+---
+
+<script is:inline type="application/json" data-report-snapshot set:html={snapshotJson} />
+<noscript>
+  <p class="report-noscript">
+    Interactive figures require JavaScript. The complete findings and values remain available in
+    the article and its Markdown edition.
+  </p>
+</noscript>
+
+<script>
+  import type {
+    ReportCountRow,
+    StateOfHarnessesReport,
+  } from "@canmyagentuse/catalog";
+
+  const source = document.querySelector("[data-report-snapshot]");
+  const snapshot = source?.textContent
+    ? (JSON.parse(source.textContent) as StateOfHarnessesReport)
+    : undefined;
+
+  const integer = new Intl.NumberFormat("en-US");
+  const percent = new Intl.NumberFormat("en-US", {
+    style: "percent",
+    maximumFractionDigits: 1,
+  });
+  const statusMeta = {
+    supported: { label: "Supported", className: "is-supported" },
+    partial: { label: "Partial", className: "is-partial" },
+    unsupported: { label: "Unsupported", className: "is-unsupported" },
+    unknown: { label: "Unknown", className: "is-unknown" },
+  } as const;
+
+  function makeNode<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    className?: string,
+    text?: string
+  ): HTMLElementTagNameMap[K] {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function appendChildren(
+    parent: HTMLElement | SVGElement,
+    ...children: Array<HTMLElement | SVGElement | Text>
+  ) {
+    for (const child of children) parent.appendChild(child);
+  }
+
+  function chartFrame(
+    host: HTMLElement,
+    figure: string,
+    title: string,
+    description: string
+  ) {
+    host.classList.add("report-viz");
+    const id = `report-viz-${figure.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    const header = makeNode("header", "report-viz__header");
+    const label = makeNode("p", "report-viz__figure", figure);
+    const heading = makeNode("h3", "report-viz__title", title);
+    heading.id = id;
+    const deck = makeNode("p", "report-viz__deck", description);
+    appendChildren(header, label, heading, deck);
+
+    const controls = makeNode("div", "report-viz__controls");
+    controls.setAttribute("aria-label", `${title} controls`);
+    const canvas = makeNode("div", "report-viz__canvas");
+    const detail = makeNode("p", "report-viz__detail");
+    detail.setAttribute("aria-live", "polite");
+    host.setAttribute("aria-labelledby", id);
+    host.replaceChildren(header, controls, canvas, detail);
+    return { controls, canvas, detail };
+  }
+
+  function controlButtons(
+    root: HTMLElement,
+    options: readonly { value: string; label: string }[],
+    active: string,
+    onChange: (value: string) => void
+  ) {
+    root.replaceChildren();
+    for (const option of options) {
+      const button = makeNode("button", "report-viz__control", option.label);
+      button.type = "button";
+      button.dataset.value = option.value;
+      button.setAttribute("aria-pressed", String(option.value === active));
+      button.addEventListener("click", () => {
+        for (const sibling of root.querySelectorAll("button")) {
+          sibling.setAttribute(
+            "aria-pressed",
+            String(sibling === button)
+          );
+        }
+        onChange(option.value);
+      });
+      root.appendChild(button);
+    }
+  }
+
+  function renderStatusChart(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 01",
+      "The evidence gap is the dominant state",
+      "Switch denominators to see why the reviewed subset must not be mistaken for the whole market."
+    );
+    let view = "all";
+
+    const draw = () => {
+      const statuses = view === "reviewed"
+        ? (["supported", "partial", "unsupported"] as const)
+        : (["supported", "partial", "unsupported", "unknown"] as const);
+      const total = view === "reviewed"
+        ? snapshot.statuses.sourced
+        : snapshot.statuses.total;
+      const stack = makeNode("div", "report-stack");
+      stack.setAttribute("role", "img");
+      stack.setAttribute(
+        "aria-label",
+        statuses
+          .map(
+            (status) =>
+              `${statusMeta[status].label}: ${integer.format(snapshot.statuses[status])}`
+          )
+          .join("; ")
+      );
+      for (const status of statuses) {
+        const count = snapshot.statuses[status];
+        const segment = makeNode(
+          "span",
+          `report-stack__segment ${statusMeta[status].className}`
+        );
+        segment.style.width = `${(count / total) * 100}%`;
+        segment.setAttribute("aria-hidden", "true");
+        stack.appendChild(segment);
+      }
+
+      const legend = makeNode("dl", "report-status-legend");
+      for (const status of statuses) {
+        const count = snapshot.statuses[status];
+        const item = makeNode("div", `report-status-legend__item ${statusMeta[status].className}`);
+        const term = makeNode("dt");
+        appendChildren(term, makeNode("i"), document.createTextNode(statusMeta[status].label));
+        const value = makeNode("dd");
+        appendChildren(
+          value,
+          makeNode("strong", "", integer.format(count)),
+          makeNode("span", "", percent.format(count / total))
+        );
+        appendChildren(item, term, value);
+        legend.appendChild(item);
+      }
+      frame.canvas.replaceChildren(stack, legend);
+      frame.detail.textContent =
+        view === "reviewed"
+          ? `${integer.format(snapshot.statuses.positive)} of ${integer.format(snapshot.statuses.sourced)} reviewed cells are supported or partial. This is a selected evidence subset, not a market-wide success rate.`
+          : `${integer.format(snapshot.statuses.unknown)} of ${integer.format(snapshot.statuses.total)} exact surface-by-feature questions remain unknown.`;
+    };
+
+    controlButtons(
+      frame.controls,
+      [
+        { value: "all", label: "All 4,557 cells" },
+        { value: "reviewed", label: "862 reviewed cells" },
+      ],
+      view,
+      (value) => {
+        view = value;
+        draw();
+      }
+    );
+    draw();
+  }
+
+  function barRows(
+    rows: readonly {
+      label: string;
+      value: number;
+      max: number;
+      valueLabel: string;
+      meta: string;
+      href?: string;
+    }[]
+  ) {
+    const list = makeNode("div", "report-bars");
+    for (const row of rows) {
+      const item = makeNode("div", "report-bars__row");
+      const head = makeNode("div", "report-bars__head");
+      const label = row.href
+        ? makeNode("a", "report-bars__label", row.label)
+        : makeNode("span", "report-bars__label", row.label);
+      if (label instanceof HTMLAnchorElement && row.href) label.href = row.href;
+      appendChildren(head, label, makeNode("strong", "", row.valueLabel));
+      const track = makeNode("div", "report-bars__track");
+      const mark = makeNode("span", "report-bars__mark");
+      mark.style.width = `${row.max === 0 ? 0 : (row.value / row.max) * 100}%`;
+      track.appendChild(mark);
+      appendChildren(item, head, track, makeNode("p", "report-bars__meta", row.meta));
+      list.appendChild(item);
+    }
+    return list;
+  }
+
+  function renderSurfaceChart(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 02",
+      "Evidence coverage changes with the surface",
+      "The normalized groups preserve all 28 raw surface types in the report data."
+    );
+    let metric = "coverage";
+
+    const draw = () => {
+      const sorted = [...snapshot.surfaceGroups].toSorted((left, right) =>
+        metric === "coverage"
+          ? right.statuses.coverage - left.statuses.coverage
+          : right.surfaces - left.surfaces
+      );
+      const max = metric === "coverage"
+        ? Math.max(...sorted.map((row) => row.statuses.coverage), 1)
+        : Math.max(...sorted.map((row) => row.surfaces), 1);
+      const rows = sorted.map((row) => ({
+        label: row.label,
+        value: metric === "coverage" ? row.statuses.coverage : row.surfaces,
+        max,
+        valueLabel:
+          metric === "coverage"
+            ? percent.format(row.statuses.coverage)
+            : integer.format(row.surfaces),
+        meta: `${integer.format(row.statuses.sourced)} reviewed of ${integer.format(row.statuses.total)} cells · ${row.surfaceTypes.join(", ")}`,
+      }));
+      frame.canvas.replaceChildren(barRows(rows));
+      frame.detail.textContent =
+        metric === "coverage"
+          ? "Coverage is the share of cells with supported, partial, or explicit unsupported evidence."
+          : `${integer.format(snapshot.totals.surfaces)} exact surfaces are grouped for readability; source-level types remain in JSON.`;
+    };
+
+    controlButtons(
+      frame.controls,
+      [
+        { value: "coverage", label: "Evidence coverage" },
+        { value: "surfaces", label: "Exact surfaces" },
+      ],
+      metric,
+      (value) => {
+        metric = value;
+        draw();
+      }
+    );
+    draw();
+  }
+
+  function renderHeatmap(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 03",
+      "Evidence density depends on both layer and surface",
+      "Select a cell to inspect its reviewed and unknown counts. Darker cells have more evidence coverage."
+    );
+    frame.controls.remove();
+    const scroller = makeNode("div", "report-heatmap-scroll");
+    const grid = makeNode("div", "report-heatmap");
+    grid.style.gridTemplateColumns = `10rem repeat(${snapshot.featureGroups.length}, minmax(4.25rem, 1fr))`;
+    grid.appendChild(makeNode("span", "report-heatmap__corner", "Surface / layer"));
+    for (const featureGroup of snapshot.featureGroups) {
+      const heading = makeNode("span", "report-heatmap__column", featureGroup.label);
+      heading.title = `${featureGroup.features} atomic ${featureGroup.features === 1 ? "feature" : "features"}`;
+      grid.appendChild(heading);
+    }
+    for (const surfaceGroup of snapshot.surfaceGroups) {
+      grid.appendChild(makeNode("strong", "report-heatmap__row", surfaceGroup.label));
+      for (const featureGroup of snapshot.featureGroups) {
+        const cell = snapshot.heatmap.find(
+          (candidate) =>
+            candidate.surfaceGroup === surfaceGroup.key &&
+            candidate.featureGroup === featureGroup.key
+        );
+        if (!cell) continue;
+        const button = makeNode(
+          "button",
+          "report-heatmap__cell",
+          percent.format(cell.statuses.coverage)
+        );
+        button.type = "button";
+        button.style.setProperty(
+          "--heat",
+          `${Math.round(7 + cell.statuses.coverage * 78)}%`
+        );
+        button.setAttribute(
+          "aria-label",
+          `${surfaceGroup.label}, ${featureGroup.label}: ${percent.format(cell.statuses.coverage)} evidence coverage, ${cell.statuses.sourced} reviewed and ${cell.statuses.unknown} unknown cells`
+        );
+        button.addEventListener("click", () => {
+          for (const sibling of grid.querySelectorAll("button")) {
+            sibling.setAttribute("aria-pressed", String(sibling === button));
+          }
+          frame.detail.textContent = `${surfaceGroup.label} × ${featureGroup.label}: ${integer.format(cell.statuses.sourced)} reviewed, ${integer.format(cell.statuses.positive)} supported or partial, ${integer.format(cell.statuses.unsupported)} explicitly unsupported, and ${integer.format(cell.statuses.unknown)} unknown.`;
+        });
+        grid.appendChild(button);
+      }
+    }
+    scroller.appendChild(grid);
+    frame.canvas.appendChild(scroller);
+    frame.detail.textContent = "Choose any intersection for exact counts. Zero means no reviewed claim in this snapshot—not unsupported.";
+  }
+
+  function renderFeatureGroups(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 04",
+      "The documentation frontier is uneven by feature family",
+      "Compare the reviewed share of each grid with the supported-or-partial share of the full grid."
+    );
+    let metric = "coverage";
+    const draw = () => {
+      const sorted = [...snapshot.featureGroups].toSorted((left, right) => {
+        const leftValue = metric === "coverage"
+          ? left.statuses.coverage
+          : left.statuses.positive / left.statuses.total;
+        const rightValue = metric === "coverage"
+          ? right.statuses.coverage
+          : right.statuses.positive / right.statuses.total;
+        return rightValue - leftValue || left.label.localeCompare(right.label);
+      });
+      frame.canvas.replaceChildren(
+        barRows(
+          sorted.map((row) => {
+            const value = metric === "coverage"
+              ? row.statuses.coverage
+              : row.statuses.positive / row.statuses.total;
+            return {
+              label: row.label,
+              value,
+              max: 1,
+              valueLabel: percent.format(value),
+              meta: `${row.features} atomic ${row.features === 1 ? "feature" : "features"} · ${integer.format(row.statuses.sourced)} reviewed · ${integer.format(row.statuses.unknown)} unknown`,
+            };
+          })
+        )
+      );
+      frame.detail.textContent =
+        metric === "coverage"
+          ? "Reviewed share includes supported, partial, and explicitly unsupported cells."
+          : "Positive evidence share uses every exact surface as the denominator; unknown remains in the denominator.";
+    };
+    controlButtons(
+      frame.controls,
+      [
+        { value: "coverage", label: "Reviewed share" },
+        { value: "positive", label: "Positive evidence share" },
+      ],
+      metric,
+      (value) => {
+        metric = value;
+        draw();
+      }
+    );
+    draw();
+  }
+
+  function renderCapabilities(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 05",
+      "Explore the most frequently substantiated capabilities",
+      "Filter by feature family. Bars count exact surfaces with supported or partial evidence."
+    );
+    const label = makeNode("label", "report-viz__select-label", "Feature family");
+    const select = makeNode("select", "report-viz__select");
+    const all = makeNode("option", "", "All feature families");
+    all.value = "all";
+    select.appendChild(all);
+    for (const group of snapshot.featureGroups.toSorted((left, right) => left.label.localeCompare(right.label))) {
+      const option = makeNode("option", "", group.label);
+      option.value = group.label;
+      select.appendChild(option);
+    }
+    label.appendChild(select);
+    frame.controls.appendChild(label);
+
+    const draw = () => {
+      const group = select.value;
+      const rows = snapshot.capabilities
+        .filter((row) => group === "all" || row.group === group)
+        .slice(0, 10);
+      frame.canvas.replaceChildren(
+        barRows(
+          rows.map((row) => ({
+            label: row.title,
+            value: row.statuses.positive,
+            max: snapshot.totals.surfaces,
+            valueLabel: `${integer.format(row.statuses.positive)} / ${integer.format(row.statuses.total)}`,
+            meta: `${row.group} · ${integer.format(row.statuses.sourced)} reviewed · ${integer.format(row.statuses.unknown)} unknown`,
+            href: `/atlas/features/${row.slug}`,
+          }))
+        )
+      );
+      frame.detail.textContent = `${rows.length} capabilities shown, ordered by supported-or-partial exact surface records. Open a label for sources and conditions.`;
+    };
+    select.addEventListener("change", draw);
+    draw();
+  }
+
+  function renderConstraints(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 06",
+      "A reviewed answer is often a qualified answer",
+      "Conditions remain attached to cells instead of being flattened into a binary badge."
+    );
+    frame.controls.remove();
+    const stats = makeNode("dl", "report-stat-grid");
+    const values = [
+      {
+        label: "Reviewed cells with qualifiers",
+        value: integer.format(snapshot.totals.qualifiedReviewedCells),
+        context: percent.format(snapshot.totals.qualifiedReviewedShare),
+      },
+      {
+        label: "Explicit non-support records",
+        value: integer.format(snapshot.totals.explicitNonSupport),
+        context: "Evidence-backed no",
+      },
+      {
+        label: "Open evidence gaps",
+        value: integer.format(snapshot.totals.evidenceGaps),
+        context: "Research queue",
+      },
+      {
+        label: "Proposed tests",
+        value: integer.format(snapshot.totals.proposedTests),
+        context: "Not yet certification",
+      },
+    ];
+    for (const item of values) {
+      const node = makeNode("div", "report-stat-grid__item");
+      appendChildren(
+        node,
+        makeNode("dt", "", item.label),
+        makeNode("dd", "", item.value),
+        makeNode("span", "", item.context)
+      );
+      stats.appendChild(node);
+    }
+    const qualified = snapshot.totals.qualifiedReviewedCells;
+    const unqualified = snapshot.statuses.sourced - qualified;
+    const stack = makeNode("div", "report-stack report-stack--constraints");
+    const qualifier = makeNode("span", "report-stack__segment is-partial");
+    qualifier.style.width = `${snapshot.totals.qualifiedReviewedShare * 100}%`;
+    const direct = makeNode("span", "report-stack__segment is-supported");
+    direct.style.width = `${(1 - snapshot.totals.qualifiedReviewedShare) * 100}%`;
+    appendChildren(stack, qualifier, direct);
+    const legend = makeNode(
+      "p",
+      "report-constraint-legend",
+      `${integer.format(qualified)} qualified · ${integer.format(unqualified)} without a recorded qualifier`
+    );
+    frame.canvas.replaceChildren(stats, stack, legend);
+    frame.detail.textContent = "A missing qualifier means none was recorded in this research package; it is not proof that a capability has no conditions.";
+  }
+
+  function renderCountRows(
+    frame: ReturnType<typeof chartFrame>,
+    rows: readonly ReportCountRow[],
+    context: string
+  ) {
+    frame.canvas.replaceChildren(
+      barRows(
+        rows.map((row) => ({
+          label: row.label,
+          value: row.share,
+          max: 1,
+          valueLabel: integer.format(row.count),
+          meta: percent.format(row.share),
+        }))
+      )
+    );
+    frame.detail.textContent = context;
+  }
+
+  function renderEvidence(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 07",
+      "The evidence base is documentation-led",
+      "Move between the source ledger, cell-level evidence methods, and confidence labels."
+    );
+    let view = "sources";
+    const draw = () => {
+      if (view === "sources") {
+        renderCountRows(
+          frame,
+          snapshot.evidence.sourceTypes,
+          `${integer.format(snapshot.totals.sources)} public source records. Source type share uses the source ledger as its denominator.`
+        );
+      } else if (view === "methods") {
+        renderCountRows(
+          frame,
+          snapshot.evidence.methods,
+          "A cell can use more than one evidence method, so method counts can exceed the number of reviewed cells."
+        );
+      } else {
+        renderCountRows(
+          frame,
+          snapshot.evidence.confidence,
+          `${integer.format(snapshot.statuses.sourced)} reviewed cells carry a confidence label tied to source and scope agreement.`
+        );
+      }
+    };
+    controlButtons(
+      frame.controls,
+      [
+        { value: "sources", label: "Source ledger" },
+        { value: "methods", label: "Evidence methods" },
+        { value: "confidence", label: "Cell confidence" },
+      ],
+      view,
+      (value) => {
+        view = value;
+        draw();
+      }
+    );
+    draw();
+  }
+
+  const svgNamespace = "http://www.w3.org/2000/svg";
+  function svgElement<K extends keyof SVGElementTagNameMap>(
+    tag: K,
+    attributes: Readonly<Record<string, string>> = {}
+  ): SVGElementTagNameMap[K] {
+    const node = document.createElementNS(svgNamespace, tag);
+    for (const [name, value] of Object.entries(attributes)) {
+      node.setAttribute(name, value);
+    }
+    return node;
+  }
+
+  function renderVendors(host: HTMLElement) {
+    if (!snapshot) return;
+    const frame = chartFrame(
+      host,
+      "Figure 08",
+      "Research coverage is not a product score",
+      "Each point is a provider record: horizontal position is exact surface count; vertical position is evidence coverage."
+    );
+    let view = "tier-a";
+    let selected = "";
+
+    const draw = () => {
+      const vendors = snapshot.vendors.filter(
+        (vendor) => view === "all" || vendor.coverageTier === "A"
+      );
+      if (!vendors.some((vendor) => vendor.id === selected)) {
+        selected = vendors[0]?.id ?? "";
+      }
+      const width = Math.max(320, Math.floor(frame.canvas.clientWidth));
+      const height = width < 520 ? 360 : 430;
+      const margin = {
+        top: 20,
+        right: 18,
+        bottom: 58,
+        left: width < 520 ? 47 : 62,
+      };
+      const plotWidth = width - margin.left - margin.right;
+      const plotHeight = height - margin.top - margin.bottom;
+      const maxSurfaces = Math.max(...vendors.map((vendor) => vendor.surfaces), 1);
+      const maxCoverage = Math.max(...vendors.map((vendor) => vendor.statuses.coverage), 0.1);
+      const yCeiling = Math.max(0.1, Math.ceil(maxCoverage * 10) / 10);
+      const x = (value: number) =>
+        margin.left + ((value - 1) / Math.max(1, maxSurfaces - 1)) * plotWidth;
+      const y = (value: number) =>
+        margin.top + plotHeight - (value / yCeiling) * plotHeight;
+      const svg = svgElement("svg", {
+        viewBox: `0 0 ${width} ${height}`,
+        role: "group",
+        "aria-label": `${vendors.length} provider research records plotted by exact surface count and evidence coverage`,
+      });
+
+      const background = svgElement("rect", {
+        x: String(margin.left),
+        y: String(margin.top),
+        width: String(plotWidth),
+        height: String(plotHeight),
+        class: "report-scatter__frame",
+      });
+      svg.appendChild(background);
+
+      for (let index = 0; index <= 4; index += 1) {
+        const value = (yCeiling / 4) * index;
+        const yPosition = y(value);
+        svg.appendChild(
+          svgElement("line", {
+            x1: String(margin.left),
+            x2: String(width - margin.right),
+            y1: String(yPosition),
+            y2: String(yPosition),
+            class: "report-scatter__grid",
+          })
+        );
+        const label = svgElement("text", {
+          x: String(margin.left - 8),
+          y: String(yPosition + 4),
+          "text-anchor": "end",
+          class: "report-scatter__tick",
+        });
+        label.textContent = percent.format(value);
+        svg.appendChild(label);
+      }
+
+      const xStep = maxSurfaces > 8 ? 2 : 1;
+      for (let value = 1; value <= maxSurfaces; value += xStep) {
+        const label = svgElement("text", {
+          x: String(x(value)),
+          y: String(height - margin.bottom + 24),
+          "text-anchor": "middle",
+          class: "report-scatter__tick",
+        });
+        label.textContent = String(value);
+        svg.appendChild(label);
+      }
+      const xTitle = svgElement("text", {
+        x: String(margin.left + plotWidth / 2),
+        y: String(height - 8),
+        "text-anchor": "middle",
+        class: "report-scatter__axis-title",
+      });
+      xTitle.textContent = "Exact surfaces in the research snapshot";
+      svg.appendChild(xTitle);
+      const yTitle = svgElement("text", {
+        x: "15",
+        y: String(margin.top + plotHeight / 2),
+        transform: `rotate(-90 15 ${margin.top + plotHeight / 2})`,
+        "text-anchor": "middle",
+        class: "report-scatter__axis-title",
+      });
+      yTitle.textContent = "Evidence coverage";
+      svg.appendChild(yTitle);
+
+      const labelIds = new Set(
+        vendors.slice(0, width < 640 ? 0 : 10).map((vendor) => vendor.id)
+      );
+      for (const vendor of vendors) {
+        const group = svgElement("g", {
+          class: `report-scatter__point${vendor.id === selected ? " is-selected" : ""}`,
+          role: "button",
+          tabindex: "0",
+          "aria-label": `${vendor.name}: ${vendor.surfaces} exact surfaces and ${percent.format(vendor.statuses.coverage)} evidence coverage`,
+        });
+        const radius = Math.min(13, 5 + Math.sqrt(vendor.statuses.sourced) / 2.4);
+        const circle = svgElement("circle", {
+          cx: String(x(vendor.surfaces)),
+          cy: String(y(vendor.statuses.coverage)),
+          r: String(radius),
+        });
+        const title = svgElement("title");
+        title.textContent = `${vendor.name} · ${vendor.surfaces} surfaces · ${percent.format(vendor.statuses.coverage)} coverage`;
+        circle.appendChild(title);
+        group.appendChild(circle);
+        if (labelIds.has(vendor.id)) {
+          const label = svgElement("text", {
+            x: String(x(vendor.surfaces) + radius + 4),
+            y: String(y(vendor.statuses.coverage) + 4),
+            class: "report-scatter__label",
+          });
+          label.textContent = vendor.name;
+          group.appendChild(label);
+        }
+        const choose = () => {
+          selected = vendor.id;
+          draw();
+        };
+        group.addEventListener("click", choose);
+        group.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            choose();
+          }
+        });
+        svg.appendChild(group);
+      }
+      frame.canvas.replaceChildren(svg);
+      const current = vendors.find((vendor) => vendor.id === selected);
+      frame.detail.textContent = current
+        ? `${current.name}: ${current.surfaces} exact ${current.surfaces === 1 ? "surface" : "surfaces"}; ${integer.format(current.statuses.sourced)} reviewed of ${integer.format(current.statuses.total)} cells (${percent.format(current.statuses.coverage)}). Coverage tier ${current.coverageTier}.`
+        : "Select a point for details.";
+    };
+
+    controlButtons(
+      frame.controls,
+      [
+        { value: "tier-a", label: "Deep-research tier" },
+        { value: "all", label: "All provider records" },
+      ],
+      view,
+      (value) => {
+        view = value;
+        draw();
+      }
+    );
+    const observer = new ResizeObserver(() => draw());
+    observer.observe(frame.canvas);
+    draw();
+  }
+
+  if (snapshot) {
+    const renderers: Record<string, (host: HTMLElement) => void> = {
+      status: renderStatusChart,
+      "surface-groups": renderSurfaceChart,
+      heatmap: renderHeatmap,
+      "feature-groups": renderFeatureGroups,
+      capabilities: renderCapabilities,
+      constraints: renderConstraints,
+      evidence: renderEvidence,
+      vendors: renderVendors,
+    };
+    for (const host of document.querySelectorAll<HTMLElement>(
+      "[data-report-chart]"
+    )) {
+      const name = host.dataset.reportChart ?? "";
+      renderers[name]?.(host);
+    }
+  }
+</script>
+
+<style is:global>
+  .report-noscript {
+    width: min(54rem, calc(100% - 2rem));
+    margin: 1rem auto;
+    border-left: 0.2rem solid var(--color-copper);
+    padding: 0.8rem 1rem;
+    background: var(--color-paper);
+  }
+
+  .report-viz {
+    width: min(57rem, calc(100vw - 2rem));
+    margin: 3.2rem 50% 3.4rem;
+    transform: translateX(-50%);
+    border-block: 1px solid var(--color-line);
+    padding-block: 1.2rem 1.35rem;
+  }
+
+  .report-viz__header {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) minmax(14rem, 25rem);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .report-viz__figure,
+  .report-viz__deck,
+  .report-viz__detail,
+  .report-bars__meta,
+  .report-constraint-legend {
+    margin: 0;
+  }
+
+  .report-viz__figure {
+    color: var(--color-copper-deep);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .report-viz__title {
+    margin: 0;
+    font-size: clamp(1.2rem, 2.1vw, 1.55rem);
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+
+  .report-viz__deck {
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .report-viz__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 1.1rem;
+  }
+
+  .report-viz__control,
+  .report-viz__select {
+    min-height: 2.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    padding: 0.42rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .report-viz__control {
+    cursor: pointer;
+  }
+
+  .report-viz__control[aria-pressed="true"] {
+    border-color: var(--color-chrome);
+    background: var(--color-chrome);
+    color: var(--color-chrome-ink);
+  }
+
+  .report-viz__select-label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .report-viz__canvas {
+    min-width: 0;
+    margin-top: 1.15rem;
+  }
+
+  .report-viz__detail {
+    min-height: 1.35rem;
+    margin-top: 0.9rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.5;
+  }
+
+  .report-stack {
+    display: flex;
+    width: 100%;
+    min-height: 4.6rem;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-line) 54%, transparent);
+  }
+
+  .report-stack__segment {
+    display: block;
+    min-width: 0.16rem;
+    transition: width 280ms ease;
+  }
+
+  .is-supported,
+  .report-stack__segment.is-supported {
+    --report-state: var(--color-yes);
+  }
+
+  .is-partial,
+  .report-stack__segment.is-partial {
+    --report-state: var(--color-partial);
+  }
+
+  .is-unsupported,
+  .report-stack__segment.is-unsupported {
+    --report-state: var(--color-no);
+  }
+
+  .is-unknown,
+  .report-stack__segment.is-unknown {
+    --report-state: var(--color-unknown);
+  }
+
+  .report-stack__segment {
+    background: var(--report-state);
+  }
+
+  .report-status-legend {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0.9rem 0 0;
+  }
+
+  .report-status-legend__item {
+    border-top: 0.18rem solid var(--report-state);
+    padding-top: 0.45rem;
+  }
+
+  .report-status-legend__item dt {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+  }
+
+  .report-status-legend__item dt i {
+    width: 0.45rem;
+    height: 0.45rem;
+    background: var(--report-state);
+  }
+
+  .report-status-legend__item dd {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    margin: 0.25rem 0 0;
+  }
+
+  .report-status-legend__item dd strong {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    letter-spacing: -0.045em;
+  }
+
+  .report-status-legend__item dd span {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+  }
+
+  .report-bars {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .report-bars__row {
+    min-width: 0;
+  }
+
+  .report-bars__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .report-bars__label {
+    color: var(--color-ink);
+    font-size: 0.84rem;
+    font-weight: 500;
+  }
+
+  a.report-bars__label {
+    text-decoration-color: color-mix(in srgb, var(--color-copper) 50%, transparent);
+    text-underline-offset: 0.15em;
+  }
+
+  .report-bars__head strong {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+  }
+
+  .report-bars__track {
+    height: 0.72rem;
+    margin-top: 0.28rem;
+    background: color-mix(in srgb, var(--color-line) 62%, transparent);
+  }
+
+  .report-bars__mark {
+    display: block;
+    height: 100%;
+    background: var(--color-copper-deep);
+    transition: width 280ms ease;
+  }
+
+  .report-bars__meta {
+    margin-top: 0.22rem;
+    overflow-wrap: anywhere;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .report-heatmap-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+  }
+
+  .report-heatmap {
+    display: grid;
+    gap: 0.28rem;
+    min-width: 62rem;
+    align-items: stretch;
+  }
+
+  .report-heatmap__corner,
+  .report-heatmap__column,
+  .report-heatmap__row {
+    display: flex;
+    align-items: end;
+    min-height: 2.9rem;
+    padding: 0.32rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .report-heatmap__row {
+    align-items: center;
+    color: var(--color-ink);
+  }
+
+  .report-heatmap__cell {
+    min-height: 3.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+    border-radius: 0;
+    background: color-mix(in srgb, var(--color-copper) var(--heat), var(--color-paper));
+    color: var(--color-ink);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+  }
+
+  .report-heatmap__cell[aria-pressed="true"] {
+    outline: 2px solid var(--color-chrome);
+    outline-offset: 1px;
+  }
+
+  .report-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin: 0;
+  }
+
+  .report-stat-grid__item {
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.55rem;
+  }
+
+  .report-stat-grid__item dt,
+  .report-stat-grid__item span {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.35;
+  }
+
+  .report-stat-grid__item dd {
+    margin: 0.35rem 0 0.1rem;
+    font-size: clamp(1.45rem, 3.5vw, 2.3rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+  }
+
+  .report-stack--constraints {
+    min-height: 1.3rem;
+    margin-top: 1.2rem;
+  }
+
+  .report-constraint-legend {
+    margin-top: 0.4rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+  }
+
+  .report-scatter__frame {
+    fill: color-mix(in srgb, var(--color-paper) 64%, transparent);
+    stroke: var(--color-line);
+  }
+
+  .report-scatter__grid {
+    stroke: var(--color-line);
+    stroke-width: 1;
+  }
+
+  .report-scatter__tick,
+  .report-scatter__axis-title,
+  .report-scatter__label {
+    fill: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .report-scatter__axis-title {
+    fill: var(--color-ink);
+    font-size: 11px;
+  }
+
+  .report-scatter__label {
+    fill: var(--color-ink);
+  }
+
+  .report-scatter__point {
+    cursor: pointer;
+  }
+
+  .report-scatter__point circle {
+    fill: color-mix(in srgb, var(--color-copper) 72%, var(--color-paper));
+    stroke: var(--color-copper-deep);
+    stroke-width: 1.3;
+  }
+
+  .report-scatter__point.is-selected circle,
+  .report-scatter__point:focus circle {
+    fill: var(--color-chrome);
+    stroke: var(--color-paper);
+    stroke-width: 2.5;
+  }
+
+  @media (max-width: 1120px) {
+    .report-viz {
+      width: 100%;
+      margin-inline: 0;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .report-viz__header {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+
+    .report-viz__deck {
+      max-width: 34rem;
+    }
+
+    .report-status-legend,
+    .report-stat-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .report-stack {
+      min-height: 3.2rem;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .report-status-legend,
+    .report-stat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .report-viz__control {
+      flex: 1 1 auto;
+    }
+
+    .report-viz__select-label {
+      align-items: stretch;
+      flex: 1 1 100%;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .report-stack__segment,
+    .report-bars__mark {
+      transition: none;
+    }
+  }
+</style>

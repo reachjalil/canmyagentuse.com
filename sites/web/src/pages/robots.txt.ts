@@ -13,6 +13,7 @@ export const GET: APIRoute = () =>
       `# Agent index: ${new URL(MACHINE_PATHS.llms, SITE.url).toString()}`,
       `# API catalog: ${new URL(MACHINE_PATHS.apiCatalog, SITE.url).toString()}`,
       `# Agent skills: ${new URL(MACHINE_PATHS.agentSkillsIndex, SITE.url).toString()}`,
+      `# Canonical prompt: ${new URL(MACHINE_PATHS.promptText, SITE.url).toString()}`,
       "",
     ].join("\n")
   );

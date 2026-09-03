@@ -4,6 +4,8 @@ import {
   type HarnessData,
   type NewsData,
   type PageData,
+  type ReportData,
+  type StateOfHarnessesReport,
   type SpecificationData,
   SUPPORT_STATUS_LABELS,
   buildCapabilityProgress,
@@ -22,6 +24,9 @@ import {
   newsPath,
   pageMarkdownPath,
   pagePath,
+  reportJsonPath,
+  reportMarkdownPath,
+  reportPath,
   referenceIdentity,
   specificationJsonPath,
   specificationMarkdownPath,
@@ -36,7 +41,8 @@ type PortableEntry =
   | SpecificationData
   | CategoryData
   | PageData
-  | NewsData;
+  | NewsData
+  | ReportData;
 
 export function latestUpdatedAt(
   entries: readonly { updated: Date }[]
@@ -446,6 +452,67 @@ export function newsEntryMarkdown(input: {
     llmSummary: input.item.llmSummary,
     body: input.body,
     ...metadata(input.item),
+  });
+}
+
+export function reportEntryMarkdown(input: {
+  report: ReportData;
+  body: string;
+  snapshot: StateOfHarnessesReport;
+}): string {
+  const { report, snapshot } = input;
+  const body = input.body.replace(
+    /<div\s+data-report-chart="[^"]+"\s*><\/div>/g,
+    ""
+  );
+  const surfaceRows = snapshot.surfaceGroups.map(
+    (row) =>
+      `| ${row.label} | ${row.surfaces} | ${row.statuses.sourced} | ${row.statuses.supported} | ${row.statuses.partial} | ${row.statuses.unsupported} | ${row.statuses.unknown} | ${(row.statuses.coverage * 100).toFixed(1)}% |`
+  );
+  const featureRows = snapshot.featureGroups.map(
+    (row) =>
+      `| ${row.label} | ${row.features} | ${row.statuses.sourced} | ${row.statuses.positive} | ${row.statuses.unsupported} | ${row.statuses.unknown} | ${(row.statuses.coverage * 100).toFixed(1)}% |`
+  );
+  return toEntryMarkdown({
+    title: report.title,
+    htmlPath: reportPath(report.slug),
+    jsonPath: reportJsonPath(report.slug),
+    markdownPath: reportMarkdownPath(report.slug),
+    llmSummary: report.llmSummary,
+    verifiedAt: report.snapshotDate,
+    body: [
+      body.trim(),
+      "",
+      "## Report data appendix",
+      "",
+      `- Research cutoff: ${snapshot.researchCutoff}`,
+      `- Vendors: ${snapshot.totals.vendors}`,
+      `- Products: ${snapshot.totals.products}`,
+      `- Exact surfaces: ${snapshot.totals.surfaces}`,
+      `- Atomic features: ${snapshot.totals.features}`,
+      `- Compatibility cells: ${snapshot.totals.compatibilityCells}`,
+      `- Reviewed cells: ${snapshot.statuses.sourced}`,
+      `- Supported: ${snapshot.statuses.supported}`,
+      `- Partial: ${snapshot.statuses.partial}`,
+      `- Explicit unsupported: ${snapshot.statuses.unsupported}`,
+      `- Unknown: ${snapshot.statuses.unknown}`,
+      `- Evidence coverage: ${(snapshot.statuses.coverage * 100).toFixed(1)}%`,
+      `- Public source records: ${snapshot.totals.sources}`,
+      `- Long-form assertions: ${snapshot.totals.assertions}`,
+      "",
+      "### Surface groups",
+      "",
+      "| Surface group | Surfaces | Reviewed | Supported | Partial | Unsupported | Unknown | Coverage |",
+      "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+      ...surfaceRows,
+      "",
+      "### Feature groups",
+      "",
+      "| Feature group | Features | Reviewed | Supported or partial | Unsupported | Unknown | Coverage |",
+      "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+      ...featureRows,
+    ].join("\n"),
+    ...metadata(report),
   });
 }
 

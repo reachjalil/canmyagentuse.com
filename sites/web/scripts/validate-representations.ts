@@ -5,8 +5,11 @@ import { parse } from "yaml";
 import {
   type FeatureData,
   type HarnessData,
+  type ReportData,
+  type ResearchSeed,
   type SpecificationData,
   SUPPORT_STATUS_LABELS,
+  buildStateOfHarnessesReport,
   featureJsonPath,
   featureMarkdownPath,
   featurePath,
@@ -15,6 +18,10 @@ import {
   harnessMarkdownPath,
   harnessPath,
   harnessSchema,
+  reportJsonPath,
+  reportMarkdownPath,
+  reportPath,
+  reportSchema,
   specificationJsonPath,
   specificationMarkdownPath,
   specificationPath,
@@ -23,12 +30,17 @@ import {
 import {
   featureMarkdown,
   harnessMarkdown,
+  reportEntryMarkdown,
   specificationMarkdown,
 } from "../src/lib/markdown.ts";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "../../..");
 const contentRoot = resolve(repositoryRoot, "content");
+const researchSeedFile = resolve(
+  repositoryRoot,
+  "md/deep-dive-research-canmyagentuse-compatibility-seed-2026-08-28/data/compatibility-seed.json"
+);
 
 interface SourceEntry<T> {
   data: T;
@@ -74,7 +86,7 @@ function requireText(
 
 function requireSharedMetadata(
   document: string,
-  data: FeatureData | HarnessData | SpecificationData,
+  data: FeatureData | HarnessData | ReportData | SpecificationData,
   file: string
 ): void {
   requireText(document, `title: ${JSON.stringify(data.title)}`, "title", file);
@@ -106,13 +118,18 @@ function requireSharedMetadata(
   for (const tag of data.tags) requireText(document, tag, "tag", file);
 }
 
-const [features, harnesses, specifications] = await Promise.all([
+const [features, harnesses, specifications, reports] = await Promise.all([
   sourceEntries("features", (value) => featureSchema.parse(value)),
   sourceEntries("harnesses", (value) => harnessSchema.parse(value)),
   sourceEntries("specifications", (value) => specificationSchema.parse(value)),
+  sourceEntries("reports", (value) => reportSchema.parse(value)),
 ]);
 const harnessData = harnesses.map((entry) => entry.data);
 const featureData = features.map((entry) => entry.data);
+const researchSeed = JSON.parse(
+  await readFile(researchSeedFile, "utf8")
+) as ResearchSeed;
+const stateOfHarnessesReport = buildStateOfHarnessesReport(researchSeed);
 
 for (const entry of features) {
   const document = featureMarkdown({
@@ -236,6 +253,40 @@ for (const entry of specifications) {
   );
 }
 
+for (const entry of reports) {
+  const document = reportEntryMarkdown({
+    report: entry.data,
+    body: entry.body,
+    snapshot: stateOfHarnessesReport,
+  });
+  requireSharedMetadata(document, entry.data, entry.file);
+  requireText(document, reportPath(entry.data.slug), "HTML path", entry.file);
+  requireText(
+    document,
+    reportMarkdownPath(entry.data.slug),
+    "Markdown path",
+    entry.file
+  );
+  requireText(
+    document,
+    reportJsonPath(entry.data.slug),
+    "JSON path",
+    entry.file
+  );
+  requireText(
+    document,
+    stateOfHarnessesReport.researchCutoff,
+    "research cutoff",
+    entry.file
+  );
+  requireText(
+    document,
+    stateOfHarnessesReport.totals.compatibilityCells.toLocaleString("en-US"),
+    "compatibility-cell total",
+    entry.file
+  );
+}
+
 process.stdout.write(
-  `Validated HTML/Markdown/JSON parity fields for ${features.length} features, ${harnesses.length} harnesses, and ${specifications.length} specifications.\n`
+  `Validated HTML/Markdown/JSON parity fields for ${features.length} features, ${harnesses.length} harnesses, ${specifications.length} specifications, and ${reports.length} reports.\n`
 );

@@ -10,6 +10,7 @@ const JSON_ENDPOINTS = [
   MACHINE_PATHS.matrixJson,
   MACHINE_PATHS.evidenceJson,
   MACHINE_PATHS.coverageJson,
+  MACHINE_PATHS.reportsJson,
   MACHINE_PATHS.testsJson,
   MACHINE_PATHS.changesJson,
   MACHINE_PATHS.contradictionsJson,

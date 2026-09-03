@@ -7,7 +7,8 @@ export type CatalogCollection =
   | "specifications"
   | "categories"
   | "news"
-  | "pages";
+  | "pages"
+  | "reports";
 
 export async function publishedCollection<T extends CatalogCollection>(
   name: T
@@ -27,7 +28,7 @@ export async function publishedCollection<T extends CatalogCollection>(
       }
       const leftPublished = left.data.published?.getTime() ?? 0;
       const rightPublished = right.data.published?.getTime() ?? 0;
-      if (name === "news") {
+      if (name === "news" || name === "reports") {
         return rightPublished - leftPublished;
       }
       return left.data.title.localeCompare(right.data.title);

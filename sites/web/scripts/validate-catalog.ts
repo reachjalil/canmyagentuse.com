@@ -7,6 +7,7 @@ import {
   harnessSchema,
   providerMarkIsDisplayable,
   referenceIdentity,
+  reportSchema,
   specificationSchema,
   validateCatalogRelations,
 } from "../../../packages/catalog/src/index.ts";
@@ -50,10 +51,11 @@ async function collection<T>(
   );
 }
 
-const [features, harnesses, specifications] = await Promise.all([
+const [features, harnesses, specifications, reports] = await Promise.all([
   collection("features", (value) => featureSchema.parse(value)),
   collection("harnesses", (value) => harnessSchema.parse(value)),
   collection("specifications", (value) => specificationSchema.parse(value)),
+  collection("reports", (value) => reportSchema.parse(value)),
 ]);
 
 validateCatalogRelations({ features, harnesses, specifications });
@@ -71,5 +73,5 @@ for (const harness of harnesses) {
   }
 }
 process.stdout.write(
-  `Validated ${features.length} features, ${harnesses.length} harnesses, and ${specifications.length} specifications with cross-entry and brand references.\n`
+  `Validated ${features.length} features, ${harnesses.length} harnesses, ${specifications.length} specifications, and ${reports.length} reports with cross-entry and brand references.\n`
 );

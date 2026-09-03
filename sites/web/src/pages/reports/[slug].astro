@@ -1,0 +1,393 @@
+---
+import {
+  SITE,
+  breadcrumbJsonLd,
+  reportJsonPath,
+  reportMarkdownPath,
+  reportPath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import ReportVisuals from "../../components/ReportVisuals.astro";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../../lib/collections";
+import { reportSnapshot } from "../../lib/reports";
+
+export async function getStaticPaths() {
+  const reports = await publishedCollection("reports");
+  return reports.map((report) => ({ params: { slug: report.data.slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Missing report slug.");
+const reports = await publishedCollection("reports");
+const item = entryBySlug(reports, slug);
+const snapshot = reportSnapshot(slug);
+if (!item || !snapshot) return Astro.redirect("/404");
+
+const { Content, headings } = await render(item);
+const metadata = resolveMetadata(item.data);
+const readingMinutes = Math.max(
+  1,
+  Math.round((item.body ?? "").split(/\s+/).filter(Boolean).length / 220)
+);
+const snapshotDate = new Date(`${item.data.snapshotDate}T00:00:00Z`);
+const reportHeadings = headings.filter((heading) => heading.depth === 2);
+const reportDatasetJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: `${item.data.title} data snapshot`,
+  description: item.data.llmSummary,
+  url: new URL(reportJsonPath(item.data.slug), SITE.url).toString(),
+  dateModified: item.data.snapshotDate,
+  creator: { "@type": "Organization", name: SITE.name, url: SITE.url },
+  variableMeasured: "Evidence-backed agent harness compatibility by exact surface and atomic feature",
+  size: String(snapshot.totals.compatibilityCells),
+  isBasedOn: new URL("/atlas", SITE.url).toString(),
+};
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt}
+  contentType="article"
+  publishedTime={metadata.published}
+  modifiedTime={metadata.updated}
+  section="Can My Agent Use Reports"
+  tags={metadata.tags}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    reportDatasetJsonLd,
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Reports", path: "/reports" },
+      { name: item.data.title, path: reportPath(item.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="report-page">
+      <header class="report-hero">
+        <div class="report-hero__grid" aria-hidden="true"></div>
+        <div class="shell report-hero__inner">
+          <nav class="report-breadcrumbs" aria-label="Breadcrumb">
+            <a href="/reports">Reports</a><span aria-hidden="true">/</span><span>{item.data.edition}</span>
+          </nav>
+          <div class="report-hero__eyebrow">
+            <span></span>{item.data.series} · {item.data.edition}
+          </div>
+          <h1>{item.data.title}</h1>
+          <p class="report-hero__dek">{item.data.summary}</p>
+          <div class="report-hero__meta">
+            <span>Published {metadata.published?.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
+            <span>{readingMinutes} minute read</span>
+            <span>Snapshot {snapshotDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
+          </div>
+          <div class="report-hero__actions">
+            <a href={reportJsonPath(item.data.slug)}>Download report data <span aria-hidden="true">↓</span></a>
+            <a href={reportMarkdownPath(item.data.slug)}>Read as Markdown</a>
+          </div>
+          <dl class="report-hero__stats">
+            <div><dt>Vendors</dt><dd>{snapshot.totals.vendors}</dd></div>
+            <div><dt>Exact surfaces</dt><dd>{snapshot.totals.surfaces}</dd></div>
+            <div><dt>Atomic features</dt><dd>{snapshot.totals.features}</dd></div>
+            <div><dt>Compatibility cells</dt><dd>{snapshot.totals.compatibilityCells.toLocaleString("en-US")}</dd></div>
+            <div><dt>Public sources</dt><dd>{snapshot.totals.sources}</dd></div>
+          </dl>
+        </div>
+      </header>
+
+      <div class="shell report-layout">
+        <aside class="report-contents">
+          <p>In this report</p>
+          <ol>
+            {reportHeadings.map((heading) => (
+              <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+            ))}
+          </ol>
+          <div>
+            <strong>Source</strong>
+            <a href="/atlas">Evidence Atlas v1</a>
+            <span>Research cutoff {snapshot.researchCutoff}</span>
+          </div>
+        </aside>
+        <article class="prose-page report-prose">
+          <Content />
+        </article>
+      </div>
+      <ReportVisuals snapshot={snapshot} />
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  .report-page {
+    --report-dark: #15120f;
+    --report-cream: #f5ead6;
+  }
+
+  .report-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--report-dark);
+    color: var(--report-cream);
+  }
+
+  .report-hero__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--color-copper) 38%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-copper) 38%, transparent) 1px, transparent 1px);
+    background-size: 4.5rem 4.5rem;
+    mask-image: radial-gradient(circle at 78% 38%, black, transparent 62%);
+  }
+
+  .report-hero__inner {
+    position: relative;
+    padding-block: 1.4rem clamp(2.5rem, 6vw, 5.5rem);
+  }
+
+  .report-breadcrumbs {
+    display: flex;
+    gap: 0.5rem;
+    color: color-mix(in srgb, var(--report-cream) 58%, var(--report-dark));
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+  }
+
+  .report-breadcrumbs a {
+    color: var(--report-cream);
+  }
+
+  .report-hero__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: clamp(2.5rem, 6vw, 5.5rem);
+    color: var(--color-copper);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .report-hero__eyebrow span {
+    width: 0.48rem;
+    height: 0.48rem;
+    background: var(--color-copper);
+  }
+
+  .report-hero h1 {
+    max-width: 60rem;
+    margin: 0.9rem 0 0;
+    font-size: clamp(3.4rem, 9vw, 8rem);
+    font-weight: 500;
+    letter-spacing: -0.085em;
+    line-height: 0.84;
+  }
+
+  .report-hero__dek {
+    max-width: 46rem;
+    margin: 1.6rem 0 0;
+    color: color-mix(in srgb, var(--report-cream) 76%, var(--report-dark));
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.45;
+  }
+
+  .report-hero__meta,
+  .report-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.3rem;
+    margin-top: 1.3rem;
+    color: color-mix(in srgb, var(--report-cream) 58%, var(--report-dark));
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+  }
+
+  .report-hero__actions {
+    margin-top: 1.6rem;
+  }
+
+  .report-hero__actions a {
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: center;
+    min-height: 2.65rem;
+    border: 1px solid color-mix(in srgb, var(--report-cream) 34%, var(--report-dark));
+    padding: 0.5rem 0.75rem;
+    color: var(--report-cream);
+    text-decoration: none;
+  }
+
+  .report-hero__actions a:first-child {
+    border-color: var(--color-copper);
+    background: var(--color-copper);
+    color: var(--report-dark);
+  }
+
+  .report-hero__stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin: clamp(2.6rem, 6vw, 5rem) 0 0;
+  }
+
+  .report-hero__stats div {
+    border-top: 1px solid color-mix(in srgb, var(--report-cream) 22%, transparent);
+    padding-top: 0.7rem;
+  }
+
+  .report-hero__stats dt {
+    color: color-mix(in srgb, var(--report-cream) 55%, var(--report-dark));
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+  }
+
+  .report-hero__stats dd {
+    margin: 0.25rem 0 0;
+    font-size: clamp(1.45rem, 3vw, 2.3rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+  }
+
+  .report-layout {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 48rem);
+    gap: clamp(2rem, 6vw, 5rem);
+    justify-content: center;
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+
+  .report-contents {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.8rem;
+  }
+
+  .report-contents > p,
+  .report-contents > div strong {
+    margin: 0;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .report-contents ol {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .report-contents li {
+    padding: 0;
+  }
+
+  .report-contents a {
+    color: var(--color-muted);
+    font-size: 0.74rem;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .report-contents a:hover {
+    color: var(--color-copper-deep);
+    text-decoration: underline;
+  }
+
+  .report-contents > div {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.7rem;
+  }
+
+  .report-contents > div span {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .report-prose {
+    max-width: 48rem;
+    min-width: 0;
+    font-size: clamp(1rem, 1.35vw, 1.08rem);
+    line-height: 1.76;
+  }
+
+  .report-prose > p:first-child {
+    color: var(--color-ink);
+    font-size: 1.16em;
+  }
+
+  .report-prose > p:first-child::first-letter {
+    float: left;
+    margin: 0.08em 0.1em 0 0;
+    color: var(--color-copper-deep);
+    font-size: 3.7em;
+    font-weight: 600;
+    line-height: 0.78;
+  }
+
+  .report-prose h2 {
+    scroll-margin-top: 1rem;
+  }
+
+  .report-prose > p:last-child {
+    border-top: 1px solid var(--color-line);
+    padding-top: 1rem;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 820px) {
+    .report-hero__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .report-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .report-contents {
+      position: static;
+      max-height: none;
+      column-width: 14rem;
+    }
+
+    .report-contents > p,
+    .report-contents > div {
+      column-span: all;
+    }
+
+    .report-contents ol {
+      display: block;
+    }
+
+    .report-contents li + li {
+      margin-top: 0.4rem;
+    }
+
+    .report-prose {
+      max-width: 100%;
+    }
+  }
+</style>

@@ -80,6 +80,22 @@ export type {
 export { validateCatalogRelations } from "./relations.ts";
 export type { CatalogRelationInput } from "./relations.ts";
 export {
+  buildStateOfHarnessesReport,
+  REPORT_SURFACE_GROUPS,
+  STATE_OF_HARNESSES_REPORT_SLUG,
+} from "./report.ts";
+export type {
+  ReportCapabilityRow,
+  ReportCountRow,
+  ReportFeatureGroup,
+  ReportHeatmapCell,
+  ReportStatusSummary,
+  ReportSurfaceGroup,
+  ReportSurfaceGroupKey,
+  ReportVendorRow,
+  StateOfHarnessesReport,
+} from "./report.ts";
+export {
   RESEARCH_STATUSES,
   RESEARCH_STATUS_LABELS,
   RESEARCH_STATUS_MARKS,
@@ -132,10 +148,29 @@ export {
   pageMarkdownPath,
   pagePath,
   pagePathForMarkdownPath,
+  reportJsonPath,
+  reportMarkdownPath,
+  reportPath,
   specificationJsonPath,
   specificationMarkdownPath,
   specificationPath,
 } from "./paths.ts";
+export {
+  CANONICAL_PROMPTS,
+  CANONICAL_PROMPT_PATH,
+  CANONICAL_PROMPT_TEXT_PATH,
+  PRESS_BOILERPLATES,
+  PRESS_KIT,
+  canonicalPromptDocument,
+} from "./press.ts";
+export type {
+  CanonicalPrompt,
+  PressAsset,
+  PressBoilerplate,
+  PressColor,
+  PressFact,
+  PressTypeface,
+} from "./press.ts";
 export {
   agentSchema,
   categorySchema,
@@ -143,6 +178,7 @@ export {
   harnessSchema,
   newsSchema,
   pageSchema,
+  reportSchema,
   specificationSchema,
   supportRowSchema,
 } from "./schema.ts";
@@ -153,6 +189,7 @@ export type {
   HarnessData,
   NewsData,
   PageData,
+  ReportData,
   SpecificationData,
   SupportRowInput,
 } from "./schema.ts";

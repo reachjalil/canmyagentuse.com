@@ -11,6 +11,7 @@ content/
   specifications/<locale>/<slug>.md
   categories/<locale>/<slug>.md
   news/<locale>/<slug>.md
+  reports/<locale>/<slug>.md
   pages/<locale>/<slug>.md
 ```
 
@@ -36,3 +37,8 @@ dated evidence references, and note IDs. Evidence resources use stable IDs so a
 statement can cite the exact public source that supports it. Specifications are
 separate entries because protocol roles and revisions cannot be inferred from a
 brand-level feature name.
+
+Reports are dated editorial analyses built from a named, frozen catalog or
+research snapshot. Keep report prose in `content/reports`; interactive HTML may
+use empty `data-report-chart` placeholders that the report route progressively
+enhances from the same typed snapshot used by its Markdown and JSON twins.

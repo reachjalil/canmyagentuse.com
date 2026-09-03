@@ -8,6 +8,7 @@ import {
   harnessPath,
   newsPath,
   pagePath,
+  reportPath,
   specificationPath,
 } from "@canmyagentuse/catalog";
 import { publishedCollection } from "../lib/collections";
@@ -31,15 +32,23 @@ function urlEntry(
 }
 
 export const GET: APIRoute = async () => {
-  const [features, harnesses, specifications, categories, pages, news] =
-    await Promise.all([
-      publishedCollection("features"),
-      publishedCollection("harnesses"),
-      publishedCollection("specifications"),
-      publishedCollection("categories"),
-      publishedCollection("pages"),
-      publishedCollection("news"),
-    ]);
+  const [
+    features,
+    harnesses,
+    specifications,
+    categories,
+    pages,
+    news,
+    reports,
+  ] = await Promise.all([
+    publishedCollection("features"),
+    publishedCollection("harnesses"),
+    publishedCollection("specifications"),
+    publishedCollection("categories"),
+    publishedCollection("pages"),
+    publishedCollection("news"),
+    publishedCollection("reports"),
+  ]);
 
   const allEntries = [
     ...features,
@@ -48,6 +57,7 @@ export const GET: APIRoute = async () => {
     ...categories,
     ...pages,
     ...news,
+    ...reports,
   ];
   const catalogUpdated = new Date(
     Math.max(...allEntries.map((entry) => entry.data.updated.getTime()))
@@ -75,7 +85,11 @@ export const GET: APIRoute = async () => {
     urlEntry("/contribute", "monthly", catalogUpdated),
     urlEntry("/report", "monthly", catalogUpdated),
     urlEntry("/provider-marks", "monthly", catalogUpdated),
+    urlEntry("/press", "monthly", catalogUpdated),
+    urlEntry("/prompt", "monthly", catalogUpdated),
+    urlEntry(MACHINE_PATHS.promptText, "monthly", catalogUpdated),
     urlEntry("/news", "daily", catalogUpdated),
+    urlEntry("/reports", "monthly", catalogUpdated),
     urlEntry(MACHINE_PATHS.llms, "daily", catalogUpdated),
     urlEntry(MACHINE_PATHS.sitemapMarkdown, "daily", catalogUpdated),
     urlEntry(MACHINE_PATHS.apiCatalog, "weekly", catalogUpdated),
@@ -93,6 +107,9 @@ export const GET: APIRoute = async () => {
     ),
     ...news.map((item) =>
       urlEntry(newsPath(item.data.slug), "weekly", item.data.updated)
+    ),
+    ...reports.map((report) =>
+      urlEntry(reportPath(report.data.slug), "monthly", report.data.updated)
     ),
     ...features.map((feature) =>
       urlEntry(featurePath(feature.data.slug), "weekly", feature.data.updated)

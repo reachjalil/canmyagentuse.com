@@ -437,12 +437,22 @@ export const newsSchema = seoSchema("news").extend({
   summary: z.string().min(1),
 });
 
+export const reportSchema = seoSchema("report").extend({
+  summary: z.string().min(1),
+  series: z.string().min(1),
+  edition: z.string().min(1),
+  snapshotDate: dateStampSchema,
+  dataSource: z.string().min(1),
+  order: z.number().int().default(0),
+});
+
 export type FeatureData = z.infer<typeof featureSchema>;
 export type HarnessData = z.infer<typeof harnessSchema>;
 export type SpecificationData = z.infer<typeof specificationSchema>;
 export type CategoryData = z.infer<typeof categorySchema>;
 export type PageData = z.infer<typeof pageSchema>;
 export type NewsData = z.infer<typeof newsSchema>;
+export type ReportData = z.infer<typeof reportSchema>;
 export type SupportRowInput = z.infer<typeof supportRowSchema>;
 export type AgentData = HarnessData;
 export const agentSchema = harnessSchema;

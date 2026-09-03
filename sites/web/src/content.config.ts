@@ -7,6 +7,7 @@ import {
   harnessSchema,
   newsSchema,
   pageSchema,
+  reportSchema,
   specificationSchema,
 } from "@canmyagentuse/catalog";
 
@@ -60,6 +61,14 @@ const pages = defineCollection({
   schema: pageSchema,
 });
 
+const reports = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: `${contentRoot}/reports`,
+  }),
+  schema: reportSchema,
+});
+
 export const collections = {
   features,
   harnesses,
@@ -67,4 +76,5 @@ export const collections = {
   categories,
   news,
   pages,
+  reports,
 };
