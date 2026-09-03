@@ -537,6 +537,16 @@ RECONCILE cycle=17 date=2026-09-02 commit=ed6fc62 pushed=origin/main deploy=5d18
 
 RECONCILE cycle=18 date=2026-09-02 commit=bb19da0 pushed=origin/main deploy=454b99a3-e7f1-489b-86e9-8701edee85dd coverage=1482/3534 note="Cache-busted production coverage reported 1,482/3,534 (+24 cells, 41.94%). Remaining gap to 50%: 285 cells."
 
+## Cycle 18 evidence-audit correction — 2026-09-03
 
+- Scope: Independent evidence, schema, test, operations-ledger, and production-parity review of Cycles 14–18.
+- Corrections:
+  - Replaced stale ChatGPT Desktop screenshot and generic code-execution citations with exact current OpenAI Help Center documentation.
+  - Pinned VS Code MCP elicitation to release 1.107 and narrowed the claim to URL-mode elicitation plus enum choices.
+  - Replaced generic Goose and Zed local-model citations with exact product documentation and removed the unsupported Goose built-in llama.cpp wording.
+  - Removed `copilot-web` and `gemini-web` encryption-key-control rows because the cited enterprise Microsoft 365 Copilot and Google Workspace/Enterprise controls did not establish the exact consumer web surfaces represented by those harness IDs.
+- Coverage: 1,480/3,534 assessed and direct reviewed (41.9%); correction delta -2; remaining gap to 50%: 287 cells.
+- Validation: catalog validation passed with 125 features, 31 harnesses, 12 specifications, and 1 report; uncached check passed with Astro reporting 0 errors, 0 warnings, and 0 hints; all 110 tests passed (65 catalog + 45 web); uncached production build passed.
+- Production: all five corrected feature HTML and JSON endpoints returned HTTP 200; exact source URLs and the removal of both cross-surface rows were confirmed in cache-busted API payloads.
 
-
+RECONCILE cycle=18-audit-correction date=2026-09-03 commit=2cbfb8c pushed=origin/main deploy=106bb398-2ede-4495-aea0-d4d35babfd74 coverage=1480/3534 note="Cache-busted production coverage reported 1,480/3,534 (41.88%); two cross-surface encryption claims were removed, exact evidence was refreshed, and the remaining gap to 50% is 287 cells."
