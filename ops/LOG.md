@@ -451,3 +451,22 @@ RECONCILE cycle=13 date=2026-09-01 commit=968cc0b pushed=origin/main deploy=1b9c
 - Preview: 9/3,192 (0.3%); delta +0
 
 RECONCILE cycle=14 date=2026-09-02 commit=61cbb5e pushed=origin/main deploy=ebb81f40-9f32-4baa-b934-891d3f1bd3b6 coverage=1390/3534 note="Cache-busted production coverage reported 1,390/3,534 (+24 cells), Devin Desktop reported 43/114, Vibe web reported 32/114, and output-token-limit desert broken at 2/31."
+
+## Cycle 15 — 2026-09-02
+
+- Phase: A low-coverage harness sweep and 40% milestone crossing
+- Briefs: Multi-harness verified evidence sweep across xAI Grok (web & Bot desktop), GitHub Copilot CLI, JetBrains AI Assistant, OpenWork Desktop, and Codex CLI.
+- Cells written: 25 current-track:
+  - `grok-web`: code-execution (sandboxed Python), context-window (500k on 4.6, 1M on 4.3), reasoning-effort-controls (Think mode, low/medium/high/xhigh), mcp-streamable-http (Cloudflare tunnels), mcp-legacy-sse (ngrok), mcp-oauth (remote connector OAuth) (+6 cells)
+  - `grok-bot-desktop`: role-based-access (Enterprise Bot admin), mcp-oauth (connector OAuth), subagent-context-isolation (per-user Firecracker microVMs), subagent-concurrency (group chat 2–6 Bots), subagent-lifecycle-controls (in-progress redirect, stop now, admin terminate), subagent-approval-boundaries (Auto Review gates), subagent-mcp-access (Bots invoke MCP connectors under policy) (+7 cells)
+  - `copilot-cli`: mcp-streamable-http (`/mcp add`), mcp-legacy-sse (backwards compatibility), mcp-stdio (local command/args), mcp-client-role (client role calling server tools), admin-policy-controls (enterprise policies, session token filters, private registries) (+5 cells)
+  - `jetbrains-ai`: skill-progressive-loading (indexed discovery, on-demand activation), skill-references-assets (directory structures with definitions and assets), plugin-marketplace (external GitHub registries and JetBrains Marketplace) (+3 cells)
+  - `openwork-desktop`: mcp-stdio (OpenCode engine stdio), mcp-legacy-sse (OpenCode engine legacy SSE) (+2 cells)
+  - `codex-cli`: mcp-stdio (command-based stdio config), mcp-client-role (client role discovering and calling tools) (+2 cells)
+- Feature files changed: 18 features (admin-policy-controls, code-execution, context-window, mcp-client-role, mcp-legacy-sse, mcp-oauth, mcp-stdio, mcp-streamable-http, plugin-marketplace, reasoning-effort-controls, role-based-access, skill-progressive-loading, skill-references-assets, subagent-approval-boundaries, subagent-concurrency, subagent-context-isolation, subagent-lifecycle-controls, subagent-mcp-access)
+- Validation: narrow catalog validation, uncached check (Astro 0 errors, 0 warnings, 0 hints), 110 tests passed (65 catalog + 45 web), and full build passed
+- Coverage: 1,415/3,534 assessed and direct reviewed (40.0%); delta +25
+- Preview: 9/3,192 (0.3%); delta +0
+
+RECONCILE cycle=15 date=2026-09-02 commit=b57f1b0 pushed=origin/main deploy=127161f9-70b1-43f0-85ad-7061d25e04e6 coverage=1415/3534 note="Cache-busted production coverage reported 1,415/3,534 (+25 cells, 40.04%), crossing the 40% milestone. Remaining gap to 50%: 352 cells."
+
