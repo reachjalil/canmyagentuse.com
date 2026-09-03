@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-29
+updated: 2026-09-03
 published: 2026-08-28
 category: models-context
 summary: Run against a model hosted on the operator's machine.
@@ -23,9 +23,9 @@ related: [model-selection]
 highlight: false
 notes:
   - id: 88
-    text: "Evidence checked 2026-09-02: Goose CLI supports locally hosted models via Ollama (defaulting to http://localhost:11434) and built-in local inference using llama.cpp to download and run GGUF models on-device."
+    text: "Evidence checked 2026-09-03: Goose CLI supports locally hosted models through its Ollama provider, which defaults to http://localhost:11434 when no host is supplied."
   - id: 89
-    text: "Evidence checked 2026-09-02: Zed Agent supports local model inference through Ollama, allowing developers to configure localhost endpoints for assistant chat and inline transformations."
+    text: "Evidence checked 2026-09-03: Zed Agent supports local model inference through Ollama, automatically discovers pulled models, and documents http://localhost:11434 as the configurable local API URL."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; a configurable remote API endpoint alone is not treated as proof of on-device inference.
   - id: 2
@@ -99,21 +99,21 @@ resources:
     reviewedAt: 2026-08-29
     locator: Connect a third-party or local provider; assign models to features
   - id: goose-ollama-docs
-    title: "Goose — Ollama provider configuration"
-    href: "https://goose-docs.ai"
+    title: "Goose — Configure LLM Provider"
+    href: "https://goose-docs.ai/docs/getting-started/providers/"
     kind: docs
     publisher: "Agentic AI Foundation"
     evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "Configure Provider — Ollama; local llama.cpp inference"
+    reviewedAt: 2026-09-03
+    locator: "Ollama (Local open source models); endpoint defaults to localhost:11434"
   - id: zed-ollama-docs
-    title: "Zed Docs — Assistant configuration: Ollama"
-    href: "https://zed.dev/docs/assistant/configuration#ollama"
+    title: "Zed Docs — Use a Local Model"
+    href: "https://zed.dev/docs/ai/use-a-local-model"
     kind: docs
     publisher: "Zed Industries"
     evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "Ollama configuration"
+    reviewedAt: 2026-09-03
+    locator: "Ollama; Zed Agent; local API URL; model autodiscovery"
 support:
   - harness: goose
     versions:
@@ -122,17 +122,17 @@ support:
         noteIds: [88]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 Goose documentation observation"
-          observedAt: 2026-09-02
-          url: "https://goose-docs.ai"
+          revision: "2026-09-03 Goose provider documentation observation"
+          observedAt: 2026-09-03
+          url: "https://goose-docs.ai/docs/getting-started/providers/"
         environmentProfile: local-default
         qualifiers:
           - type: runtime
-            value: "local Ollama endpoint on localhost:11434 or built-in llama.cpp runtime"
+            value: "Ollama local-model provider defaults to localhost:11434 when no host is supplied"
         evidence:
           - resourceId: goose-ollama-docs
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
   - harness: zed-agent
     versions:
       - track: current
@@ -140,17 +140,17 @@ support:
         noteIds: [89]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 Zed assistant documentation observation"
-          observedAt: 2026-09-02
-          url: "https://zed.dev/docs/assistant/configuration#ollama"
+          revision: "2026-09-03 Zed local-model documentation observation"
+          observedAt: 2026-09-03
+          url: "https://zed.dev/docs/ai/use-a-local-model"
         environmentProfile: local-default
         qualifiers:
           - type: runtime
-            value: "local Ollama endpoint configured in assistant settings"
+            value: "Ollama models are available to Zed Agent; the documented local API URL is http://localhost:11434"
         evidence:
           - resourceId: zed-ollama-docs
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
   - harness: jetbrains-ai
     versions:
       - track: current

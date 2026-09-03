@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - perception
-updated: 2026-08-29
+updated: 2026-09-03
 published: 2026-08-28
 category: perception
 summary: Capture a screen, window, or browser page for use as model input.
@@ -20,7 +20,7 @@ specLabel: Common product term
 highlight: false
 notes:
   - id: 89
-    text: "Evidence checked 2026-09-02: The ChatGPT desktop app for macOS provides a Take Screenshot action in the Chat Bar (+) menu to capture specific application windows or the entire screen and attach them directly to the conversation."
+    text: "Evidence checked 2026-09-03: The ChatGPT desktop app for macOS provides a Take Screenshot action in the Chat Bar (+) menu to capture a specific open application window and attach it directly to a conversation; the feature requires macOS screen-recording permission."
   - id: 78
     text: "Evidence checked 2026-08-29: Claude Desktop Quick Entry on macOS can capture a selected screen region or attach an application window directly to an outgoing Claude message."
   - id: 1
@@ -86,13 +86,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "What data Copilot Tasks uses and stores — Screenshots"
   - id: openai-chatgpt-desktop-screenshots
-    title: "OpenAI Help Center — Using the ChatGPT desktop app for macOS"
-    href: "https://help.openai.com/en/articles/9275200-using-the-chatgpt-desktop-app-for-macos"
+    title: "OpenAI Help Center — ChatGPT macOS app Screenshot Tool"
+    href: "https://help.openai.com/en/articles/9295245"
     kind: docs
     publisher: OpenAI
     evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "Take Screenshot; Chat Bar plus menu"
+    reviewedAt: 2026-09-03
+    locator: "Screenshot tool; open application windows; Screen Recording permission; attached screenshot"
 support:
   - harness: chatgpt-desktop
     versions:
@@ -101,17 +101,17 @@ support:
         noteIds: [89]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 OpenAI macOS desktop app documentation observation"
-          observedAt: 2026-09-02
-          url: "https://help.openai.com/en/articles/9275200-using-the-chatgpt-desktop-app-for-macos"
+          revision: "2026-09-03 OpenAI macOS Screenshot Tool documentation observation"
+          observedAt: 2026-09-03
+          url: "https://help.openai.com/en/articles/9295245"
         environmentProfile: local-default
         qualifiers:
           - type: runtime
-            value: "macOS Chat Bar provides Take Screenshot to capture open windows or full screen"
+            value: "macOS Chat Bar provides Take Screenshot for a selected open application window and requires Screen Recording permission"
         evidence:
           - resourceId: openai-chatgpt-desktop-screenshots
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
   - harness: claude-desktop
     versions:
       - track: current

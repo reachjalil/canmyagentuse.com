@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-03
 published: 2026-08-28
 category: interfaces
 summary: "Handle structured user-input requests initiated by an MCP server."
@@ -29,7 +29,7 @@ related: []
 highlight: false
 notes:
   - id: 89
-    text: "Evidence checked 2026-09-02: Visual Studio Code implements MCP Elicitation in Chat, rendering server-requested forms and secure URL redirection dialogs for connected MCP servers."
+    text: "Evidence checked 2026-09-03 against the fixed VS Code 1.107 release notes: Visual Studio Code implements MCP Elicitation in Chat, including URL-mode elicitation and enum-choice enhancements for connected MCP servers."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP elicitation/create or elicitation completion notifications."
   - id: 76
@@ -174,13 +174,13 @@ resources:
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; commented elicitation entry"
   - id: microsoft-vscode-mcp-elicitation
-    title: "Visual Studio Code — MCP Elicitation"
-    href: "https://code.visualstudio.com/updates"
+    title: "Visual Studio Code 1.107 — MCP specification support"
+    href: "https://code.visualstudio.com/updates/v1_107"
     kind: docs
     publisher: Microsoft
     evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "MCP server elicitation; form mode and URL mode dialogs"
+    reviewedAt: 2026-09-03
+    locator: "MCP; Support for the latest MCP specification; URL mode elicitation; enum choices"
 support:
   - harness: vscode-copilot
     versions:
@@ -189,17 +189,17 @@ support:
         noteIds: [89]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 VS Code release notes observation"
-          observedAt: 2026-09-02
-          url: "https://code.visualstudio.com/updates"
+          revision: "VS Code 1.107 release notes, published 2025-12-10"
+          observedAt: 2026-09-03
+          url: "https://code.visualstudio.com/updates/v1_107"
         environmentProfile: local-default
         qualifiers:
           - type: format
-            value: "supports structured form mode and external URL redirection mode"
+            value: "supports URL-mode elicitation and enhanced enum choices in elicitation"
         evidence:
           - resourceId: microsoft-vscode-mcp-elicitation
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
   - harness: aider
     versions:
       - track: current

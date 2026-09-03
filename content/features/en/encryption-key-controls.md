@@ -11,7 +11,7 @@ audience: Security and compliance teams evaluating cryptographic control.
 contentKind: feature
 status: published
 tags: [security, encryption, keys, enterprise]
-updated: 2026-08-29
+updated: 2026-09-03
 published: 2026-08-28
 category: security-privacy
 summary: Record documented encryption key ownership, scope, rotation, and revocation.
@@ -22,10 +22,6 @@ related: [secrets-management, data-residency]
 notes:
   - id: 87
     text: "Evidence checked 2026-09-02: ChatGPT Enterprise workspaces support Enterprise Key Management (EKM) using AWS KMS or Azure Key Vault, covering conversations, files, and workspace memories across both web and desktop surfaces."
-  - id: 88
-    text: "Evidence checked 2026-09-02: Microsoft 365 Customer Key allows enterprise organizations to provide encryption keys in Azure Key Vault for Microsoft 365 data, including Copilot interactions and chat history."
-  - id: 89
-    text: "Evidence checked 2026-09-02: Google Workspace provides Customer-Managed Encryption Keys (CMEK) with Google Cloud KMS to encrypt data at rest for supported services and Gemini interactions."
   - id: 2
     text: "Evidence checked 2026-08-28: Eligible Claude Enterprise organizations can replace Anthropic's default encryption for covered chats, projects, and files with a customer key in AWS KMS, Google Cloud KMS, or Azure Key Vault. The customer controls the key and cloud-provider audit logs record Anthropic key operations; the overview delegates the exact coverage and limitations to the implementation docs."
   - id: 3
@@ -43,22 +39,6 @@ resources:
     publisher: OpenAI
     evidenceType: documented
     reviewedAt: 2026-08-28
-  - id: microsoft-purview-customer-key
-    title: "Microsoft Purview — Customer Key overview"
-    href: "https://learn.microsoft.com/en-us/purview/customer-key-overview"
-    kind: docs
-    publisher: Microsoft
-    evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "Customer Key encryption at rest for Microsoft 365 Copilot"
-  - id: google-workspace-gemini-cmek
-    title: "Google Workspace Admin Help — Customer-managed encryption keys"
-    href: "https://support.google.com/a/answer/13014167"
-    kind: docs
-    publisher: Google
-    evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "CMEK for Google Workspace and Gemini"
   - id: anthropic-cmek
     title: Anthropic Help Center — Customer-managed encryption keys
     href: https://support.claude.com/en/articles/15505325-what-are-customer-managed-encryption-keys-cmek
@@ -122,46 +102,6 @@ support:
             value: "customer controls key in AWS KMS or Azure Key Vault"
         evidence:
           - resourceId: openai-ekm-overview
-            type: documented
-            observedAt: 2026-09-02
-  - harness: copilot-web
-    versions:
-      - track: current
-        status: yes
-        noteIds: [88]
-        target:
-          kind: dated-documentation
-          revision: "2026-09-02 Microsoft Purview Customer Key documentation observation"
-          observedAt: 2026-09-02
-          url: "https://learn.microsoft.com/en-us/purview/customer-key-overview"
-        environmentProfile: hosted-default
-        qualifiers:
-          - type: plan
-            value: "Microsoft 365 Enterprise tenant with Customer Key"
-          - type: auth
-            value: "customer key managed in Azure Key Vault"
-        evidence:
-          - resourceId: microsoft-purview-customer-key
-            type: documented
-            observedAt: 2026-09-02
-  - harness: gemini-web
-    versions:
-      - track: current
-        status: yes
-        noteIds: [89]
-        target:
-          kind: dated-documentation
-          revision: "2026-09-02 Google Workspace Customer-managed encryption keys documentation observation"
-          observedAt: 2026-09-02
-          url: "https://support.google.com/a/answer/13014167"
-        environmentProfile: enterprise-managed
-        qualifiers:
-          - type: plan
-            value: "Google Workspace Enterprise edition with CMEK"
-          - type: auth
-            value: "customer controls key in Google Cloud KMS"
-        evidence:
-          - resourceId: google-workspace-gemini-cmek
             type: documented
             observedAt: 2026-09-02
   - harness: devin-web

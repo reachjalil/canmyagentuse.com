@@ -12,7 +12,7 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-09-02
+updated: 2026-09-03
 published: 2026-08-28
 category: tools
 summary: Run generated code in a documented execution environment.
@@ -20,7 +20,7 @@ specLabel: Common product term
 highlight: false
 notes:
   - id: 89
-    text: "Evidence checked 2026-09-02: OpenAI ChatGPT Advanced Data Analysis executes Python code in an isolated sandboxed execution environment across web and desktop clients, supporting data analysis, math, chart rendering, and file processing."
+    text: "Evidence checked 2026-09-03: ChatGPT data analysis can write and run Python in a stateful Jupyter environment for calculations, transformations, charts, and file analysis. OpenAI's macOS release notes separately document data analysis in the desktop app; exact availability varies by model, plan, workspace settings, and account capabilities."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok on the web supports real-time sandboxed Python code execution for mathematical calculations, data processing, and analysis."
   - id: 87
@@ -285,14 +285,22 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Delete remote browser & computer data — Delete remote code execution data; Remote browser & computer"
-  - id: openai-chatgpt-code-interpreter
-    title: "OpenAI Help Center — What is ChatGPT Plus? Advanced Data Analysis"
-    href: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+  - id: openai-chatgpt-data-analysis
+    title: "OpenAI Help Center — Data analysis with ChatGPT"
+    href: "https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt"
     kind: docs
     publisher: OpenAI
     evidenceType: documented
-    reviewedAt: 2026-09-02
-    locator: "Advanced Data Analysis / Code Interpreter Python execution"
+    reviewedAt: 2026-09-03
+    locator: "Analyzing data; Python-based calculations; stateful Jupyter environment; constraints"
+  - id: openai-chatgpt-desktop-data-analysis
+    title: "OpenAI Help Center — ChatGPT macOS app release notes"
+    href: "https://help.openai.com/en/articles/9703738-desktop-app-release-notes"
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-03
+    locator: "Improvements to data analysis"
 support:
   - harness: claude-web
     versions:
@@ -322,19 +330,19 @@ support:
         noteIds: [89]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 OpenAI Advanced Data Analysis documentation observation"
-          observedAt: 2026-09-02
-          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+          revision: "2026-09-03 OpenAI Data analysis with ChatGPT documentation observation"
+          observedAt: 2026-09-03
+          url: "https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt"
         environmentProfile: hosted-default
         qualifiers:
           - type: runtime
-            value: "executes Python code in an isolated sandboxed execution environment"
+            value: "writes and runs Python code in a stateful Jupyter environment; the environment cannot make external web requests or API calls"
           - type: plan
-            value: "available across ChatGPT Plus, Team, Enterprise, and Edu plans"
+            value: "availability varies by model, plan, workspace settings, and account capabilities"
         evidence:
-          - resourceId: openai-chatgpt-code-interpreter
+          - resourceId: openai-chatgpt-data-analysis
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
   - harness: chatgpt-desktop
     versions:
       - track: current
@@ -342,19 +350,22 @@ support:
         noteIds: [89]
         target:
           kind: dated-documentation
-          revision: "2026-09-02 OpenAI Advanced Data Analysis documentation observation"
-          observedAt: 2026-09-02
-          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+          revision: "2026-09-03 OpenAI macOS data-analysis release-note observation"
+          observedAt: 2026-09-03
+          url: "https://help.openai.com/en/articles/9703738-desktop-app-release-notes"
         environmentProfile: local-default
         qualifiers:
           - type: runtime
-            value: "executes Python code in an isolated sandboxed execution environment"
+            value: "macOS desktop app provides data analysis; ChatGPT data analysis writes and runs Python in a stateful Jupyter environment"
           - type: plan
-            value: "available across ChatGPT Plus, Team, Enterprise, and Edu plans"
+            value: "availability varies by model, plan, workspace settings, and account capabilities"
         evidence:
-          - resourceId: openai-chatgpt-code-interpreter
+          - resourceId: openai-chatgpt-data-analysis
             type: documented
-            observedAt: 2026-09-02
+            observedAt: 2026-09-03
+          - resourceId: openai-chatgpt-desktop-data-analysis
+            type: documented
+            observedAt: 2026-09-03
   - harness: windsurf
     versions:
       - track: current
