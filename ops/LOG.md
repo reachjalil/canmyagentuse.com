@@ -512,5 +512,31 @@ RECONCILE cycle=16 date=2026-09-02 commit=56a313e pushed=origin/main deploy=1c03
 
 RECONCILE cycle=17 date=2026-09-02 commit=ed6fc62 pushed=origin/main deploy=5d18ba84-5783-419f-9b8e-20cd791a2677 coverage=1458/3534 note="Cache-busted production coverage reported 1,458/3,534 (+24 cells, 41.26%). Remaining gap to 50%: 309 cells."
 
+## Cycle 18 — 2026-09-02
+
+- Phase: A low-coverage harness sweep and tool/perception frontier
+- Briefs: Multi-harness verified evidence sweep across OpenAI ChatGPT (`chatgpt-web`, `chatgpt-desktop`), Anthropic Claude (`claude-web`, `claude-desktop`, `claude-cli`), GitHub Copilot (`copilot-cli`, `vscode-copilot`), Google Gemini (`gemini-web`), Goose CLI (`goose`), Cline (`cline`), OpenCode (`opencode`), and Mistral Vibe (`le-chat`).
+- Cells written: 24 current-track:
+  - `chatgpt-desktop`: screenshots (macOS Chat Bar Take Screenshot menu), conversation-export (Settings Data controls ZIP export), context-window (128k context for GPT-4o) (+3 cells)
+  - `claude-web`: training-data-controls (Claude Incognito chats excluded from training and memory), sandbox-network (isolated sandbox with owner-managed domain allowlists), code-execution (Analysis tool runs sandboxed Python code), context-window (200k context for Claude 3.5/3.7) (+4 cells)
+  - `chatgpt-web`: code-execution (Advanced Data Analysis executes Python in sandboxed environment), context-window (128k context for GPT-4o) (+2 cells)
+  - `chatgpt-desktop`: code-execution (Advanced Data Analysis executes Python in sandboxed environment) (+1 cell)
+  - `claude-desktop`: context-window (200k context for Claude 3.5/3.7) (+1 cell)
+  - `cline`: context-usage-visibility (real-time task token meter and compaction warnings), office-document-input (attachment picker supports CSV and Excel XLSX), git-pull-requests (Kanban core workflow Open PR action and automated PR review action) (+3 cells)
+  - `opencode`: structured-output (--format json line-delimited JSON event stream) (+1 cell)
+  - `vscode-copilot`: conversation-export (Chat: Export Chat... workbench.action.chat.export JSON and Copy All Markdown) (+1 cell)
+  - `claude-cli`: conversation-export (/export in-session command and local session transcripts) (+1 cell)
+  - `copilot-cli`: conversation-export (/export and /share commands, events.jsonl local session records), image-input (accepts images via drag-and-drop, clipboard, --attachment, or @image) (+2 cells)
+  - `goose`: model-selection (goose configure wizard, --provider/--model flags, GOOSE_MODEL env), image-input (status no: CLI lacks native image attachment input), diffs-and-patches (developer extension patch_file / text_editor unified diffs) (+3 cells)
+  - `le-chat`: model-selection (status no: automatic model routing by task/mode, no user-facing model picker in standard chat) (+1 cell)
+  - `gemini-web`: pdf-documents (accepts PDF uploads up to 100 MB per file, up to 10 files per prompt) (+1 cell)
+- Feature files changed: 14 features (code-execution, context-usage-visibility, context-window, conversation-export, diffs-and-patches, git-pull-requests, image-input, model-selection, office-document-input, pdf-documents, sandbox-network, screenshots, structured-output, training-data-controls)
+- Validation: narrow catalog validation, uncached check (Astro 0 errors, 0 warnings, 0 hints), 110 tests passed (65 catalog + 45 web), and full production build passed
+- Coverage: 1,482/3,534 assessed and direct reviewed (41.9%); delta +24
+- Preview: 9/3,192 (0.3%); delta +0
+
+RECONCILE cycle=18 date=2026-09-02 commit=bb19da0 pushed=origin/main deploy=454b99a3-e7f1-489b-86e9-8701edee85dd coverage=1482/3534 note="Cache-busted production coverage reported 1,482/3,534 (+24 cells, 41.94%). Remaining gap to 50%: 285 cells."
+
+
 
 
