@@ -449,3 +449,5 @@ RECONCILE cycle=13 date=2026-09-01 commit=968cc0b pushed=origin/main deploy=1b9c
 - Validation: narrow catalog validation, uncached check, 97 tests, and full build passed
 - Coverage: 1,390/3,534 assessed and direct reviewed (39.3%); delta +24
 - Preview: 9/3,192 (0.3%); delta +0
+
+RECONCILE cycle=14 date=2026-09-02 commit=61cbb5e pushed=origin/main deploy=ebb81f40-9f32-4baa-b934-891d3f1bd3b6 coverage=1390/3534 note="Cache-busted production coverage reported 1,390/3,534 (+24 cells), Devin Desktop reported 43/114, Vibe web reported 32/114, and output-token-limit desert broken at 2/31."
