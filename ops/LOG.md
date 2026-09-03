@@ -470,3 +470,21 @@ RECONCILE cycle=14 date=2026-09-02 commit=61cbb5e pushed=origin/main deploy=ebb8
 
 RECONCILE cycle=15 date=2026-09-02 commit=b57f1b0 pushed=origin/main deploy=127161f9-70b1-43f0-85ad-7061d25e04e6 coverage=1415/3534 note="Cache-busted production coverage reported 1,415/3,534 (+25 cells, 40.04%), crossing the 40% milestone. Remaining gap to 50%: 352 cells."
 
+## Cycle 16 — 2026-09-02
+
+- Phase: A low-coverage harness sweep
+- Briefs: Multi-harness verified evidence sweep across GitHub Copilot CLI, JetBrains AI Assistant, Mistral Vibe Code (`le-chat`), Claude Code (`claude-cli`), and xAI Grok web (`grok-web`).
+- Cells written: 19 current-track:
+  - `copilot-cli`: diffs-and-patches (`apply_patch` built-in tool, `/undo` and `/rewind` per-file previews), web-fetch (built-in tool, `allowedUrls` configuration), multi-file-edit (coordinated project refactoring and diffs), scheduled-runs (`/every` interval runs 10s–1d, `/after` delayed runs), subagent-lifecycle-controls (double Esc / Ctrl+C cancellation), background-agents (`/delegate` cloud agent on GitHub remote branches), subagent-write-access (custom agents default tools and cloud agent branch writes), subagent-approval-boundaries (tool confirmation dialogs and Autopilot autonomous mode), plugin-marketplace (`copilot plugin marketplace list` and `browse`), reasoning-effort-controls (`--effort=LEVEL`, `--reasoning-effort=LEVEL`, Ctrl+T reasoning summaries), subagent-result-handoff (custom agents and built-in agents reporting text summaries/status to parent), subagent-mcp-access (`mcp-servers` block in custom agent definition) (+12 cells)
+  - `jetbrains-ai`: multi-file-edit (Junie coding agent autonomous multi-file changes and diff review), reasoning-effort-controls (model and reasoning level configuration in Junie/AI Chat) (+2 cells)
+  - `le-chat`: diffs-and-patches (Vibe Code proposed code diffs and approvals), multi-file-edit (Vibe Code filesystem read/write access and multi-file refactors), git-pull-requests (Vibe Code supervised pull request authoring) (+3 cells)
+  - `claude-cli`: diffs-and-patches (interactive terminal unified diffs, patching, hunk review) (+1 cell)
+  - `grok-web`: model-selection (web interface model picker switching between Grok 2, 3, 4) (+1 cell)
+- Feature files changed: 14 features (background-agents, diffs-and-patches, git-pull-requests, model-selection, multi-file-edit, plugin-marketplace, reasoning-effort-controls, scheduled-runs, subagent-approval-boundaries, subagent-lifecycle-controls, subagent-mcp-access, subagent-result-handoff, subagent-write-access, web-fetch)
+- Validation: narrow catalog validation, uncached check (Astro 0 errors, 0 warnings, 0 hints), 110 tests passed (65 catalog + 45 web), and full production build passed
+- Coverage: 1,434/3,534 assessed and direct reviewed (40.6%); delta +19
+- Preview: 9/3,192 (0.3%); delta +0
+
+RECONCILE cycle=16 date=2026-09-02 commit=56a313e pushed=origin/main deploy=1c03f8cb-5f71-46c3-a998-7b24216c81b3 coverage=1434/3534 note="Cache-busted production coverage reported 1,434/3,534 (+19 cells, 40.58%). Remaining gap to 50%: 333 cells."
+
+
