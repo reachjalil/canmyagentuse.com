@@ -19,6 +19,12 @@ summary: Propose or apply file changes as diffs or patches.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 14
+    text: "Evidence checked 2026-09-02: Mistral Vibe Code coding mode surfaces proposed code diffs, requires approval before applying file writes, and operates across project repositories."
+  - id: 13
+    text: "Evidence checked 2026-09-02: Claude Code renders interactive unified terminal diffs, applies file patches, allows per-hunk review, and supports accept/reject controls before committing changes."
+  - id: 12
+    text: "Evidence checked 2026-09-02: Copilot CLI provides a built-in apply_patch tool and supports /undo and /rewind slash commands (and double Esc) to restore changed files with per-file diff previews."
   - id: 77
     text: "Evidence checked 2026-08-31: Devin Local Quick Review analyzes the current diff, while legacy Cascade Arena presents independent accept or reject controls; the exact review workflow varies by runtime."
   - id: 76
@@ -49,6 +55,38 @@ notes:
     text: "Evidence checked 2026-08-28: Aider documents generating a file diff and applying the edit directly during a chat."
 issues: []
 resources:
+  - id: github-copilot-cli-rollback
+    title: "GitHub Copilot CLI — Roll back changes"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Undo file changes and review diffs"
+  - id: github-copilot-cli-built-in-tools
+    title: "GitHub Copilot CLI — CLI plugin reference"
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Built-in tools: bash, view, apply_patch"
+  - id: anthropic-claude-code-diffs
+    title: "Anthropic — How Claude Code works"
+    href: https://code.claude.com/docs/en/how-claude-code-works
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Interactive diff review and patching"
+  - id: mistral-vibe-code-overview
+    title: "Mistral Docs — Choose Chat, Work, or Code"
+    href: https://docs.mistral.ai/vibe/code/overview
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Vibe Code coding mode: diffs, pull requests, file writes approval"
   - id: cognition-devin-desktop-quick-review
     title: "Cognition — Quick Review"
     href: https://docs.devin.ai/desktop/quick-review
@@ -419,6 +457,64 @@ support:
           - resourceId: aider-diff-edit
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [12]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: built-in apply_patch tool and interactive /undo and /rewind diff previews
+          - type: policy
+            value: file edits and rollbacks require interactive user confirmation
+        evidence:
+          - resourceId: github-copilot-cli-rollback
+            type: documented
+            observedAt: 2026-09-02
+          - resourceId: github-copilot-cli-built-in-tools
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [13]
+        target:
+          kind: dated-documentation
+          revision: current Claude Code documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: interactive terminal diff review with accept and reject hunk controls
+        evidence:
+          - resourceId: anthropic-claude-code-diffs
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [14]
+        target:
+          kind: dated-documentation
+          revision: Mistral Vibe Code documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: scoped to Vibe Code coding mode with interactive diff review
+          - type: policy
+            value: requires user approval before executing file writes or commands
+        evidence:
+          - resourceId: mistral-vibe-code-overview
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Propose and apply file diffs without a full git flow.

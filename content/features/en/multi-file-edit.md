@@ -19,6 +19,12 @@ summary: Edit multiple files during one task.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 911
+    text: "Evidence checked 2026-09-02: Mistral Vibe Code coding mode has filesystem read/write access to delegate multi-file refactoring, migrations, tests, and pull request changes under operator supervision."
+  - id: 910
+    text: "Evidence checked 2026-09-02: JetBrains AI Assistant coding agents (such as Junie) autonomously introduce multi-file code modifications across the project, supporting per-file or project-wide diff review and rollback."
+  - id: 909
+    text: "Evidence checked 2026-09-02: Copilot CLI reads, writes, and coordinates multi-file edits across project codebases using built-in view and apply_patch tools, with turn-by-turn change tracking and /undo rollback support."
   - id: 903
     text: "Evidence checked 2026-08-31: Devin Desktop Code Mode supports complex refactors across files, and its worktree workflow isolates parallel edits before merging them back into the main workspace."
   - id: 902
@@ -49,6 +55,30 @@ notes:
     text: "Evidence checked 2026-08-28: Claude Code documents reading multiple files and making coordinated edits across them in one task, but its CLI permission modes can review edits individually rather than as one grouped step."
 issues: []
 resources:
+  - id: github-copilot-cli-multi-file
+    title: "GitHub Copilot CLI — Allowing and denying tool use"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "File editing and multi-file project refactoring"
+  - id: jetbrains-ai-coding-agents
+    title: "JetBrains AI Assistant — Agents"
+    href: https://www.jetbrains.com/help/ai-assistant/agents.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Autonomously plan and execute multi-step development tasks across project files"
+  - id: mistral-vibe-code-multi-file
+    title: "Mistral Docs — Choose Chat, Work, or Code"
+    href: https://docs.mistral.ai/vibe/code/overview
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Vibe Code coding mode: filesystem read/write access and multi-file refactors"
   - id: cognition-devin-desktop-worktrees-edits
     title: "Cognition — Worktrees"
     href: https://docs.devin.ai/desktop/cascade/worktrees
@@ -450,6 +480,59 @@ support:
           - resourceId: anthropic-claude-code-multi-file
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [909]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: multi-file modifications require interactive approval unless autopilot mode is active
+        evidence:
+          - resourceId: github-copilot-cli-multi-file
+            type: documented
+            observedAt: 2026-09-02
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [910]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant Documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: scoped to JetBrains AI Assistant coding agents such as Junie in the IDE
+        evidence:
+          - resourceId: jetbrains-ai-coding-agents
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [911]
+        target:
+          kind: dated-documentation
+          revision: Mistral Vibe Code documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: scoped to Vibe Code coding mode with workspace filesystem access
+          - type: policy
+            value: requires confirmation before file writes and pull requests
+        evidence:
+          - resourceId: mistral-vibe-code-multi-file
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Edit multiple files during one task. Review and approval behavior is recorded separately for each product.

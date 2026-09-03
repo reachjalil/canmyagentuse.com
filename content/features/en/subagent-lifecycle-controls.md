@@ -20,6 +20,8 @@ aliases: [subagent cancellation, child task control, agent supervision]
 parent: subagents
 related: [subagent-concurrency, background-agents]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Copilot CLI supports cancelling active and background child agents, commands, and delegated turns with a double Esc keypress or Ctrl+C; single Esc dismisses permission dialogs or removes queued prompts."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok Bot supports in-progress task redirection via direct messages, immediate Stop termination of turns, and administrator remote computer termination."
   - id: 81
@@ -56,6 +58,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-09-02
     locator: "Admins can terminate a member's computer from the Grok Bot page"
+  - id: github-copilot-cli-cancel
+    title: "GitHub Copilot CLI — Cancel and roll back"
+    href: https://docs.github.com/en/copilot/concepts/agents/copilot-cli/cancel-and-roll-back
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Cancel running commands and subagents with Esc and Ctrl+C"
   - id: openwork-v01839-subagent-run
     title: "OpenWork v0.18.39 — subagent run line"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/components/chat/subagent-run-line.tsx#L30-L64"
@@ -358,6 +368,23 @@ support:
             type: documented
             observedAt: 2026-09-02
           - resourceId: xai-grok-bot-teams-enterprise
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: double Esc or Ctrl+C terminates running child agents, shell commands, and background tasks
+        evidence:
+          - resourceId: github-copilot-cli-cancel
             type: documented
             observedAt: 2026-09-02
 ---

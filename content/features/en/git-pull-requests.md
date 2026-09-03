@@ -19,6 +19,8 @@ summary: Open or review pull requests through a documented integration.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 75
+    text: "Evidence checked 2026-09-02: Mistral Vibe Code coding mode can open pull requests on the user's behalf under supervision across connected project repositories."
   - id: 74
     text: "Evidence checked 2026-08-31: Devin Desktop can manage GitHub pull requests through configured GitHub MCP tooling or a connected cloud Devin session; neither path is an unauthenticated local-default PR feature."
   - id: 73
@@ -47,6 +49,14 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 can create and review pull requests through its separately installed GitHub Actions integration rather than through local TUI-native PR handling."
 issues: []
 resources:
+  - id: mistral-vibe-code-pr
+    title: "Mistral Docs — Choose Chat, Work, or Code"
+    href: https://docs.mistral.ai/vibe/code/overview
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Vibe Code coding mode can open pull requests on user's behalf"
   - id: cognition-devin-desktop-mcp-prs
     title: "Cognition — MCP servers in Devin Desktop"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -417,6 +427,25 @@ support:
           - resourceId: github-copilot-cli-pr-review
             type: documented
             observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [75]
+        target:
+          kind: dated-documentation
+          revision: Mistral Vibe Code documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: scoped to Vibe Code coding mode with repository access
+          - type: policy
+            value: opening pull requests requires interactive user approval
+        evidence:
+          - resourceId: mistral-vibe-code-pr
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Open or review pull requests through a documented product integration.

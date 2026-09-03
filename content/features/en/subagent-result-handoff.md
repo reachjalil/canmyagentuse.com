@@ -20,6 +20,8 @@ aliases: [child result, agent handoff, subagent artifacts]
 parent: subagents
 related: [subagent-delegation, artifact-export, streaming-output]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Copilot CLI custom agents and built-in subagents (explore, task, research) report a final text summary or execution status back to the parent conversation part; command execution returns brief summaries on success and full output on failure."
   - id: 901
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork consolidates parallel subagent workstreams into the parent task deliverable, although no manual handoff-payload interface is documented."
   - id: 81
@@ -50,6 +52,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: github-copilot-cli-subagent-handoff
+    title: "GitHub Copilot CLI — CLI command reference"
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Custom subagents and delegated task summaries returning to parent conversation"
   - id: openwork-v01839-subagent-result
     title: "OpenWork v0.18.39 — subagent result rendering"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/components/chat/subagent-run-line.tsx#L87-L140"
@@ -491,6 +501,23 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: returns final text summaries, command output, or structured completion status to the parent
+        evidence:
+          - resourceId: github-copilot-cli-subagent-handoff
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row asks what a child agent returns to its parent. A plain text summary counts as a result; files, patches, citations, status, tool output, and structured objects are additional result forms recorded as qualifiers.

@@ -21,6 +21,8 @@ parent: subagents
 related: []
 highlight: false
 notes:
+  - id: 77
+    text: "Evidence checked 2026-09-02: Copilot CLI custom subagents configure allowed tools (defaulting to all tools including file write and apply_patch) and delegated cloud agents create Git branches and edit project files."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 says each subagent receives the parent's tools, while the native inventory includes edit_file and write_file for project modifications."
   - id: 73
@@ -35,6 +37,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: github-copilot-cli-cca-write
+    title: "GitHub Copilot CLI — Delegate tasks to Copilot cloud agent"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/delegate-tasks-to-cca
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Delegated cloud agent modifies files and pushes branches"
+  - id: github-copilot-cli-custom-agents-tools
+    title: "GitHub Copilot CLI — Create custom agents"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "tools frontmatter field — permissions to edit and modify files"
   - id: zed-v1-17-2-tools
     title: "Zed v1.17.2 — Agent Tools"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L66-L112"
@@ -235,6 +253,26 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: child agents have write access by default through tools list or delegated branch execution
+        evidence:
+          - resourceId: github-copilot-cli-cca-write
+            type: documented
+            observedAt: 2026-09-02
+          - resourceId: github-copilot-cli-custom-agents-tools
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Allow a child agent to create or modify project files.

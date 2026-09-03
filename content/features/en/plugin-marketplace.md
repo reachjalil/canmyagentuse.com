@@ -21,6 +21,8 @@ parent: plugins
 related: []
 highlight: false
 notes:
+  - id: 7
+    text: "Evidence checked 2026-09-02: Copilot CLI exposes copilot plugin marketplace list and browse commands to discover and install plugins, with default registered copilot-plugins and awesome-copilot registries."
   - id: 50
     text: "Evidence checked 2026-09-02: JetBrains AI Assistant supports browsing and installing skills and extensions from external GitHub registries and the JetBrains Marketplace."
   - id: 1
@@ -39,6 +41,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native or portable plugin loader, marketplace, failure-isolation contract, or vendor-extension format."
 issues: []
 resources:
+  - id: github-copilot-cli-plugins-finding
+    title: "GitHub Copilot CLI — Finding and installing plugins"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Finding and browsing plugins in registered marketplaces"
   - id: jetbrains-ai-agent-skills
     title: "JetBrains AI Assistant — Agent Skills"
     href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
@@ -328,6 +338,23 @@ support:
             value: "supports external GitHub skill registries and the JetBrains Marketplace for plugin extensions"
         evidence:
           - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [7]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: supports registering, browsing, and installing plugins from public and custom marketplaces
+        evidence:
+          - resourceId: github-copilot-cli-plugins-finding
             type: documented
             observedAt: 2026-09-02
 ---

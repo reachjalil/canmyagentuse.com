@@ -19,6 +19,8 @@ summary: Start a task on a schedule without a new human prompt.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI supports scheduled prompts using the /every slash command for recurring runs (intervals between 10s and 1d) and /after for delayed one-shot runs, with session or background scope."
   - id: 85
     text: "Evidence checked 2026-09-01: Vibe Work Public Preview Scheduled Tasks run a prompt once or on daily, weekly, monthly, or yearly schedules. Users can edit, pause, resume, or delete schedules; sensitive Connector actions normally require confirmation unless pre-authorized."
   - id: 82
@@ -61,6 +63,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations on grok.com run once, daily, weekdays, weekly, monthly, or yearly at a user-selected local time, with pause, resume, edit, delete, and Run now controls."
 issues: []
 resources:
+  - id: github-copilot-cli-scheduled-prompts
+    title: "GitHub Copilot CLI — Schedule prompts"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/schedule-prompts
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Schedule prompts with /every and /after"
   - id: mistral-vibe-work-scheduled-tasks
     title: "Mistral Docs — Schedule tasks"
     href: https://docs.mistral.ai/vibe/work/scheduled-tasks
@@ -638,6 +648,23 @@ support:
           - resourceId: xai-grok-bot-routines
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: recurring prompts run at intervals from 10s to 1d with /every or delayed with /after
+        evidence:
+          - resourceId: github-copilot-cli-scheduled-prompts
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Start a task on a timer without a human prompt.

@@ -20,6 +20,8 @@ aliases: [child approvals, delegated permissions, subagent least privilege]
 parent: subagents
 related: [human-approval, subagent-mcp-access, subagent-write-access, secrets-management]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Copilot CLI custom subagents configure an explicit tools list, while built-in and delegated subagents inherit tool permission dialogs unless Autopilot mode is enabled to grant autonomous execution."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok Bot enforces human approval boundaries for sensitive Bot actions, evaluated by an Auto Review model with approval cards presented in the chat transcript."
   - id: 1
@@ -36,6 +38,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: github-copilot-cli-subagent-tools
+    title: "GitHub Copilot CLI — Allowing and denying tool use"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Tool permissions, allowlists, and Autopilot autonomous mode"
   - id: xai-grok-bot-teams-enterprise
     title: "xAI — Grok Bot for teams and enterprises"
     href: https://docs.x.ai/grok-bot/teams-and-enterprises
@@ -288,6 +298,23 @@ support:
             type: documented
             observedAt: 2026-09-02
           - resourceId: xai-grok-bot-group-chat
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: subagents prompt for interactive confirmation on sensitive tools unless autopilot mode is enabled
+        evidence:
+          - resourceId: github-copilot-cli-subagent-tools
             type: documented
             observedAt: 2026-09-02
 ---

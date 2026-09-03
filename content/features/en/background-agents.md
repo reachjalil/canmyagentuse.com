@@ -19,6 +19,8 @@ summary: Keep a run going after the operator leaves the session.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 83
+    text: "Evidence checked 2026-09-02: Copilot CLI supports delegating tasks to Copilot cloud agent on GitHub using /delegate (or & prompt prefix), which executes in the cloud on a dedicated branch even if the local machine is powered off."
   - id: 82
     text: "Evidence checked 2026-08-31: Chrome WebMCP tools are ephemeral and tab-bound; once the user navigates away or closes the tab, the agent cannot access the site or continue its actions."
   - id: 81
@@ -61,6 +63,14 @@ notes:
     text: "Evidence checked 2026-08-29: Grok Automations run on their own after setup, including before the user is awake or when matching email arrives, then save and report results."
 issues: []
 resources:
+  - id: github-copilot-cli-delegate
+    title: "GitHub Copilot CLI — Delegate tasks to Copilot cloud agent"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/delegate-tasks-to-cca
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Delegate tasks with /delegate and & prefix to cloud agent"
   - id: chrome-webmcp-ephemeral-lifecycle
     title: "Google Chrome — When to use WebMCP and MCP"
     href: https://developer.chrome.com/docs/ai/webmcp/compare-mcp
@@ -622,6 +632,23 @@ support:
           - resourceId: warp-cloud-background
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: delegated tasks run in GitHub's cloud environment on a remote branch independently of the local machine
+        evidence:
+          - resourceId: github-copilot-cli-delegate
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Keep a run going after the operator leaves the session.

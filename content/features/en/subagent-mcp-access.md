@@ -21,6 +21,8 @@ parent: subagents
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Copilot CLI custom subagents declare specific MCP servers to connect via the mcp-servers block in agent configuration, using the ~/.copilot/mcp-config.json schema."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok Bot supports tool and MCP connector invocation for Bots, subject to team MCP allowlists and policies."
   - id: 1
@@ -33,6 +35,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: github-copilot-cli-custom-agents-mcp
+    title: "GitHub Copilot CLI — CLI command reference"
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "mcp-servers block in custom agent definition"
   - id: xai-grok-bot-teams-enterprise
     title: "xAI — Grok Bot for teams and enterprises"
     href: https://docs.x.ai/grok-bot/teams-and-enterprises
@@ -203,6 +213,23 @@ support:
             value: "Bots invoke MCP tools subject to team MCP allowlist and policy controls"
         evidence:
           - resourceId: xai-grok-bot-teams-enterprise
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: custom subagents connect dedicated MCP servers via mcp-servers definition in agent configuration
+        evidence:
+          - resourceId: github-copilot-cli-custom-agents-mcp
             type: documented
             observedAt: 2026-09-02
 ---

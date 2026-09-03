@@ -19,6 +19,8 @@ summary: Retrieve live web pages or APIs during a run.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 908
+    text: "Evidence checked 2026-09-02: Copilot CLI includes a built-in web fetch tool for retrieving external web pages; requests require interactive operator approval unless target URLs or domains are added to allowedUrls in ~/.copilot/settings.json."
   - id: 907
     text: "Evidence checked 2026-09-01: Vibe Work can search the live web and fetch a user-provided URL into chat context. Open URL does not crawl sites, access login- or paywall-protected pages, or guarantee full rendering of highly interactive pages."
   - id: 906
@@ -87,6 +89,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-09-01
     locator: "How does Grok work? — real-time web searches"
+  - id: github-copilot-cli-tools-allowing
+    title: "GitHub Copilot CLI — Allowing and denying tool use"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Fetch web content — allowedUrls in ~/.copilot/settings.json"
   - id: chrome-webmcp-imperative-fetch
     title: "Google Chrome — WebMCP Imperative API"
     href: https://developer.chrome.com/docs/ai/webmcp/imperative-api
@@ -825,6 +835,23 @@ support:
           - resourceId: microsoft-vscode-agent-url-approvals
             type: documented
             observedAt: 2026-08-28
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [908]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: policy
+            value: web fetch requires interactive approval unless domains are saved to allowedUrls in settings
+        evidence:
+          - resourceId: github-copilot-cli-tools-allowing
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Retrieve live web pages or APIs during a run.

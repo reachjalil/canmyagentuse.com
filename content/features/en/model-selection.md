@@ -20,6 +20,8 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-09-02: Grok web interface provides a model picker enabling users to choose between Grok 2, Grok 3, and Grok 4 model families."
   - id: 82
     text: "Evidence checked 2026-08-31: Devin Desktop exposes an explicit model picker for agent work; the named roster and availability can change by runtime, plan, and provider availability."
   - id: 81
@@ -66,6 +68,14 @@ notes:
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot on the web exposes selectable conversation modes, including Smart explicitly powered by GPT-5, plus Quick response, Think Deeper, Study and learn, and Search."
 issues: []
 resources:
+  - id: xai-grok-web-models
+    title: "xAI — Models"
+    href: https://docs.x.ai/developers/models
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Grok models and capabilities"
   - id: cognition-devin-desktop-models
     title: "Cognition — Models"
     href: https://docs.devin.ai/desktop/models
@@ -725,6 +735,23 @@ support:
           - resourceId: cursor-model-selection-guide
             type: documented
             observedAt: 2026-08-28
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Grok web model selection observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: model picker in Grok web interface allows switching between supported Grok model versions
+        evidence:
+          - resourceId: xai-grok-web-models
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row asks whether the operator can select a specific model or a clearly documented model class for the exact harness and task. An opaque automatic router is not explicit selection; a “fast” or “deep” mode may be partial if its underlying model can change without notice.

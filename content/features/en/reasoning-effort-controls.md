@@ -20,6 +20,10 @@ aliases: [thinking budget, reasoning mode, thinking level]
 parent: models-and-context
 related: [model-selection, usage-metering]
 notes:
+  - id: 90
+    text: "Evidence checked 2026-09-02: JetBrains AI Assistant allows operators to configure models and select reasoning levels in Junie agent and AI Chat, adjusting multi-step planning and deep analysis depth."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Copilot CLI supports --effort=LEVEL and --reasoning-effort=LEVEL (low, medium, high, xhigh, max), session and global reasoning controls via /model, and Ctrl+T reasoning expansion toggles."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok on the web and xAI API expose operator reasoning effort controls via Think mode and the reasoning_effort parameter (low, medium, high, xhigh on Grok 4.6)."
   - id: 83
@@ -45,6 +49,22 @@ notes:
   - id: 60
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot offers a Think Deeper mode that spends additional time reasoning, but does not expose a numeric token or adjustable low-to-high effort budget."
 resources:
+  - id: github-copilot-cli-reasoning-ref
+    title: "GitHub Copilot CLI — CLI command reference"
+    href: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "--effort and --reasoning-effort flags, Ctrl+T reasoning summaries toggle"
+  - id: jetbrains-ai-junie-reasoning
+    title: "JetBrains AI Assistant — Junie agent"
+    href: https://www.jetbrains.com/help/ai-assistant/junie-agent.html#junie-select-model
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Select model and reasoning level for Junie agent"
   - id: xai-reasoning-effort
     title: "xAI — Reasoning Effort Controls"
     href: https://docs.x.ai/developers/model-capabilities/text/reasoning
@@ -458,6 +478,40 @@ support:
             value: "Think mode in chat interface; low, medium, high, and xhigh reasoning effort levels on supported models"
         evidence:
           - resourceId: xai-reasoning-effort
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: GitHub Copilot CLI documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "--effort and --reasoning-effort CLI flags support low, medium, high, xhigh, max levels with Ctrl+T reasoning expansion"
+        evidence:
+          - resourceId: github-copilot-cli-reasoning-ref
+            type: documented
+            observedAt: 2026-09-02
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [90]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant Documentation observed 2026-09-02
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "model and reasoning level selection in Junie agent and AI Chat interface"
+        evidence:
+          - resourceId: jetbrains-ai-junie-reasoning
             type: documented
             observedAt: 2026-09-02
 ---
