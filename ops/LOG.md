@@ -487,4 +487,30 @@ RECONCILE cycle=15 date=2026-09-02 commit=b57f1b0 pushed=origin/main deploy=1271
 
 RECONCILE cycle=16 date=2026-09-02 commit=56a313e pushed=origin/main deploy=1c03f8cb-5f71-46c3-a998-7b24216c81b3 coverage=1434/3534 note="Cache-busted production coverage reported 1,434/3,534 (+19 cells, 40.58%). Remaining gap to 50%: 333 cells."
 
+## Cycle 17 — 2026-09-02
+
+- Phase: A low-coverage harness sweep and security/context frontier
+- Briefs: Multi-harness verified evidence sweep across Microsoft Copilot Web (`copilot-web`), Anthropic Claude (`claude-web`, `claude-desktop`, `claude-cli`), OpenAI ChatGPT (`chatgpt-web`, `chatgpt-desktop`), Google Gemini (`gemini-web`), xAI Grok (`grok-web`, `grok-bot-desktop`), Goose CLI (`goose`), Zed Agent (`zed-agent`), Amp CLI (`amp-cli`), and VS Code Copilot (`vscode-copilot`).
+- Cells written: 24 current-track:
+  - `copilot-web`: audit-logs (Microsoft Purview Audit logs Copilot interactions), role-based-access (Microsoft 365 Copilot admin center roles), data-residency (EU Data Boundary and Advanced Data Residency at-rest commitments), encryption-key-controls (Microsoft 365 Customer Key with Azure Key Vault) (+4 cells)
+  - `chatgpt-web`: encryption-key-controls (Enterprise Key Management via AWS KMS/Azure Key Vault for workspaces), model-fallback (automatic in-chat fallback to GPT-4o mini upon hitting rate limits) (+2 cells)
+  - `chatgpt-desktop`: encryption-key-controls (EKM applies to desktop conversations and files), model-fallback (automatic fallback to GPT-4o mini) (+2 cells)
+  - `claude-web`: audio-file-input (status no: chat uploads restricted to documents and images), video-input (status no: chat uploads restricted to documents and images) (+2 cells)
+  - `claude-desktop`: audio-file-input (status no: chat uploads restricted to documents and images), video-input (status no: chat uploads restricted to documents and images) (+2 cells)
+  - `gemini-web`: encryption-key-controls (Customer-Managed Encryption Keys via Google Cloud KMS for Google Workspace Gemini) (+1 cell)
+  - `grok-web`: output-token-limit (max_completion_tokens default limit of 128,000 output tokens for grok-4+ models) (+1 cell)
+  - `grok-bot-desktop`: nested-subagents (status no: flat group chat coordination, child Bots cannot spawn nested children), subagent-model-selection (each Bot in group chat configured with its own model/instructions), output-token-limit (128,000 max completion token budget per Bot task) (+3 cells)
+  - `goose`: local-models (local Ollama integration at localhost:11434 and built-in llama.cpp runtime) (+1 cell)
+  - `zed-agent`: local-models (assistant configuration supports Ollama localhost endpoints) (+1 cell)
+  - `amp-cli`: subagent-model-selection (specialist subagents specify independent models and reasoning dials) (+1 cell)
+  - `vscode-copilot`: model-fallback (custom agent model fallback lists), mcp-elicitation (form mode and URL mode server-initiated dialogs), mcp-roots (workspace folder URIs returned from roots/list) (+3 cells)
+  - `claude-cli`: mcp-sampling (status no: client does not advertise sampling capability or handle sampling/createMessage) (+1 cell)
+- Feature files changed: 14 features (audio-file-input, audit-logs, data-residency, encryption-key-controls, local-models, mcp-elicitation, mcp-roots, mcp-sampling, model-fallback, nested-subagents, output-token-limit, role-based-access, subagent-model-selection, video-input)
+- Validation: narrow catalog validation, uncached check (Astro 0 errors, 0 warnings, 0 hints), 110 tests passed (65 catalog + 45 web), and full production build passed
+- Coverage: 1,458/3,534 assessed and direct reviewed (41.3%); delta +24
+- Preview: 9/3,192 (0.3%); delta +0
+
+RECONCILE cycle=17 date=2026-09-02 commit=ed6fc62 pushed=origin/main deploy=5d18ba84-5783-419f-9b8e-20cd791a2677 coverage=1458/3534 note="Cache-busted production coverage reported 1,458/3,534 (+24 cells, 41.26%). Remaining gap to 50%: 309 cells."
+
+
 
