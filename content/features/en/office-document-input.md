@@ -20,6 +20,8 @@ aliases: [document upload, DOCX input, spreadsheet upload, presentation upload]
 parent: file-inputs
 related: [pdf-documents, upload-limits]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Cline's attachment picker in VS Code accepts CSV and Excel (XLSX) spreadsheets alongside text documents and images as prompt context."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop accepts DOCX, PPTX, and XLSX attachments and its bundled Office transform extracts bounded text before sending the model request."
   - id: 79
@@ -159,7 +161,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Le Chat is now Vibe; product entry point
+  - id: cline-file-attachments
+    title: "Cline Docs — File and Context Attachments"
+    href: "https://docs.cline.bot"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "VS Code attachment picker and spreadsheet support"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Cline documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.cline.bot"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "accepts CSV and Excel spreadsheet files via attachment picker"
+        evidence:
+          - resourceId: cline-file-attachments
+            type: documented
+            observedAt: 2026-09-02
   - harness: openwork-desktop
     versions:
       - track: current

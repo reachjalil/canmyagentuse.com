@@ -24,6 +24,10 @@ parent: file-inputs
 related: [screenshots, video-input, upload-limits]
 highlight: true
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI accepts image input via direct terminal drag-and-drop, clipboard paste, the --attachment flag, or @image prompt references for vision-capable models."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Goose CLI does not support native direct image file attachments or vision inputs from the terminal; image attachments are available in Goose Desktop or via screen-capture extensions."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop accepts pasted, dropped, or selected image attachments, classifies image MIME types as model-facing parts, compresses oversized images, and forwards previews and file inputs."
   - id: 76
@@ -290,7 +294,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Attaching images as context; model behavior"
+  - id: github-copilot-cli-image-attachments
+    title: "GitHub Copilot CLI — Attachments and image input"
+    href: "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview"
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Image input, drag and drop, --attachment, and clipboard paste"
+  - id: goose-cli-image-input
+    title: "Goose — File attachments and vision"
+    href: "https://goose-docs.ai"
+    kind: docs
+    publisher: "Agentic AI Foundation"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Goose Desktop vs CLI image capabilities"
 support:
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 GitHub Copilot CLI image input documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "accepts JPEG and PNG attachments via drag-and-drop, clipboard paste, --attachment flag, or @image"
+        evidence:
+          - resourceId: github-copilot-cli-image-attachments
+            type: documented
+            observedAt: 2026-09-02
+  - harness: goose
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Goose documentation observation"
+          observedAt: 2026-09-02
+          url: "https://goose-docs.ai"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "CLI lacks native image attachment input; desktop UI supports drag-and-drop attachments"
+        evidence:
+          - resourceId: goose-cli-image-input
+            type: documented
+            observedAt: 2026-09-02
   - harness: openwork-desktop
     versions:
       - track: current

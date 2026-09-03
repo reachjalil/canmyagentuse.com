@@ -211,6 +211,28 @@ support:
           - resourceId: mistral-vibe-training-opt-out
             type: documented
             observedAt: 2026-09-01
+  - harness: claude-web
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: dated-documentation
+          revision: current official Claude Incognito documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: Incognito chats are not used to train models and do not enter memory
+          - type: plan
+            value: Incognito is available across Claude plans; ordinary chat controls and commercial terms remain separate
+          - type: format
+            value: Incognito chats are retained for 30 days or longer when an Enterprise retention policy requires it
+        evidence:
+          - resourceId: anthropic-claude-incognito-data-controls
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
   - harness: claude-desktop
     versions:
       - track: current

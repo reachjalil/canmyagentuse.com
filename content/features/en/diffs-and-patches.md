@@ -19,6 +19,8 @@ summary: Propose or apply file changes as diffs or patches.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Goose provides a built-in developer extension with patch_file / text_editor capabilities that propose and apply unified diffs to local project files."
   - id: 14
     text: "Evidence checked 2026-09-02: Mistral Vibe Code coding mode surfaces proposed code diffs, requires approval before applying file writes, and operates across project repositories."
   - id: 13
@@ -218,7 +220,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Ready; task settings"
+  - id: goose-developer-patch
+    title: "Goose — Developer Extension and File Editing"
+    href: "https://goose-docs.ai"
+    kind: docs
+    publisher: "Agentic AI Foundation"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Developer extension patch and text editing tools"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Goose documentation observation"
+          observedAt: 2026-09-02
+          url: "https://goose-docs.ai"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "built-in developer extension applies file patches and unified diffs"
+        evidence:
+          - resourceId: goose-developer-patch
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current

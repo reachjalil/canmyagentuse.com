@@ -19,6 +19,8 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: OpenAI ChatGPT Advanced Data Analysis executes Python code in an isolated sandboxed execution environment across web and desktop clients, supporting data analysis, math, chart rendering, and file processing."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok on the web supports real-time sandboxed Python code execution for mathematical calculations, data processing, and analysis."
   - id: 87
@@ -26,7 +28,7 @@ notes:
   - id: 86
     text: "Evidence checked 2026-08-31: Devin Desktop Code Mode can execute project commands and install dependencies while performing multi-step coding work, subject to its terminal and permission settings."
   - id: 85
-    text: "Evidence checked 2026-08-29: Claude Desktop can execute code and create or edit files in an isolated Anthropic-hosted sandbox, shows action summaries for auditability, and lets the user stop execution."
+    text: "Evidence checked 2026-08-29: Claude web and Claude Desktop can execute code and create or edit files in an isolated Anthropic-hosted sandbox, shows action summaries for auditability, and lets the user stop execution."
   - id: 84
     text: "Evidence checked 2026-08-29: Gemini Spark uses a product-provided remote computer to run code and can retain remote code-execution files and data across sessions until the user deletes them or turns off Spark."
   - id: 83
@@ -283,7 +285,76 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Delete remote browser & computer data — Delete remote code execution data; Remote browser & computer"
+  - id: openai-chatgpt-code-interpreter
+    title: "OpenAI Help Center — What is ChatGPT Plus? Advanced Data Analysis"
+    href: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Advanced Data Analysis / Code Interpreter Python execution"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [85]
+        target:
+          kind: dated-documentation
+          revision: current official Claude code-execution documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: generated code runs in an isolated Anthropic-hosted sandbox
+          - type: plan
+            value: available across Claude plans, subject to usage limits
+          - type: policy
+            value: Team and Enterprise owners can control whether code execution and file creation are enabled
+        evidence:
+          - resourceId: anthropic-claude-desktop-code-execution
+            type: documented
+            observedAt: 2026-08-29
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI Advanced Data Analysis documentation observation"
+          observedAt: 2026-09-02
+          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "executes Python code in an isolated sandboxed execution environment"
+          - type: plan
+            value: "available across ChatGPT Plus, Team, Enterprise, and Edu plans"
+        evidence:
+          - resourceId: openai-chatgpt-code-interpreter
+            type: documented
+            observedAt: 2026-09-02
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI Advanced Data Analysis documentation observation"
+          observedAt: 2026-09-02
+          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "executes Python code in an isolated sandboxed execution environment"
+          - type: plan
+            value: "available across ChatGPT Plus, Team, Enterprise, and Edu plans"
+        evidence:
+          - resourceId: openai-chatgpt-code-interpreter
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current

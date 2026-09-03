@@ -19,6 +19,8 @@ summary: Return JSON or schema-constrained output through a documented product f
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: OpenCode CLI provides a --format json flag for opencode run, emitting a stream of line-delimited JSON objects representing execution events, tool calls, and results for programmatic consumption."
   - id: 73
     text: "Evidence checked 2026-08-29: Amp CLI emits a documented line-delimited JSON conversation envelope with typed system, user, assistant, tool, and result messages, but does not validate arbitrary agent output against a caller-supplied schema."
   - id: 1
@@ -91,7 +93,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Authoring model; agent schema parameter"
+  - id: opencode-cli-json-format
+    title: "OpenCode Docs — CLI reference"
+    href: "https://opencode.ai/docs/cli"
+    kind: docs
+    publisher: "OpenCode"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "--format json option and JSONL event output"
 support:
+  - harness: opencode
+    versions:
+      - track: current
+        status: partial
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenCode CLI documentation observation"
+          observedAt: 2026-09-02
+          url: "https://opencode.ai/docs/cli"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "emits line-delimited JSON events with --format json; arbitrary user schema validation is not supported"
+        evidence:
+          - resourceId: opencode-cli-json-format
+            type: documented
+            observedAt: 2026-09-02
   - harness: amp-cli
     versions:
       - track: current

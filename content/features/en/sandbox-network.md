@@ -112,6 +112,28 @@ resources:
     reviewedAt: 2026-08-29
     locator: "Restrictions in a profile; Network policy"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: current official Claude sandbox-network documentation reviewed 2026-08-29
+          observedAt: 2026-08-29
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: organization network controls require Team or Enterprise owner access
+          - type: policy
+            value: owners can disable network access or constrain destinations with an approved-domain allowlist
+          - type: runtime
+            value: controls govern the isolated code-execution and file-creation sandbox
+        evidence:
+          - resourceId: anthropic-claude-desktop-sandbox-network
+            type: documented
+            observedAt: 2026-08-29
+        assessmentBasis: official-documentation
   - harness: claude-desktop
     versions:
       - track: current

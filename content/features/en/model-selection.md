@@ -20,6 +20,10 @@ aliases: [model picker, model choice, model routing]
 parent: models-and-context
 related: [local-models, reasoning-effort-controls, model-fallback]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Goose CLI supports explicit provider and model configuration via the interactive 'goose configure' setup wizard, the --provider and --model command-line flags, and GOOSE_PROVIDER/GOOSE_MODEL environment variables."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Mistral Vibe web chat automatically selects models based on the selected mode or task, offering no direct model picker in standard chat conversations; custom models require creating an agent in Mistral Studio."
   - id: 83
     text: "Evidence checked 2026-09-02: Grok web interface provides a model picker enabling users to choose between Grok 2, Grok 3, and Grok 4 model families."
   - id: 82
@@ -267,7 +271,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Supported modes; how to select a mode; Smart"
+  - id: goose-configure-models
+    title: "Goose — Configure provider and model"
+    href: "https://goose-docs.ai"
+    kind: docs
+    publisher: "Agentic AI Foundation"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "goose configure wizard; --provider and --model flags"
+  - id: mistral-vibe-model-selection
+    title: "Mistral Help Center — Model selection in Vibe"
+    href: "https://help.mistral.ai"
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Model management and custom agents"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Goose documentation observation"
+          observedAt: 2026-09-02
+          url: "https://goose-docs.ai"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "model configured via goose configure, --model flag, or GOOSE_MODEL environment variable"
+        evidence:
+          - resourceId: goose-configure-models
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Mistral Vibe documentation observation"
+          observedAt: 2026-09-02
+          url: "https://help.mistral.ai"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "automatic model routing by task/mode; no user-facing model picker in standard chat"
+        evidence:
+          - resourceId: mistral-vibe-model-selection
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current

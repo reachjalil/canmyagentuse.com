@@ -20,12 +20,18 @@ aliases: [chat export, run export, conversation backup, data portability]
 parent: collaboration-and-portability
 related: [artifact-export, audit-logs, data-retention-controls]
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Visual Studio Code Copilot Chat provides the Chat: Export Chat... command (workbench.action.chat.export) to save full session history to a JSON file, and provides Copy All to copy the session as Markdown."
+  - id: 88
+    text: "Evidence checked 2026-09-02: Claude Code provides the /export in-session command to export or copy conversations, and persists session transcripts locally under project or user directories."
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI persists session history in ~/.copilot/session-state/ (events.jsonl) and provides the /export and /share slash commands to export or share session transcripts."
   - id: 83
     text: "Evidence checked 2026-08-31: a configured legacy Cascade hook can write the complete conversation from its beginning to a local JSONL transcript; this is a vendor hook workflow rather than a general one-click Devin Desktop export."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 writes chat history to configurable Markdown, can log the complete model conversation to a separate file, and exposes /copy-context for Markdown export of active code context."
   - id: 77
-    text: "Evidence checked 2026-08-29: eligible signed-in ChatGPT web users can request a ZIP data export from Settings → Data controls; it includes chat history and other relevant account data."
+    text: "Evidence checked 2026-08-29: eligible signed-in ChatGPT web and desktop users can request a ZIP data export from Settings → Data controls; it includes chat history (conversations.json) and other relevant account data."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes Open Thread as Markdown in the Agent Panel and a dedicated open-active-thread-as-Markdown action, producing a Markdown representation of the entire thread."
   - id: 74
@@ -218,7 +224,103 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Data subject rights; download data through Grok.com Settings and Data Controls"
+  - id: vscode-chat-export
+    title: "Visual Studio Code — Copilot Chat"
+    href: "https://code.visualstudio.com/docs/copilot/chat"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Chat: Export Chat... command and Copy All Markdown"
+  - id: claude-code-export-command
+    title: "Anthropic — Claude Code commands reference"
+    href: "https://code.claude.com/docs/en/cli-usage"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "/export command and session transcript storage"
+  - id: github-copilot-cli-export
+    title: "GitHub Copilot CLI — Session history and export"
+    href: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference"
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "/export and /share commands; events.jsonl session-state"
 support:
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [77]
+        target:
+          kind: dated-documentation
+          revision: "2026-08-29 OpenAI ChatGPT data export documentation observation"
+          observedAt: 2026-08-29
+          url: "https://help.openai.com/en/articles/7264501-how-do-i-export-my-chatgpt-history-and-data"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "ZIP archive with conversations.json and HTML export"
+        evidence:
+          - resourceId: openai-chatgpt-web-data-export
+            type: documented
+            observedAt: 2026-08-29
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 VS Code Chat export documentation observation"
+          observedAt: 2026-09-02
+          url: "https://code.visualstudio.com/docs/copilot/chat"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "JSON export file via Chat: Export Chat... and Markdown via Copy All"
+        evidence:
+          - resourceId: vscode-chat-export
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Claude Code export documentation observation"
+          observedAt: 2026-09-02
+          url: "https://code.claude.com/docs/en/cli-usage"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "in-session /export command and local disk session transcripts"
+        evidence:
+          - resourceId: claude-code-export-command
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 GitHub Copilot CLI command reference observation"
+          observedAt: 2026-09-02
+          url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "/export and /share commands and events.jsonl local session records"
+        evidence:
+          - resourceId: github-copilot-cli-export
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current

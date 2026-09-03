@@ -21,6 +21,10 @@ parent: models-and-context
 related: [output-token-limit, context-usage-visibility, automatic-context-compaction, upload-limits]
 highlight: true
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: OpenAI GPT-4o models provide a 128,000-token context window in ChatGPT across web and desktop surfaces."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Anthropic Claude 3.5 and 3.7 models provide a standard 200,000-token context window across Claude web and desktop applications."
   - id: 88
     text: "Evidence checked 2026-09-02: Grok models offer context windows of 500,000 tokens (Grok 4.6) and 1,000,000 tokens (Grok 4.3)."
   - id: 82
@@ -118,7 +122,95 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: Configure context window and message trimming for local models
+  - id: openai-chatgpt-context-window
+    title: "OpenAI Documentation — Models: GPT-4o context window"
+    href: "https://platform.openai.com/docs/models#gpt-4o"
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "128,000 tokens context window"
+  - id: anthropic-claude-context-window
+    title: "Anthropic Claude Documentation — Context windows"
+    href: "https://docs.anthropic.com/en/docs/about-claude/models"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Claude 3.5 Sonnet 200k token context window"
 support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI model documentation observation"
+          observedAt: 2026-09-02
+          url: "https://platform.openai.com/docs/models#gpt-4o"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "128,000 tokens for GPT-4o models"
+        evidence:
+          - resourceId: openai-chatgpt-context-window
+            type: documented
+            observedAt: 2026-09-02
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI model documentation observation"
+          observedAt: 2026-09-02
+          url: "https://platform.openai.com/docs/models#gpt-4o"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "128,000 tokens for GPT-4o models"
+        evidence:
+          - resourceId: openai-chatgpt-context-window
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic model documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.anthropic.com/en/docs/about-claude/models"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "200,000 tokens for Claude 3.5/3.7 models"
+        evidence:
+          - resourceId: anthropic-claude-context-window
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic model documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.anthropic.com/en/docs/about-claude/models"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "200,000 tokens for Claude 3.5/3.7 models"
+        evidence:
+          - resourceId: anthropic-claude-context-window
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

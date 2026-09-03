@@ -20,6 +20,8 @@ aliases: [context meter, token counter, context inspector]
 parent: models-and-context
 related: [context-window, prompt-cache-telemetry, usage-metering]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Cline tracks task-level token consumption and API costs in real time, displays context usage progress, and warns before context limit compression."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 /tokens reports approximate current-context use by system messages, chat history, repository map, editable files, and read-only files, plus totals and known remaining capacity."
   - id: 76
@@ -107,7 +109,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Context window management; usage breakdown"
+  - id: cline-context-monitoring
+    title: "Cline Docs — Context Window & Token Management"
+    href: "https://docs.cline.bot"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Token usage and task-level tracking"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Cline documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.cline.bot"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "displays real-time task token usage, context consumption, and compression status"
+        evidence:
+          - resourceId: cline-context-monitoring
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

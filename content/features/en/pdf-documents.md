@@ -22,6 +22,8 @@ parent: file-inputs
 related: [office-document-input, upload-limits]
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Google Gemini Apps on the web accept PDF uploads up to 100 MB each (up to 10 files per prompt), providing document analysis, summarization, and question answering from document content."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop recognizes PDF attachments by extension and MIME and passes application/pdf through as a model-facing file part for the current session."
   - id: 79
@@ -208,7 +210,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "2026-03-27 Inline File Previews"
+  - id: google-gemini-web-pdf-upload
+    title: "Google Gemini Apps Help — Upload and analyze files in Gemini Apps"
+    href: "https://support.google.com/gemini/answer/14903178"
+    kind: docs
+    publisher: Google
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Upload and analyze files; PDF document limits"
 support:
+  - harness: gemini-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Google Gemini Apps documentation observation"
+          observedAt: 2026-09-02
+          url: "https://support.google.com/gemini/answer/14903178"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "accepts PDF uploads up to 100 MB per file, up to 10 files per prompt"
+        evidence:
+          - resourceId: google-gemini-web-pdf-upload
+            type: documented
+            observedAt: 2026-09-02
   - harness: openwork-desktop
     versions:
       - track: current

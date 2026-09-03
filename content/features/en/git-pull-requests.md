@@ -19,6 +19,8 @@ summary: Open or review pull requests through a documented integration.
 specLabel: Common product term
 highlight: true
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Cline's Kanban workflow supports creating pull requests (Open PR) to ship task changes, and Cline provides automated PR review workflows via GitHub Actions."
   - id: 75
     text: "Evidence checked 2026-09-02: Mistral Vibe Code coding mode can open pull requests on the user's behalf under supervision across connected project repositories."
   - id: 74
@@ -185,7 +187,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Features; Installation; Supported Events"
+  - id: cline-pull-requests
+    title: "Cline Docs — Kanban Workflow and GitHub PR Review"
+    href: "https://docs.cline.bot/kanban/core-workflow"
+    kind: docs
+    publisher: "Cline Bot Inc."
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Open PR action in Kanban and GitHub PR Review action"
 support:
+  - harness: cline
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Cline documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.cline.bot/kanban/core-workflow"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "supports opening PRs via Kanban core workflow and automated PR review via GitHub Actions"
+        evidence:
+          - resourceId: cline-pull-requests
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current
