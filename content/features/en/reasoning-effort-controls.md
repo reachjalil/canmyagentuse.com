@@ -11,7 +11,7 @@ audience: Engineers balancing latency, cost, and task quality.
 contentKind: feature
 status: published
 tags: [models, reasoning, latency, cost]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: models-context
 summary: Choose a documented reasoning depth, effort, or budget for a run.
@@ -20,6 +20,8 @@ aliases: [thinking budget, reasoning mode, thinking level]
 parent: models-and-context
 related: [model-selection, usage-metering]
 notes:
+  - id: 83
+    text: "Evidence checked 2026-09-02: Vibe web Chat provides an operator-controlled Think mode for extended chain-of-thought analysis, while Vibe Work selects the reasoning level automatically per task."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 exposes CLI and in-chat controls for low, medium, or high reasoning effort and numeric or human-readable thinking-token budgets, including zero to disable thinking."
   - id: 76
@@ -41,6 +43,14 @@ notes:
   - id: 60
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot offers a Think Deeper mode that spends additional time reasoning, but does not expose a numeric token or adjustable low-to-high effort budget."
 resources:
+  - id: mistral-vibe-choose-chat-work-code
+    title: "Mistral Docs — Choose Chat, Work, or Code"
+    href: https://docs.mistral.ai/vibe/choose-chat-work-code
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Chat features and their Work equivalents — Think mode"
   - id: aider-v0860-reasoning
     title: "Aider v0.86.0 — Reasoning models"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/website/docs/config/reasoning.md"
@@ -406,6 +416,23 @@ support:
           - resourceId: anthropic-code-model-config
             type: documented
             observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: partial
+        noteIds: [83]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Chat includes a manual Think mode toggle for extended reasoning; Work automatically selects reasoning depth without manual token budgeting"
+        evidence:
+          - resourceId: mistral-vibe-choose-chat-work-code
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row covers an operator-visible control over reasoning effort, depth, or budget. It does not assert that hidden reasoning is exposed, and it does not treat ordinary model selection as an equivalent control.

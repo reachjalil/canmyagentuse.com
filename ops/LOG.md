@@ -436,3 +436,16 @@ RECONCILE cycle=12 date=2026-09-01 commit=c8531ed pushed=origin/main deploy=5ec2
 - Coverage: 1,366/3,534 assessed and direct reviewed (38.7%); delta +2
 
 RECONCILE cycle=13 date=2026-09-01 commit=968cc0b pushed=origin/main deploy=1b9ca136-4147-4a5b-acf3-7beb682b6088 coverage=1366/3534 note="Cache-busted production coverage reported 1,366/3,534 and Vibe web reported 23/114 assessed cells."
+
+## Cycle 14 — 2026-09-02
+
+- Phase: A low-coverage harness sweep and desert-family breaker
+- Briefs: Multi-source research targeting Mistral Vibe web, Devin Desktop (Windsurf) MCP/skills/policies, and desert-breaker output-token limits (Aider, Cline)
+- Cells written: 24 current-track:
+  - Mistral Vibe (`le-chat`): human approval (sensitive connectors/destructive actions), code execution (sandboxed Python in Chat, TypeScript in Work), reasoning effort controls (manual toggle in Chat, auto in Work), agent skills, skill progressive loading, skill manual invocation (`/{name}`), skill user scope (personal skills), skill project scope (workspace skills), and skill references/assets (+9 cells)
+  - Devin Desktop (`windsurf`): skill progressive loading, skill manual invocation (`@skill-name`), skill user scope (`~/.codeium/windsurf/skills/`), skill project scope (`.windsurf/skills/`, `.devin/skills/`, `.agents/skills/`), skill references/assets, MCP stdio, MCP Streamable HTTP, MCP legacy SSE, MCP OAuth, MCP Registry, MCP client role, organization policy controls (ADMX/profiles/JSON policies), and role-based access controls (+13 cells)
+  - Desert breaker (`output-token-limit`): Aider v0.86.0 (`max_output_tokens` metadata tracking) and Cline v4.1.16 (`maxTokens` model declarations), eliminating the last zero-sourced feature in the entire catalog (+2 cells)
+- Feature files changed: 18 features
+- Validation: narrow catalog validation, uncached check, 97 tests, and full build passed
+- Coverage: 1,390/3,534 assessed and direct reviewed (39.3%); delta +24
+- Preview: 9/3,192 (0.3%); delta +0

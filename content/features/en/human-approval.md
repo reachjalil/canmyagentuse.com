@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - runtime
-updated: 2026-08-31
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: Pause before a tool action or file change until a person confirms.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work requires confirmation before sensitive actions that touch external systems, including sending messages, creating or deleting records, and modifying shared data; users can approve once, pre-authorize a function for the session, or decline."
   - id: 84
     text: "Evidence checked 2026-08-31: declarative WebMCP forms can preserve a manual Submit confirmation and sites can request confirmation for sensitive actions, but auto-submit and imperative tools mean the API has no universal per-call human gate."
   - id: 83
@@ -73,6 +75,14 @@ notes:
     text: "Evidence checked 2026-08-29: Preview Copilot Tasks requires approval or user takeover for payments, personal-data submission, communications, account changes, and other sensitive actions."
 issues: []
 resources:
+  - id: mistral-vibe-work-safety-and-approvals
+    title: "Mistral Docs — Safety and approvals"
+    href: https://docs.mistral.ai/vibe/work/safety-and-approvals
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Approving sensitive actions; Per-function Connector permissions"
   - id: chrome-webmcp-declarative-approval
     title: "Google Chrome — WebMCP Declarative API"
     href: https://developer.chrome.com/docs/ai/webmcp/declarative-api
@@ -786,6 +796,25 @@ support:
           - resourceId: xai-grok-bot-approvals
             type: documented
             observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work safety and approvals documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "Work stops before actions that touch external systems (sending email, modifying data, deleting) and presents Continue, Always allow, or Decline options"
+          - type: policy
+            value: "each Connector's Functions tab allows toggling Always allow versus manual approval on individual interactive tools"
+        evidence:
+          - resourceId: mistral-vibe-work-safety-and-approvals
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Pause before a tool action or file change until a person confirms.

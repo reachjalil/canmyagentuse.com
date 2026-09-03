@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [runtime, skills, instructions, packaging]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: Recognize, discover, and load reusable instruction packages centered on SKILL.md.
@@ -28,6 +28,8 @@ parent: agent-skills
 related: [custom-instructions, plugins]
 highlight: true
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work adopts the open Agent Skills standard centered on SKILL.md folders with instructions and supporting assets, provides built-in productivity skills, supports custom personal and workspace skills, and invokes skills automatically or via slash command."
   - id: 86
     text: "Evidence checked 2026-08-29: Claude Desktop discovers enabled Skills, can load provider and custom reusable packages centered on a skill.md file, and supports uploaded custom Skill archives across Claude plans when code execution is enabled."
   - id: 85
@@ -78,6 +80,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: mistral-vibe-work-skills
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Reuse work with Skills; Built-in Skills; Personal and workspace Skills"
   - id: zed-v1-17-2-skills
     title: "Zed v1.17.2 — Agent Skills"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/skills.md#L6-L22"
@@ -793,6 +803,25 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work skills documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "adopts open Agent Skills standard centered on SKILL.md with frontmatter metadata, instructions, and supporting assets"
+          - type: runtime
+            value: "ships with built-in productivity skills, supports custom personal and workspace skills, and supports automatic invocation or explicit slash commands"
+        evidence:
+          - resourceId: mistral-vibe-work-skills
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Agent Skills are reusable directories centered on `SKILL.md`, with optional scripts, references, and assets. The catalog treats basic discovery as narrower than full support for progressive loading, script execution, every install scope, or every extension field.

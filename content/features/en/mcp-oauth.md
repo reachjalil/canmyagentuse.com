@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: interfaces
 summary: "Complete the MCP authorization flow for protected remote servers."
@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade documents OAuth support across all supported MCP transport types (stdio, Streamable HTTP, SSE)."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no MCP remote-server authorization, protected-resource discovery, or dynamic client-registration flow."
   - id: 81
@@ -56,6 +58,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp completes browser-based OAuth for protected MCP servers, stores credentials securely on-device, reuses them, and supports revocation."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp
+    title: "Cognition — Model Context Protocol (MCP)"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "One-Click Install via Deeplink"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -458,6 +468,23 @@ support:
           - resourceId: zed-mcp-docs
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "Devin Desktop supports OAuth authorization for each transport type (stdio, Streamable HTTP, SSE)"
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Complete the MCP authorization flow for protected remote servers.

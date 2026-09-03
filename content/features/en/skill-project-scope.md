@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: "Discover skills installed for a repository or workspace."
@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work supports Workspace Skills that are shared across an organization workspace, with admin capabilities to force-enable specific skills for all members."
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade discovers and manages project-specific workspace skills from .windsurf/skills/, .devin/skills/, and portable .agents/skills/ directories."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop discovers workspace skills from .opencode/skills and .claude/skills while walking to the Git root; local SKILL.md skills require no Cloud account."
   - id: 75
@@ -58,6 +62,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: cognition-devin-desktop-skills
+    title: "Cognition — Devin Desktop Skills"
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Manual Creation — Workspace Skill; Skill Scopes"
+  - id: mistral-vibe-work-skills-workspace
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Personal and workspace Skills — Workspace"
   - id: openwork-v01839-project-skills
     title: "OpenWork v0.18.39 — project and global skill discovery"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/skills.ts#L145-L209"
@@ -455,6 +475,40 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "workspace skills located under .windsurf/skills/, .devin/skills/, or .agents/skills/ are discovered for the active project"
+        evidence:
+          - resourceId: cognition-devin-desktop-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "workspace skills are shared across the organization workspace, and admins can force-enable skills for all users"
+        evidence:
+          - resourceId: mistral-vibe-work-skills-workspace
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Discover skills installed for a repository or workspace.

@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: interfaces
 summary: "Connect to a local MCP server over standard input and output."
@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade supports stdio transport for local MCP servers configured with command, args, and env in ~/.codeium/windsurf/mcp_config.json or installed through the marketplace."
   - id: 84
     text: "Evidence checked 2026-08-29: Claude Desktop extensions package and launch local MCP server processes with a bundled Node runtime. The standard local MCP process transport is assessed as stdio, although the reviewed help page does not literally name the wire transport."
   - id: 83
@@ -58,6 +60,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp launches local command-based MCP servers over stdio, including documented npx and Docker configurations."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp
+    title: "Cognition — Model Context Protocol (MCP)"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "One-Click Install via Deeplink; mcp_config.json"
   - id: anthropic-claude-desktop-extension-mcp-process
     title: Anthropic — Deploy enterprise-grade MCP servers with desktop extensions
     href: https://support.claude.com/en/articles/12702546-deploying-enterprise-grade-mcp-servers-with-desktop-extensions
@@ -483,6 +493,23 @@ support:
           - resourceId: zed-mcp-client-source
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "Cascade connects to local MCP servers via stdio transport configured in mcp_config.json with command, args, and env"
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Connect to a local MCP server over standard input and output.

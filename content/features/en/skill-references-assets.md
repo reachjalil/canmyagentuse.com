@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: "Resolve supporting reference files, templates, and assets from a skill package."
@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work allows adding supporting reference documents, templates, guidelines, and data files alongside SKILL.md in the skill folder, which Work loads during skill execution."
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade skills bundle supporting files in the skill folder alongside SKILL.md (such as checklists, templates, and config files) and loads them on demand when the skill is invoked."
   - id: 85
     text: "Evidence checked 2026-08-29: A Gemini Spark skill package can include supporting templates, style guides, spreadsheets, and other supported plain-text files, which Spark opens only as needed."
   - id: 75
@@ -58,6 +62,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: cognition-devin-desktop-skills
+    title: "Cognition — Devin Desktop Skills"
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Adding Supporting Resources"
+  - id: mistral-vibe-work-skills-assets
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Creating a Skill — Add files or folders"
   - id: replit-agent-skills-current
     title: "Replit — Agent Skills"
     href: "https://docs.replit.com/features/agent/skills"
@@ -449,6 +469,40 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "supporting files placed alongside SKILL.md are loaded into context when the skill is invoked"
+        evidence:
+          - resourceId: cognition-devin-desktop-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "supporting reference documents, templates, and data files placed in the skill folder are read during execution"
+        evidence:
+          - resourceId: mistral-vibe-work-skills-assets
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Resolve supporting reference files, templates, and assets from a skill package.

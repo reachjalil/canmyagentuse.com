@@ -12,13 +12,15 @@ contentKind: feature
 status: published
 tags:
   - tools
-updated: 2026-08-31
+updated: 2026-09-02
 published: 2026-08-28
 category: tools
 summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe web Chat provides a sandboxed Python Code Interpreter for charts and data analysis, while Vibe Work provides a built-in TypeScript execution environment for data processing and graphing."
   - id: 86
     text: "Evidence checked 2026-08-31: Devin Desktop Code Mode can execute project commands and install dependencies while performing multi-step coding work, subject to its terminal and permission settings."
   - id: 85
@@ -45,6 +47,14 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: mistral-vibe-choose-chat-work-code
+    title: "Mistral Docs — Choose Chat, Work, or Code"
+    href: https://docs.mistral.ai/vibe/choose-chat-work-code
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Chat features and their Work equivalents — Code Interpreter"
   - id: cognition-devin-desktop-code-mode-execution
     title: "Cognition — Cascade modes"
     href: https://docs.devin.ai/desktop/cascade/modes
@@ -724,6 +734,25 @@ support:
           - resourceId: openwork-code-execution
             type: documented
             observedAt: 2026-08-28
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Chat includes a Python Code Interpreter sandbox for charts and data analysis; Work provides a built-in TypeScript execution environment for data processing and graphing"
+          - type: policy
+            value: "execution is isolated to data-processing and graphing tasks rather than general-purpose arbitrary shell execution"
+        evidence:
+          - resourceId: mistral-vibe-choose-chat-work-code
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Run generated code in a documented execution environment. Sandbox isolation, workspace scope, permissions, persistence, and supported runtimes are recorded separately as qualifiers.

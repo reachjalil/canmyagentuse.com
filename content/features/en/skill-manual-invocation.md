@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: "Let a user or agent explicitly select and activate a named skill."
@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work lets users explicitly invoke a skill by typing /{skill-name}, selecting from the / slash menu, or referencing the skill by name in the prompt."
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade lets users explicitly activate a skill by typing @skill-name in the chat input."
   - id: 85
     text: "Evidence checked 2026-08-29: A Gemini web user can explicitly invoke a named Gemini Spark skill in a task by entering slash and selecting the skill."
   - id: 81
@@ -64,6 +68,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: cognition-devin-desktop-skills
+    title: "Cognition — Devin Desktop Skills"
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Invoking Skills — Manual Invocation"
+  - id: mistral-vibe-work-skills-invocation
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Using Skills in a task — Slash command; Natural reference"
   - id: openwork-v01839-skill-selection
     title: "OpenWork v0.18.39 — composer skill selection"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/react-app/domains/session/surface/composer/composer.tsx#L838-L893"
@@ -532,6 +552,40 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "explicitly activated by typing @skill-name in the Cascade input"
+        evidence:
+          - resourceId: cognition-devin-desktop-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "invoked via /{skill-name} slash command, selecting from / menu, or mentioning by name in prompt"
+        evidence:
+          - resourceId: mistral-vibe-work-skills-invocation
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Let a user or agent explicitly select and activate a named skill.

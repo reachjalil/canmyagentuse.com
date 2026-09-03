@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: interfaces
 summary: "Connect through the superseded HTTP plus SSE transport when migration compatibility is required."
@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade documents SSE as a supported transport for MCP servers alongside stdio and Streamable HTTP."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no legacy MCP HTTP-plus-SSE client or server transport."
   - id: 73
@@ -56,6 +58,14 @@ notes:
     text: "Evidence checked 2026-08-29: Warp local agents connect to legacy MCP Server-Sent Events endpoints and retain current SSE configuration examples."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp
+    title: "Cognition — Model Context Protocol (MCP)"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "One-Click Install via Deeplink"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -446,6 +456,23 @@ support:
           - resourceId: zed-mcp-http-source
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "supports SSE transport for MCP servers alongside stdio and Streamable HTTP"
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Connect through the superseded HTTP plus SSE transport when migration compatibility is required.

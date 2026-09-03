@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: "Load skill metadata first and defer full instructions or resources until relevant."
@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work loads skills progressively in three stages: discovery loads only name and description (~100 tokens), activation loads full SKILL.md instructions when matched, and execution loads referenced files on demand."
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade loads skills via progressive disclosure: only name and description are shown to the model by default (~100 tokens), while full SKILL.md instructions and supporting files load only when invoked or @mentioned."
   - id: 85
     text: "Evidence checked 2026-08-29: Gemini Spark first checks a skill's name and description, reads full instructions only when the skill is relevant, and opens supporting files only when needed for the current step."
   - id: 75
@@ -60,6 +64,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: cognition-devin-desktop-skills
+    title: "Cognition — Devin Desktop Skills"
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Skills overview — progressive disclosure"
+  - id: mistral-vibe-work-skills-progressive
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "How Skills work — Discovery, Activation, Execution"
   - id: replit-agent-skills-current
     title: "Replit — Agent Skills"
     href: "https://docs.replit.com/features/agent/skills"
@@ -457,6 +477,40 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "only name and description are shown to the model by default; full SKILL.md and supporting files load only when invoked or @mentioned"
+        evidence:
+          - resourceId: cognition-devin-desktop-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "three-stage progressive disclosure loads name and description at discovery (~100 tokens), full SKILL.md at activation, and referenced files at execution"
+        evidence:
+          - resourceId: mistral-vibe-work-skills-progressive
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Load skill metadata first and defer full instructions or resources until relevant.

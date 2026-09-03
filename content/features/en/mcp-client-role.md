@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: interfaces
 summary: "Consume capabilities exposed by MCP servers."
@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade acts as an MCP client, connecting to configured MCP servers to request and execute tools, access resources, and consume prompts."
   - id: 84
     text: "Evidence checked 2026-08-29: Claude Desktop acts as an MCP host and client for local desktop-extension servers and for authorized remote MCP connectors brokered through Claude's hosted service."
   - id: 83
@@ -64,6 +66,14 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp
+    title: "Cognition — Model Context Protocol (MCP)"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Model Context Protocol (MCP) overview; General Information"
   - id: anthropic-claude-desktop-remote-mcp
     title: Anthropic — Get started with custom connectors using remote MCP
     href: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
@@ -585,6 +595,23 @@ support:
           - resourceId: zed-mcp-docs
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Cascade acts as an MCP client connecting to configured servers to invoke tools, read resources, and load prompts"
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Consume capabilities exposed by MCP servers.

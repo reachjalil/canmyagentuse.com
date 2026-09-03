@@ -11,7 +11,7 @@ audience: Teams requiring least-privilege collaboration.
 contentKind: feature
 status: published
 tags: [collaboration, permissions, RBAC, teams]
-updated: 2026-09-01
+updated: 2026-09-02
 published: 2026-08-28
 category: collaboration
 summary: Assign and enforce permissions through documented roles.
@@ -20,6 +20,8 @@ aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Enterprise supports role-based access control with default Admin and User roles, custom role creation, and granular permission assignments across team and editor resources."
   - id: 80
     text: "Evidence checked 2026-09-01: Grok Enterprise organizations support custom roles mapped from identity-provider groups; roles are prioritized, can be assigned teams, permissions, and product licenses, and include a default Member role. This is Enterprise organization governance, not a claim about personal Grok.com accounts."
   - id: 79
@@ -45,6 +47,14 @@ notes:
   - id: 53
     text: "Evidence checked 2026-08-29: Devin Enterprise implements organization- and account-level RBAC with custom roles assembled from named permissions and assigned to users or identity-provider groups."
 resources:
+  - id: cognition-devin-desktop-rbac
+    title: "Cognition — Role Based Access & Management"
+    href: https://docs.devin.ai/desktop/accounts/rbac-role-management
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Role Based Access Controls; Role Management; Role Permissions"
   - id: openai-chatgpt-desktop-rbac
     title: "OpenAI — Role Based Access Controls for ChatGPT Enterprise"
     href: https://help.openai.com/en/articles/11750701-rbac/
@@ -460,6 +470,23 @@ support:
           - resourceId: google-gemini-admin-access
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Enterprise documentation
+          observedAt: 2026-09-02
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "role-based access features are available on Enterprise plans only and govern team settings and permissions"
+        evidence:
+          - resourceId: cognition-devin-desktop-rbac
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row asks whether collaboration rights are enforced by role rather than inferred from possession of a link. Useful permission boundaries separate viewing prompts and files, editing context, starting runs, using billable models, invoking tools, approving actions, managing connectors or secrets, sharing externally, exporting, deleting, and administering policy.

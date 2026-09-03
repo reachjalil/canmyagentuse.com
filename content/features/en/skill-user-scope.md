@@ -11,7 +11,7 @@ audience: Engineers comparing agent harness capabilities.
 contentKind: feature
 status: published
 tags: [runtime, agent-skills]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: runtime
 summary: "Discover personal or global skills outside the current project."
@@ -28,6 +28,10 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 87
+    text: "Evidence checked 2026-09-02: Vibe Work provides personal Skills created under Context > Skills that are private to the individual user and accessible across tasks."
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade discovers and manages global skills from ~/.codeium/windsurf/skills/<skill-name>/, making them available across all projects and workspaces."
   - id: 85
     text: "Evidence checked 2026-08-29: A personal Gemini Spark skill is saved on the account's Skills page and can be reused across any Gemini Spark task rather than being limited to one task or project."
   - id: 81
@@ -64,6 +68,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: cognition-devin-desktop-skills
+    title: "Cognition — Devin Desktop Skills"
+    href: https://docs.devin.ai/desktop/cascade/skills
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Manual Creation — Global Skill; Skill Scopes"
+  - id: mistral-vibe-work-skills-user
+    title: "Mistral Docs — Reuse work with Skills"
+    href: https://docs.mistral.ai/vibe/work/skills
+    kind: docs
+    publisher: Mistral AI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Personal and workspace Skills — Personal"
   - id: openwork-v01839-global-skills
     title: "OpenWork v0.18.39 — project and global skill discovery"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/server/src/skills.ts#L188-L209"
@@ -535,6 +555,40 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "global skills located at ~/.codeium/windsurf/skills/ are available across all workspaces"
+        evidence:
+          - resourceId: cognition-devin-desktop-skills
+            type: documented
+            observedAt: 2026-09-02
+  - harness: le-chat
+    versions:
+      - track: current
+        status: yes
+        noteIds: [87]
+        target:
+          kind: hosted-observation
+          revision: 2026-09-02 Vibe Work documentation observation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "personal skills are visible and active only for the creating user account across all tasks"
+        evidence:
+          - resourceId: mistral-vibe-work-skills-user
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Discover personal or global skills outside the current project.

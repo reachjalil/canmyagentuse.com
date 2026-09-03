@@ -11,7 +11,7 @@ audience: Enterprise administrators, security teams, and platform owners.
 contentKind: feature
 status: published
 tags: [security, governance, policy, enterprise]
-updated: 2026-09-01
+updated: 2026-09-02
 published: 2026-08-28
 category: security-privacy
 summary: Centrally configure and enforce product settings for an organization.
@@ -20,6 +20,8 @@ aliases: [enterprise policy, organization controls, managed settings]
 parent: data-security-controls
 related: [audit-logs, training-data-controls, human-approval]
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Enterprise policies centrally manage editor and agent settings across Windows (Group Policy/Registry), macOS (Configuration Profiles), and Linux (JSON policy files), overriding user and workspace settings to enforce extensions, update modes, MCP server allowlists, and security controls."
   - id: 82
     text: "Evidence checked 2026-09-01: Grok Business administrators centrally set the widest permitted sharing audience for conversations, Projects, and Skills. The policy is enforced immediately, prevents members from creating broader shares, and can restrict access to existing shares; it does not establish a complete model, tool, connector, or retention policy matrix."
   - id: 81
@@ -54,6 +56,14 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
+  - id: cognition-devin-desktop-enterprise-policies
+    title: "Cognition — Enterprise Policies"
+    href: https://docs.devin.ai/desktop/enterprise-policies
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Enterprise Policies for Extension Management; Windows Group Policies"
   - id: spacexai-grok-business-sharing-policy
     title: "SpaceXAI Docs — Manage Licenses and Users"
     href: https://docs.x.ai/grok/management
@@ -601,6 +611,23 @@ support:
           - resourceId: google-gemini-app-controls
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Enterprise documentation
+          observedAt: 2026-09-02
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: "enterprise policies centrally enforce settings across Windows, macOS, and Linux, overriding local user and workspace settings"
+        evidence:
+          - resourceId: cognition-devin-desktop-enterprise-policies
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row covers centrally enforced organization policy, not a user preference or a natural-language instruction the agent may ignore. Useful controls cover allowed models and providers, tools and connectors, MCP servers, network destinations, data sharing, uploads, memory, retention, training use, public links, autonomous actions, and sub-agent fan-out.

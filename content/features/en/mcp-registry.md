@@ -11,7 +11,7 @@ audience: Engineers comparing chat, desktop, and CLI agent harnesses.
 contentKind: feature
 status: published
 tags: [interfaces, mcp]
-updated: 2026-08-29
+updated: 2026-09-02
 published: 2026-08-28
 category: interfaces
 summary: "Discover MCP servers and metadata through the official registry model."
@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 86
+    text: "Evidence checked 2026-09-02: Devin Desktop Cascade supports custom MCP registry URLs following the official MCP registry schema for enterprise teams, unioning configured registries with or replacing the default marketplace."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 has no MCP Registry discovery, metadata lookup, or registry-backed installation surface."
   - id: 73
@@ -38,6 +40,14 @@ notes:
     text: "Evidence checked 2026-08-29: goose v1.48.0's maintained discovery implementation enumerates configured extensions only; its documentation directs users to a separate directory rather than consuming official MCP Registry metadata."
 issues: []
 resources:
+  - id: cognition-devin-desktop-mcp
+    title: "Cognition — Model Context Protocol (MCP)"
+    href: https://docs.devin.ai/desktop/cascade/mcp
+    kind: docs
+    publisher: Cognition
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Admin Controls (Teams & Enterprises) — MCP Registry"
   - id: aider-v0860-production-tree
     title: "Aider v0.86.0 — complete production package"
     href: "https://github.com/Aider-AI/aider/tree/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider"
@@ -190,6 +200,23 @@ support:
           - resourceId: microsoft-vscode-enterprise-mcp-registry
             type: documented
             observedAt: 2026-08-28
+  - harness: windsurf
+    versions:
+      - track: current
+        status: yes
+        noteIds: [86]
+        target:
+          kind: dated-documentation
+          revision: 2026-09-02 Devin Desktop Cascade documentation
+          observedAt: 2026-09-02
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: format
+            value: "enterprise teams can configure custom MCP registry URLs following the official schema; registries union to provide available servers"
+        evidence:
+          - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Discover MCP servers and metadata through the official registry model.
