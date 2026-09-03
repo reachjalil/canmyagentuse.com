@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Anthropic's Claude Code documentation enumerates supported MCP capabilities for tools, prompts, and resources; server-initiated sampling (sampling/createMessage) is not supported in the Claude Code MCP client."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP sampling/createMessage in either client or server role."
   - id: 76
@@ -151,7 +153,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; commented sampling entry"
+  - id: anthropic-claude-code-mcp-sampling
+    title: "Anthropic — Model Context Protocol in Claude Code"
+    href: "https://code.claude.com/docs/en/mcp"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "MCP server capabilities and limitations; sampling not supported"
 support:
+  - harness: claude-cli
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Claude Code MCP documentation observation"
+          observedAt: 2026-09-02
+          url: "https://code.claude.com/docs/en/mcp"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "Claude Code client does not advertise sampling capability or handle sampling/createMessage"
+        evidence:
+          - resourceId: anthropic-claude-code-mcp-sampling
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

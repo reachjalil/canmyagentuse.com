@@ -21,6 +21,8 @@ parent: subagents
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Grok Bot group chat coordinates 2 to 6 Bots interacting in a flat group session; child Bots cannot spawn nested child Bots."
   - id: 1
     text: "Evidence checked 2026-08-28: Anthropic explicitly states that Claude Code subagents cannot spawn their own subagents and advises against granting the Agent tool to a child."
   - id: 2
@@ -108,7 +110,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "complete stable runtime dependency manifest"
+  - id: xai-grok-bot-group-chat
+    title: "xAI — Grok Bot Chat and Collaboration"
+    href: "https://docs.x.ai/grok-bot/chat-and-collaboration"
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Group chat; Bot collaboration; flat delegation model"
 support:
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Grok Bot chat documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.x.ai/grok-bot/chat-and-collaboration"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "flat group coordination; Bots cannot spawn nested child agents"
+        evidence:
+          - resourceId: xai-grok-bot-group-chat
+            type: documented
+            observedAt: 2026-09-02
   - harness: warp
     versions:
       - track: current

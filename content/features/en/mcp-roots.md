@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Visual Studio Code advertises the roots client capability, handles roots/list requests by returning the workspace folders as file URIs, and sends list_changed notifications upon workspace folder changes."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP roots/list or notifications/roots/list_changed; local repository context is not an MCP roots primitive."
   - id: 1
@@ -147,7 +149,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; ListRootsRequestSchema handler"
+  - id: microsoft-vscode-mcp-roots
+    title: "Visual Studio Code — MCP Roots support"
+    href: "https://code.visualstudio.com/updates"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Model Context Protocol; workspace folder roots"
 support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 VS Code release notes observation"
+          observedAt: 2026-09-02
+          url: "https://code.visualstudio.com/updates"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "answers roots/list with open workspace folders as file URIs"
+        evidence:
+          - resourceId: microsoft-vscode-mcp-roots
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

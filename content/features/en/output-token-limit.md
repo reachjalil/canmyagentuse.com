@@ -20,6 +20,10 @@ aliases: [max output tokens, response length limit, generation limit]
 parent: models-and-context
 related: [context-window, structured-output]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: xAI API and Grok web models define a default maximum completion limit of 128,000 output tokens for grok-4+ series completions (excluding reasoning tokens)."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Grok Bot enforces a maximum completion budget of 128,000 output tokens per Bot turn."
   - id: 82
     text: "Evidence checked 2026-09-02: Aider v0.86.0 tracks per-model max_output_tokens (e.g. 4,096 or 8,192 depending on model) from LiteLLM and embedded model metadata or custom .aider.model.metadata.json, enforcing output token headroom calculations."
   - id: 74
@@ -41,15 +45,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-09-02
     locator: "openRouterDefaultModelId and openRouterDefaultModelInfo maxTokens"
-  - title: Methodology
-    href: /methodology
-    kind: note
-  - title: OpenAI — Create a model response
-    href: https://developers.openai.com/api/reference/cli/resources/responses/methods/create
+  - id: xai-grok-models-spec
+    title: "xAI Docs — Models"
+    href: "https://docs.x.ai/developers/models"
     kind: docs
-    publisher: OpenAI
-    reviewedAt: 2026-08-28
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "max_completion_tokens defaults to 128,000"
+  - id: xai-grok-bot-files-results
+    title: "xAI — Grok Bot files and results"
+    href: "https://docs.x.ai/grok-bot/files-and-results"
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Task outputs and completion token budget"
 support:
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 xAI models specification observation"
+          observedAt: 2026-09-02
+          url: "https://docs.x.ai/developers/models"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "max_completion_tokens defaults to 128,000 tokens for grok-4+ models"
+        evidence:
+          - resourceId: xai-grok-models-spec
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Grok Bot documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.x.ai/grok-bot/files-and-results"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "completion token budget capped at 128,000 tokens per Bot task"
+        evidence:
+          - resourceId: xai-grok-bot-files-results
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

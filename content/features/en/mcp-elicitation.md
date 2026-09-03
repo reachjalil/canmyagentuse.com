@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Visual Studio Code implements MCP Elicitation in Chat, rendering server-requested forms and secure URL redirection dialogs for connected MCP servers."
   - id: 83
     text: "Evidence checked 2026-08-29: exhaustive stable-source review establishes that Aider v0.86.0 does not implement MCP elicitation/create or elicitation completion notifications."
   - id: 76
@@ -171,7 +173,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "CLIENT_OPTIONS capabilities; commented elicitation entry"
+  - id: microsoft-vscode-mcp-elicitation
+    title: "Visual Studio Code — MCP Elicitation"
+    href: "https://code.visualstudio.com/updates"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "MCP server elicitation; form mode and URL mode dialogs"
 support:
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 VS Code release notes observation"
+          observedAt: 2026-09-02
+          url: "https://code.visualstudio.com/updates"
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "supports structured form mode and external URL redirection mode"
+        evidence:
+          - resourceId: microsoft-vscode-mcp-elicitation
+            type: documented
+            observedAt: 2026-09-02
   - harness: aider
     versions:
       - track: current

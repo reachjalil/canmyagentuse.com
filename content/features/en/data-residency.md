@@ -20,6 +20,8 @@ aliases: [regional processing, data location, EU data residency]
 parent: data-security-controls
 related: [local-only-mode, data-retention-controls]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Microsoft 365 Copilot stores customer content and index data at rest within the tenant's designated geographic boundary (including the EU Data Boundary and Advanced Data Residency commitments)."
   - id: 83
     text: "Evidence checked 2026-08-29: Eligible Workspace administrators can select United States or Europe residency for Gemini App prompts and responses at rest and, where the edition includes it, during processing."
   - id: 82
@@ -138,7 +140,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Overview; What are covered data and services? — Gemini App row; What about other services and data types?"
+  - id: microsoft-copilot-m365-data-residency
+    title: "Microsoft Learn — Data, Privacy, and Security for Microsoft 365 Copilot"
+    href: "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Data residency; EU Data Boundary"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Microsoft 365 Copilot data residency documentation observation"
+          observedAt: 2026-09-02
+          url: "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: region
+            value: "customer data stored at rest within the tenant's defined geographic boundary or EU Data Boundary"
+        evidence:
+          - resourceId: microsoft-copilot-m365-data-residency
+            type: documented
+            observedAt: 2026-09-02
   - harness: gemini-web
     versions:
       - track: current

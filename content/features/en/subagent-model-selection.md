@@ -20,6 +20,10 @@ aliases: [child model choice, subagent model, delegated model routing]
 parent: subagents
 related: [model-selection, reasoning-effort-controls, subagent-delegation]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Each Bot participating in a Grok Bot multi-agent group chat is configured with its own model and instructions, operating independently from other Bots in the thread."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Amp specialist subagents define their own model and reasoning dial independently of the parent agent thread."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 exposes agent.subagent_model, allowing subagents to use a configured model distinct from the parent thread, but does not establish a separate choice per child invocation."
   - id: 1
@@ -135,7 +139,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "complete stable runtime dependency manifest"
+  - id: xai-grok-bot-group-chat
+    title: "xAI — Grok Bot Chat and Collaboration"
+    href: "https://docs.x.ai/grok-bot/chat-and-collaboration"
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Group chat; Bot collaboration; per-Bot model configuration"
+  - id: amp-2026-08-specialist-parallelism
+    title: "Amp — Modes and Models"
+    href: "https://ampcode.com/docs/models-and-subagents"
+    kind: docs
+    publisher: Amp
+    evidenceType: documented
+    reviewedAt: 2026-08-29
+    locator: "Specialist Subagents; model assignment"
 support:
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Grok Bot chat documentation observation"
+          observedAt: 2026-09-02
+          url: "https://docs.x.ai/grok-bot/chat-and-collaboration"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "each Bot in a group chat operates with its own assigned model and instructions"
+        evidence:
+          - resourceId: xai-grok-bot-group-chat
+            type: documented
+            observedAt: 2026-09-02
+  - harness: amp-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-08-29 Amp documentation observation"
+          observedAt: 2026-08-29
+          url: "https://ampcode.com/docs/models-and-subagents"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "specialist subagents declare their own model and reasoning dials"
+        evidence:
+          - resourceId: amp-2026-08-specialist-parallelism
+            type: documented
+            observedAt: 2026-08-29
   - harness: zed-agent
     versions:
       - track: current

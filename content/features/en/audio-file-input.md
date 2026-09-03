@@ -20,6 +20,8 @@ aliases: [audio input, audio upload, recording attachment, speech transcription]
 parent: file-inputs
 related: [video-input, realtime-voice, upload-limits]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Anthropic's file upload documentation explicitly limits supported conversation uploads to document and image formats (PDF, DOCX, CSV, TXT, HTML, ODT, RTF, EPUB, JSON, XLSX, JPEG, PNG, GIF, WebP); recorded audio uploads are not accepted on Claude web or desktop."
   - id: 6
     text: "Evidence checked 2026-08-29: Microsoft current Copilot Notebook reference documentation identifies audio as a standard source that Copilot Chat can add to a Notebook for grounded responses, and the same page explicitly says Notebooks are available to Microsoft 365 Personal, Family, and Premium subscribers. It does not document audio containers, duration, transcription, timestamps, diarization, or acoustic-analysis fidelity for consumer Notebooks."
   - id: 1
@@ -85,7 +87,51 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Availability note; How to add references to your notebook; About references in a shared notebook"
+  - id: anthropic-claude-upload-file-types
+    title: "Anthropic Help Center — What kinds of documents can I upload to Claude?"
+    href: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Supported file formats; document and image types"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic document upload documentation observation"
+          observedAt: 2026-09-02
+          url: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "audio files not accepted; uploads restricted to documents and images"
+        evidence:
+          - resourceId: anthropic-claude-upload-file-types
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic document upload documentation observation"
+          observedAt: 2026-09-02
+          url: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "audio files not accepted; uploads restricted to documents and images"
+        evidence:
+          - resourceId: anthropic-claude-upload-file-types
+            type: documented
+            observedAt: 2026-09-02
   - harness: copilot-web
     versions:
       - track: current

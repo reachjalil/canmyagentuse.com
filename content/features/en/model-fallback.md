@@ -20,6 +20,10 @@ aliases: [model failover, automatic model routing, fallback model]
 parent: models-and-context
 related: [model-selection, resumable-runs]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: When a ChatGPT user reaches the rate limit for advanced models (such as GPT-4o), ChatGPT automatically switches responses to GPT-4o mini with an in-chat notification, applying across web and desktop clients."
+  - id: 89
+    text: "Evidence checked 2026-09-02: VS Code custom agent declarations support a fallback list of models that the agent automatically routes to when the preferred model is unavailable."
   - id: 53
     text: "Evidence checked 2026-08-29: When a Google AI subscriber reaches a Gemini Apps model-usage limit, Google documents that the conversation can continue with Flash-Lite."
   - id: 1
@@ -95,7 +99,77 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "More info about limits — What you can do when you reach a usage limit"
+  - id: openai-chatgpt-plus-limits
+    title: "OpenAI Help Center — What is ChatGPT Plus?"
+    href: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+    kind: docs
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Usage limits and fallback to mini models"
+  - id: microsoft-vscode-language-models
+    title: "Microsoft — AI language models in VS Code"
+    href: "https://code.visualstudio.com/docs/agent-customization/language-models"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Language model fallback and resolution priority"
 support:
+  - harness: chatgpt-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI ChatGPT Plus usage limits observation"
+          observedAt: 2026-09-02
+          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "automatic fallback to lighter model (e.g. GPT-4o mini) when rate limit reached"
+        evidence:
+          - resourceId: openai-chatgpt-plus-limits
+            type: documented
+            observedAt: 2026-09-02
+  - harness: chatgpt-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 OpenAI ChatGPT Plus usage limits observation"
+          observedAt: 2026-09-02
+          url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "automatic fallback to lighter model (e.g. GPT-4o mini) when rate limit reached"
+        evidence:
+          - resourceId: openai-chatgpt-plus-limits
+            type: documented
+            observedAt: 2026-09-02
+  - harness: vscode-copilot
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 VS Code language models documentation observation"
+          observedAt: 2026-09-02
+          url: "https://code.visualstudio.com/docs/agent-customization/language-models"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "custom agent model fallback list when primary model is unavailable"
+        evidence:
+          - resourceId: microsoft-vscode-language-models
+            type: documented
+            observedAt: 2026-09-02
   - harness: gemini-web
     versions:
       - track: current

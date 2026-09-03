@@ -20,6 +20,8 @@ aliases: [activity log, security log, admin audit]
 parent: data-security-controls
 related: [admin-policy-controls, subagent-approval-boundaries, conversation-export]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Microsoft Purview Audit records Microsoft 365 Copilot activity, logging events such as Copilot prompt entered, Copilot response generated, and sensitivity labels accessed across enterprise tenants."
   - id: 82
     text: "Evidence checked 2026-08-31: configured Cascade audit hooks can record file reads, edits, commands, and prompt or response boundaries, but this is legacy hook output rather than a complete built-in administrative audit system."
   - id: 81
@@ -189,7 +191,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Account-Level Roles — View Audit Logs"
+  - id: microsoft-purview-copilot-audit
+    title: "Microsoft Purview — Copilot activities in audit log"
+    href: "https://learn.microsoft.com/en-us/purview/audit-log-activities#copilot-activities"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Copilot activities; CopilotInteraction event details"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Microsoft Purview documentation observation"
+          observedAt: 2026-09-02
+          url: "https://learn.microsoft.com/en-us/purview/audit-log-activities#copilot-activities"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "Purview Audit logs Copilot interactions for enterprise Microsoft 365 tenants"
+        evidence:
+          - resourceId: microsoft-purview-copilot-audit
+            type: documented
+            observedAt: 2026-09-02
   - harness: windsurf
     versions:
       - track: current

@@ -21,6 +21,8 @@ parent: file-inputs
 related: [image-input, audio-file-input, upload-limits]
 highlight: true
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Anthropic's file upload documentation explicitly restricts supported conversation uploads to document and image formats; recorded video uploads are not accepted on Claude web or desktop."
   - id: 1
     text: "Evidence checked 2026-08-28: xAI documents direct video uploads in Grok chats and describes transcription and interpretation of audio and video, but the reviewed FAQ does not specify frame sampling, temporal reasoning, or audio-visual alignment."
   - id: 2
@@ -76,7 +78,51 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-28
     locator: Injecting file content with @{...}; multimodal support
+  - id: anthropic-claude-upload-file-types
+    title: "Anthropic Help Center — What kinds of documents can I upload to Claude?"
+    href: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+    kind: docs
+    publisher: Anthropic
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Supported file formats; document and image types"
 support:
+  - harness: claude-web
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic document upload documentation observation"
+          observedAt: 2026-09-02
+          url: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "video files not accepted; uploads restricted to documents and images"
+        evidence:
+          - resourceId: anthropic-claude-upload-file-types
+            type: documented
+            observedAt: 2026-09-02
+  - harness: claude-desktop
+    versions:
+      - track: current
+        status: "no"
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Anthropic document upload documentation observation"
+          observedAt: 2026-09-02
+          url: "https://support.claude.com/en/articles/8241126-what-kinds-of-documents-can-i-upload-to-claude"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: format
+            value: "video files not accepted; uploads restricted to documents and images"
+        evidence:
+          - resourceId: anthropic-claude-upload-file-types
+            type: documented
+            observedAt: 2026-09-02
   - harness: grok-web
     versions:
       - track: current

@@ -20,6 +20,8 @@ aliases: [RBAC, team roles, collaborator permissions]
 parent: collaboration-and-portability
 related: [admin-policy-controls, audit-logs, conversation-sharing]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: Microsoft 365 Copilot administrators manage Copilot capabilities and data access through Microsoft 365 admin center roles (such as Global Administrator, Copilot Administrator, and Compliance Administrator)."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Enterprise supports role-based access control with default Admin and User roles, custom role creation, and granular permission assignments across team and editor resources."
   - id: 80
@@ -204,7 +206,33 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-09-01
     locator: "Understanding Organizations; Map groups to roles; Configure roles with teams, permissions, and licenses; Managing roles after activation"
+  - id: microsoft-copilot-m365-roles
+    title: "Microsoft Learn — Microsoft 365 Copilot admin roles"
+    href: "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-roles"
+    kind: docs
+    publisher: Microsoft
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Microsoft 365 admin roles for Copilot"
 support:
+  - harness: copilot-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Microsoft 365 Copilot admin roles documentation observation"
+          observedAt: 2026-09-02
+          url: "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-roles"
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "Microsoft 365 admin roles govern Copilot licensing, policies, and tenant access"
+        evidence:
+          - resourceId: microsoft-copilot-m365-roles
+            type: documented
+            observedAt: 2026-09-02
   - harness: grok-web
     versions:
       - track: current

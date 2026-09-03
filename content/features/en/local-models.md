@@ -22,6 +22,10 @@ parent: models-and-context
 related: [model-selection]
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Goose CLI supports locally hosted models via Ollama (defaulting to http://localhost:11434) and built-in local inference using llama.cpp to download and run GGUF models on-device."
+  - id: 89
+    text: "Evidence checked 2026-09-02: Zed Agent supports local model inference through Ollama, allowing developers to configure localhost endpoints for assistant chat and inline transformations."
   - id: 1
     text: Product cells without reviewed public evidence remain unknown; a configurable remote API endpoint alone is not treated as proof of on-device inference.
   - id: 2
@@ -94,7 +98,59 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: Connect a third-party or local provider; assign models to features
+  - id: goose-ollama-docs
+    title: "Goose — Ollama provider configuration"
+    href: "https://goose-docs.ai"
+    kind: docs
+    publisher: "Agentic AI Foundation"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Configure Provider — Ollama; local llama.cpp inference"
+  - id: zed-ollama-docs
+    title: "Zed Docs — Assistant configuration: Ollama"
+    href: "https://zed.dev/docs/assistant/configuration#ollama"
+    kind: docs
+    publisher: "Zed Industries"
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Ollama configuration"
 support:
+  - harness: goose
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Goose documentation observation"
+          observedAt: 2026-09-02
+          url: "https://goose-docs.ai"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local Ollama endpoint on localhost:11434 or built-in llama.cpp runtime"
+        evidence:
+          - resourceId: goose-ollama-docs
+            type: documented
+            observedAt: 2026-09-02
+  - harness: zed-agent
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: "2026-09-02 Zed assistant documentation observation"
+          observedAt: 2026-09-02
+          url: "https://zed.dev/docs/assistant/configuration#ollama"
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "local Ollama endpoint configured in assistant settings"
+        evidence:
+          - resourceId: zed-ollama-docs
+            type: documented
+            observedAt: 2026-09-02
   - harness: jetbrains-ai
     versions:
       - track: current
