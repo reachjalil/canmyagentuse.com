@@ -21,6 +21,8 @@ parent: subagents
 related: []
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok Bot supports tool and MCP connector invocation for Bots, subject to team MCP allowlists and policies."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code subagents inherit MCP tools by default unless restricted and can use `mcpServers` to reference parent-session servers or declare inline servers scoped to the child."
   - id: 2
@@ -31,6 +33,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Plugins: your team's Cursor MCP policy applies in full, allowing or blocking each connector"
   - title: Methodology
     href: /methodology
     kind: note
@@ -178,9 +188,23 @@ support:
           - resourceId: aider-v0860-commands-source
             type: documented
             observedAt: 2026-08-29
-          - resourceId: aider-v0860-dependencies
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "Bots invoke MCP tools subject to team MCP allowlist and policy controls"
+        evidence:
+          - resourceId: xai-grok-bot-teams-enterprise
             type: documented
-            observedAt: 2026-08-29
+            observedAt: 2026-09-02
 ---
 
 Allow a child agent to use MCP tools or declare its own MCP servers.

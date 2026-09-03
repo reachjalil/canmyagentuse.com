@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 50
+    text: "Evidence checked 2026-09-02: JetBrains AI Assistant 2026.2 installs skills as directory trees bundling skill definitions and supporting files that can be opened and inspected."
   - id: 87
     text: "Evidence checked 2026-09-02: Vibe Work allows adding supporting reference documents, templates, guidelines, and data files alongside SKILL.md in the skill folder, which Work loads during skill execution."
   - id: 86
@@ -62,6 +64,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: jetbrains-ai-agent-skills
+    title: "JetBrains AI Assistant — Agent Skills"
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Open skill location: inspect the skill files, review its structure, or make manual changes"
   - id: cognition-devin-desktop-skills
     title: "Cognition — Devin Desktop Skills"
     href: https://docs.devin.ai/desktop/cascade/skills
@@ -501,6 +511,23 @@ support:
             value: "supporting reference documents, templates, and data files placed in the skill folder are read during execution"
         evidence:
           - resourceId: mistral-vibe-work-skills-assets
+            type: documented
+            observedAt: 2026-09-02
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "skills are installed as directory structures bundling skill definitions and supporting files"
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
             type: documented
             observedAt: 2026-09-02
 ---

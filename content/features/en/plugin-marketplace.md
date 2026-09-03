@@ -21,6 +21,8 @@ parent: plugins
 related: []
 highlight: false
 notes:
+  - id: 50
+    text: "Evidence checked 2026-09-02: JetBrains AI Assistant supports browsing and installing skills and extensions from external GitHub registries and the JetBrains Marketplace."
   - id: 1
     text: "Evidence checked 2026-08-28: Grok Bot uses Settings → Plugins to discover and install supported connectors and packaged skills; private skills appear in a separate Yours area and can be enabled per Bot."
   - id: 2
@@ -37,6 +39,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native or portable plugin loader, marketplace, failure-isolation contract, or vendor-extension format."
 issues: []
 resources:
+  - id: jetbrains-ai-agent-skills
+    title: "JetBrains AI Assistant — Agent Skills"
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "External registries – remote sources that provide access to published skills; Manage External Registries"
   - id: xai-grok-bot-skills-marketplace
     title: xAI — Grok Bot skills and routines
     href: https://docs.x.ai/grok-bot/skills-routines-and-automations
@@ -303,6 +313,23 @@ support:
           - resourceId: aider-v0860-dependencies
             type: documented
             observedAt: 2026-08-29
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: format
+            value: "supports external GitHub skill registries and the JetBrains Marketplace for plugin extensions"
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 Discover and install extensions through a documented registry or marketplace.

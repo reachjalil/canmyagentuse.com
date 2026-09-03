@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI supports local stdio MCP servers via the --transport stdio option or configuration in ~/.copilot/mcp-config.json."
+  - id: 81
+    text: "Evidence checked 2026-09-02: OpenWork Desktop supports local command-line MCP servers over the standard stdio transport using its embedded OpenCode engine."
+  - id: 60
+    text: "Evidence checked 2026-09-02: OpenAI Codex CLI supports local stdio MCP servers configured via command and environment settings."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Cascade supports stdio transport for local MCP servers configured with command, args, and env in ~/.codeium/windsurf/mcp_config.json or installed through the marketplace."
   - id: 84
@@ -60,6 +66,30 @@ notes:
     text: "Evidence checked 2026-08-29: Warp launches local command-based MCP servers over stdio, including documented npx and Docker configurations."
 issues: []
 resources:
+  - id: github-copilot-cli-mcp-servers
+    title: "GitHub — Adding MCP servers for GitHub Copilot CLI"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Local or STDIO: starts a local process and communicates over standard input/output (stdin/stdout); --transport stdio"
+  - id: openwork-v01839-stdio
+    title: "OpenWork Desktop v0.18.39 — OpenCode MCP client"
+    href: https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/start-here/do-work-with-it/create-a-skill-from-chat.mdx
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "OpenCode engine stdio MCP configuration"
+  - id: openai-codex-mcp
+    title: "OpenAI — Introducing upgrades to Codex"
+    href: https://openai.com/index/introducing-upgrades-to-codex/
+    kind: note
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Model Context Protocol support in Codex"
   - id: cognition-devin-desktop-mcp
     title: "Cognition — Model Context Protocol (MCP)"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -508,6 +538,57 @@ support:
             value: "Cascade connects to local MCP servers via stdio transport configured in mcp_config.json with command, args, and env"
         evidence:
           - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "stdio process execution configured in ~/.copilot/mcp-config.json or /mcp add"
+        evidence:
+          - resourceId: github-copilot-cli-mcp-servers
+            type: documented
+            observedAt: 2026-09-02
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "local stdio subprocess transport supported via OpenCode engine"
+        evidence:
+          - resourceId: openwork-v01839-stdio
+            type: documented
+            observedAt: 2026-09-02
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "local stdio transport executing configured command and arguments"
+        evidence:
+          - resourceId: openai-codex-mcp
             type: documented
             observedAt: 2026-09-02
 ---

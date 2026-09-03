@@ -20,6 +20,8 @@ aliases: [child context, subagent isolation, context inheritance]
 parent: subagents
 related: [context-window, subagent-approval-boundaries, secrets-management]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok Bot provides hardware-level VM isolation per user, and isolates personalities and workspaces among Bots sharing the dedicated computer."
   - id: 76
     text: "Evidence checked 2026-08-29: Zed v1.17.2 gives each spawn_agent child its own context window and the same tools as its parent, but does not fully define history, instruction, memory, or file-context inheritance."
   - id: 75
@@ -44,6 +46,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Each user gets a dedicated computer with hardware-level separation; Bots isolate personalities and workspaces"
   - id: zed-v1-17-2-tools
     title: "Zed v1.17.2 — Agent Tools"
     href: "https://github.com/zed-industries/zed/blob/c8e44cfa7bda9b2e22c8d6934d78969352e7f61a/docs/src/ai/tools.md#L108-L112"
@@ -367,9 +377,23 @@ support:
           - resourceId: aider-v0860-commands-source
             type: documented
             observedAt: 2026-08-29
-          - resourceId: aider-v0860-dependencies
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "each user receives a dedicated Firecracker microVM; Bots isolate personalities and workspaces within the user's VM"
+        evidence:
+          - resourceId: xai-grok-bot-teams-enterprise
             type: documented
-            observedAt: 2026-08-29
+            observedAt: 2026-09-02
 ---
 
 This row asks whether the child-agent boundary has documented context semantics. A child may start fresh, receive the full parent transcript, inherit only a task prompt and selected files, share project memory, or receive a compacted summary. Those modes have different correctness, privacy, and token-cost consequences.

@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI operates as an MCP client, connecting to local and remote MCP servers configured via ~/.copilot/mcp-config.json or /mcp add to discover and invoke tools."
+  - id: 60
+    text: "Evidence checked 2026-09-02: OpenAI Codex CLI operates as an MCP client, connecting to configured MCP servers and executing server tools."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Cascade acts as an MCP client, connecting to configured MCP servers to request and execute tools, access resources, and consume prompts."
   - id: 84
@@ -66,6 +70,22 @@ notes:
     text: "Evidence checked 2026-08-29: OpenCode v1.18.25 instantiates the official MCP SDK Client and connects configured local or remote servers for tools, prompts, resources, and server metadata."
 issues: []
 resources:
+  - id: github-copilot-cli-mcp-servers
+    title: "GitHub — Adding MCP servers for GitHub Copilot CLI"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Adding MCP servers for GitHub Copilot CLI; /mcp add and ~/.copilot/mcp-config.json"
+  - id: openai-codex-mcp
+    title: "OpenAI — Introducing upgrades to Codex"
+    href: https://openai.com/index/introducing-upgrades-to-codex/
+    kind: note
+    publisher: OpenAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Model Context Protocol support in Codex"
   - id: cognition-devin-desktop-mcp
     title: "Cognition — Model Context Protocol (MCP)"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -610,6 +630,40 @@ support:
             value: "Cascade acts as an MCP client connecting to configured servers to invoke tools, read resources, and load prompts"
         evidence:
           - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "Copilot CLI acts as an MCP client connecting local stdio and remote HTTP/SSE servers"
+        evidence:
+          - resourceId: github-copilot-cli-mcp-servers
+            type: documented
+            observedAt: 2026-09-02
+  - harness: codex-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [60]
+        target:
+          kind: dated-documentation
+          revision: current Codex CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: host-role
+            value: "Codex CLI acts as an MCP client discovering and calling configured server tools"
+        evidence:
+          - resourceId: openai-codex-mcp
             type: documented
             observedAt: 2026-09-02
 ---

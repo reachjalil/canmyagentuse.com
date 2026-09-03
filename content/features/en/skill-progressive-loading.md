@@ -28,6 +28,8 @@ parent: agent-skills
 related: []
 highlight: false
 notes:
+  - id: 50
+    text: "Evidence checked 2026-09-02: JetBrains AI Assistant 2026.2 indexes skill names and descriptions from configured sources for discovery and search, loading full instructions automatically when relevant to a task."
   - id: 87
     text: "Evidence checked 2026-09-02: Vibe Work loads skills progressively in three stages: discovery loads only name and description (~100 tokens), activation loads full SKILL.md instructions when matched, and execution loads referenced files on demand."
   - id: 86
@@ -64,6 +66,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native Agent Skills package or SKILL.md discovery and execution surface."
 issues: []
 resources:
+  - id: jetbrains-ai-agent-skills
+    title: "JetBrains AI Assistant — Agent Skills"
+    href: https://www.jetbrains.com/help/ai-assistant/agent-skills.html
+    kind: docs
+    publisher: JetBrains
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Browse and discover skills; Use skills: Agents can run installed skills automatically, when they are relevant to a task"
   - id: cognition-devin-desktop-skills
     title: "Cognition — Devin Desktop Skills"
     href: https://docs.devin.ai/desktop/cascade/skills
@@ -509,6 +519,23 @@ support:
             value: "three-stage progressive disclosure loads name and description at discovery (~100 tokens), full SKILL.md at activation, and referenced files at execution"
         evidence:
           - resourceId: mistral-vibe-work-skills-progressive
+            type: documented
+            observedAt: 2026-09-02
+  - harness: jetbrains-ai
+    versions:
+      - track: current
+        status: yes
+        noteIds: [50]
+        target:
+          kind: dated-documentation
+          revision: JetBrains AI Assistant 2026.2 Help
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: runtime
+            value: "skills from configured sources are indexed and automatically loaded when relevant to a task"
+        evidence:
+          - resourceId: jetbrains-ai-agent-skills
             type: documented
             observedAt: 2026-09-02
 ---

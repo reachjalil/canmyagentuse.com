@@ -19,6 +19,8 @@ summary: Run generated code in a documented execution environment.
 specLabel: Common product term
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok on the web supports real-time sandboxed Python code execution for mathematical calculations, data processing, and analysis."
   - id: 87
     text: "Evidence checked 2026-09-02: Vibe web Chat provides a sandboxed Python Code Interpreter for charts and data analysis, while Vibe Work provides a built-in TypeScript execution environment for data processing and graphing."
   - id: 86
@@ -47,6 +49,22 @@ notes:
     text: "Evidence checked 2026-08-28: Devin documents commands executed in its hosted development environment, and Grok Bot documents a persistent account-scoped cloud VM with a terminal."
 issues: []
 resources:
+  - id: xai-python-code-execution
+    title: "xAI — Python Code Execution Tool"
+    href: https://docs.x.ai/developers/tools/code-execution
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "write and execute Python code in real-time in a sandboxed environment"
+  - id: xai-grok-faq
+    title: "xAI — Grok FAQ"
+    href: https://docs.x.ai/grok/faq
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Analysis: understand images and charts, debug or run code, transcribe and interpret audio/video"
   - id: mistral-vibe-choose-chat-work-code
     title: "Mistral Docs — Choose Chat, Work, or Code"
     href: https://docs.mistral.ai/vibe/choose-chat-work-code
@@ -751,6 +769,26 @@ support:
             value: "execution is isolated to data-processing and graphing tasks rather than general-purpose arbitrary shell execution"
         evidence:
           - resourceId: mistral-vibe-choose-chat-work-code
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "sandboxed Python code execution for mathematical computation, analysis, and script verification"
+        evidence:
+          - resourceId: xai-python-code-execution
+            type: documented
+            observedAt: 2026-09-02
+          - resourceId: xai-grok-faq
             type: documented
             observedAt: 2026-09-02
 ---

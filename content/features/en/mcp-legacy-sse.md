@@ -28,6 +28,12 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok on the web supports remote MCP servers using Server-Sent Events (SSE) through tunneling services such as ngrok."
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI supports remote MCP servers over Server-Sent Events (SSE) via the sse transport option in ~/.copilot/mcp-config.json or /mcp add."
+  - id: 81
+    text: "Evidence checked 2026-09-02: OpenWork Desktop retains legacy Server-Sent Events (SSE) client transport support for remote MCP servers via its underlying OpenCode engine."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Cascade documents SSE as a supported transport for MCP servers alongside stdio and Streamable HTTP."
   - id: 83
@@ -58,6 +64,30 @@ notes:
     text: "Evidence checked 2026-08-29: Warp local agents connect to legacy MCP Server-Sent Events endpoints and retain current SSE configuration examples."
 issues: []
 resources:
+  - id: xai-grok-custom-mcp-tunneling
+    title: "xAI — Custom MCP Server Tunneling"
+    href: https://docs.x.ai/grok/connectors/custom-mcp-tunneling
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Setting up a tunnel; ngrok; Cloudflare quick tunnels do not support Server-Sent Events (SSE)"
+  - id: github-copilot-cli-mcp-servers
+    title: "GitHub — Adding MCP servers for GitHub Copilot CLI"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "HTTP or SSE: connects to a remote MCP server; SSE uses the legacy HTTP with Server-Sent Events transport"
+  - id: openwork-v01839-legacy-sse
+    title: "OpenWork Desktop v0.18.39 — OpenCode MCP client"
+    href: https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/packages/docs/start-here/do-work-with-it/create-a-skill-from-chat.mdx
+    kind: docs
+    publisher: OpenWork
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "OpenCode engine MCP client configuration"
   - id: cognition-devin-desktop-mcp
     title: "Cognition — Model Context Protocol (MCP)"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -471,6 +501,57 @@ support:
             value: "supports SSE transport for MCP servers alongside stdio and Streamable HTTP"
         evidence:
           - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Connectors documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: "Server-Sent Events (SSE) for custom remote MCP servers"
+        evidence:
+          - resourceId: xai-grok-custom-mcp-tunneling
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "legacy HTTP with Server-Sent Events (SSE) transport for backwards compatibility"
+        evidence:
+          - resourceId: github-copilot-cli-mcp-servers
+            type: documented
+            observedAt: 2026-09-02
+  - harness: openwork-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [81]
+        target:
+          kind: release
+          revision: "OpenWork Desktop v0.18.39, commit 63625a4be566256370eebb84ad91b020a0f6cf06"
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "legacy HTTP plus Server-Sent Events supported via OpenCode engine"
+        evidence:
+          - resourceId: openwork-v01839-legacy-sse
             type: documented
             observedAt: 2026-09-02
 ---

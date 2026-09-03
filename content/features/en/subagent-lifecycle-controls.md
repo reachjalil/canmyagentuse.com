@@ -20,6 +20,8 @@ aliases: [subagent cancellation, child task control, agent supervision]
 parent: subagents
 related: [subagent-concurrency, background-agents]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok Bot supports in-progress task redirection via direct messages, immediate Stop termination of turns, and administrator remote computer termination."
   - id: 81
     text: "Evidence checked 2026-08-29: OpenWork Desktop shows child-agent Working, completed, or failed state, duration, prompt, output or error, and child-session link, but no child-specific pause, resume, cancel, or retry control is documented."
   - id: 73
@@ -38,6 +40,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: xai-grok-bot-group-chat
+    title: "xAI — Grok Bot Chat and Collaboration"
+    href: https://docs.x.ai/grok-bot/chat-and-collaboration
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Redirect work in progress; Stop now command"
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Admins can terminate a member's computer from the Grok Bot page"
   - id: openwork-v01839-subagent-run
     title: "OpenWork v0.18.39 — subagent run line"
     href: "https://github.com/different-ai/openwork/blob/63625a4be566256370eebb84ad91b020a0f6cf06/apps/app/src/components/chat/subagent-run-line.tsx#L30-L64"
@@ -322,9 +340,26 @@ support:
           - resourceId: aider-v0860-commands-source
             type: documented
             observedAt: 2026-08-29
-          - resourceId: aider-v0860-dependencies
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "in-progress redirection, immediate Stop commands, and administrator computer termination"
+        evidence:
+          - resourceId: xai-grok-bot-group-chat
             type: documented
-            observedAt: 2026-08-29
+            observedAt: 2026-09-02
+          - resourceId: xai-grok-bot-teams-enterprise
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row tracks supervision of child-agent executions after delegation. At minimum, evidence should show how active and queued children are identified and whether cancellation propagates to their tools and descendants.

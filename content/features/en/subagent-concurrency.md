@@ -20,6 +20,8 @@ aliases: [parallel subagents, agent fan-out, concurrent child agents]
 parent: subagents
 related: [subagent-delegation, nested-subagents, subagent-context-isolation]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok Bot group chat coordinates 2 to 6 Bots executing concurrently, communicating in the shared transcript, and passing work among themselves."
   - id: 901
     text: "Evidence checked 2026-08-29: Claude Desktop Cowork coordinates multiple subagents working simultaneously on separate parts of a complex task."
   - id: 75
@@ -46,6 +48,14 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: xai-grok-bot-group-chat
+    title: "xAI — Grok Bot Chat and Collaboration"
+    href: https://docs.x.ai/grok-bot/chat-and-collaboration
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "In New chat, select two to six Bots; Bots post into the group and pass work among themselves asynchronously"
   - id: replit-agent-task-system-current
     title: "Replit — Task system"
     href: "https://docs.replit.com/core-concepts/agent/task-system"
@@ -462,9 +472,23 @@ support:
           - resourceId: aider-v0860-commands-source
             type: documented
             observedAt: 2026-08-29
-          - resourceId: aider-v0860-dependencies
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "group chat coordinates 2 to 6 Bots working and handing off work concurrently"
+        evidence:
+          - resourceId: xai-grok-bot-group-chat
             type: documented
-            observedAt: 2026-08-29
+            observedAt: 2026-09-02
 ---
 
 This row requires two or more child-agent executions whose active intervals overlap. Sequential delegation, concurrent ordinary tool calls, and detached shell commands do not establish concurrent subagents.

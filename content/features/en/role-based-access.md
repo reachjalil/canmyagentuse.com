@@ -188,6 +188,14 @@ resources:
     evidenceType: documented
     reviewedAt: 2026-08-29
     locator: "Creating and assigning roles; organization and account roles"
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Admins manage Grok Bot from the Grok Bot page of the Cursor dashboard: network policy, team rules, setup scripts, organization-wide off switch"
   - id: spacexai-grok-organization-rbac
     title: "SpaceXAI Docs — Organization Management"
     href: https://docs.x.ai/grok/organization
@@ -218,6 +226,28 @@ support:
           - resourceId: spacexai-grok-organization-rbac
             type: documented
             observedAt: 2026-09-01
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [80]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: plan
+            value: "Grok Bot Enterprise tier managed via organization permissions and administration dashboard"
+          - type: policy
+            value: "enterprise organization roles govern Bot management, computer termination, network policy, and plugin controls"
+        evidence:
+          - resourceId: xai-grok-bot-teams-enterprise
+            type: documented
+            observedAt: 2026-09-02
+          - resourceId: spacexai-grok-organization-rbac
+            type: documented
+            observedAt: 2026-09-02
   - harness: chatgpt-desktop
     versions:
       - track: current

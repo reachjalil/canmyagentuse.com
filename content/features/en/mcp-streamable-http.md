@@ -28,6 +28,10 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok on the web supports custom remote MCP connectors connecting over the Streamable HTTP transport."
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI supports remote MCP servers over the Streamable HTTP transport via the http transport option in ~/.copilot/mcp-config.json or /mcp add."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Cascade documents Streamable HTTP as a supported transport for remote MCP servers using serverUrl or url endpoint configuration."
   - id: 83
@@ -60,6 +64,22 @@ notes:
     text: "Evidence checked 2026-08-29: Warp local agents connect to MCP servers over Streamable HTTP with optional custom headers."
 issues: []
 resources:
+  - id: xai-grok-custom-mcp-tunneling
+    title: "xAI — Custom MCP Server Tunneling"
+    href: https://docs.x.ai/grok/connectors/custom-mcp-tunneling
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Setting up a tunnel; Cloudflare Tunnel; Servers using the newer Streamable HTTP transport"
+  - id: github-copilot-cli-mcp-servers
+    title: "GitHub — Adding MCP servers for GitHub Copilot CLI"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "HTTP or SSE: connects to a remote MCP server; HTTP uses the Streamable HTTP transport"
   - id: cognition-devin-desktop-mcp
     title: "Cognition — Model Context Protocol (MCP)"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -526,6 +546,40 @@ support:
             value: "supports Streamable HTTP transport for remote MCP endpoints configured with serverUrl or url"
         evidence:
           - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Connectors documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: transport
+            value: "Streamable HTTP for custom remote MCP servers"
+        evidence:
+          - resourceId: xai-grok-custom-mcp-tunneling
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: transport
+            value: "Streamable HTTP transport for remote MCP servers"
+        evidence:
+          - resourceId: github-copilot-cli-mcp-servers
             type: documented
             observedAt: 2026-09-02
 ---

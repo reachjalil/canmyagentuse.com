@@ -28,6 +28,8 @@ parent: mcp
 related: []
 highlight: false
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok on the web and Grok Bot support OAuth authorization for remote MCP connectors, with backend token management preventing token exposure to models."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Cascade documents OAuth support across all supported MCP transport types (stdio, Streamable HTTP, SSE)."
   - id: 83
@@ -58,6 +60,22 @@ notes:
     text: "Evidence checked 2026-08-29: Warp completes browser-based OAuth for protected MCP servers, stores credentials securely on-device, reuses them, and supports revocation."
 issues: []
 resources:
+  - id: xai-grok-custom-mcp-tunneling
+    title: "xAI — Custom MCP Server Tunneling"
+    href: https://docs.x.ai/grok/connectors/custom-mcp-tunneling
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Authentication still applies; OAuth or API keys flow"
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Plugins: OAuth tokens stay on Cursor's connector backend, and Bots invoke tools without receiving them"
   - id: cognition-devin-desktop-mcp
     title: "Cognition — Model Context Protocol (MCP)"
     href: https://docs.devin.ai/desktop/cascade/mcp
@@ -483,6 +501,40 @@ support:
             value: "Devin Desktop supports OAuth authorization for each transport type (stdio, Streamable HTTP, SSE)"
         evidence:
           - resourceId: cognition-devin-desktop-mcp
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Connectors documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: auth
+            value: "OAuth authentication supported for remote MCP servers and connectors"
+        evidence:
+          - resourceId: xai-grok-custom-mcp-tunneling
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot documentation
+          observedAt: 2026-09-02
+        environmentProfile: local-default
+        qualifiers:
+          - type: auth
+            value: "OAuth tokens managed by backend connector infrastructure for MCP plugins"
+        evidence:
+          - resourceId: xai-grok-bot-teams-enterprise
             type: documented
             observedAt: 2026-09-02
 ---

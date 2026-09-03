@@ -21,6 +21,8 @@ parent: models-and-context
 related: [output-token-limit, context-usage-visibility, automatic-context-compaction, upload-limits]
 highlight: true
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok models offer context windows of 500,000 tokens (Grok 4.6) and 1,000,000 tokens (Grok 4.3)."
   - id: 82
     text: "Evidence checked 2026-08-29: Aider v0.86.0 embeds a 1,048,576-token maximum input for gemini/gemini-2.5-pro and /tokens reports the selected model's known maximum and remaining context."
   - id: 76
@@ -36,6 +38,14 @@ notes:
   - id: 50
     text: "Evidence checked 2026-08-29: JetBrains AI Assistant 2026.2 publishes exact context windows for its supported hosted models, ranging from 128k to 1 million tokens, and documents a configurable local-model context default of 64k."
 resources:
+  - id: xai-developer-models
+    title: "xAI — Models and Pricing"
+    href: https://docs.x.ai/developers/models
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Text API Pricing: grok-4.6 500k context; grok-4.3 1M context"
   - id: aider-v0860-model-metadata
     title: "Aider v0.86.0 — Embedded model metadata"
     href: "https://github.com/Aider-AI/aider/blob/a4be6ccd87ebaa59b361f3f028d116ce1761b626/aider/resources/model-metadata.json"
@@ -252,6 +262,23 @@ support:
           - resourceId: cursor-models-context
             type: documented
             observedAt: 2026-08-28
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok models documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "500,000 tokens on Grok 4.6; 1,000,000 tokens on Grok 4.3"
+        evidence:
+          - resourceId: xai-developer-models
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 “Context length” is not one provider-wide number. The catalog records the exact harness, selected model or mode, advertised total context window, maximum accepted input when separately documented, reserved output budget, and observation date. Tool definitions, hidden instructions, memory, file extraction, images, video frames, and previous turns may all consume the same budget.

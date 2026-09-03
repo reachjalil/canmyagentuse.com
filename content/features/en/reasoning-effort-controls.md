@@ -20,6 +20,8 @@ aliases: [thinking budget, reasoning mode, thinking level]
 parent: models-and-context
 related: [model-selection, usage-metering]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok on the web and xAI API expose operator reasoning effort controls via Think mode and the reasoning_effort parameter (low, medium, high, xhigh on Grok 4.6)."
   - id: 83
     text: "Evidence checked 2026-09-02: Vibe web Chat provides an operator-controlled Think mode for extended chain-of-thought analysis, while Vibe Work selects the reasoning level automatically per task."
   - id: 82
@@ -43,6 +45,14 @@ notes:
   - id: 60
     text: "Evidence checked 2026-08-29: Consumer Microsoft Copilot offers a Think Deeper mode that spends additional time reasoning, but does not expose a numeric token or adjustable low-to-high effort budget."
 resources:
+  - id: xai-reasoning-effort
+    title: "xAI — Reasoning Effort Controls"
+    href: https://docs.x.ai/developers/model-capabilities/text/reasoning
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "The reasoning_effort parameter; Think mode; low, medium, high, xhigh effort levels"
   - id: mistral-vibe-choose-chat-work-code
     title: "Mistral Docs — Choose Chat, Work, or Code"
     href: https://docs.mistral.ai/vibe/choose-chat-work-code
@@ -431,6 +441,23 @@ support:
             value: "Chat includes a manual Think mode toggle for extended reasoning; Work automatically selects reasoning depth without manual token budgeting"
         evidence:
           - resourceId: mistral-vibe-choose-chat-work-code
+            type: documented
+            observedAt: 2026-09-02
+  - harness: grok-web
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok reasoning documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: runtime
+            value: "Think mode in chat interface; low, medium, high, and xhigh reasoning effort levels on supported models"
+        evidence:
+          - resourceId: xai-reasoning-effort
             type: documented
             observedAt: 2026-09-02
 ---

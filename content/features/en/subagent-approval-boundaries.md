@@ -20,6 +20,8 @@ aliases: [child approvals, delegated permissions, subagent least privilege]
 parent: subagents
 related: [human-approval, subagent-mcp-access, subagent-write-access, secrets-management]
 notes:
+  - id: 88
+    text: "Evidence checked 2026-09-02: Grok Bot enforces human approval boundaries for sensitive Bot actions, evaluated by an Auto Review model with approval cards presented in the chat transcript."
   - id: 1
     text: "Evidence checked 2026-08-28: Claude Code documents child-specific tool allowlists and denylists plus `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, and `plan` permission modes, with explicit rules for parent-mode precedence."
   - id: 2
@@ -34,6 +36,22 @@ notes:
     text: "Evidence checked 2026-08-29: exhaustive review of Aider v0.86.0's complete stable production package, CLI arguments, chat commands, and runtime dependencies establishes no native child-agent spawning or delegated subagent lifecycle."
 issues: []
 resources:
+  - id: xai-grok-bot-teams-enterprise
+    title: "xAI — Grok Bot for teams and enterprises"
+    href: https://docs.x.ai/grok-bot/teams-and-enterprises
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Human approval gates; Auto Review evaluates sensitive actions"
+  - id: xai-grok-bot-group-chat
+    title: "xAI — Grok Bot Chat and Collaboration"
+    href: https://docs.x.ai/grok-bot/chat-and-collaboration
+    kind: docs
+    publisher: xAI
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Approval cards in the chat transcript"
   - title: Methodology
     href: /methodology
     kind: note
@@ -252,9 +270,26 @@ support:
           - resourceId: aider-v0860-commands-source
             type: documented
             observedAt: 2026-08-29
-          - resourceId: aider-v0860-dependencies
+  - harness: grok-bot-desktop
+    versions:
+      - track: current
+        status: yes
+        noteIds: [88]
+        target:
+          kind: dated-documentation
+          revision: current Grok Bot Teams and Enterprises documentation
+          observedAt: 2026-09-02
+        environmentProfile: hosted-default
+        qualifiers:
+          - type: policy
+            value: "Auto Review evaluates sensitive actions and presents approval gates in the chat transcript"
+        evidence:
+          - resourceId: xai-grok-bot-teams-enterprise
             type: documented
-            observedAt: 2026-08-29
+            observedAt: 2026-09-02
+          - resourceId: xai-grok-bot-group-chat
+            type: documented
+            observedAt: 2026-09-02
 ---
 
 This row asks which tools and permissions a child receives and how its actions obtain approval. A child may inherit parent permissions, receive a reduced tool set, prompt the operator, ask the parent to broker an action, or be unable to request more access.

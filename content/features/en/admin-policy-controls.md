@@ -20,6 +20,8 @@ aliases: [enterprise policy, organization controls, managed settings]
 parent: data-security-controls
 related: [audit-logs, training-data-controls, human-approval]
 notes:
+  - id: 89
+    text: "Evidence checked 2026-09-02: GitHub Copilot CLI supports enterprise administrative policies that centrally control MCP usage, enforce private registries, set session token limits, and govern custom agents."
   - id: 86
     text: "Evidence checked 2026-09-02: Devin Desktop Enterprise policies centrally manage editor and agent settings across Windows (Group Policy/Registry), macOS (Configuration Profiles), and Linux (JSON policy files), overriding user and workspace settings to enforce extensions, update modes, MCP server allowlists, and security controls."
   - id: 82
@@ -56,6 +58,14 @@ notes:
     text: "Evidence checked 2026-08-29: Devin Enterprise security profiles centrally enforce network, MCP, git, and management-tool restrictions and prevent lower-level profiles or child sessions from loosening them."
 issues: []
 resources:
+  - id: github-copilot-cli-enterprise
+    title: "GitHub — Administer Copilot CLI for your enterprise"
+    href: https://docs.github.com/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise
+    kind: docs
+    publisher: GitHub
+    evidenceType: documented
+    reviewedAt: 2026-09-02
+    locator: "Enterprise administrators; Agent session filters; MCP private registry enforcement"
   - id: cognition-devin-desktop-enterprise-policies
     title: "Cognition — Enterprise Policies"
     href: https://docs.devin.ai/desktop/enterprise-policies
@@ -626,6 +636,23 @@ support:
             value: "enterprise policies centrally enforce settings across Windows, macOS, and Linux, overriding local user and workspace settings"
         evidence:
           - resourceId: cognition-devin-desktop-enterprise-policies
+            type: documented
+            observedAt: 2026-09-02
+  - harness: copilot-cli
+    versions:
+      - track: current
+        status: yes
+        noteIds: [89]
+        target:
+          kind: dated-documentation
+          revision: current GitHub Copilot CLI documentation
+          observedAt: 2026-09-02
+        environmentProfile: enterprise-managed
+        qualifiers:
+          - type: policy
+            value: "enterprise policies enforce MCP private registry allowlists, agent session filters, and managed settings"
+        evidence:
+          - resourceId: github-copilot-cli-enterprise
             type: documented
             observedAt: 2026-09-02
 ---
