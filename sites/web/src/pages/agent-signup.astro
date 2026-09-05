@@ -1,0 +1,56 @@
+---
+import {
+  breadcrumbJsonLd,
+  pagePath,
+  resolveMetadata,
+  techArticleJsonLd,
+} from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../lib/collections";
+
+const pages = await publishedCollection("pages");
+const page = entryBySlug(pages, "agent-signup");
+if (!page) throw new Error("Missing agent signup snapshot.");
+
+const { Content } = await render(page);
+const metadata = resolveMetadata(page.data);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImagePath="/research/agent-signup-2026-09-05-social.png"
+  socialImageAlt={metadata.previewImageAlt ?? "Dated agent signup classifications across 22 product guides."}
+  modifiedTime={metadata.updated}
+  jsonLd={[
+    techArticleJsonLd(metadata),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: page.data.title, path: pagePath(page.data.slug) },
+    ]),
+  ]}
+>
+  <SiteChrome>
+    <main id="main" class="shell py-8">
+      <h1 class="text-4xl font-semibold tracking-tight">{page.data.title}</h1>
+      <div class="prose-page mt-8">
+        <Content />
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<style>
+  @media (max-width: 640px) {
+    .prose-page :global(table) {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+  }
+</style>

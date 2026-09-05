@@ -1,0 +1,62 @@
+We need a new sign-up button: one for agents.
+
+Your next customer may arrive with an agent that can evaluate your product, connect it to a workflow and start using it.
+
+Can that agent get through the front door?
+
+That question is becoming central to what I’m building with Can My Agent Use. We document which services agents can use, how they connect, what access they need and where a person still has to step in.
+
+I looked at the signup classifications across our first 22 product guides. The difference between getting started and getting work done was striking:
+
+- 17 guides mark useful work as “Agent can do it,” after the documented setup.
+- Zero gives signup that same label.
+- Signup breaks down into 5 human steps, 4 conditional entries and 13 unverified entries.
+
+This is a small documentation snapshot, not a live signup benchmark or a survey of the whole market. “Unverified” does not mean impossible. Gmail and Google Calendar even share an account system, so these are 22 guides, not 22 independent signup systems. The complete snapshot and sources are here. (https://canmyagentuse.com/agent-signup)
+
+But it exposes a question worth asking: how much of our “agent-ready” software assumes a human has already done the onboarding?
+
+An API key is useful once someone has an account. An MCP connection is useful once someone can authorize it. A tool that creates a project may assume an organization already exists.
+
+Those assumptions are easy to miss in a demo. They become very visible when the request is: “Find a service for this job and get me started.”
+
+The interesting developments are already showing a different path.
+
+AgentMail lets an agent begin registration. Its documented flow takes a human email address and returns an API key, inbox ID and organization ID. A code goes to that human email; verification unlocks full permissions. The flow is for first-time users. That is a meaningful agent entry point with an explicit human connection. It also shows why giving an agent an inbox does not automatically establish permission to register with every other service. AgentMail guide (https://canmyagentuse.com/products/agentmail)
+
+Cloudflare lets useful work begin before permanent ownership is finished. Its temporary-account flow can produce a Worker preview after the required policy acceptance. The intended user must finish claiming the account within 60 minutes. That is a concrete preview followed by an ownership handoff. Cloudflare guide (https://canmyagentuse.com/products/cloudflare)
+
+Neon now documents a similar approach for databases. An agent can provision a temporary project before a human creates an account. It gets scoped credentials; the human later claims the project into an organization. Unclaimed projects expire after 72 hours. Neon is outside our 22-guide count, but it is an important example of where this is going. Neon’s documentation (https://neon.com/claimable-neon)
+
+There are other ways to remove the obstacle. With an accessible Obsidian vault, an agent can work on local Markdown files without a service-account signup for that route. Sync is a separate question. Sometimes the best onboarding is less onboarding. Obsidian guide (https://canmyagentuse.com/products/obsidian)
+
+These examples make me think we need to design “Sign up with an agent” as a real product journey.
+
+The agent should be able to discover what it can start, identify the human or team it represents, request the necessary access and receive a result it can inspect. When ownership, identity or spending needs a decision, the service should return a clear handoff—and a way to resume afterward.
+
+For a builder, that suggests a practical checklist:
+
+1. Publish an entry point an agent can understand.
+2. State what can happen before registration, verification or payment.
+3. Issue access scoped to the intended task or temporary resource.
+4. Make the owner, approval and claim steps explicit.
+5. Return the resource ID, current status, expiry and next action.
+6. Let the owner inspect, revoke, transfer or delete the result.
+
+That is a proposed design direction, not a standard every provider already implements.
+
+Why does it matter for a business? Because the first useful result is part of how a product gets chosen. If an agent can evaluate your service and prepare a working starting point, the human has something concrete to approve. My hypothesis is that this will become a meaningful acquisition advantage. Testing that hypothesis will take onboarding and conversion data beyond this snapshot.
+
+It changes what “agent access” needs to mean, too. We should ask about the whole journey: discovery, signup, authorization, payment where needed, useful work and verification.
+
+That is the place I want Can My Agent Use to become: somewhere your agent can look up the documented path before choosing a service, with sources and human handoffs attached. Our catalog MCP (https://canmyagentuse.com/plugin) already makes that research searchable. Your agent still needs to establish what is actually connected and permitted in your environment.
+
+If you build a product, show us its first five minutes with an agent. What can it start? What does the human approve? What comes back when it works?
+
+We’re collecting the evidence. (https://canmyagentuse.com/submit-app)
+
+The next “Sign up” button may need to welcome an agent acting for your customer.
+
+---
+
+*Research snapshot: September 5, 2026. Documentation review; no live registrations performed. Can My Agent Use is independent. OpenWork is our disclosed founding sponsor; sponsorship does not determine the findings.*

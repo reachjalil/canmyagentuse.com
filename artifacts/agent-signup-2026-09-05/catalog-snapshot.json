@@ -1,0 +1,778 @@
+{
+  "date": "2026-09-05",
+  "sourceCommit": "309cd23b4cb51ca80a983e62cf61dc5c26ba1b7c",
+  "sampleSize": 22,
+  "basis": "Published catalog classifications, not live signup tests or a representative market survey.",
+  "counts": {
+    "signup": {
+      "conditional": 4,
+      "human-step": 5,
+      "unknown": 13
+    },
+    "use": {
+      "agent-ready": 17,
+      "conditional": 5
+    }
+  },
+  "records": [
+    {
+      "title": "Cloudflare",
+      "slug": "cloudflare",
+      "order": 1,
+      "guide": "https://canmyagentuse.com/products/cloudflare",
+      "sourceFile": "content/products/en/cloudflare.md",
+      "sha256": "d74e0b680bec1b671429d267e082b8bd2cc65227dc0f6304d46c7c878be85c92",
+      "signup": {
+        "id": "sign-up",
+        "status": "conditional",
+        "summary": "Start a preview before signing in.",
+        "detail": "Wrangler 4.102.0+ can provision a temporary preview after the required policy acceptance. The owner must complete the claim within 60 minutes; permanent signup and ongoing authorization remain separate.",
+        "sourceIds": ["preview"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Deploy Workers and use authorized tools.",
+        "detail": "Wrangler provides the deployment route; Cloudflare MCP exposes account operations within the granted permissions. Preview credentials have limited capabilities.",
+        "sourceIds": ["preview", "mcp"]
+      },
+      "signupSources": [
+        {
+          "id": "preview",
+          "title": "Temporary accounts and claim deployments",
+          "href": "https://developers.cloudflare.com/workers/platform/claim-deployments/",
+          "publisher": "Cloudflare",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Gmail",
+      "slug": "gmail",
+      "order": 2,
+      "guide": "https://canmyagentuse.com/products/gmail",
+      "sourceFile": "content/products/en/gmail.md",
+      "sha256": "24fa90357c1b17e9a156fe7251178a567ec69ae41e5f4a5400ce5dd1a0d6e4ca",
+      "signup": {
+        "id": "sign-up",
+        "status": "human-step",
+        "summary": "Create the Google account first.",
+        "detail": "Google documents an interactive account-creation flow. The Gmail API quickstart assumes you already have an account with Gmail enabled. Autonomous signup is not verified here.",
+        "sourceIds": ["account", "quickstart"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read first; add write access deliberately.",
+        "detail": "The API supports mailbox operations under OAuth scopes. gmail.readonly excludes writes; gmail.compose can draft AND send. Google’s preview MCP tool list includes search, thread retrieval, drafts, and labels, with no sending tool listed.",
+        "sourceIds": ["scopes", "mcp"]
+      },
+      "signupSources": [
+        {
+          "id": "account",
+          "title": "Create a Google Account",
+          "href": "https://support.google.com/accounts/answer/27441",
+          "publisher": "Google",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "quickstart",
+          "title": "Gmail API Python quickstart",
+          "href": "https://developers.google.com/workspace/gmail/api/quickstart/python",
+          "publisher": "Google",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Salesforce",
+      "slug": "salesforce",
+      "order": 3,
+      "guide": "https://canmyagentuse.com/products/salesforce",
+      "sourceFile": "content/products/en/salesforce.md",
+      "sha256": "a7438302b2424700e27ef92579c82061acfc765e7b6bb0ccc964b4cf799dc68d",
+      "signup": {
+        "id": "sign-up",
+        "status": "conditional",
+        "summary": "Create a scratch org after Dev Hub setup.",
+        "detail": "Salesforce CLI can provision an expiring development scratch org using an authorized Dev Hub with spare allocation. Initial Developer Edition signup and paid production-org creation are separate flows; this is not an autonomous new-customer signup.",
+        "sourceIds": [
+          "scratch",
+          "devhub",
+          "quickstart",
+          "scratch-lifecycle",
+          "devhub-availability"
+        ]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Query and update permitted CRM records.",
+        "detail": "Hosted SObject tools query and change CRM records under the authenticated user’s object, field, and sharing permissions. Start with SObject Reads; creation, updates, and deletion require a server that exposes those operations.",
+        "sourceIds": ["sobject", "reads", "servers"]
+      },
+      "signupSources": [
+        {
+          "id": "quickstart",
+          "title": "Connect REST API quickstart",
+          "href": "https://developer.salesforce.com/docs/platform/connect-rest-api/guide/quickstart.html",
+          "publisher": "Salesforce",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "scratch",
+          "title": "Salesforce CLI: create a scratch org",
+          "href": "https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_org_create_scratch.html",
+          "publisher": "Salesforce",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "devhub",
+          "title": "Create an app with scratch orgs",
+          "href": "https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev/sfdx_app_dev_create_app",
+          "publisher": "Salesforce",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "scratch-lifecycle",
+          "title": "Scratch-org lifetime and development scope",
+          "href": "https://admin.salesforce.com/blog/2023/sandboxes-vs-scratch-orgs-and-how-to-use-them",
+          "publisher": "Salesforce",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "devhub-availability",
+          "title": "Enable Dev Hub in an eligible org",
+          "href": "https://developer.salesforce.com/docs/platform/pkg2-dev/guide/sfdx-pkg-enable-devhub.html",
+          "publisher": "Salesforce",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Notion",
+      "slug": "notion",
+      "order": 4,
+      "guide": "https://canmyagentuse.com/products/notion",
+      "sourceFile": "content/products/en/notion.md",
+      "sha256": "a26434a6539317a5c11f81d92914862c20147fac45d1dbb100b57781b498a633",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous workspace signup is not verified.",
+        "detail": "The reviewed integration documentation starts from access to a Notion workspace; it does not establish autonomous account creation.",
+        "sourceIds": ["connect"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Search, create, and edit workspace content.",
+        "detail": "Notion publishes tools to read and change accessible workspace content. Check the connected workspace and current tool access before relying on a listed tool; some capabilities depend on plan or Notion AI access.",
+        "sourceIds": ["tools", "mcp-overview"]
+      },
+      "signupSources": [
+        {
+          "id": "connect",
+          "title": "Connect to Notion MCP",
+          "href": "https://developers.notion.com/guides/mcp/get-started-with-mcp",
+          "publisher": "Notion",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Obsidian",
+      "slug": "obsidian",
+      "order": 5,
+      "guide": "https://canmyagentuse.com/products/obsidian",
+      "sourceFile": "content/products/en/obsidian.md",
+      "sha256": "e70ad17c3cd568f00fbefe320b8bb13fee455c280d6d42988b69455cbfbb3de9",
+      "signup": {
+        "id": "sign-up",
+        "status": "conditional",
+        "summary": "The local file route starts with a vault.",
+        "detail": "Obsidian stores notes in a local folder. Working with those files does not establish an account signup flow; Sync has separate account and subscription requirements.",
+        "sourceIds": ["files", "sync"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read and update notes in your vault.",
+        "detail": "Use file access or the official CLI. The CLI controls the desktop application and requires it to run; it is not a generic headless server.",
+        "sourceIds": ["files", "cli"]
+      },
+      "signupSources": [
+        {
+          "id": "files",
+          "title": "How Obsidian stores data",
+          "href": "https://obsidian.md/help/Files+and+folders/How+Obsidian+stores+data",
+          "publisher": "Obsidian",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "sync",
+          "title": "Set up Obsidian Sync",
+          "href": "https://obsidian.md/help/sync/setup",
+          "publisher": "Obsidian",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "OneNote",
+      "slug": "onenote",
+      "order": 6,
+      "guide": "https://canmyagentuse.com/products/onenote",
+      "sourceFile": "content/products/en/onenote.md",
+      "sha256": "193dc4df2102b1ae9d815a5d34f52392c6a1871f531c8d5ab8b998486d143f58",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not assessed.",
+        "detail": "The reviewed OneNote API documentation covers notebook access rather than creating a Microsoft account.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read and organize accessible notebook content.",
+        "detail": "Microsoft Graph exposes OneNote notebooks, sections, and pages under the authorized user context.",
+        "sourceIds": ["api", "content"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "GitHub",
+      "slug": "github",
+      "order": 7,
+      "guide": "https://canmyagentuse.com/products/github",
+      "sourceFile": "content/products/en/github.md",
+      "sha256": "a9137074be7193943790e0c1a0a2691372d198bd08566bd557a9813caee2b8a6",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not assessed.",
+        "detail": "This guide starts from an existing service account and evaluates its connection routes.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read repositories and manage permitted work.",
+        "detail": "The MCP server offers configurable toolsets; read-only mode suppresses write tools. Enable only the operations needed for your task.",
+        "sourceIds": ["mcp"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Slack",
+      "slug": "slack",
+      "order": 8,
+      "guide": "https://canmyagentuse.com/products/slack",
+      "sourceFile": "content/products/en/slack.md",
+      "sha256": "cb465bd1aedfd824c1953319e2fecd7b8bbbb04ca52c49f1ce0a41c463bcab53",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not assessed.",
+        "detail": "This guide starts from an existing service account and evaluates its connection routes.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Use tools within the granted scopes.",
+        "detail": "The server documents search, messages, canvases, and other workspace operations. A read scope does not grant permission to send a message.",
+        "sourceIds": ["mcp"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Linear",
+      "slug": "linear",
+      "order": 9,
+      "guide": "https://canmyagentuse.com/products/linear",
+      "sourceFile": "content/products/en/linear.md",
+      "sha256": "1c8013e913143815b81bc7221ccb06b362c2551483c4e40edd8be4129929b2f8",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not assessed.",
+        "detail": "This guide begins with an existing Linear user and workspace. The reviewed integration documentation does not establish autonomous signup.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read issues and make permitted updates.",
+        "detail": "Documented GraphQL queries and mutations support issue workflows. Confirm the target team and approved change; inspect both returned data and GraphQL errors before reporting success.",
+        "sourceIds": ["graphql"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Atom Tickets",
+      "slug": "atom-tickets",
+      "order": 10,
+      "guide": "https://canmyagentuse.com/products/atom-tickets",
+      "sourceFile": "content/products/en/atom-tickets.md",
+      "sha256": "048dfb7dfc2c3c3fd7285f3f0935d3bd3e6cb100d418340a465723676d8a2211",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account signup is not verified.",
+        "detail": "This review covers partner API access, not self-service creation of a consumer or partner account.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "conditional",
+        "summary": "Find a showing and prepare a checkout.",
+        "detail": "Atom offers discovery with a checkout URL and an API ordering route. Availability must be resolved for the actual venue and showing.",
+        "sourceIds": ["agents"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "AMC Theatres",
+      "slug": "amc-theatres",
+      "order": 11,
+      "guide": "https://canmyagentuse.com/products/amc-theatres",
+      "sourceFile": "content/products/en/amc-theatres.md",
+      "sha256": "1ea5e046e48757853c01bb25b027000a90cc4a9ec1d1405b256faf2e220870f8",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous consumer signup is not verified.",
+        "detail": "The reviewed developer flow requests catalog API access; it is not a consumer account-creation assessment.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "conditional",
+        "summary": "Catalog discovery is a separate capability.",
+        "detail": "The general-admission guide covers showing lookup and order creation. Its sample dates and prices are examples, not current availability.",
+        "sourceIds": ["ordering"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Best Buy",
+      "slug": "best-buy",
+      "order": 12,
+      "guide": "https://canmyagentuse.com/products/best-buy",
+      "sourceFile": "content/products/en/best-buy.md",
+      "sha256": "79ff78f4270fdf5071e8d79ca5abe78e110a6e00e724ae81532f05f7d23e41b9",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Agent-created shopping accounts are unverified.",
+        "detail": "Developer registration and consumer account creation are different flows; autonomous consumer signup is not assessed.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Research products and store availability.",
+        "detail": "The Products and Stores APIs expose catalog and store information. That is a discovery capability, not an order confirmation.",
+        "sourceIds": ["apis"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Amazon",
+      "slug": "amazon",
+      "order": 13,
+      "guide": "https://canmyagentuse.com/products/amazon",
+      "sourceFile": "content/products/en/amazon.md",
+      "sha256": "3c4637dccd83c11bb83a30562fc0be4dddb036dc72a363d56717f3f1d857f503",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous Amazon signup is not verified.",
+        "detail": "This guide reviews the documented shopping assistant, not customer account creation.",
+        "sourceIds": []
+      },
+      "use": {
+        "id": "use-product",
+        "status": "conditional",
+        "summary": "Research and cart actions are documented.",
+        "detail": "Alexa for Shopping supports product comparison and shopping assistance in Amazon’s experience. Do not generalize this to every third-party agent.",
+        "sourceIds": ["assistant"]
+      },
+      "signupSources": []
+    },
+    {
+      "title": "Vercel",
+      "slug": "vercel",
+      "order": 14,
+      "guide": "https://canmyagentuse.com/products/vercel",
+      "sourceFile": "content/products/en/vercel.md",
+      "sha256": "18274552c532f5e564506587ce616e39f947f2a24900c2e0666056ee9d64ddae",
+      "signup": {
+        "id": "sign-up",
+        "status": "human-step",
+        "summary": "Verify an account and claim the preview.",
+        "detail": "Vercel Labs documents sandbox-specific no-auth deployment fallbacks that return preview and claim links. Normal signup uses email verification or a Git provider; the owner completes the account and ownership handoff.",
+        "sourceIds": ["accounts", "claim-skill", "claim-ownership"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Inspect projects and deploy approved changes.",
+        "detail": "Use the CLI or REST API for deployment workflows, or the available MCP tools. Choose the intended project, team and deployment target before uploading code.",
+        "sourceIds": ["cli-deploy", "api", "mcp"]
+      },
+      "signupSources": [
+        {
+          "id": "accounts",
+          "title": "Vercel account signup and login methods",
+          "href": "https://vercel.com/docs/accounts",
+          "publisher": "Vercel",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "claim-skill",
+          "title": "Vercel Labs deployment skill and no-auth fallbacks",
+          "href": "https://github.com/vercel-labs/agent-skills/blob/main/skills/deploy-to-vercel/SKILL.md",
+          "publisher": "Vercel Labs",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "claim-ownership",
+          "title": "AI agent deployment ownership and claiming",
+          "href": "https://vercel.com/kb/guide/ai-agents",
+          "publisher": "Vercel",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Supabase",
+      "slug": "supabase",
+      "order": 15,
+      "guide": "https://canmyagentuse.com/products/supabase",
+      "sourceFile": "content/products/en/supabase.md",
+      "sha256": "bfd161bb8ebc29b14fffb6750b908576c217a9625ec1c316121fbd5b9e99d41b",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Account signup is not verified.",
+        "detail": "The documented provisioning workflow starts with an existing Supabase account and organization. Creating a database project does not establish autonomous signup of that developer account.",
+        "sourceIds": ["oauth-integration"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Inspect a schema and apply approved changes.",
+        "detail": "Official management operations and migration workflows support database development. Permission and environment selection determine which reads and writes the agent can perform.",
+        "sourceIds": ["management-api", "migrations", "personal-tokens"]
+      },
+      "signupSources": [
+        {
+          "id": "oauth-integration",
+          "title": "Supabase OAuth integrations, project creation and revocation",
+          "href": "https://supabase.com/docs/guides/integrations/build-a-supabase-oauth-integration",
+          "publisher": "Supabase",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Sentry",
+      "slug": "sentry",
+      "order": 16,
+      "guide": "https://canmyagentuse.com/products/sentry",
+      "sourceFile": "content/products/en/sentry.md",
+      "sha256": "63f366ba50e41084b42c3525f1c589def7559d9cf838de030be8d658a21a1016",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not verified.",
+        "detail": "Sentry documents web signup and organization setup. Creating a project inside an authorized organization is a separate API capability and does not prove an agent can create a new user or organization.",
+        "sourceIds": ["getting-started", "data-region", "project-create"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read issues and perform approved triage.",
+        "detail": "Official MCP and CLI routes support inspection and permitted issue updates. Confirm the organization, project and exact issue before changing status; a resolved issue is not evidence of a deployed code fix.",
+        "sourceIds": ["mcp-permissions", "cli-issues"]
+      },
+      "signupSources": [
+        {
+          "id": "project-create",
+          "title": "Create a project for an existing Sentry organization",
+          "href": "https://docs.sentry.io/api/projects/create-a-project-for-an-organization/",
+          "publisher": "Sentry",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "data-region",
+          "title": "Sentry US and EU data storage and API routing",
+          "href": "https://docs.sentry.io/organization/data-storage-location/",
+          "publisher": "Sentry",
+          "reviewedAt": "2026-09-04"
+        },
+        {
+          "id": "getting-started",
+          "title": "Sentry signup and initial product setup",
+          "href": "https://docs.sentry.io/get-started/",
+          "publisher": "Sentry",
+          "reviewedAt": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "title": "Airtable",
+      "slug": "airtable",
+      "order": 17,
+      "guide": "https://canmyagentuse.com/products/airtable",
+      "sourceFile": "content/products/en/airtable.md",
+      "sha256": "6c4839574cdbd3e8e5aaab576f26a640d47b1b491c1c0e083d36726c4880397f",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Web account signup is documented; autonomous signup is not verified.",
+        "detail": "Airtable documents creating an account at airtable.com/signup with email, SSO, Google or Apple credentials. The reviewed sources do not establish that an outside agent can complete identity checks, create the account and reliably receive the resulting workspace without a person.",
+        "sourceIds": ["signup"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read, analyze and make approved record changes through documented routes.",
+        "detail": "After connection, an agent can list or inspect records, analyze them, create records and update existing records when the user has the needed Airtable role and scopes. Commenter and Read-only users can read through MCP but cannot create or update records. Base field and table restrictions also apply to API and MCP writes. This is a documentation review, not a live agent test.",
+        "sourceIds": ["mcp", "mcp-dev", "api", "base-permissions"]
+      },
+      "signupSources": [
+        {
+          "id": "signup",
+          "title": "Creating, canceling, and deleting your Airtable account",
+          "href": "https://support.airtable.com/articles/2675548758-creating-canceling-and-deleting-your-airtable-account",
+          "publisher": "Airtable",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    },
+    {
+      "title": "Asana",
+      "slug": "asana",
+      "order": 18,
+      "guide": "https://canmyagentuse.com/products/asana",
+      "sourceFile": "content/products/en/asana.md",
+      "sha256": "1523fc10279a1019a77b9ae0f6104ff4a2ee7933960cfcc272c19cb42e59ab56",
+      "signup": {
+        "id": "sign-up",
+        "status": "unknown",
+        "summary": "Autonomous account creation is not verified.",
+        "detail": "Asana’s developer overview says a developer can create a free account or request a sandbox, but the reviewed sources do not establish an agent completing signup, email verification or organization setup autonomously.",
+        "sourceIds": ["overview"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read, create and update permitted tasks and projects.",
+        "detail": "Use get_tasks to read incomplete work in one named project and inspect its due dates. The advanced search_tasks tool requires Premium; get_tasks is the documented alternative for non-Premium workspaces. This read plan does not make MCP authorization read-only. Approve any later task change separately and fetch the task again to verify the result.",
+        "sourceIds": ["mcp-tools", "create-task", "oauth-scopes"]
+      },
+      "signupSources": [
+        {
+          "id": "overview",
+          "title": "Build an app with Asana",
+          "href": "https://developers.asana.com/docs/overview",
+          "publisher": "Asana",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    },
+    {
+      "title": "Google Calendar",
+      "slug": "google-calendar",
+      "order": 19,
+      "guide": "https://canmyagentuse.com/products/google-calendar",
+      "sourceFile": "content/products/en/google-calendar.md",
+      "sha256": "827b009e938b1d8d0bbdb9a5b7bef4ea444b22266fe28877726e4223bc84e98e",
+      "signup": {
+        "id": "sign-up",
+        "status": "human-step",
+        "summary": "Create or select the Google account first.",
+        "detail": "Google’s account and Calendar help pages document an interactive browser sign-up and sign-in flow. The Calendar API quickstart assumes a Google account with Calendar enabled, so autonomous account creation is not verified here.",
+        "sourceIds": ["account", "calendar-start", "quickstart"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Read availability or manage events when the token and calendar role allow it.",
+        "detail": "The Calendar API documents event listing, retrieval, creation, full replacement updates, and deletion. The first-party Calendar MCP preview lists read, availability, create, update, delete, RSVP, and time-suggestion tools. Its create and update references require either https://www.googleapis.com/auth/calendar or https://www.googleapis.com/auth/calendar.events; tool existence does not grant write authority. This is documented capability, not a completed live agent run.",
+        "sourceIds": [
+          "events-list",
+          "events-get",
+          "events-insert",
+          "events-update",
+          "events-delete",
+          "freebusy",
+          "mcp",
+          "mcp-tools",
+          "mcp-update",
+          "mcp-delete"
+        ]
+      },
+      "signupSources": [
+        {
+          "id": "account",
+          "title": "Create a Google Account",
+          "href": "https://support.google.com/accounts/answer/27441?hl=en",
+          "publisher": "Google Account Help",
+          "reviewedAt": "2026-09-05"
+        },
+        {
+          "id": "calendar-start",
+          "title": "Get started with Google Calendar",
+          "href": "https://support.google.com/calendar/answer/2465776?hl=en",
+          "publisher": "Google Calendar Help",
+          "reviewedAt": "2026-09-05"
+        },
+        {
+          "id": "quickstart",
+          "title": "Python quickstart",
+          "href": "https://developers.google.com/workspace/calendar/api/quickstart/python",
+          "publisher": "Google for Developers",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    },
+    {
+      "title": "Resend",
+      "slug": "resend",
+      "order": 20,
+      "guide": "https://canmyagentuse.com/products/resend",
+      "sourceFile": "content/products/en/resend.md",
+      "sha256": "8595b0c441c43e2db1af4253ebecb81cb9eaa5c9acf13615d8a1316d1b02a952",
+      "signup": {
+        "id": "sign-up",
+        "status": "human-step",
+        "summary": "A person creates the Resend account and accepts its terms.",
+        "detail": "Resend's signup page supports email and password, Google, or GitHub. The page asks the person to accept Resend's Terms, Acceptable Use, and Privacy Policy. Resend says every account, including Free, has immediate production access with no sandbox or approval wait; DNS verification is still required before sending from a custom domain. This review found no evidence that an agent can independently complete signup, identity checks, or domain ownership.",
+        "sourceIds": ["signup", "production-approval"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "conditional",
+        "summary": "An authorized agent can prepare, send, inspect, and track email when the sender and credential permit it.",
+        "detail": "The MCP server and REST API cover sending, retrieval, domains, contacts, templates, broadcasts, logs, webhooks, and more; the official CLI exposes the API surface as structured terminal commands. A send call returns an email ID and means Resend accepted the request. It does not prove that the recipient's mail server accepted the message: `email.sent` means Resend will attempt delivery, while `email.delivered` means delivery to the recipient's mail server. Use a webhook or retrieve the email record to read the resulting `last_event`.",
+        "sourceIds": ["remote-mcp", "api-send", "api-get", "events", "webhooks"]
+      },
+      "signupSources": [
+        {
+          "id": "signup",
+          "title": "Create a Resend account",
+          "href": "https://resend.com/signup",
+          "publisher": "Resend",
+          "reviewedAt": "2026-09-05"
+        },
+        {
+          "id": "production-approval",
+          "title": "Does Resend require production approval?",
+          "href": "https://resend.com/docs/knowledge-base/does-resend-require-production-approval",
+          "publisher": "Resend",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    },
+    {
+      "title": "AgentMail",
+      "slug": "agentmail",
+      "order": 21,
+      "guide": "https://canmyagentuse.com/products/agentmail",
+      "sourceFile": "content/products/en/agentmail.md",
+      "sha256": "79336e8234c60deb8eea28249d964819b21af82bea87eb2234aabe461fadf4c7",
+      "signup": {
+        "id": "sign-up",
+        "status": "conditional",
+        "summary": "Agent starts signup; you complete the OTP.",
+        "detail": "The Console signup creates the customer account and API key path. AgentMail also documents an agent signup flow that takes a human email, returns an API key, inbox ID, and organization ID, and sends a six-digit OTP; the human must provide or approve that code. This is separate from provisioning additional agent inboxes.",
+        "sourceIds": ["quickstart", "api-key"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "agent-ready",
+        "summary": "Provision an inbox, then read, send, receive, and reply.",
+        "detail": "The MCP catalog documents inbox, message, thread, draft, and attachment tools; it does not establish webhook-management tools. The API and CLI document inbox creation, message listing and retrieval, threaded replies, drafts, attachments, and webhook management. A first task can list a small set of messages and prepare a draft or reply for human review. Sending is an external side effect; an accepted send is not proof that the recipient saw the message.",
+        "sourceIds": [
+          "mcp",
+          "inboxes",
+          "messages",
+          "reply",
+          "list-messages",
+          "get-message",
+          "drafts",
+          "send-draft",
+          "webhooks",
+          "events",
+          "send-message",
+          "query-events"
+        ]
+      },
+      "signupSources": [
+        {
+          "id": "quickstart",
+          "title": "Quickstart",
+          "href": "https://docs.agentmail.to/quickstart",
+          "publisher": "AgentMail",
+          "reviewedAt": "2026-09-05"
+        },
+        {
+          "id": "api-key",
+          "title": "How do I get my API key?",
+          "href": "https://docs.agentmail.to/knowledge-base/getting-api-key",
+          "publisher": "AgentMail",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    },
+    {
+      "title": "Postmark",
+      "slug": "postmark",
+      "order": 22,
+      "guide": "https://canmyagentuse.com/products/postmark",
+      "sourceFile": "content/products/en/postmark.md",
+      "sha256": "3e44ba669fd32454a007923f10abc70c96c323c5ebaf79a52507bf9d661a0084",
+      "signup": {
+        "id": "sign-up",
+        "status": "human-step",
+        "summary": "Create and confirm the Postmark account yourself.",
+        "detail": "Postmark's getting-started flow assumes a free account and a confirmed email. An Account Owner must submit the account for manual approval before sending to recipients outside domains you own; the reviewed docs do not establish autonomous signup or approval.",
+        "sourceIds": ["get-started", "approval"]
+      },
+      "use": {
+        "id": "use-product",
+        "status": "conditional",
+        "summary": "Use MCP, API or SMTP, then verify delivery separately.",
+        "detail": "With an approved account, a confirmed From address, suitable server or stream credential and an explicitly approved recipient and message, an agent can prepare and submit transactional email. A 200 response and MessageID show that Postmark accepted the request; a delivery webhook means the destination server accepted it, not that it reached the inbox. Keep broadcast streams and external recipients behind the same human approval gate.",
+        "sourceIds": [
+          "get-started",
+          "email-api",
+          "smtp",
+          "delivery",
+          "mcp-repo"
+        ]
+      },
+      "signupSources": [
+        {
+          "id": "get-started",
+          "title": "Get started",
+          "href": "https://postmarkapp.com/developer/get-started",
+          "publisher": "Postmark",
+          "reviewedAt": "2026-09-05"
+        },
+        {
+          "id": "approval",
+          "title": "How does the account approval process work?",
+          "href": "https://postmarkapp.com/support/article/1084-how-does-the-account-approval-process-work",
+          "publisher": "Postmark",
+          "reviewedAt": "2026-09-05"
+        }
+      ]
+    }
+  ]
+}

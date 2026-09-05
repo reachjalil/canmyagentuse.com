@@ -94,3 +94,7 @@ The moderation record keeps a unique request ID, received timestamp, abuse indic
 Accepted corrections update the canonical assessment date, basis, confidence, sources, and reasoning while preserving the previous status and correction request ID in editorial history. Declined requests retain a private rationale so the same claim does not need to be re-evaluated from scratch.
 
 The product deliberately does not publish a synthetic harness score, fabricated market-share figure, or unsourced editorial capability. Useful operational metrics are evidence freshness, sourced-cell coverage, contradiction age, revision pinning, source diversity, review latency, and future conformance-test coverage.
+
+## Signup, account access and provisioning
+
+A service integration does not establish that an agent can create a new customer account. Keep agent-initiated registration, a temporary claimable preview, provisioning within an existing account and account-free local work distinct. Our [September 5 signup snapshot](/agent-signup) shows all 22 guide classifications and their limits; it is a documentation audit, not a signup benchmark.
