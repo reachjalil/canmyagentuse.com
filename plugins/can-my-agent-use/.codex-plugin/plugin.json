@@ -13,9 +13,7 @@
     "longDescription": "Search services and agent capabilities, retrieve complete source-backed records, and check compatibility for exact web, desktop, and CLI harnesses. Preserves unknowns, requirements, evidence classes, and review dates.",
     "developerName": "Can My Agent Use",
     "category": "Productivity",
-    "capabilities": [
-      "Read"
-    ],
+    "capabilities": ["Read"],
     "defaultPrompt": [
       "Can Codex CLI use MCP Apps?",
       "Which services have an MCP integration?",
@@ -31,11 +29,5 @@
   "homepage": "https://canmyagentuse.com/plugin",
   "repository": "https://github.com/reachjalil/canmyagentuse.com",
   "license": "MIT",
-  "keywords": [
-    "compatibility",
-    "agents",
-    "mcp",
-    "evidence",
-    "catalog"
-  ]
+  "keywords": ["compatibility", "agents", "mcp", "evidence", "catalog"]
 }
