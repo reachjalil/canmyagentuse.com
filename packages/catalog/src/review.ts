@@ -94,7 +94,7 @@ export function reviewMarkdown(review?: LivingReview): string {
     "",
     review.summary,
     "",
-    `Field Notes ${String(review.number).padStart(2, "0")} · Version ${review.version} · Reviewed ${review.reviewedAt}`,
+    `App usage ${String(review.number).padStart(2, "0")} · Version ${review.version} · Reviewed ${review.reviewedAt}`,
     `Evidence: ${REVIEW_EVIDENCE[review.evidence]}`,
     ...(review.evidence === "documentation"
       ? ["No live test is claimed by this verdict."]

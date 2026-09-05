@@ -330,9 +330,9 @@ export function renderSocialCardSvg(
     ${
       card.canonicalPath.startsWith("/news/")
         ? `
-    <g aria-label="Field notes">
+    <g aria-label="App usage">
       <rect x="870" y="50" width="254" height="132" rx="12" fill="#181512" stroke="#c45c26" stroke-width="2" stroke-dasharray="5 5"/>
-      <text x="892" y="85" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" letter-spacing="2">FIELD NOTES</text>
+      <text x="892" y="85" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" letter-spacing="2">APP USAGE</text>
       <text x="892" y="119" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="20">Everyday requests.</text>
       <text x="892" y="149" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="20">Real-world access.</text>
     </g>`

@@ -1,4 +1,4 @@
-import { MACHINE_PATHS, absoluteUrl } from "./paths.ts";
+import { absoluteUrl, MACHINE_PATHS } from "./paths.ts";
 import { SITE } from "./site.ts";
 
 export const API_CATALOG_PROFILE = "https://www.rfc-editor.org/info/rfc9727";
@@ -71,6 +71,12 @@ export function catalogApiIndex(siteUrl: string = SITE.url) {
     apiCatalog: absoluteUrl(MACHINE_PATHS.apiCatalog, siteUrl),
     openapi: absoluteUrl(MACHINE_PATHS.openapi, siteUrl),
     documentation: absoluteUrl("/methodology", siteUrl),
+    mcp: {
+      url: absoluteUrl("/mcp", siteUrl),
+      transport: "streamable-http",
+      authentication: "none",
+      documentation: absoluteUrl("/plugin", siteUrl),
+    },
     endpoints: JSON_ENDPOINTS.map((path) => absoluteUrl(path, siteUrl)),
   };
 }

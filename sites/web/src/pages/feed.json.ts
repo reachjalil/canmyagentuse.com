@@ -9,11 +9,11 @@ export const GET: APIRoute = async () => {
     JSON.stringify(
       {
         version: "https://jsonfeed.org/version/1.1",
-        title: `${SITE.name} news`,
+        title: `${SITE.name} app usage and updates`,
         home_page_url: `${SITE.url}/news`,
         feed_url: `${SITE.url}/feed.json`,
         description:
-          "Editorial and dataset changes from the independent Can My Agent Use catalog.",
+          "App usage guides, connection advice, practical reviews, and catalog updates from Can My Agent Use.",
         icon: `${SITE.url}${SITE.markPath}`,
         language: SITE.defaultLocale,
         items: news.map((entry) => ({

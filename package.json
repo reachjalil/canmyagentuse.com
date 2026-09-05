@@ -26,7 +26,9 @@
     "harness:validate": "npx harnessc validate",
     "harness:preview": "npx harnessc activate",
     "harness:activate": "npx harnessc activate --yes",
-    "setup:harness": "pnpm harness:validate && pnpm harness:activate"
+    "setup:harness": "pnpm harness:validate && pnpm harness:activate",
+    "plugin:package": "pnpm --filter @canmyagentuse/web plugin:package",
+    "plugin:smoke": "pnpm --filter @canmyagentuse/web plugin:smoke"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",

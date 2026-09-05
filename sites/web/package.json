@@ -12,13 +12,15 @@
     "marks:generate": "node --experimental-strip-types scripts/generate-provider-marks.ts",
     "social:generate": "node --experimental-strip-types scripts/generate-social-cards.ts",
     "dev": "pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro dev",
-    "build": "pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro build",
+    "build": "pnpm run plugin:package && pnpm run marks:generate && pnpm run catalog:validate && pnpm run social:generate && astro build",
     "check": "pnpm run marks:generate && pnpm run catalog:validate && astro check",
     "test": "vitest run",
     "preview": "astro preview",
     "cf:types": "wrangler types worker-configuration.generated.d.ts",
     "deploy": "pnpm run build && wrangler deploy --config dist/server/wrangler.json",
-    "deploy:dry-run": "pnpm run build && wrangler deploy --dry-run --config dist/server/wrangler.json"
+    "deploy:dry-run": "pnpm run build && wrangler deploy --dry-run --config dist/server/wrangler.json",
+    "plugin:package": "node --experimental-strip-types scripts/package-plugin.ts",
+    "plugin:smoke": "node --experimental-strip-types scripts/smoke-mcp.ts"
   },
   "dependencies": {
     "@astrojs/check": "catalog:",
@@ -26,16 +28,19 @@
     "@canmyagentuse/catalog": "workspace:*",
     "@fontsource/ibm-plex-mono": "catalog:",
     "@fontsource/ibm-plex-sans": "catalog:",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "sharp": "catalog:",
     "tailwindcss": "catalog:",
-    "yaml": "catalog:"
+    "yaml": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
     "@lobehub/icons-static-svg": "1.94.0",
     "@types/node": "catalog:",
+    "fflate": "^0.8.3",
     "simple-icons": "16.28.0",
     "typescript": "catalog:",
     "vitest": "catalog:",
