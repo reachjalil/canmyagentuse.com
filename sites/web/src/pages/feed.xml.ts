@@ -30,10 +30,10 @@ export const GET: APIRoute = async () => {
   return xmlResponse(`<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(`${SITE.name} news`)}</title>
+    <title>${escapeXml(`${SITE.name} app usage and updates`)}</title>
     <link>${SITE.url}/news</link>
     <atom:link href="${SITE.url}/feed.xml" rel="self" type="application/rss+xml" />
-    <description>Editorial and dataset changes from the independent Can My Agent Use catalog.</description>
+    <description>App usage guides, connection advice, practical reviews, and catalog updates from Can My Agent Use.</description>
     <language>${SITE.defaultLocale}</language>
     <lastBuildDate>${newest.toUTCString()}</lastBuildDate>
 ${items.join("\n")}

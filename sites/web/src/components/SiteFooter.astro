@@ -22,6 +22,7 @@ const links = [
   { href: "/report?targetType=missing-feature", label: "Request a capability" },
   { href: "/contribute", label: "Contribute" },
   { href: "/prompt", label: "Prompt this catalog" },
+  { href: "/plugin", label: "Agent plugin & MCP" },
   { href: "/news", label: "News" },
   { href: "/methodology", label: "Methodology" },
   { href: "/about", label: "About" },
@@ -34,7 +35,7 @@ const links = [
 <footer class="site-footer catalog-footer">
   <div class="shell catalog-footer__main">
     <div><a class="catalog-footer__brand" href="/">{SITE.name}</a><p>{SITE.independentNotice}</p><a class="catalog-footer__refs" href="/provider-marks">Logo sources & references ↗</a></div>
-    <nav aria-label="Site"><a href="/products">Explore apps</a><a href="/submit-app">Submit your app</a><a href="/sponsors">Become a sponsor</a><a href="/news">Field notes</a><a href="/about">About</a><a href="/privacy">Privacy</a></nav>
+    <nav aria-label="Site"><a href="/products">Explore apps</a><a href="/submit-app">Submit your app</a><a href="/sponsors">Become a sponsor</a><a href="/news">App usage</a><a href="/about">About</a><a href="/privacy">Privacy</a></nav>
   </div>
   <details class="shell catalog-footer__more"><summary>Research, data & resources <span aria-hidden="true">+</span></summary><div><nav aria-label="Research resources">{links.filter((link) => !["/products", "/submit-app", "/sponsors", "/news", "/about", "/privacy"].includes(link.href)).map((link) => <a href={link.href}>{link.label}</a>)}</nav><nav aria-label="Catalog copies"><a href={MACHINE_PATHS.productsJson}>Products JSON</a><a href={MACHINE_PATHS.llms}>llms.txt</a><a href={MACHINE_PATHS.openapi}>OpenAPI</a><a href={MACHINE_PATHS.feedXml}>RSS feed</a><a href="/sitemap.md">All pages & formats</a></nav></div></details>
 </footer>

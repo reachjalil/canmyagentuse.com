@@ -1,0 +1,41 @@
+{
+  "name": "can-my-agent-use",
+  "version": "1.0.0",
+  "description": "Search evidence-backed agent and service compatibility, with sources, dates, and exact product-surface constraints.",
+  "author": {
+    "name": "Can My Agent Use",
+    "url": "https://canmyagentuse.com"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Can My Agent Use",
+    "shortDescription": "Find what your agent can use, with evidence.",
+    "longDescription": "Search services and agent capabilities, retrieve complete source-backed records, and check compatibility for exact web, desktop, and CLI harnesses. Preserves unknowns, requirements, evidence classes, and review dates.",
+    "developerName": "Can My Agent Use",
+    "category": "Productivity",
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Can Codex CLI use MCP Apps?",
+      "Which services have an MCP integration?",
+      "Compare MCP support in Claude Code and Codex CLI."
+    ],
+    "websiteURL": "https://canmyagentuse.com",
+    "privacyPolicyURL": "https://canmyagentuse.com/privacy",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png",
+    "brandColor": "#d7ff3f"
+  },
+  "mcpServers": "./.mcp.json",
+  "homepage": "https://canmyagentuse.com/plugin",
+  "repository": "https://github.com/reachjalil/canmyagentuse.com",
+  "license": "MIT",
+  "keywords": [
+    "compatibility",
+    "agents",
+    "mcp",
+    "evidence",
+    "catalog"
+  ]
+}

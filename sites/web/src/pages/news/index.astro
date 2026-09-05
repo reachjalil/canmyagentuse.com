@@ -5,23 +5,26 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { publishedCollection } from "../../lib/collections";
 
 const news = await publishedCollection("news");
+const isAppUsage = (item: (typeof news)[number]) => Boolean(item.data.review) || item.data.tags.includes("app-usage");
+const guides = news.filter(isAppUsage);
+const archive = news.filter((item) => !isAppUsage(item));
 ---
 
 <BaseLayout
-  title={`Field Notes | ${SITE.name}`}
-  description="Everyday requests, real-world agent access. Explore our living reviews, verdicts, and latest findings."
+  title={`App usage | ${SITE.name}`}
+  description="Practical guides to choosing apps, connecting your agent, and understanding what it can do—with setup requirements and evidence."
   canonicalPath="/news"
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
     <main id="main" class="shell py-8">
-      <h1 class="text-4xl font-semibold tracking-tight">Field Notes</h1>
+      <h1 class="text-4xl font-semibold tracking-tight">App usage</h1>
       <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
-        Can your agent actually do it? Follow the exploration, read the verdict, and come back as the answer evolves.
+        Find an app for the task, learn how to connect it, and see what your agent can do. Practical guides and app reviews explain the setup, the useful work, and where you need to step in.
       </p>
       <ul class="mt-8 space-y-4">
         {
-          news.map((item) => (
+          guides.map((item) => (
             <li class="border border-[color:var(--color-line)] bg-[color:var(--color-paper)] p-5">
               <p class="font-mono text-xs text-[color:var(--color-muted)]">
                 {item.data.published?.toLocaleDateString("en-US", {
@@ -39,12 +42,16 @@ const news = await publishedCollection("news");
           ))
         }
       </ul>
-      <section class="mt-12 border-t border-[color:var(--color-line)] pt-6">
-        <p class="font-mono text-xs text-[color:var(--color-copper-deep)]">QUESTIONS WE’RE EXPLORING</p>
-        <h2 class="mt-3 text-2xl font-semibold tracking-tight">Same question. A different part of your day.</h2>
-        <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">Which notes app should your agent use? Can it launch a website, buy a laptop, or organize your inbox? Each deserves its own exploration. These are research leads; verdicts follow the evidence.</p>
-        <a class="mt-4 inline-block underline" href="/submit-app">Have a service we should investigate? Submit your app ↗</a>
+      <section class="mt-10 border-t border-[color:var(--color-line)] pt-6">
+        <h2 class="text-2xl font-semibold tracking-tight">Put an app to work</h2>
+        <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">Browse apps by task, read their connection requirements, or bring the catalog into your agent.</p>
+        <div class="mt-4 flex flex-wrap gap-6"><a class="underline" href="/products">Explore apps ↗</a><a class="underline" href="/plugin">Get the agent plugin ↗</a><a class="underline" href="/submit-app">Suggest an app ↗</a></div>
       </section>
+      <details class="mt-10 border-t border-[color:var(--color-line)] pt-6">
+        <summary class="cursor-pointer text-lg font-semibold">Catalog development archive · {archive.length} updates</summary>
+        <p class="mt-3 text-[color:var(--color-muted)]">Earlier announcements about the catalog's foundation and research coverage. Figures describe their publication date; see <a class="underline" href="/coverage">current coverage</a> for the latest data.</p>
+        <ul class="mt-4 space-y-3">{archive.map((item) => <li><time class="mr-3 font-mono text-xs text-[color:var(--color-muted)]" datetime={item.data.published?.toISOString()}>{item.data.published?.toISOString().slice(0, 10)}</time><a class="underline" href={`/news/${item.data.slug}`}>{item.data.title}</a></li>)}</ul>
+      </details>
     </main>
   </SiteChrome>
 </BaseLayout>

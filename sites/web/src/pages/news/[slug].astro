@@ -31,6 +31,7 @@ const { Content } = await render(item);
 const metadata = resolveMetadata(item.data);
 const review = item.data.review;
 const isExplainer = Boolean(review);
+const isAppUsage = Boolean(review) || item.data.tags.includes("app-usage");
 ---
 
 <BaseLayout
@@ -43,13 +44,13 @@ const isExplainer = Boolean(review);
   contentType="article"
   publishedTime={metadata.published}
   modifiedTime={metadata.updated}
-  section="Field notes"
+  section="App usage"
   tags={metadata.tags}
   jsonLd={[
     techArticleJsonLd(metadata),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
-      { name: "Field notes", path: "/news" },
+      { name: "App usage", path: "/news" },
       { name: item.data.title, path: newsPath(item.data.slug) },
     ]),
   ]}
@@ -57,7 +58,7 @@ const isExplainer = Boolean(review);
   <SiteChrome>
     <main id="main" class:list={["shell py-8", { explainer: isExplainer }]}>
       <header class="article-intro">
-        <p class="article-kicker">{review ? `FIELD NOTES / ${String(review.number).padStart(2, "0")} · A LIVING REVIEW` : "Field notes"}</p>
+        <p class="article-kicker">{review ? `APP USAGE / ${String(review.number).padStart(2, "0")} · A LIVING REVIEW` : isAppUsage ? "App usage guide" : "Catalog development archive"}</p>
         <h1 class="mt-2 text-4xl font-semibold tracking-tight">{item.data.title}</h1>
         <p class="article-deck">{item.data.summary}</p>
         {review && (
@@ -69,6 +70,7 @@ const isExplainer = Boolean(review);
         )}
       </header>
       {review && <ReviewVerdict review={review} />}
+      {!isAppUsage && <p class="mt-6 border-l-2 border-[color:var(--color-line)] pl-4 text-[color:var(--color-muted)]">This is an archived catalog announcement. Figures reflect its publication date. See <a class="underline" href="/coverage">current coverage</a> or browse the <a class="underline" href="/news">app usage guides</a>.</p>}
       <div class="prose-page mt-8">
         <Content />
         {review && (

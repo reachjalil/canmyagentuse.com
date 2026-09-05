@@ -30,3 +30,5 @@ sites/web/public/social/
 /CLAUDE.md
 !/.harness/
 !/.harness/**
+
+sites/web/public/plugins/

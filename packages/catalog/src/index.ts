@@ -280,3 +280,10 @@ export {
   REVIEW_EVIDENCE,
   type LivingReview,
 } from "./review.ts";
+
+export {
+  CATALOG_EVIDENCE_POLICY,
+  searchMcpCatalog,
+  checkCatalogCompatibility,
+} from "./mcp-catalog.ts";
+export type { McpCatalog } from "./mcp-catalog.ts";

@@ -19,7 +19,7 @@ const active = (href: string) => path === href || path.startsWith(`${href}/`);
     <a class="brand-lockup" href="/" aria-label="Can My Agent Use home"><img src={SITE.markPath} alt="" width="34" height="34" /><span><strong>Can My Agent Use</strong><small>Apps for your agent</small></span></a>
     <nav aria-label="Primary"><ul class="catalog-nav__links">
       <li><a href="/products" aria-current={active('/products') ? 'page' : undefined}>Explore apps</a></li>
-      <li><a href="/news" aria-current={active('/news') ? 'page' : undefined}>Field notes</a></li>
+      <li><a href="/news" aria-current={active('/news') ? 'page' : undefined}>App usage</a></li>
       <li><details class="catalog-nav__research"><summary>Research <span aria-hidden="true">⌄</span></summary><div>{researchLinks.map((link) => <a href={link.href} aria-current={active(link.href) ? 'page' : undefined}>{link.label}</a>)}<a href="/methodology">Our methodology</a></div></details></li>
     </ul></nav>
     <a class="catalog-nav__submit" href="/submit-app">Submit your app <span aria-hidden="true">＋</span></a>
