@@ -46,3 +46,20 @@ HTML/Markdown/JSON/MCP, indexes and prior plugin/App usage routes verified.
 See `ops/releases/luna-expansion-1-2026-09-05.md`. Existing notes drafts untouched.
 The user next requested Resend and similar email services, plus tweet drafts;
 Luna is researching Resend, AgentMail and Postmark in a separate worktree.
+
+## Latest email release — 2026-09-05
+
+Resend, AgentMail and Postmark are live, researched with three GPT-5.6 Luna
+writers and independent source/cross-audits. Production: 22 guides / 247 dated
+source entries (+3 / +71 from the preceding release). Content commit
+`8f4bc465c614d883011e87f841c2f7c1444195e1`; Worker
+`a1c58a86-d2db-4a4c-9175-1c2ee9c84144` at 100%, deployed
+`2026-09-05T18:37:53.716Z`. All 136 tests, uncached check/build, Biome and exact
+commit CI 33984639560 passed. Live HTML/Markdown/JSON/MCP, search, indexes and
+plugin/App usage routes verified; prior 19 product records unchanged.
+
+Release proof: `ops/releases/email-services-2026-09-05.md`. Tweet drafts are
+ready in `ops/tweet-drafts-email-2026-09-05.md`; no posting occurred. No publication
+blocker remains. Main checkout's unrelated notes drafts were not edited.
+Next useful leads: Mailgun/SendGrid for email; Google Drive/Dropbox/Box for files.
+Retain the existing publishing automation.

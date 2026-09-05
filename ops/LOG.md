@@ -659,3 +659,27 @@ RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31
 - Next requested batch: Resend, AgentMail and Postmark, researched by Luna in
   `codex/email-services-20260905`. Tweet drafts requested; no posting authorized.
   Existing Evernote/Joplin drafts remain untouched.
+
+## 2026-09-05 — Resend, AgentMail and Postmark published
+
+- Three Luna writers researched three guides. Supervisor and Luna cross-audits
+  corrected Postmark's initially missed official MCP, AgentMail route/scheduling
+  distinctions, Resend send-only versus inspection credentials, and CLI docs
+  differences. Documentation-only; no provider signup, send or live task test.
+- Added 71 dated source URLs; all HTTP 200 after slower retry of four transient
+  Postmark HTTP 429s. Production is 22 guides / 247 dated product-source entries.
+- Added concise comparison links and email category discovery. Fixed dark text
+  for existing monogram fallbacks on light tiles; no provider assets added.
+- Narrow validation, Biome, uncached check/test/build passed; 136 tests. All 22
+  product representations, indexes, social assets, search and review histories
+  verified locally and live. All 19 baseline product records unchanged.
+  Browser verified official MCP/CLI/Apps filters and 390px pages without overflow.
+- Content commit `8f4bc465c614d883011e87f841c2f7c1444195e1`; Worker
+  `a1c58a86-d2db-4a4c-9175-1c2ee9c84144` at 100%, deployment
+  `2026-09-05T18:37:53.716Z`. GitHub CI 33984639560 passed on that commit.
+  Live MCP searches and complete records for each new product match the JSON API.
+  Plugin, App usage routes and downloadable ZIP remain intact.
+- Tweet drafts prepared in `ops/tweet-drafts-email-2026-09-05.md`; none posted.
+  Release report: `ops/releases/email-services-2026-09-05.md`. Mailgun/SendGrid and
+  Google Drive/Dropbox/Box are future leads. Existing notes drafts and automation
+  untouched.

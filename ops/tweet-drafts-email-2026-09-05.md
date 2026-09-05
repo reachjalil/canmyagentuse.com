@@ -1,7 +1,8 @@
 # Email catalog tweet drafts
 
 Prepared for the user's request on 2026-09-05. Drafts only; no social post or
-reply has been submitted. Use after the email release passes production checks.
+reply has been submitted. The email release passed production checks at commit
+`8f4bc465c614d883011e87f841c2f7c1444195e1`; these drafts are ready to use.
 
 ## Reply to the Resend dashboard/MCP tweet
 

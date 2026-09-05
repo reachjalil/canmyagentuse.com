@@ -371,7 +371,8 @@ Use this record shape:
 Airtable, Asana, Google Calendar and the weekly-planning review are now **live**.
 Avoid researching duplicate entries. The newer plugin/App usage release was
 committed by its owner and preserved; see `ops/releases/luna-expansion-1-2026-09-05.md`.
-The user's next priority is Resend and similar email services; Luna writers own
-Resend, AgentMail and Postmark. After this requested batch, consider Google
+The requested Resend, AgentMail and Postmark guides are now live; see
+`ops/releases/email-services-2026-09-05.md`. Tweet drafts are ready, with no social
+post submitted. Mailgun and SendGrid are further email research leads. Consider Google
 Drive, Dropbox and Box as a connected-files batch, and reconcile ownership of
 Evernote/Joplin drafts before the notes comparison. No new automation is needed.
