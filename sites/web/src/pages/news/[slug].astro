@@ -28,6 +28,7 @@ if (!item) {
 
 const { Content } = await render(item);
 const metadata = resolveMetadata(item.data);
+const isExplainer = slug === "can-an-ai-agent-buy-my-movie-ticket";
 ---
 
 <BaseLayout
@@ -52,15 +53,83 @@ const metadata = resolveMetadata(item.data);
   ]}
 >
   <SiteChrome>
-    <main id="main" class="shell py-8">
-      <p class="font-mono text-xs text-[color:var(--color-muted)]">News</p>
-      <h1 class="mt-2 text-4xl font-semibold tracking-tight">{item.data.title}</h1>
-      <p class="mt-4 max-w-2xl text-lg text-[color:var(--color-muted)]">
-        {item.data.summary}
-      </p>
+    <main id="main" class:list={["shell py-8", { explainer: isExplainer }]}>
+      <header class="article-intro">
+        <p class="article-kicker">{isExplainer ? "THE EVERYDAY AGENT TEST · FIELD NOTES / 01" : "Field notes"}</p>
+        <h1 class="mt-2 text-4xl font-semibold tracking-tight">{item.data.title}</h1>
+        <p class="article-deck">{item.data.summary}</p>
+        {isExplainer && (
+          <div class="article-meta">
+            <span>Documentation reviewed · September 5, 2026</span>
+            <span>No live purchase test</span>
+            <a href="#this-is-the-question-behind-the-whole-site">Why we built this ↗</a>
+          </div>
+        )}
+      </header>
       <div class="prose-page mt-8">
         <Content />
       </div>
     </main>
   </SiteChrome>
 </BaseLayout>
+
+
+<style>
+  .article-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--color-copper-deep);
+  }
+  .article-deck {
+    max-width: 42rem;
+    margin-top: 1.25rem;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .explainer { max-width: 72rem; padding-top: 3rem; }
+  .explainer .article-intro {
+    padding: clamp(1.4rem, 4vw, 3.5rem);
+    border: 1px solid var(--color-line);
+    border-top: 4px solid var(--color-copper);
+    background: var(--color-paper);
+    position: relative;
+  }
+  .explainer h1 {
+    max-width: 16ch;
+    margin-top: 1.5rem;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-line);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-muted);
+  }
+  .article-meta a { color: var(--color-copper-deep); text-decoration: underline; }
+  .explainer .prose-page { max-width: 48rem; margin: 3rem auto; }
+  .explainer :global(.prose-page > blockquote:first-child) {
+    padding: clamp(1.4rem, 4vw, 2.3rem);
+    border: 1px dashed var(--color-copper-deep);
+    border-radius: 1rem;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.5;
+    background: var(--color-paper);
+  }
+  .explainer :global(.prose-page > blockquote:first-child p) { line-height: inherit; }
+  .explainer :global(.prose-page h2) { scroll-margin-top: 6rem; text-wrap: balance; }
+  @media (max-width: 600px) {
+    .explainer { padding-top: 1.25rem; }
+    .explainer .prose-page { margin-top: 2rem; }
+  }
+</style>

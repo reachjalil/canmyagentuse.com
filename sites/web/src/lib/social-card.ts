@@ -327,7 +327,16 @@ export function renderSocialCardSvg(
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
     <rect width="1200" height="630" fill="#12100e"/><rect width="26" height="630" fill="#c45c26"/>
     <rect x="26" y="26" width="1148" height="578" fill="none" stroke="#3a342f" stroke-width="2"/>
-    <g aria-label="Matrix cell status key">
+    ${
+      card.canonicalPath.startsWith("/news/")
+        ? `
+    <g aria-label="Field notes">
+      <rect x="870" y="50" width="254" height="132" rx="12" fill="#181512" stroke="#c45c26" stroke-width="2" stroke-dasharray="5 5"/>
+      <text x="892" y="85" fill="#df7138" font-family="IBM Plex Mono,Menlo,monospace" font-size="16" letter-spacing="2">FIELD NOTES</text>
+      <text x="892" y="119" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="20">Everyday requests.</text>
+      <text x="892" y="149" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="20">Real-world access.</text>
+    </g>`
+        : `    <g aria-label="Matrix cell status key">
       <rect x="870" y="50" width="254" height="132" fill="#181512" stroke="#3a342f" stroke-width="2"/>
       <rect x="870" y="50" width="254" height="4" fill="#c45c26"/>
       <text x="892" y="80" fill="#d4c7ae" font-family="IBM Plex Mono,Menlo,monospace" font-size="14" font-weight="500" letter-spacing="1.5">MATRIX CELL STATUS</text>
@@ -339,7 +348,9 @@ export function renderSocialCardSvg(
       <text x="914" y="156" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="14">UNSUPPORTED</text>
       <circle cx="1023" cy="151" r="7" fill="#d2c6b0"/>
       <text x="1039" y="156" fill="#fff8eb" font-family="IBM Plex Mono,Menlo,monospace" font-size="14">UNKNOWN</text>
-    </g>
+    </g>`
+    }
+
     <text x="76" y="74" fill="#fff8eb" font-family="IBM Plex Sans,Arial,sans-serif" font-size="24" font-weight="600">CAN MY AGENT USE</text>
     <text x="76" y="108" fill="#8e8679" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" letter-spacing="2.5">LOOKUP · COMPARE · CITE</text>
     <text x="76" y="156" fill="#c45c26" font-family="IBM Plex Mono,Menlo,monospace" font-size="19" letter-spacing="2.2">${escapeXml(card.eyebrow.toUpperCase())}</text>

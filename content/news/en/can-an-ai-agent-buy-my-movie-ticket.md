@@ -1,69 +1,112 @@
 ---
 title: Can an AI agent buy my movie ticket?
-description: A closer look at AMC and Atom Tickets shows why finding a showtime, getting transaction access, and holding a real ticket are different capabilities.
+description: Two seats, one request. Movie tickets reveal what agents can actually do—and why we built Can My Agent Use to help you choose the services they can work with.
 slug: can-an-ai-agent-buy-my-movie-ticket
 locale: en
-seoTitle: Can an AI agent buy movie tickets? AMC, Atom and the checkout gap
-socialTitle: Your agent found the movie. Can it actually buy the ticket?
-socialDescription: The APIs exist. The interesting part is who can use them, who approves the purchase, and what counts as a completed booking.
-llmSummary: AMC documents ordering but restricts commerce and seating access; Atom documents partner authentication and ticketing flows. Chain coverage is not a verified transaction. This article is a documentation review, not a live purchase test.
-audience: People curious about useful everyday agent tasks and developers building agent commerce.
+seoTitle: Can my agent buy movie tickets? Two seats, one real-world test
+socialTitle: Two seats. One request.
+socialDescription: Finding the movie is easy to imagine. Getting the ticket reveals the accounts, permissions, payments, and handoffs behind useful AI.
+llmSummary: Can My Agent Use compares services by signup, account connection, purchase, and useful work. This movie-ticket explainer finds restricted AMC commerce access and Atom partner API routes for checkout handoff or ordering. Documentation reviewed September 5, 2026; no live purchase was tested.
+audience: People choosing products for their agents and builders making services accessible to agents.
 contentKind: news
 status: published
-tags: [agent-commerce, movie-tickets, consumer-agents, research]
-updated: 2026-09-04
+tags: [agent-commerce, movie-tickets, consumer-agents, research, product-discovery]
+updated: 2026-09-05
 published: 2026-09-04
-summary: Buying two seats for Friday night is a better agent test than merely finding a movie page. Here is what the public evidence actually establishes.
+summary: Two seats. One request. A movie ticket turns out to be a surprisingly good way to explain the web we want agents to use.
 ---
 
-“Buy me two tickets for Friday night” sounds like a small request. It asks an agent to resolve a location, date, film, showtime, seat preference, final price, payment, and a usable confirmation. Finding a page is only the beginning.
+> “Find us a movie tonight. Two seats together, after seven. Keep it under $40, including fees. Ask me before paying.”
 
-**There are documented routes to programmatic movie-ticket purchasing. That does not mean an arbitrary agent can use them today.** We reviewed AMC and Atom Tickets documentation on September 4, 2026. We did not create partner accounts, reserve seats, charge a card, or complete a live booking.
+An ordinary Friday-night request. Also a whole product strategy in one sentence.
 
-## Which theaters are in reach?
+The useful ending is easy to picture: you leave the house knowing where you’re going, what you paid, and which ticket to show at the door. Getting there means choosing a showing, checking seats, getting access, handling payment, and confirming the result.
 
-[Atom’s network overview](https://www.atomtickets.com/about) names chains including **AMC, Cinemark, Regal, Harkins, Alamo, Landmark, and Showcase**. That makes a ticketing intermediary worth investigating before looking for a separate integration with each theater.
+**Can My Agent Use exists to help you choose services your agent can actually work with—and understand what it takes to get started.** Movie tickets make that question wonderfully concrete.
 
-The scope matters: chain-level coverage does not establish that a particular location, performance, or seat is available through your integration. A useful agent must resolve the actual showing and confirm the permitted purchase route.
+## Where does your agent’s part end?
 
-| Route | What the reviewed evidence supports | What still needs checking |
+Imagine three possible replies to that request. These are examples, not results from a live booking:
+
+| What the agent hands back | What happened | What you still need to do |
 | --- | --- | --- |
-| AMC developer APIs | Showing lookup and documented order, payment, and fulfillment flows | Approved commerce and seating access |
-| Atom partner API | Discovery, checkout handoff, and API ordering | Partner credentials, enabled operations, and the specific showing |
-| A browser agent on a ticketing site | A possible route to investigate | Successful authorized interaction, payment handoffs, and completed fulfillment |
+| “Here are nearby showtimes.” | It found options. | Choose a showing and buy tickets. |
+| “Here’s checkout for your showing.” | It prepared a handoff. | Choose seats, pay, and collect confirmation. |
+| “Your two tickets are confirmed.” | It claims the purchase is complete. | Check the actual ticket details before heading out. |
 
-The browser row is an open research question, not a tested support claim.
+Each can be useful. The important part is knowing which one a service makes possible **before** you build your evening around it.
 
-## AMC: the API exists, access is restricted
+## So, which movie theaters are in reach?
 
-AMC publishes a [general-admission ordering guide](https://developers.amctheatres.com/GettingStarted/PurchasingGATickets). Its sequence starts with showtime discovery and creates an order. The displayed sample prices and dates are examples; they are not live ticket offers.
+There are documented routes to buying tickets through software. Access to those routes is the catch.
 
-But the decisive source is the [API access page](https://developers.amctheatres.com/GettingStarted/NewVendorRequest). AMC separates catalog access from ecommerce and seating, which require specific approval and an agreement. The page says it is not currently accepting those commerce-access requests through the site.
+[Atom’s network overview](https://www.atomtickets.com/about) lists AMC, Cinemark, Regal, Harkins, Alamo, Landmark, and Showcase, among others. A ticketing service can therefore be a useful place to start when researching multiple chains. Its network list does not prove that your particular theater, showing, or seat is available through your integration.
 
-The practical answer is therefore **conditional access through an approved integration**, rather than a self-service purchasing API for every agent. See the [AMC guide](/products/amc-theatres).
+Two routes illustrate the difference.
 
-## Atom: two different finishing lines
+### AMC: finding the API is only the beginning
 
-Atom’s [agent documentation](https://developers.atomtickets.com/ai-agents/) describes both a discovery flow that returns a checkout URL and an API-driven order flow. A checkout handoff can be useful: the agent finds the showing, while the user finishes the purchase. An ordering integration aims to go further.
+AMC publishes an [ordering guide](https://developers.amctheatres.com/GettingStarted/PurchasingGATickets). But its [access policy](https://developers.amctheatres.com/GettingStarted/NewVendorRequest) separates movie and showtime data from commerce and seating access. The latter requires approval and a contractual agreement; the page currently says it is not accepting those requests through the site.
 
-Neither route should be described as anonymously available. [Atom authentication](https://developers.atomtickets.com/getting-started/authentication/) requires a provider-issued API key, with partner-specific behavior agreed during onboarding. Developers should confirm their enabled access and production setup. See the [Atom guide](/products/atom-tickets).
+**What that means for your evening:** documentation alone will not give your agent permission to buy. It needs an integration with the appropriate access.
 
-## The receipt is the test
+[See AMC’s status and requirements →](/products/amc-theatres)
 
-Our proposed live test has five checkpoints:
+### Atom: a checkout link or an ordering integration
 
-1. Resolve the intended theater, date, film, and number of people.
-2. Retrieve actual availability and the required seats.
-3. Present the final amount, including fees, and obtain purchase authorization.
-4. Complete the permitted payment and order-submission flow.
-5. Read back a fulfilled order with the correct showing and usable ticket details.
+Atom documents a [discovery route](https://developers.atomtickets.com/guides/discovery/) that finds a showing and returns a checkout URL. You finish seat selection and payment in Atom’s checkout.
 
-AMC’s separate [payment](https://developers.amctheatres.com/GettingStarted/PayingWithACreditCard) and [fulfillment](https://developers.amctheatres.com/GettingStarted/SubmittingOrderForFulfillment) guides illustrate why an order object alone does not establish completion. An honest result should say where the flow stopped.
+Its [agent documentation](https://developers.atomtickets.com/ai-agents/) also describes an API ordering route that goes through seat selection, order submission, and confirmation steps. Both routes need access: [authentication requires an Atom-issued API key](https://developers.atomtickets.com/getting-started/authentication/), with some partner behavior agreed during onboarding.
 
-## Why this belongs in an agent compatibility catalog
+**What that means for your evening:** an approved integration may help you reach checkout or go further. Check its enabled operations and the actual showing before assuming it can finish the purchase.
 
-A movie ticket is concrete enough to expose the gap between “there is a tool” and “the task is done.” The same question applies to [Best Buy](/products/best-buy), [Amazon](/products/amazon), and even [creating or connecting a Salesforce org](/products/salesforce).
+[See Atom’s status and requirements →](/products/atom-tickets)
 
-The next useful result is a reproducible, authorized live test with its agent, environment, date, handoffs, and outcome recorded. Until then, documentation remains documentation.
+A browser-controlled checkout is another route worth investigating. We have not verified a completed browser purchase here, so it remains an open question.
 
-**Funding disclosure:** OpenWork is the publication’s founding sponsor. This article is an independent documentation review; sponsorship is not evidence that OpenWork or any other agent completed these transactions. Read our [sponsorship policy](/sponsors).
+## This is the question behind the whole site
+
+Now swap “movie ticket” for a note-taking app, a cloud account, or a new CRM.
+
+You want your agent to keep project notes organized. Which app gives it the right access? You want it to deploy something. Can it create the account, or do you need to connect yours first? You want it to buy something. Can it place an order, or only find a product?
+
+Our product guides follow four questions:
+
+1. **Sign up:** can the agent get started, and where does a person need to step in?
+2. **Connect:** which account, permissions, or administrator approval does it need?
+3. **Buy or subscribe:** can it complete the paid step, and what requires your involvement?
+4. **Get work done:** what useful actions are supported once access is in place?
+
+Then we identify the route: **MCP tools, MCP Apps, an API, a CLI, or local files.** Those are separate capabilities. A service exposing tools does not automatically offer an interactive MCP App, and a community integration is different from one supplied by the provider.
+
+The directory keeps the first answer short. Open a guide for setup, limitations, dated sources, and the places where the evidence is still missing.
+
+**Choose the job. Compare the services. Know the handoffs.**
+
+[Explore apps your agent can use →](/products)
+
+## A ticket needs a receipt
+
+For a future live test, our finish line is specific: the right theater, date, showing, seats, final price, authorized payment, and a fulfilled order with usable ticket details.
+
+AMC’s separate [payment](https://developers.amctheatres.com/GettingStarted/PayingWithACreditCard) and [fulfillment](https://developers.amctheatres.com/GettingStarted/SubmittingOrderForFulfillment) guides show why creating an order is only part of the journey.
+
+If a flow stops at checkout, that is where the result should stop too. Our labels distinguish documented capabilities from tested outcomes. **“Not verified” means we do not have enough evidence yet.**
+
+*Documentation reviewed September 5, 2026. We did not create partner accounts, reserve seats, charge a card, or complete a live booking.*
+
+## Give your agent a place to start
+
+Try this request with an agent that can read the web:
+
+> “Use canmyagentuse.com to compare services for my task. Tell me what you can do, what access you need, and which steps I’ll need to handle. Cite the sources and flag anything unverified.”
+
+The catalog already has an [agent skill](/skills/can-my-agent-use/SKILL.md), a [product API](/api/v1/products.json), and [Markdown discovery through llms.txt](/llms.txt).
+
+Start with [movie ticket services](/products?category=movie-tickets), explore [note-taking apps](/products?category=note-taking), or investigate the next everyday question: [Best Buy](/products/best-buy), [Amazon](/products/amazon), or [Salesforce](/products/salesforce).
+
+**Building something agents can use? [Submit your app](/submit-app)** with a link to what it supports. Submissions go through editorial review; a listing does not buy a support label.
+
+---
+
+**Founding sponsor: OpenWork.** OpenWork supports this publication. Coverage and compatibility findings remain editorially independent; this article does not claim that OpenWork or any other agent completed these purchases. [How sponsorship works →](/sponsors)
