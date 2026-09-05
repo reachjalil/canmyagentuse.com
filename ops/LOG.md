@@ -576,3 +576,13 @@ RECONCILE cycle=product-first-launch date=2026-09-04 commit=9ce2f846fc2e3ece6758
 - Continuous research direction now explicitly preserves minimal presentation and independent app review.
 
 RECONCILE cycle=commercial-directory date=2026-09-04 commit=5352deda7f315c0dbc565ff6265cf0d1eb2aaf65 pushed=origin/main deploy=8017f328-a42e-48ea-be28-fe3129b51688 products=13 tests=124 ci=33941666410 note="Production verified including live app submission and receipt privacy. Existing hourly product-research automation remains the single publishing loop. See ops/releases/commercial-directory-2026-09-04.md."
+
+## Product depth batch 1 — 2026-09-04
+
+- Scope: four existing product guides, preserving the compact commercial directory and every historical collection.
+- Gmail: official remote MCP Developer Preview verified and qualified by Workspace preview enrollment/project/OAuth requirements; no send tool inferred from draft tools. Added least-privilege scope boundaries, read-only first task, consent testing expiry, current project-dependent quotas, and revocation.
+- Notion: official ntn CLI verified; clarified user-scoped hosted MCP/PATs vs page-shared API connections, administrative controls, plan/tool limits, revocation and a proposed read-before-write workflow.
+- Linear: official GraphQL API verified; added personal-key/OAuth scopes and team limits, app-actor developer preview, Free plan scope, request/complexity quotas, error handling and revocation.
+- Cloudflare: deepened permission selection, the 60-minute temporary-account claim handoff, supported preview limits, Workers plan costs, API rate limits, identity inspection and credential revocation.
+- Evidence: 30 new first-party source entries; 69 total product source entries across the unchanged 13 guides. No account creation, researched software installs, messages, purchases, or live provider tasks were performed.
+- Validation: narrow catalog validation, Biome, uncached pnpm check (175 Astro files; zero errors/warnings/hints), 124 tests, and production build passed. Cloudflare received an independent source cross-review. Rendered and production verification follow in reconciliation.
