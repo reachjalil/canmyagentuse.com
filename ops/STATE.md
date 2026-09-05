@@ -4,26 +4,26 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-09-04
-- Cycle: SaaS depth batch 1 released and production-verified
+- Cycle: SaaS expansion batch 1 released and production-verified
 - Phase: Product/service breadth and depth; retain the historical harness corpus
 - Coverage: 1,480/3,534 current-track cells assessed with direct reviewed evidence (41.9%); audit-correction delta -2
 - Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
-- Product guides: 13 (four lifecycle actions and five interface checks per product; 69 source entries)
+- Product guides: 16 (four lifecycle actions and five interface checks per product; 116 source entries)
 - Founding sponsor: OpenWork, explicitly confirmed and authorized for labeled publication by the owner
 - Product test evidence: documentation review only; no new live signup or purchase tests
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: `9cdd6fa` (Gmail, Notion, Linear and Cloudflare depth pass)
-- Last content commit pushed: `9cdd6fa` on `origin/main`
-- Last content deploy: SaaS depth batch 1 is live in Cloudflare version `de50ca5f-426e-4ef8-9223-d6661bfd928d` at 100%; cache-busted production checks verified all 13 product guides, all 69 source entries, machine copies, changed interface statuses, search/social/index routes, sponsor policy and preserved compatibility routes
+- Last completed catalog commit: `f4af468` (Vercel/Supabase/Sentry additions and Salesforce depth pass)
+- Last content commit pushed: `f4af468` on `origin/main`
+- Last content deploy: SaaS expansion batch 1 is live in Cloudflare version `1f934530-d30a-4cae-bf56-8472871ab30b` at 100%; production checks verified all 16 guides, 116 source entries, new logos, machine copies, search/social/index routes, sponsor policy, submission entry and preserved compatibility routes
 - Last interface release: commercial app directory `5352ded`; CI run `33941666410` succeeded; desktop/390px layouts, search/filters, evidence disclosures, and production submission-to-receipt verified
-- Last social release: Gmail and Linear summary cards in `9cdd6fa`; visually inspected generated PNGs and verified all 13 guide cards plus submit-app in production
+- Last social release: Vercel, Supabase and Sentry cards in `f4af468`; all three PNGs visually inspected and all 16 product social cards verified in production
 - Last correction smoke: app receipt `CMAU-286KMBTY6C`; submitted through the live form, storage/privacy checked, and declined as a release-only test; no listing or contact message created
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
 - In-flight briefs: none; next research is product depth and expansion, per `ops/BACKLOG.md`
 - Owned dirty paths: none after release reconciliation commit
 - Blockers: none for publication. Infrastructure follow-up: default Python-urllib receives Cloudflare 1010; curl, browser, and an honest descriptive User-Agent returned HTTP 200. Security settings were not changed.
 - Automation: `continue-catalog-coverage`, renamed “Expand product coverage”, ACTIVE hourly in the current product-pivot task; retain quiet unchanged cycles and publish meaningful batch/failure notifications.
-- Release proof: `ops/releases/saas-depth-1-2026-09-04.md` (latest content; CI 33942355141 succeeded); prior design proof in `ops/releases/commercial-directory-2026-09-04.md`
+- Release proof: `ops/releases/saas-expansion-1-2026-09-04.md` (latest; CI 33945826623 succeeded); prior design proof in `ops/releases/commercial-directory-2026-09-04.md`
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: deepen Salesforce org provisioning/permissions, then add Vercel/Supabase/Sentry in bounded batches. Track Gmail MCP preview eligibility and the announced quota/billing transition. Retain the scoped public-machine-route Cloudflare 1010 follow-up.
+- Next action: expand notes with Joplin and Evernote and prepare a sourced comparison of hosted MCP, local files and delegated APIs. Then deepen the remaining original SaaS guides. Track Gmail preview/quotas, Vercel MCP purchase rollout, Supabase scoped PAT alpha and Sentry Seer availability; retain the scoped public-machine-route Cloudflare 1010 follow-up.
