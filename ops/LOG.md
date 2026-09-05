@@ -642,3 +642,20 @@ RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31
 - User decision pending on coordinating with owning task to commit/push its own
   validated release. No main push or deployment by this batch. Exact blocker,
   checks and resume procedure: `ops/releases/luna-expansion-1-2026-09-05.md`.
+
+## 2026-09-05 — Luna batch 1 published after release coordination
+
+- The user authorized coordination with the plugin task; its owner pushed
+  `e5f0f46f9f468a9f56e6a5d292e520b7319632b9`. Integrated the committed plugin/App
+  usage work and corrected a manifest-only Biome formatting issue.
+- Published commit `8242cc748cc8989dc05c08037917267a8a9ac6d3`; Worker version
+  `69984971-dc1f-4bb3-bdff-006f46fa1066` read back at 100%, deployment timestamp
+  `2026-09-05T18:22:08.652Z`. The original blocking condition is resolved.
+- 19 guides / 176 source entries and two living reviews now live. Integrated
+  uncached checks/build and all 136 tests passed. Production HTML/Markdown/JSON,
+  sources, indexes, assets, search, sponsor and historical routes verified.
+  Public MCP searches and records for all three additions match API content.
+  Plugin/App usage routes and ZIP preserved; original 16 products unchanged.
+- Next requested batch: Resend, AgentMail and Postmark, researched by Luna in
+  `codex/email-services-20260905`. Tweet drafts requested; no posting authorized.
+  Existing Evernote/Joplin drafts remain untouched.

@@ -1,4 +1,4 @@
-# Luna expansion batch 1 — validated, publication blocked
+# Luna expansion batch 1 — published and verified
 
 Reviewed: 2026-09-05 (America/Los_Angeles).
 Final content commit: `0bf59a22f77f230e1cd7d192432b02a4cf528a54`.
@@ -7,7 +7,32 @@ Mobile example revision: `f92c10c2dd3873df7ef44194b7702409c437a0de`.
 Branch: `codex/luna-catalog-expansion-20260905`.
 Worktree: `/Users/jalillaaraichi/canmyagentuse-luna-release`.
 Release base: `a66ee9ee04567eb0ba1de7bab9398a6547737a47` from `origin/main`.
-Publication state: **not pushed to main; not deployed**.
+Publication state: **pushed to main, deployed, and verified on production**.
+Published commit: `8242cc748cc8989dc05c08037917267a8a9ac6d3`.
+Worker version: `69984971-dc1f-4bb3-bdff-006f46fa1066` at 100%.
+Deployment created: `2026-09-05T18:22:08.652Z`.
+
+## Publication resolution
+
+The user authorized coordination with the plugin task. Its owner committed and
+pushed `e5f0f46f9f468a9f56e6a5d292e520b7319632b9`; this worktree integrated that
+release in `5470eb4`, preserving the MCP endpoint, plugin download, and App usage
+pages. Biome found only plugin manifest formatting, corrected in `8242cc7`.
+Frozen-lockfile install, narrow validation, Biome, uncached check/test/build all
+passed on the combined tree: 136 tests (78 catalog, 58 web), zero Astro errors,
+warnings or hints. After another fetch, the validated release pushed as a
+fast-forward to main and deployed using the existing Worker configuration.
+
+Cache-busted production verification passed for all 19 product guides and their
+HTML/Markdown/JSON records, 176 source entries, both reviews, indexes, social
+assets, search discovery, sponsor and historical routes. Original 16 product
+records remain identical. Public MCP search and full-record retrieval found all
+three new products, with sources/actions/interfaces/body matching the JSON API.
+The plugin, App usage pages and downloadable ZIP remain available. Wrangler
+read back the exact Worker version above at 100%. These checks used a descriptive
+publishing-verification User-Agent. No third-party account operations occurred.
+
+The sections below retain the preparation and resolved blocker history.
 
 ## Prepared scope
 
@@ -21,7 +46,7 @@ The local catalog has **19 product guides and 176 dated product-source
 entries**, compared with the live baseline of 16 guides and 116 source entries.
 The three new guides have 60 unique source URLs (Airtable 16, Asana 15,
 Google Calendar 29). The weekly-planning review reuses seven of these sources.
-These counts describe the prepared release, not production.
+These counts now match the verified production release.
 
 All new content is portable Markdown under `content/`. Existing product,
 harness, feature, specification, evidence, and report files remain unchanged.
@@ -89,7 +114,7 @@ was performed. Product conclusions are documentation-based.
 - All three new product social cards and the review card were inspected.
   Overlong Calendar/review sharing descriptions were shortened and rebuilt.
 
-## Exact publication blocker
+## Resolved publication blocker (history)
 
 Another user task, “Build CanMyAgentUse MCP plugin”, deployed the plugin and
 then the App usage section from uncommitted changes in the main checkout.
@@ -111,7 +136,7 @@ The user has been asked whether this task may coordinate with the other task
 to have its own validated work committed and pushed. No coordination message
 was sent while that decision was pending.
 
-## Resume
+## Resume procedure used to resolve the blocker
 
 1. Have the owning task commit and push its validated plugin/App usage release,
    excluding unrelated Evernote/Joplin drafts, or obtain explicit alternative

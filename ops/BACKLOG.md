@@ -368,9 +368,10 @@ Use this record shape:
 
 ## Prepared product batch — 2026-09-05
 
-Airtable, Asana, Google Calendar and the weekly-planning review are complete and
-validated in `codex/luna-catalog-expansion-20260905`, but are **not live**. Avoid
-researching duplicate entries. Resolve the newer uncommitted live release before
-publishing; see `ops/releases/luna-expansion-1-2026-09-05.md`. Then consider Google
+Airtable, Asana, Google Calendar and the weekly-planning review are now **live**.
+Avoid researching duplicate entries. The newer plugin/App usage release was
+committed by its owner and preserved; see `ops/releases/luna-expansion-1-2026-09-05.md`.
+The user's next priority is Resend and similar email services; Luna writers own
+Resend, AgentMail and Postmark. After this requested batch, consider Google
 Drive, Dropbox and Box as a connected-files batch, and reconcile ownership of
 Evernote/Joplin drafts before the notes comparison. No new automation is needed.
