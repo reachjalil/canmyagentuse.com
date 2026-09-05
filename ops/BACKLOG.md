@@ -365,3 +365,12 @@ Use this record shape:
   issue=<one sentence describing the exact conflict>
   next=<what authoritative clarification would resolve it>
 ```
+
+## Prepared product batch — 2026-09-05
+
+Airtable, Asana, Google Calendar and the weekly-planning review are complete and
+validated in `codex/luna-catalog-expansion-20260905`, but are **not live**. Avoid
+researching duplicate entries. Resolve the newer uncommitted live release before
+publishing; see `ops/releases/luna-expansion-1-2026-09-05.md`. Then consider Google
+Drive, Dropbox and Box as a connected-files batch, and reconcile ownership of
+Evernote/Joplin drafts before the notes comparison. No new automation is needed.

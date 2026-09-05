@@ -31,3 +31,16 @@
 ## Latest editorial platform release — 2026-09-05
 
 Living Field Notes are live. Movie tickets is review 01, version 3, with a conditional documentation-based verdict and links to two earlier editions. Follow ops/FIELD-NOTES.md for future articles and versioned updates. Shared HTML/Markdown/corpus/JSON verdicts verified; 129 tests passed. Content commit 6ae840f98e9a842b71941cb47a02ce3aaeb6cb58; Worker dc168047-60a0-4992-a59e-ae91575a7b04 at 100%. Product coverage remains 16 guides / 116 product-source entries. The notes research backlog remains next.
+
+## Prepared Luna batch — 2026-09-05 (not deployed)
+
+Local branch `codex/luna-catalog-expansion-20260905`, worktree
+`/Users/jalillaaraichi/canmyagentuse-luna-release`, contains validated content
+commit `0bf59a22f77f230e1cd7d192432b02a4cf528a54`: Airtable, Asana, Google Calendar,
+and review 02 “Can my agent plan my week?”. Prepared counts: 19 product guides,
+176 product-source entries; all 129 tests and uncached checks/build pass.
+These are not production counts. Live publication is blocked because the
+other task's newer plugin/App usage deployment is still uncommitted in the
+main checkout, while origin/main is `a66ee9e`. Do not deploy this older base.
+Resume using `ops/releases/luna-expansion-1-2026-09-05.md`; integrate the owning
+task's committed release before publishing. Existing notes drafts untouched.

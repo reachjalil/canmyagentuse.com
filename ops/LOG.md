@@ -622,3 +622,23 @@ RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31
 - Local and production HTML/Markdown/corpus/JSON parity, sources, archive links, API discovery, indexes and retained 16-product API passed. Desktop/mobile verdict rendering and evidence/history disclosure verified, mobile width 390 without horizontal overflow; production browser refreshed.
 - Content release: 6ae840f98e9a842b71941cb47a02ce3aaeb6cb58. Worker version dc168047-60a0-4992-a59e-ae91575a7b04 read back at 100%. CI run 33980452693 still in progress at ledger write; full local checks passed.
 - Main checkout's unfinished Evernote/Joplin drafts remain untouched. Next: complete the notes comparison as the next living review, with current first-party evidence.
+
+## 2026-09-05 — Luna expansion batch 1 prepared; newer live release blocks publication
+
+- Three GPT-5.6 Luna writers authored Airtable, Asana, Google Calendar and review
+  02 “Can my agent plan my week?”; Luna cross-review and supervisor source/editorial
+  review corrected MCP Apps, credential scopes, preview enrollment, quota/billing,
+  local-file labels, fictional examples, and social-card clipping.
+- Final content commit `0bf59a22f77f230e1cd7d192432b02a4cf528a54` in isolated branch
+  `codex/luna-catalog-expansion-20260905`. Prepared catalog: 19 guides / 176 dated
+  product-source entries (+3 / +60); 2 documentation-based reviews.
+- Narrow validation, Biome, uncached check/test/build passed; 129 tests. All 60
+  source URLs HTTP 200. Compiled Worker verified HTML/Markdown/JSON and indexes,
+  both review histories, social assets, search/filters and all original products.
+  Desktop/390px browser checks passed; no new provider accounts or live tests.
+- NOT published: live Worker `d2abcd92-f5ce-428c-b7be-dfa75dd4c3ee` at 100% contains
+  another task's uncommitted plugin/App usage changes absent from origin/main
+  `a66ee9e`. Deployment would replace newer live work. Main checkout untouched.
+- User decision pending on coordinating with owning task to commit/push its own
+  validated release. No main push or deployment by this batch. Exact blocker,
+  checks and resume procedure: `ops/releases/luna-expansion-1-2026-09-05.md`.
