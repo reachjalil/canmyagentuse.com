@@ -55,11 +55,11 @@ Google Calendar supplies the constraint that makes the plan realistic. Its remot
 
 A proposed output could look like this. The tasks, IDs and estimates below are fictional examples:
 
-| Day | Proposed work | Evidence to show | Decision still needed |
-| --- | --- | --- | --- |
-| Tuesday | “Prepare launch brief” — Asana task `123`, due Tuesday | Task link, due date, 90-minute estimate assumption; meeting overlap | Is the estimate realistic? |
-| Wednesday | “Clean Q3 pipeline” — Airtable record `recABC` | Base/table/record link, priority and due date | Can lower-priority work move? |
-| Friday | Two tasks after the last meeting | Calendar ID, local time zone and free/busy window | Is travel or recovery time missing? |
+| Draft slot | What to verify |
+| --- | --- |
+| Tuesday: prepare the launch brief — task `123` | Task URL and due date; check the assumed 90-minute estimate against meeting overlap. |
+| Wednesday: clean the Q3 pipeline — record `recABC` | Base, table and record URL; confirm priority, deadline and whether other work can move. |
+| Friday: two tasks after the last meeting | Calendar ID, time zone and free/busy window; check travel time and room for a break. |
 
 The IDs and links make the proposal inspectable. The conflict list makes it honest. Missing estimates, unclear due-date rigidity, private-event visibility, travel time, working hours and multiple time zones are reasons to ask you a question rather than quietly overpack the week.
 
