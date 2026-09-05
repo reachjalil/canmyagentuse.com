@@ -14,6 +14,7 @@ interface Props {
   specifications: SpecificationData[];
   value?: string;
   scope?: SearchScope;
+  variant?: "default" | "hero";
 }
 
 type SearchScope = "product" | "all" | "feature" | "harness" | "specification";
@@ -25,6 +26,7 @@ const {
   specifications,
   value = "",
   scope = "all",
+  variant = "default",
 } = Astro.props;
 const scopeOptions = [
   { value: "product", label: "Products", hint: "Services your agent can sign up for, connect, and use" },
@@ -35,7 +37,10 @@ const scopeOptions = [
 ] as const;
 const currentScope = scopeOptions.find((option) => option.value === scope) ?? scopeOptions[0];
 const index = [
-  ...products.map((product) => ({ title: product.title, aliases: [product.slug, ...product.aliases], searchText: [product.summary, product.category, product.vendor, ...product.actions.map((action) => action.summary)].join(" "), summary: product.summary, meta: product.category, path: `/products/${product.slug}`, kind: "product", kindLabel: "Product" })),
+  ...products.map((product) => {
+    const identity = referenceIdentity({ provider: product.vendor, productSlug: product.slug });
+    return { title: product.title, aliases: [product.slug, ...product.aliases], searchText: [product.summary, product.category, product.vendor, ...product.actions.map((action) => action.summary)].join(" "), summary: product.summary, meta: product.category, path: `/products/${product.slug}`, kind: "product", kindLabel: "Product", markPath: identity.mark?.id === "salesforce" ? undefined : identity.mark?.assetPath, monogram: identity.monogram, tone: identity.tone };
+  }),
   ...features.map((feature) => ({
     title: feature.title,
     aliases: [feature.slug, ...feature.aliases],
@@ -80,7 +85,7 @@ const index = [
 const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
 ---
 
-<div class="search-belt">
+<div class:list={["search-belt", { "search-belt--hero": variant === "hero" }]}>
   <form class="shell search-belt__form" action="/search" method="get" role="search" data-search-belt>
     <div class="search-belt__composer">
       <div class="search-belt__sentence">
@@ -90,7 +95,7 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
             id="capability-search"
             name="q"
             type="search"
-            placeholder="Cloudflare, Gmail, Salesforce…"
+            placeholder={variant === "hero" ? "Search a product or service…" : "Search the catalog…"}
             value={value}
             autocomplete="off"
             autocapitalize="none"

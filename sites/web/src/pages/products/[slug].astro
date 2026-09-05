@@ -1,32 +1,242 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import { PRODUCT_ACTION_LABELS, PRODUCT_INTERFACE_LABELS, PRODUCT_INTEGRATION_LABELS, PRODUCT_STATUS_LABELS, PRODUCT_REVIEW_NOTE, SITE, productJsonPath, productMarkdownPath, absoluteUrl } from "@canmyagentuse/catalog";
+import {
+  PRODUCT_ACTION_LABELS,
+  PRODUCT_INTERFACE_LABELS,
+  PRODUCT_INTEGRATION_LABELS,
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_REVIEW_NOTE,
+  SITE,
+  productJsonPath,
+  productMarkdownPath,
+  absoluteUrl,
+} from "@canmyagentuse/catalog";
+import ProviderMark from "../../components/ProviderMark.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { publishedCollection } from "../../lib/collections";
-export async function getStaticPaths() { return (await publishedCollection("products")).map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } })); }
-interface Props { entry: CollectionEntry<"products">; }
+import "../../styles/product-detail.css";
+
+export async function getStaticPaths() {
+  return (await publishedCollection("products")).map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+interface Props {
+  entry: CollectionEntry<"products">;
+}
 const { entry } = Astro.props;
 const product = entry.data;
 const { Content } = await render(entry);
-const sourceFor = (id: string) => product.sources.find((source) => source.id === id)!;
+const sourceFor = (id: string) => product.sources.find((source) => source.id === id);
+const reviewDate = product.updated.toISOString().slice(0, 10);
+const shortActionLabels = {
+  "sign-up": "Sign up",
+  "connect-account": "Connect",
+  "buy-subscribe": "Buy & subscribe",
+  "use-product": "Get work done",
+};
+const contents = [
+  { id: "journey", label: "What your agent can do" },
+  { id: "interfaces", label: "Supported interfaces" },
+  { id: "setup", label: "Setup & human handoffs" },
+  { id: "routes", label: "Connection routes" },
+  { id: "field-notes", label: "Practical notes" },
+  { id: "sources", label: "Sources & evidence" },
+];
 ---
-<BaseLayout title={product.seoTitle} description={product.description} canonicalPath={`/products/${product.slug}`} socialTitle={product.socialTitle} socialDescription={product.socialDescription} socialImageAlt={product.previewImageAlt} contentType="article" publishedTime={product.published} modifiedTime={product.updated} tags={product.tags} jsonLd={[{ "@context": "https://schema.org", "@type": "Article", headline: product.seoTitle, description: product.description, dateModified: product.updated.toISOString(), datePublished: product.published?.toISOString(), mainEntityOfPage: absoluteUrl(`/products/${product.slug}`), image: absoluteUrl(`/social/products--${product.slug}.png`), author: { "@type": "Organization", name: SITE.name } }]}>
+
+<BaseLayout
+  title={product.seoTitle}
+  description={product.description}
+  canonicalPath={`/products/${product.slug}`}
+  socialTitle={product.socialTitle}
+  socialDescription={product.socialDescription}
+  socialImageAlt={product.previewImageAlt}
+  contentType="article"
+  publishedTime={product.published}
+  modifiedTime={product.updated}
+  tags={product.tags}
+  jsonLd={[{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: product.seoTitle,
+    description: product.description,
+    dateModified: product.updated.toISOString(),
+    datePublished: product.published?.toISOString(),
+    mainEntityOfPage: absoluteUrl(`/products/${product.slug}`),
+    image: absoluteUrl(`/social/products--${product.slug}.png`),
+    author: { "@type": "Organization", name: SITE.name },
+  }]}
+>
   <SiteChrome>
-    <main id="main" class="shell product-page">
-      <a class="product-text-link" href="/products">← All products</a>
-      <header class="product-intro"><p class="eyebrow">{product.category} · {product.vendor}</p><h1>Can my agent use<br /><span>{product.title}?</span></h1><p>{product.summary}</p><small>Documentation reviewed {product.updated.toISOString().slice(0, 10)} · No live agent test</small></header>
-      <p class="product-scope"><strong>Scope of this guide</strong> {product.scope}</p>
-      <section id="interfaces" class="product-panel" aria-labelledby="interfaces-heading"><div class="product-section-heading"><h2 id="interfaces-heading">Agent access</h2><a href={`/products?category=${product.categorySlug}`}>Compare alternatives →</a></div><p class="product-note">Suggested fit: {product.bestFor} This is an editorial assessment of the documented routes.</p><div class="product-interface-grid">{product.integrations.map((item) => <div><h3>{PRODUCT_INTERFACE_LABELS[item.kind]}</h3><span class={`integration-status integration-status--${item.status}`}>{PRODUCT_INTEGRATION_LABELS[item.status]}</span><p>{item.detail}</p><div class="product-source-links">{item.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title}</a>)}</div></div>)}</div></section>
-      <section aria-labelledby="journey-heading">
-        <div class="product-section-heading"><h2 id="journey-heading">From account to first task</h2><span>Four separate questions</span></div>
-        <div class="product-journey">{product.actions.map((action, index) => <article id={action.id} class="product-action"><span class="product-action__number">0{index + 1}</span><div><h3>{PRODUCT_ACTION_LABELS[action.id]}</h3><strong>{action.summary}</strong><p>{action.detail}</p><div class="product-source-links">{action.sourceIds.length ? action.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title} ↗</a>) : <span>No conclusive evidence recorded.</span>}</div></div><span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span></article>)}</div>
-      </section>
-      <div class="product-detail-grid">
-        <section class="product-panel" aria-labelledby="setup-heading"><p class="eyebrow">The handoffs</p><h2 id="setup-heading">What it takes</h2><ol class="product-steps">{product.setup.map((step) => <li><span>{step.actor}</span><h3>{step.title}</h3><p>{step.detail}</p></li>)}</ol></section>
-        <div><section class="product-panel" aria-labelledby="routes-heading"><p class="eyebrow">The connection</p><h2 id="routes-heading">Ways your agent can use it</h2>{product.routes.map((route) => <div class="product-route"><h3>{route.name}</h3><p>{route.description}</p><a href={`/features/${route.feature}`}>Check this capability in your agent →</a><div class="product-source-links">{route.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title}</a>)}</div></div>)}</section><div class="product-panel prose-page"><Content /></div></div>
+    <main id="main" class="shell product-detail-page">
+      <div class="pd-breadcrumb-row">
+        <nav aria-label="Breadcrumb" class="pd-breadcrumb">
+          <a href="/products">Products</a>
+          <span aria-hidden="true">/</span>
+          <a href={`/products?category=${product.categorySlug}`}>{product.category}</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{product.title}</span>
+        </nav>
+        <span class="pd-record-number">Product guide / {String(product.order).padStart(2, "0")}</span>
       </div>
-      <section class="product-evidence" aria-labelledby="sources-heading"><div class="product-section-heading"><h2 id="sources-heading">Read the evidence</h2><a href={product.homepage}>Product website ↗</a></div><p>{PRODUCT_REVIEW_NOTE}</p><ol>{product.sources.map((source) => <li id={`source-${source.id}`}><a href={source.href}>{source.title} ↗</a><span>{source.publisher} · Reviewed {source.reviewedAt}</span></li>)}</ol><div class="product-source-links"><a href={productMarkdownPath(product.slug)}>Read as Markdown</a><a href={productJsonPath(product.slug)}>Get the JSON record</a><a href="/methodology">Research methodology</a></div></section>
+
+      <header class="pd-hero">
+        <div class="pd-hero__answer">
+          <div class="pd-identity">
+            <ProviderMark provider={product.vendor} productSlug={product.slug} variant="product" />
+            <div>
+              <p class="eyebrow">{product.category}</p>
+              <a href={product.homepage}>{product.title} <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <h1>Can my agent use <span>{product.title}?</span></h1>
+          <p class="pd-summary">{product.summary}</p>
+          <div class="pd-review-meta">
+            <span class="pd-review-meta__type">Documentation reviewed</span>
+            <span>No live test</span>
+            <time datetime={reviewDate}>{reviewDate}</time>
+            <a href="#sources">{product.sources.length} sources</a>
+          </div>
+        </div>
+        <aside class="pd-snapshot" aria-labelledby="snapshot-heading">
+          <div class="pd-snapshot__heading">
+            <p class="eyebrow">At a glance</p>
+            <h2 id="snapshot-heading">Agent access</h2>
+          </div>
+          <dl class="pd-snapshot__interfaces">
+            {product.integrations.map((item) => (
+              <div>
+                <dt><a href={`#interface-${item.kind}`}>{PRODUCT_INTERFACE_LABELS[item.kind]}</a></dt>
+                <dd><span class={`integration-status integration-status--${item.status}`}>{PRODUCT_INTEGRATION_LABELS[item.status]}</span></dd>
+              </div>
+            ))}
+          </dl>
+          <a class="pd-snapshot__compare" href={`/products?category=${product.categorySlug}`}>Compare {product.category.toLowerCase()} products <span aria-hidden="true">↗</span></a>
+        </aside>
+      </header>
+
+      <nav class="pd-action-map" aria-label="Jump to an account or product action">
+        {product.actions.map((action, index) => (
+          <a href={`#${action.id}`} class="pd-action-map__step">
+            <span class="pd-action-map__top"><span class="pd-index">0{index + 1}</span><span aria-hidden="true">↗</span></span>
+            <span class="pd-action-map__label">{shortActionLabels[action.id]}</span>
+            <span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="pd-guide-layout">
+        <aside class="pd-contents">
+          <nav aria-label="On this page">
+            <p class="eyebrow">In this guide</p>
+            <ol>{contents.map((item, index) => <li><a href={`#${item.id}`}><span>0{index + 1}</span>{item.label}</a></li>)}</ol>
+          </nav>
+          <div class="pd-contents__formats">
+            <p class="eyebrow">Bring your agent</p>
+            <a href={productMarkdownPath(product.slug)}>Read as Markdown <span aria-hidden="true">↗</span></a>
+            <a href={productJsonPath(product.slug)}>Get the JSON record <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
+
+        <div class="pd-guide-body">
+          <div class="pd-scope">
+            <span class="eyebrow">Scope of this guide</span>
+            <p>{product.scope}</p>
+          </div>
+          <section id="journey" class="pd-section" aria-labelledby="journey-heading">
+            <div class="pd-section-heading"><p class="eyebrow">01 / The account-to-action journey</p><h2 id="journey-heading">What can your agent actually do?</h2><p>Each step has its own answer. Start with the task you need.</p></div>
+            <div class="pd-actions">
+              {product.actions.map((action, index) => (
+                <article id={action.id} class="pd-action">
+                  <div class="pd-action__marker" aria-hidden="true">0{index + 1}</div>
+                  <div class="pd-action__body">
+                    <div class="pd-action__label"><h3>{PRODUCT_ACTION_LABELS[action.id]}</h3><span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span></div>
+                    <p class="pd-action__answer">{action.summary}</p>
+                    <p class="pd-action__detail">{action.detail}</p>
+                    <div class="pd-citations" aria-label="Supporting evidence">
+                      {action.sourceIds.length ? action.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id)?.title} <span aria-hidden="true">↗</span></a>) : <span>No conclusive evidence recorded.</span>}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section id="interfaces" class="pd-section" aria-labelledby="interfaces-heading">
+            <details class="pd-disclosure">
+            <summary class="pd-section-heading"><h2 id="interfaces-heading"><span class="eyebrow">02 / The interfaces</span><span class="pd-disclosure-title">Choose how your agent connects.</span><span class="pd-disclosure-toggle" aria-hidden="true">+</span></h2></summary><p class="pd-disclosure-intro">MCP tools, interactive MCP Apps, and APIs are separate capabilities.</p>
+            <div class="pd-integrations">
+              {product.integrations.map((item) => (
+                <article id={`interface-${item.kind}`} class="pd-integration">
+                  <div class="pd-integration__label"><h3>{PRODUCT_INTERFACE_LABELS[item.kind]}</h3><span class={`integration-status integration-status--${item.status}`}>{PRODUCT_INTEGRATION_LABELS[item.status]}</span></div>
+                  <div><p>{item.detail}</p><div class="pd-citations">{item.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id)?.title} <span aria-hidden="true">↗</span></a>)}</div></div>
+                </article>
+              ))}
+            </div>
+            <aside class="pd-fit"><span class="eyebrow">Suggested fit</span><p>{product.bestFor}</p><small>An editorial assessment of the documented routes.</small><a href={`/products?category=${product.categorySlug}`}>Compare alternatives <span aria-hidden="true">→</span></a></aside>
+            </details>
+          </section>
+
+          <section id="setup" class="pd-section" aria-labelledby="setup-heading">
+            <details class="pd-disclosure">
+            <summary class="pd-section-heading"><h2 id="setup-heading"><span class="eyebrow">03 / Setup & human handoffs</span><span class="pd-disclosure-title">What it takes to get started.</span><span class="pd-disclosure-toggle" aria-hidden="true">+</span></h2></summary><p class="pd-disclosure-intro">Know who needs to act before handing over the task.</p>
+            <ol class="pd-setup">
+              {product.setup.map((step, index) => (
+                <li><div class="pd-setup__sequence" aria-hidden="true">{index + 1}</div><div class="pd-setup__content"><span class={`pd-actor${step.actor === "Agent" ? " pd-actor--agent" : ""}`}>{step.actor}</span><h3>{step.title}</h3><p>{step.detail}</p></div></li>
+              ))}
+            </ol>
+            </details>
+          </section>
+
+          <section id="routes" class="pd-section" aria-labelledby="routes-heading">
+            <details class="pd-disclosure">
+            <summary class="pd-section-heading"><h2 id="routes-heading"><span class="eyebrow">04 / Connection routes</span><span class="pd-disclosure-title">Find a route your agent supports.</span><span class="pd-disclosure-toggle" aria-hidden="true">+</span></h2></summary>
+            <div class="pd-routes">
+              {product.routes.map((route, index) => (
+                <article class="pd-route"><span class="pd-route__index">Route 0{index + 1}</span><h3>{route.name}</h3><p>{route.description}</p><a class="pd-route__capability" href={`/features/${route.feature}`}>Check this capability in your agent <span aria-hidden="true">→</span></a><div class="pd-citations">{route.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id)?.title} <span aria-hidden="true">↗</span></a>)}</div></article>
+              ))}
+            </div>
+            </details>
+          </section>
+
+          <section id="field-notes" class="pd-section" aria-labelledby="notes-heading">
+            <details class="pd-disclosure">
+            <summary class="pd-section-heading"><h2 id="notes-heading"><span class="eyebrow">05 / In practice</span><span class="pd-disclosure-title">The details that make a difference.</span><span class="pd-disclosure-toggle" aria-hidden="true">+</span></h2></summary>
+            <div class="pd-field-notes prose-page"><Content /></div>
+            </details>
+          </section>
+
+          <section id="sources" class="pd-section pd-evidence" aria-labelledby="sources-heading">
+            <details class="pd-disclosure">
+            <summary class="pd-section-heading"><h2 id="sources-heading"><span class="eyebrow">06 / The evidence</span><span class="pd-disclosure-title">Every answer starts here.</span><span class="pd-disclosure-toggle" aria-hidden="true">+</span></h2></summary><p class="pd-disclosure-intro">{PRODUCT_REVIEW_NOTE}</p>
+            <ol class="pd-source-list">
+              {product.sources.map((source, index) => (
+                <li id={`source-${source.id}`}><span class="pd-source-list__index">[{index + 1}]</span><div><a href={source.href}>{source.title} <span aria-hidden="true">↗</span></a><p>{source.publisher} <span aria-hidden="true">·</span> Reviewed <time datetime={source.reviewedAt}>{source.reviewedAt}</time></p></div></li>
+              ))}
+            </ol>
+            <div class="pd-evidence__footer"><a href="/methodology">Research methodology <span aria-hidden="true">↗</span></a><a href={product.homepage}>{product.title} website <span aria-hidden="true">↗</span></a></div>
+            </details>
+          </section>
+        </div>
+      </div>
     </main>
   </SiteChrome>
 </BaseLayout>
+
+<script>
+  function revealLinkedEvidence() {
+    let id = window.location.hash.slice(1);
+    try { id = decodeURIComponent(id); } catch { return; }
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    const disclosure = target.closest("details") ?? target.querySelector("details");
+    if (disclosure instanceof HTMLDetailsElement) disclosure.open = true;
+    if (disclosure) target.scrollIntoView({ block: "start" });
+  }
+  revealLinkedEvidence();
+  window.addEventListener("hashchange", revealLinkedEvidence);
+</script>

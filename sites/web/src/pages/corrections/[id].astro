@@ -3,13 +3,14 @@ import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
 import { env } from "cloudflare:workers";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { appSubmissionReviewSummary, correctionReceiptPath } from "../../lib/corrections";
 
 export const prerender = false;
 
 const correctionEnv = env as unknown as { CORRECTIONS_DB?: D1Database };
 
 const receiptId = Astro.params.id ?? "";
-const validReceipt = /^CMAU-[2-9A-HJ-NP-Z]{10}$/.test(receiptId);
+const validReceipt = Boolean(correctionReceiptPath(receiptId));
 const database = correctionEnv.CORRECTIONS_DB;
 const correction =
   validReceipt && database
@@ -37,12 +38,15 @@ const events: Array<Record<string, string>> =
           .all<Record<string, string>>()
       ).results ?? []
     : [];
+const isAppSubmission = correction?.target_type === "missing-product";
+const originalReceipt = correctionReceiptPath(correction?.duplicate_of, receiptId);
+const replacementReceipt = correctionReceiptPath(correction?.superseded_by, receiptId);
 if (!correction) Astro.response.status = 404;
 Astro.response.headers.set("cache-control", "private, no-store");
 ---
 
 <BaseLayout
-  title={`${correction ? `Correction ${receiptId}` : "Correction not found"} | ${SITE.name}`}
+  title={`${correction ? `${isAppSubmission ? "App submission" : "Correction"} ${receiptId}` : "Correction not found"} | ${SITE.name}`}
   description="Public editorial receipt and review history for a submitted catalog correction."
   canonicalPath={`/corrections/${receiptId}`}
   jsonLd={[websiteJsonLd()]}
@@ -51,18 +55,23 @@ Astro.response.headers.set("cache-control", "private, no-store");
     <main id="main" class="shell py-8">
       {correction ? (
         <>
-          <p class="eyebrow">Correction receipt</p>
+          <p class="eyebrow">{isAppSubmission ? "App submission receipt" : "Correction receipt"}</p>
           <h1>{receiptId}</h1>
           <p class="receipt-state">{String(correction.review_state).replaceAll("-", " ")}</p>
           <dl class="receipt-summary mt-6">
-            <div><dt>Target</dt><dd>{correction.target_type}</dd></div>
+            <div><dt>Target</dt><dd>{isAppSubmission ? "New app for editorial review" : correction.target_type}</dd></div>
             {correction.feature_slug && <div><dt>Capability</dt><dd>{correction.feature_slug}</dd></div>}
             {correction.harness_slug && <div><dt>Product</dt><dd>{correction.harness_slug}</dd></div>}
-            <div><dt>Track</dt><dd>{correction.track}</dd></div>
-            <div><dt>Proposed status</dt><dd>{correction.proposed_status}</dd></div>
+            {!isAppSubmission && <div><dt>Track</dt><dd>{correction.track}</dd></div>}
+            {!isAppSubmission && <div><dt>Proposed status</dt><dd>{correction.proposed_status}</dd></div>}
             <div><dt>Received</dt><dd>{correction.received_at}</dd></div>
             <div><dt>Updated</dt><dd>{correction.updated_at}</dd></div>
           </dl>
+          {isAppSubmission && <p class="mt-4">{appSubmissionReviewSummary(correction.review_state)} Submission does not create a listing or establish a compatibility status.</p>}
+          {(originalReceipt || replacementReceipt) && <nav class="receipt-related mt-4" aria-label="Related editorial receipts">
+            {originalReceipt && <a href={originalReceipt}>Follow original receipt {correction.duplicate_of} →</a>}
+            {replacementReceipt && <a href={replacementReceipt}>Follow replacement receipt {correction.superseded_by} →</a>}
+          </nav>}
           <p class="mt-4">
             <a href={correction.catalog_permalink ?? "/coverage"}>Open the catalog target</a>
           </p>
@@ -84,7 +93,7 @@ Astro.response.headers.set("cache-control", "private, no-store");
         </>
       ) : (
         <>
-          <p class="eyebrow">Correction receipt</p>
+          <p class="eyebrow">{isAppSubmission ? "App submission receipt" : "Correction receipt"}</p>
           <h1>Receipt not found</h1>
           <p>No public correction receipt matches this identifier.</p>
           <p><a href="/report">Submit a correction</a></p>
@@ -124,5 +133,7 @@ Astro.response.headers.set("cache-control", "private, no-store");
   .receipt-events { display: grid; gap: 0.7rem; padding-left: 1.4rem; }
   .receipt-events li { border-top: 1px solid var(--color-line); padding: 0.65rem 0; }
   .receipt-events p { margin: 0.25rem 0; }
+  .receipt-related { display: flex; flex-wrap: wrap; gap: 0.7rem 1.5rem; }
+  .receipt-related a { color: var(--color-copper-deep); text-decoration: underline; text-underline-offset: 3px; }
   .privacy-note { margin-top: 2rem; color: var(--color-muted); font-size: 0.8rem; }
 </style>

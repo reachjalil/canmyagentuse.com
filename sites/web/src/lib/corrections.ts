@@ -7,6 +7,7 @@ export const CORRECTION_TARGET_TYPES = [
   "evidence",
   "methodology",
   "missing-harness",
+  "missing-product",
   "missing-feature",
   "general",
 ] as const;
@@ -48,6 +49,8 @@ const PUBLICATION_PREFERENCES = ["internal-only", "may-publish"] as const;
 
 export interface CorrectionSubmission {
   targetType: CorrectionTargetType;
+  appName: string;
+  productWebsite: string;
   feature: string;
   harness: string;
   track: string;
@@ -175,6 +178,8 @@ export function validateCorrectionSubmission(
     : "internal-only";
   const value: CorrectionSubmission = {
     targetType,
+    appName: "",
+    productWebsite: "",
     feature: slug(source.feature),
     harness: slug(source.harness),
     track: track(source.track),
@@ -222,6 +227,32 @@ export function validateCorrectionSubmission(
   if (value.explanation.length < 20) {
     errors.push("Explain the proposed correction in at least 20 characters.");
   }
+  if (targetType === "missing-product") {
+    const appName = sanitizeCorrectionText(source.appName, 160);
+    const productWebsite = validatedHttpsUrls(source.productWebsite)[0] ?? "";
+    value.appName = appName;
+    value.productWebsite = productWebsite;
+    if (appName.length < 2) errors.push("Provide an app or product name.");
+    if (!productWebsite) errors.push("Provide a public HTTPS product website.");
+    if (!value.sourceUrls.length) {
+      errors.push(
+        "Include at least one public HTTPS source for the agent capability."
+      );
+    }
+    value.reproductionSteps = [
+      `App name: ${appName}`,
+      `Product website: ${productWebsite}`,
+      value.reproductionSteps,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    value.sourceUrls = validatedHttpsUrls([
+      productWebsite,
+      ...value.sourceUrls,
+    ]);
+    value.catalogPermalink = "https://canmyagentuse.com/products";
+    value.proposedStatus = "unknown";
+  }
   if (value.contact && !/^\S+@\S+\.\S+$/.test(value.contact)) {
     errors.push("Contact must be a valid email address or left blank.");
   }
@@ -232,6 +263,61 @@ export function validateCorrectionSubmission(
     errors.push("Automated submissions are not accepted.");
   }
   return errors.length > 0 ? { ok: false, errors } : { ok: true, value };
+}
+
+/** Keep existing correction fingerprints stable, adding identity only for new apps. */
+export function correctionDeduplicationKey(
+  submission: CorrectionSubmission
+): string {
+  return JSON.stringify({
+    targetType: submission.targetType,
+    feature: submission.feature,
+    harness: submission.harness,
+    track: submission.track,
+    proposedStatus: submission.proposedStatus,
+    explanation: submission.explanation.toLowerCase(),
+    sourceUrls: submission.sourceUrls,
+    ...(submission.targetType === "missing-product"
+      ? {
+          appName: submission.appName.toLowerCase(),
+          productWebsite: submission.productWebsite,
+        }
+      : {}),
+  });
+}
+
+export function correctionReceiptPath(
+  id: unknown,
+  currentReceiptId?: string
+): string | undefined {
+  return typeof id === "string" &&
+    /^CMAU-[2-9A-HJ-NP-Z]{10}$/.test(id) &&
+    id !== currentReceiptId
+    ? `/corrections/${id}`
+    : undefined;
+}
+
+const APP_REVIEW_SUMMARIES: Record<CorrectionReviewState, string> = {
+  received: "Your app submission is awaiting editorial review.",
+  triaged: "Your app submission has been triaged for editorial review.",
+  "needs-more-information":
+    "The reviewer needs more information. Check the editorial history for the requested evidence.",
+  accepted:
+    "Your app submission was accepted. Check the editorial history for the decision and any published outcome.",
+  "partially-accepted":
+    "Part of your app submission was accepted. Check the editorial history for the scope of the decision.",
+  declined:
+    "Your app submission was declined. Check the editorial history for the reason.",
+  duplicate:
+    "This submission was marked as a duplicate. Follow the linked original receipt for its review and outcome.",
+  superseded:
+    "A later receipt supersedes this submission. Follow the linked replacement for the current review and outcome.",
+};
+
+export function appSubmissionReviewSummary(state: unknown): string {
+  return CORRECTION_REVIEW_STATES.includes(state as CorrectionReviewState)
+    ? APP_REVIEW_SUMMARIES[state as CorrectionReviewState]
+    : "Check the editorial history for the current review status.";
 }
 
 const ID_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";

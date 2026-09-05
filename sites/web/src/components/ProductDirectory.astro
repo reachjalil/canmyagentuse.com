@@ -1,23 +1,31 @@
 ---
-import { PRODUCT_STATUS_LABELS, productPath, type ProductData } from "@canmyagentuse/catalog";
+import { PRODUCT_INTERFACE_LABELS, productPath, type ProductData } from "@canmyagentuse/catalog";
+import ProviderMark from "./ProviderMark.astro";
+import "../styles/product-cards.css";
 interface Props { products: ProductData[]; }
 const { products } = Astro.props;
-const shortLabels = { "sign-up": "Sign up", "connect-account": "Connect account", "buy-subscribe": "Buy / subscribe", "use-product": "Use it" };
+const statusLabels = { "agent-ready": "Ready after setup", "human-step": "Needs your help", conditional: "Limited access", unknown: "Not verified" };
 ---
-<div class="product-directory">
-  {products.map((product) => (
-    <article class="product-card" data-product-card={product.slug}>
-      <div class="product-card__identity">
-        <span class="product-monogram" aria-hidden="true">{product.title.slice(0, 2).toUpperCase()}</span>
-        <div><p class="eyebrow">{product.category}</p><h3><a href={productPath(product.slug)}>{product.title}</a></h3></div>
-        <span class="product-card__number" aria-hidden="true">{String(product.order).padStart(2, "0")}</span>
+<div class="service-grid">
+  {products.map((product) => {
+    const primaryAction = ["shopping", "movie-tickets"].includes(product.categorySlug) ? "buy-subscribe" : "use-product";
+    const status = product.actions.find((action) => action.id === primaryAction)?.status ?? "unknown";
+    const interfaces = product.integrations.filter((item) => item.status === "official" || item.status === "community");
+    return <article class="service-card" data-product-card={product.slug}>
+      <div class="service-card__head">
+        <ProviderMark provider={product.vendor} productSlug={product.slug} variant="product" />
+        <div><h3><a href={productPath(product.slug)}>{product.title}</a></h3><p>{product.category}</p></div>
+        <span class="service-card__arrow" aria-hidden="true">↗</span>
       </div>
-      <p class="product-card__summary">{product.summary}</p>
-      <dl class="product-checklist">
-        {product.actions.map((action) => <div><dt>{shortLabels[action.id]}</dt><dd><span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span></dd></div>)}
-      </dl>
-      <a class="product-card__link" href={productPath(product.slug)}>See what it takes <span aria-hidden="true">↗</span><span class="sr-only"> for {product.title}</span></a>
-      <p class="product-card__review">Docs reviewed {product.updated.toISOString().slice(0, 10)} · No live test</p>
-    </article>
-  ))}
+      <p class="service-card__summary">{product.bestFor}</p>
+      <div class="service-card__foot">
+        <span class={`service-card__status service-card__status--${status}`}><i aria-hidden="true" />{statusLabels[status]}</span>
+        <a href={productPath(product.slug)}>Details<span class="sr-only"> for {product.title}</span> →</a>
+      </div>
+      <div class="service-card__interfaces" aria-label="Documented access routes">
+        {interfaces.slice(0, 3).map((item) => <span title={`${item.status === "community" ? "Community" : "Official"} integration`}>{PRODUCT_INTERFACE_LABELS[item.kind]}{item.status === "community" ? " · community" : ""}</span>)}
+        {!interfaces.length ? <span>Route not verified</span> : null}
+      </div>
+    </article>;
+  })}
 </div>

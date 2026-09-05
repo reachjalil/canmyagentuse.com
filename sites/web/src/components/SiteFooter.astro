@@ -2,6 +2,7 @@
 import { MACHINE_PATHS, SITE } from "@canmyagentuse/catalog";
 
 const links = [
+  { href: "/submit-app", label: "Submit your app" },
   { href: "/sponsors", label: "Sponsorship & advertising" },
   { href: "/products", label: "Products your agent can use" },
   { href: "/features", label: "Capabilities" },
@@ -30,38 +31,10 @@ const links = [
 ];
 ---
 
-<footer class="site-footer mt-16">
-  <div class="shell grid gap-8 py-10 text-sm md:grid-cols-[1.4fr_1fr_auto]">
-    <div class="space-y-2">
-      <p class="font-medium text-[color:var(--color-chrome-ink)]">{SITE.name}</p>
-      <p>{SITE.independentNotice}</p>
-      <p>{SITE.foundationNotice}</p>
-    </div>
-    <nav aria-label="Site">
-      <ul class="space-y-1">
-        {links.map((link) => (
-          <li>
-            <a href={link.href}>{link.label}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-    <nav aria-label="Catalog copies">
-      <ul class="space-y-1 font-mono text-xs">
-        <li><a href={MACHINE_PATHS.productsJson}>/api/v1/products.json</a></li>
-        <li><a href={MACHINE_PATHS.llms}>/llms.txt</a></li>
-        <li><a href={MACHINE_PATHS.promptText}>/prompt.txt</a></li>
-        <li><a href={MACHINE_PATHS.feedXml}>/feed.xml</a></li>
-        <li><a href={MACHINE_PATHS.llmsFull}>/llms-full.txt</a></li>
-        <li><a href={MACHINE_PATHS.openapi}>/api/v1/openapi.json</a></li>
-        <li><a href={MACHINE_PATHS.harnessesJson}>/api/v1/harnesses.json</a></li>
-        <li><a href={MACHINE_PATHS.specificationsJson}>/api/v1/specs.json</a></li>
-        <li><a href={MACHINE_PATHS.evidenceJson}>/api/v1/evidence.json</a></li>
-        <li><a href={MACHINE_PATHS.coverageJson}>/api/v1/coverage.json</a></li>
-        <li><a href={MACHINE_PATHS.reportsJson}>/api/v1/reports.json</a></li>
-        <li><a href={MACHINE_PATHS.testsJson}>/api/v1/tests.json</a></li>
-        <li><a href={MACHINE_PATHS.matrixJson}>/api/v1/matrix.json</a></li>
-      </ul>
-    </nav>
+<footer class="site-footer catalog-footer">
+  <div class="shell catalog-footer__main">
+    <div><a class="catalog-footer__brand" href="/">{SITE.name}</a><p>{SITE.independentNotice}</p><a class="catalog-footer__refs" href="/provider-marks">Logo sources & references ↗</a></div>
+    <nav aria-label="Site"><a href="/products">Explore apps</a><a href="/submit-app">Submit your app</a><a href="/sponsors">Become a sponsor</a><a href="/news">Field notes</a><a href="/about">About</a><a href="/privacy">Privacy</a></nav>
   </div>
+  <details class="shell catalog-footer__more"><summary>Research, data & resources <span aria-hidden="true">+</span></summary><div><nav aria-label="Research resources">{links.filter((link) => !["/products", "/submit-app", "/sponsors", "/news", "/about", "/privacy"].includes(link.href)).map((link) => <a href={link.href}>{link.label}</a>)}</nav><nav aria-label="Catalog copies"><a href={MACHINE_PATHS.productsJson}>Products JSON</a><a href={MACHINE_PATHS.llms}>llms.txt</a><a href={MACHINE_PATHS.openapi}>OpenAPI</a><a href={MACHINE_PATHS.feedXml}>RSS feed</a><a href="/sitemap.md">All pages & formats</a></nav></div></details>
 </footer>

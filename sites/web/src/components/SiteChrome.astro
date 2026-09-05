@@ -14,11 +14,13 @@ import SiteHeader from "./SiteHeader.astro";
 
 interface Props {
   showIndex?: boolean;
+  showSearch?: boolean;
+  showSponsor?: boolean;
   searchValue?: string;
   searchScope?: "product" | "all" | "feature" | "harness" | "specification";
 }
 
-const { showIndex = false, searchValue = "", searchScope = "all" } = Astro.props;
+const { showSponsor = true, showSearch = true, showIndex = false, searchValue = "", searchScope = "all" } = Astro.props;
 const products = await publishedCollection("products");
 const features = await publishedCollection("features");
 const harnesses = await publishedCollection("harnesses");
@@ -31,15 +33,15 @@ const latest: NewsData | undefined = news[0]?.data;
 ---
 
 <SiteHeader latest={latest} />
-<SearchBelt
+{showSearch ? <SearchBelt
   products={products.map((entry) => entry.data)}
   features={featureData}
   harnesses={harnessData}
   specifications={specificationData}
   value={searchValue}
   scope={searchScope}
-/>
+/> : null}
 {showIndex ? <FeatureIndex features={featureData} /> : null}
 <slot />
-<SponsorPlacement />
+{showSponsor ? <SponsorPlacement /> : null}
 <SiteFooter />

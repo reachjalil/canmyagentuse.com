@@ -7,11 +7,11 @@ import { publishedCollection } from "../../lib/collections";
 const products = await publishedCollection("products");
 ---
 <BaseLayout title={`Products your agent can use | ${SITE.name}`} description={SITE.description} canonicalPath="/products" jsonLd={[websiteJsonLd()]}>
-  <SiteChrome searchScope="product">
-    <main id="main" class="shell product-page">
-      <header class="product-intro"><p class="eyebrow">The product catalog · {products.length} initial guides</p><h1>Start with the product.<br />Know what it takes.</h1><p>Can your agent sign up, connect your account, subscribe, and do the job? Choose a category and the access your agent needs. Compare the evidence, then open a guide for setup and human handoffs.</p></header>
+  <SiteChrome showSearch={false} searchScope="product">
+    <main id="main" class="shell product-page product-directory-page">
+      <header class="product-intro"><p class="eyebrow">Find your next app</p><h1>Built for your workflow.<br /><span>Ready for your agent?</span></h1><p>Find the right app. Check the access. See what it takes.</p></header>
       <ProductFinder products={products.map((entry) => entry.data)} />
-      <p class="product-note">This is the first set of product guides. “Not verified” identifies an evidence gap; it does not mean a product cannot support the action. Agent and connector availability must be checked for your setup.</p>
+      <p class="product-note">Statuses are based on documentation, not live tests. “Not verified” means we need more evidence.</p>
       <a class="product-text-link" href="/harnesses">Check the agent you will use →</a>
     </main>
   </SiteChrome>

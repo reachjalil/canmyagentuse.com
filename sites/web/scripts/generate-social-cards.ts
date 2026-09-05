@@ -41,7 +41,7 @@ const SYSTEM_CARDS: SocialCard[] = [
   {
     canonicalPath: "/products",
     eyebrow: "The product catalog",
-    title: "Start with the product.",
+    title: "Find your agent’s next app.",
     description:
       "Discover agent access, account setup, MCP tools, APIs, and the steps that need you.",
     meta: "Independent research · dated sources",
@@ -49,9 +49,8 @@ const SYSTEM_CARDS: SocialCard[] = [
   {
     canonicalPath: "/",
     eyebrow: "Products your agent can use",
-    title: "Can my agent use this product?",
-    description:
-      "Account setup, available tools, and the path to a first useful task.",
+    title: "Find apps your agent can actually use.",
+    description: "Know what works. See what needs you. Pick your next app.",
     meta: "Independent research · unknown stays unknown",
   },
   {

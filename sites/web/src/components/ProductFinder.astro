@@ -1,58 +1,185 @@
 ---
-import { PRODUCT_INTERFACES, PRODUCT_INTERFACE_LABELS, PRODUCT_INTEGRATION_LABELS, type ProductData } from "@canmyagentuse/catalog";
+import {
+  PRODUCT_INTERFACES,
+  PRODUCT_INTERFACE_LABELS,
+  PRODUCT_INTEGRATION_LABELS,
+  type ProductData,
+} from "@canmyagentuse/catalog";
 import ProductDirectory from "./ProductDirectory.astro";
-interface Props { products: ProductData[]; }
+import ProviderMark from "./ProviderMark.astro";
+import "../styles/product-finder.css";
+
+interface Props {
+  products: ProductData[];
+}
+
 const { products } = Astro.props;
-const categories = [...new Map(products.map((p) => [p.categorySlug, p.category])).entries()];
+const categories = [...new Map(products.map((product) => [product.categorySlug, product.category])).entries()];
+const interfaceDescriptions = {
+  mcp: "Tools your agent can call",
+  "mcp-apps": "Interactive UI in your chat",
+  api: "A programmable connection",
+  cli: "Commands from a terminal",
+  "local-files": "Files your agent can work with",
+};
 ---
-<div data-product-finder>
-  <form class="product-finder" action="/products" method="get" data-product-filters>
-    <div class="product-finder__top"><label>I need a product for<select name="category"><option value="">Any category</option>{categories.map(([slug, label]) => <option value={slug}>{label}</option>)}</select></label><label>Search products<input name="q" type="search" placeholder="Notes, Gmail, deployment…" /></label></div>
-    <fieldset><legend>My agent needs <small>All selected interfaces must match</small></legend><div class="product-finder__checks">{PRODUCT_INTERFACES.map((kind) => <label><input type="checkbox" name="interface" value={kind} />{PRODUCT_INTERFACE_LABELS[kind]}</label>)}</div></fieldset>
-    <div class="product-finder__bottom"><label><input type="checkbox" name="official" value="1" /> Official integrations only</label><button type="reset">Clear filters</button></div>
-    <p>MCP tools let an agent take actions. <a href="/features/mcp-apps">MCP Apps</a> add interactive UI inside the conversation. One does not prove the other.</p>
+
+<div class="pf" data-product-finder>
+  <form class="pf-controls" action="/products" method="get" role="search" aria-label="Filter products" data-product-filters>
+    <div class="pf-controls__heading">
+      <p class="eyebrow">Find your next app</p>
+      <button class="pf-reset" type="reset"><span aria-hidden="true">↺</span> Reset filters</button>
+    </div>
+    <div class="pf-fields">
+      <label class="pf-field">
+        <span>Category</span>
+        <select name="category" aria-label="Product category">
+          <option value="">Explore every category</option>
+          {categories.map(([slug, label]) => <option value={slug}>{label}</option>)}
+        </select>
+      </label>
+      <label class="pf-field">
+        <span>Search apps</span>
+        <span class="pf-search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg>
+          <input name="q" type="search" placeholder="Try Notion, Gmail, Cloudflare…" />
+        </span>
+      </label>
+    </div>
+    <fieldset class="pf-requirements">
+      <legend>Connect with <span>Match all selected</span></legend>
+      <div class="pf-interface-options">
+        {PRODUCT_INTERFACES.map((kind) => (
+          <label class="pf-interface-option" title={interfaceDescriptions[kind]}>
+            <input type="checkbox" name="interface" value={kind} />
+            <span>{PRODUCT_INTERFACE_LABELS[kind]}</span>
+          </label>
+        ))}
+        <label class="pf-official"><input type="checkbox" name="official" value="1" aria-description="Applies to the connection types you select." /> Official integrations only</label>
+      </div>
+    </fieldset>
+    <a class="pf-help" href="/features/mcp-apps">What’s an MCP App? <span aria-hidden="true">↗</span></a>
   </form>
-  <div class="product-section-heading"><h2>Compare the access routes</h2><span aria-live="polite" data-product-count>{products.length} products</span></div>
-  <div class="product-comparison-scroll" tabindex="0" role="region" aria-label="Product access comparison">
-    <table class="product-comparison"><caption class="sr-only">Official and community access routes, with unverified support explicitly marked.</caption><thead><tr><th scope="col">Product / fit</th>{PRODUCT_INTERFACES.map((kind) => <th scope="col">{PRODUCT_INTERFACE_LABELS[kind]}</th>)}</tr></thead><tbody>{products.map((product) => <tr data-product-row={product.slug}><th scope="row"><a href={`/products/${product.slug}`}>{product.title}</a><small>{product.bestFor}</small></th>{PRODUCT_INTERFACES.map((kind) => { const item = product.integrations.find((entry) => entry.kind === kind)!; return <td><a href={`/products/${product.slug}#interfaces`} class={`integration-status integration-status--${item.status}`} title={item.detail}>{PRODUCT_INTEGRATION_LABELS[item.status]}</a></td>; })}</tr>)}</tbody></table>
+
+  <div class="pf-section-heading">
+    <h2>Explore the apps <span class="pf-count" aria-live="polite" aria-atomic="true" data-product-count>{products.length} products</span></h2>
+    <a class="pf-submit" href="/submit-app">Submit your app <span aria-hidden="true">↗</span></a>
   </div>
-  <div class="product-empty" data-product-empty hidden><h3>No verified match for this combination yet.</h3><p>This is a coverage gap in the current catalog. It is not proof that no such product exists. Clear a requirement to compare the documented alternatives.</p></div>
-  <div class="product-section-heading"><h2>Account setup and first tasks</h2></div>
-  <ProductDirectory products={products} />
-  <noscript><p class="product-note">Enable JavaScript to filter this comparison. Every product and its evidence remain available in the table and guides below.</p></noscript>
+  <div class="pf-empty" data-product-empty hidden>
+    <span class="pf-empty__symbol" aria-hidden="true">∅</span>
+    <div><h3>No documented match yet.</h3><p>Try removing a requirement to see more apps. Unverified support does not mean an app cannot do it.</p></div>
+  </div>
+  <div data-product-guides>
+    <ProductDirectory products={products} />
+  </div>
+
+  <details class="pf-comparison" data-product-table>
+    <summary><span>Compare connection types <small>MCP, apps, API, CLI & files</small></span><span class="pf-comparison__toggle" aria-hidden="true">+</span></summary>
+    <div class="pf-comparison__body">
+      <div class="pf-table-key">
+        <p>Open a status to see its evidence.</p>
+        <ul aria-label="Integration evidence legend">
+          <li><span class="pf-key-dot pf-key-dot--official" aria-hidden="true"></span>Official</li>
+          <li><span class="pf-key-dot pf-key-dot--community" aria-hidden="true"></span>Community</li>
+          <li><span class="pf-key-dot pf-key-dot--unknown" aria-hidden="true"></span>Not verified</li>
+        </ul>
+      </div>
+      <p class="pf-scroll-hint">Swipe to compare all five routes <span aria-hidden="true">→</span></p>
+      <div class="pf-table-scroll" tabindex="0" role="region" aria-label="Product access comparison, horizontally scrollable">
+        <table class="pf-table">
+          <caption class="sr-only">Product access routes. Official means maintained by the product provider; community means a third-party integration. Not verified means the current catalog lacks evidence.</caption>
+          <thead>
+            <tr><th scope="col">Product</th>{PRODUCT_INTERFACES.map((kind) => <th scope="col" title={interfaceDescriptions[kind]}>{PRODUCT_INTERFACE_LABELS[kind]}</th>)}</tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr data-product-row={product.slug}>
+                <th scope="row">
+                  <a class="pf-product" href={`/products/${product.slug}`}>
+                    <ProviderMark provider={product.vendor} productSlug={product.slug} variant="product" />
+                    <span class="pf-product__name">{product.title}<small>{product.category}</small></span>
+                    <span class="pf-product__arrow" aria-hidden="true">↗</span>
+                  </a>
+                </th>
+                {PRODUCT_INTERFACES.map((kind) => {
+                  const item = product.integrations.find((entry) => entry.kind === kind);
+                  return item && (
+                    <td>
+                      <a href={`/products/${product.slug}#interfaces`} class={`pf-status pf-status--${item.status}`} title={item.detail} aria-label={`${product.title}: ${PRODUCT_INTERFACE_LABELS[kind]}, ${PRODUCT_INTEGRATION_LABELS[item.status]}. View evidence.`}>
+                        <span aria-hidden="true">{item.status === "official" ? "✓" : item.status === "community" ? "+" : item.status === "unsupported" ? "×" : "—"}</span>
+                        {PRODUCT_INTEGRATION_LABELS[item.status]}
+                      </a>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+  <noscript><p class="product-note">Enable JavaScript to filter this comparison. Every app and its evidence remain available in the cards and comparison.</p></noscript>
   <script is:inline type="application/json" data-finder-products set:html={JSON.stringify(products).replaceAll("<", "\\u003c")} />
 </div>
+
 <script>
   import { filterProducts } from "@canmyagentuse/catalog";
   import type { ProductData } from "@canmyagentuse/catalog";
+
   const finder = document.querySelector("[data-product-finder]");
   const form = finder?.querySelector<HTMLFormElement>("[data-product-filters]");
   if (finder && form) {
     const products = JSON.parse(finder.querySelector("[data-finder-products]")?.textContent ?? "[]") as ProductData[];
-    const params = new URLSearchParams(location.search);
-    for (const control of form.elements) {
-      if (control instanceof HTMLSelectElement) control.value = params.get(control.name) ?? "";
-      if (control instanceof HTMLInputElement) {
-        if (control.type === "checkbox") control.checked = params.getAll(control.name).includes(control.value);
-        else control.value = params.get(control.name) ?? "";
+    const restore = () => {
+      const params = new URLSearchParams(location.search);
+      for (const control of form.elements) {
+        if (control instanceof HTMLSelectElement) control.value = params.get(control.name) ?? "";
+        if (control instanceof HTMLInputElement) {
+          if (control.type === "checkbox") control.checked = params.getAll(control.name).includes(control.value);
+          else control.value = params.get(control.name) ?? "";
+        }
       }
-    }
+    };
     const update = () => {
       const data = new FormData(form);
-      const filtered = filterProducts(products, { category: String(data.get("category") ?? ""), query: String(data.get("q") ?? ""), interfaces: data.getAll("interface").map(String), officialOnly: data.get("official") === "1" });
+      const filtered = filterProducts(products, {
+        category: String(data.get("category") ?? ""),
+        query: String(data.get("q") ?? ""),
+        interfaces: data.getAll("interface").map(String),
+        officialOnly: data.get("official") === "1",
+      });
       const slugs = new Set(filtered.map((product) => product.slug));
-      for (const row of finder.querySelectorAll<HTMLElement>("[data-product-row], [data-product-card]")) row.hidden = !slugs.has(row.dataset.productRow ?? row.dataset.productCard ?? "");
+      for (const row of finder.querySelectorAll<HTMLElement>("[data-product-row], [data-product-card]")) {
+        row.hidden = !slugs.has(row.dataset.productRow ?? row.dataset.productCard ?? "");
+      }
       const count = finder.querySelector("[data-product-count]");
-      if (count) count.textContent = `${filtered.length} of ${products.length} products match`;
+      if (count) count.textContent = `${filtered.length} of ${products.length} products`;
       const empty = finder.querySelector<HTMLElement>("[data-product-empty]");
       if (empty) empty.hidden = filtered.length !== 0;
-      const url = new URL(location.href); url.search = "";
-      for (const [key, value] of data.entries()) if (value) url.searchParams.append(key, String(value));
+      for (const section of finder.querySelectorAll<HTMLElement>("[data-product-table], [data-product-guides]")) {
+        section.hidden = filtered.length === 0;
+      }
+      const url = new URL(location.href);
+      url.search = "";
+      for (const [key, value] of data.entries()) {
+        if (value) url.searchParams.append(key, String(value));
+      }
       history.replaceState(null, "", url);
     };
     form.addEventListener("input", update);
-    form.addEventListener("submit", (event) => { event.preventDefault(); update(); });
-    form.addEventListener("reset", () => { setTimeout(update, 0); });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      update();
+    });
+    form.addEventListener("reset", () => {
+      setTimeout(update, 0);
+    });
+    window.addEventListener("popstate", () => {
+      restore();
+      update();
+    });
+    restore();
     update();
   }
 </script>

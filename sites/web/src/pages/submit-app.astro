@@ -1,0 +1,158 @@
+---
+import { breadcrumbJsonLd, resolveMetadata, techArticleJsonLd } from "@canmyagentuse/catalog";
+import { render } from "astro:content";
+import SiteChrome from "../components/SiteChrome.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entryBySlug, publishedCollection } from "../lib/collections";
+
+const page = entryBySlug(await publishedCollection("pages"), "submit-app");
+if (!page) throw new Error("Missing submit-app page.");
+const { Content } = await render(page);
+const metadata = resolveMetadata(page.data);
+---
+
+<BaseLayout
+  title={metadata.seoTitle}
+  description={metadata.description}
+  canonicalPath={metadata.canonicalPath}
+  socialTitle={metadata.socialTitle}
+  socialDescription={metadata.socialDescription}
+  socialImageAlt={metadata.previewImageAlt}
+  modifiedTime={metadata.updated}
+  jsonLd={[techArticleJsonLd(metadata), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: page.data.title, path: "/submit-app" }])]}
+>
+  <SiteChrome showSearch={false}>
+    <main id="main" class="shell submission-page">
+      <header class="submission-header">
+        <a class="submission-back" href="/products">← Explore the catalog</a>
+        <p class="eyebrow">For builders & curious people</p>
+        <h1>Get your app<br /><span>on the map.</span></h1>
+        <p>Tell us what an agent can do with your product. We’ll take it from there.</p>
+        <ul class="submission-promises"><li>Free to submit</li><li>Independent review</li><li>Trackable receipt</li></ul>
+        <a class="submission-sponsor" href="/sponsors">Looking to sponsor the research? <span aria-hidden="true">↗</span></a>
+      </header>
+      <div class="submission-body">
+        <form class="submission-form" method="post" action="/api/v1/corrections" data-app-submission>
+          <input type="hidden" name="targetType" value="missing-product" />
+          <input type="hidden" name="publicationPreference" value="internal-only" />
+          <input type="hidden" name="startedAt" value="" />
+          <div class="submission-honeypot" aria-hidden="true"><label for="submission-website">Leave this blank</label><input id="submission-website" name="website" tabindex="-1" autocomplete="off" /></div>
+          <div class="submission-form__intro"><p class="eyebrow">A few details to start</p><h2>Submit your app</h2></div>
+          <label for="app-name">App name<input id="app-name" name="appName" placeholder="Your product" required minlength="2" maxlength="160" autocomplete="organization" /></label>
+          <label for="app-website">Product website<input id="app-website" name="productWebsite" type="url" placeholder="https://your-product.com" pattern="https://.*" required maxlength="2048" autocomplete="url" /></label>
+          <label for="app-capability">What can an agent do?<textarea id="app-capability" name="explanation" rows="3" placeholder="For example: connect an account and create notes through our MCP server." required minlength="20" maxlength="6000"></textarea></label>
+          <label for="app-evidence">Link to the evidence<input id="app-evidence" name="sourceUrls" type="url" placeholder="https://your-product.com/docs" pattern="https://.*" required maxlength="2048" aria-describedby="evidence-help" /><small id="evidence-help">Public docs, a maintained integration, or a specific help page.</small></label>
+          <details class="submission-optional"><summary>Your relationship & contact <span>Optional</span></summary><div>
+            <label for="app-affiliation">Your relationship to the app<select id="app-affiliation" name="affiliation"><option value="none">No affiliation</option><option value="provider-employee">Builder or employee</option><option value="provider-contractor">Contractor</option><option value="provider-partner">Partner</option><option value="customer">Customer</option><option value="researcher">Researcher</option><option value="other">Other</option></select></label>
+            <label for="app-affiliation-detail">Details <small>Optional</small><input id="app-affiliation-detail" name="affiliationDetails" maxlength="500" placeholder="Your role or relationship" /></label>
+            <label for="app-email">Email <small>Optional, kept private</small><input id="app-email" name="contact" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" /></label>
+            <label class="submission-consent"><input type="checkbox" name="permissionToContact" /> You may email me about this submission.</label>
+          </div></details>
+          <p class="submission-privacy">Submission is free and enters editorial review. Your app’s status depends on the evidence. <a href="/privacy">Privacy policy</a>.</p>
+          <button class="submission-button" type="submit" disabled>Submit for review <span aria-hidden="true">↗</span></button>
+          <p class="submission-status" data-submission-status role="status" aria-live="polite"></p>
+          <noscript><p>This form needs JavaScript. You can also <a href="https://github.com/reachjalil/canmyagentuse.com/issues/new?title=App%20submission">suggest an app on our public repository</a>. Keep private contact information out of public issues.</p></noscript>
+        </form>
+        <section class="submission-receipt" data-submission-receipt hidden tabindex="-1" aria-labelledby="receipt-heading">
+          <span class="submission-receipt__symbol" aria-hidden="true">✓</span>
+          <p class="eyebrow">Submission recorded</p>
+          <h2 id="receipt-heading">You’re on the research list.</h2>
+          <p>We’ll review the evidence before adding a listing. Keep your receipt to follow the editorial review.</p>
+          <p class="submission-receipt__id" data-receipt-id></p>
+          <a class="submission-button" data-receipt-link href="/products">View your receipt <span aria-hidden="true">↗</span></a>
+          <a class="submission-back" href="/products">Back to the catalog</a>
+        </section>
+        <details class="submission-review"><summary>How the review works</summary><div class="prose-page"><Content /></div></details>
+      </div>
+    </main>
+  </SiteChrome>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-app-submission]");
+  const status = document.querySelector<HTMLElement>("[data-submission-status]");
+  const receipt = document.querySelector<HTMLElement>("[data-submission-receipt]");
+  if (form) {
+    const startedAt = form.elements.namedItem("startedAt");
+    if (startedAt instanceof HTMLInputElement) startedAt.value = new Date().toISOString();
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+      if (!button || button.disabled) return;
+      button.disabled = true;
+      if (status) status.textContent = "Sending your app for review…";
+      const data = new FormData(form);
+      const payload: Record<string, unknown> = Object.fromEntries(data.entries());
+      payload.permissionToContact = data.has("permissionToContact");
+      try {
+        const response = await fetch("/api/v1/corrections", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json() as { id?: string; statusUrl?: string; error?: string; details?: string[] };
+        if (!response.ok) throw new Error([result.error ?? "Your app could not be submitted.", ...(Array.isArray(result.details) ? result.details : [])].join(" "));
+        if (!result.id || !/^\/corrections\/CMAU-[2-9A-HJ-NP-Z]{10}$/.test(result.statusUrl ?? "")) throw new Error("The submission response was incomplete. Please try again.");
+        const receiptId = receipt?.querySelector("[data-receipt-id]");
+        const receiptLink = receipt?.querySelector<HTMLAnchorElement>("[data-receipt-link]");
+        if (receiptId) receiptId.textContent = result.id;
+        if (receiptLink && result.statusUrl) receiptLink.href = result.statusUrl;
+        if (receipt) {
+          form.hidden = true;
+          receipt.hidden = false;
+          receipt.focus();
+        }
+      } catch (error) {
+        if (status) status.textContent = error instanceof Error ? error.message : "Your app could not be submitted. Please try again.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+    const submit = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    if (submit) submit.disabled = false;
+  }
+</script>
+
+<style>
+  .submission-page { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.05fr); gap:5rem; padding-block:3.5rem; align-items:start; }
+  .submission-back { display:inline-block; font-size:.78rem; color:var(--color-muted); }
+  .submission-header .eyebrow { margin-top:3rem; }
+  .submission-header h1 { font-size:clamp(2.8rem, 5.1vw, 4.3rem); line-height:1.05; font-weight:500; letter-spacing:-.06em; margin-top:1rem; }
+  .submission-header h1 span { color:var(--color-copper-deep); }
+  .submission-header > p:not(.eyebrow) { max-width:24rem; margin-top:1.4rem; font-size:1.1rem; color:var(--color-muted); line-height:1.6; }
+  .submission-promises { display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; margin-top:1.7rem; color:var(--color-muted); font: .65rem var(--font-mono); }
+  .submission-promises li::before { content:"✓"; color:var(--color-copper-deep); margin-right:.45rem; }
+  .submission-sponsor { display:inline-block; font-size:.8rem; color:var(--color-copper-deep); border-top:1px solid var(--color-line); padding-top:1.4rem; margin-top:2rem; }
+  .submission-form, .submission-receipt { background:var(--color-paper); border:1px solid var(--color-line); border-radius:.5rem; padding:2rem; }
+  .submission-form { display:grid; gap:1.15rem; }
+  .submission-form[hidden], .submission-receipt[hidden] { display:none; }
+  .submission-form__intro h2 { font-size:1.8rem; font-weight:500; letter-spacing:-.045em; margin-top:.4rem; }
+  .submission-form label { display:grid; gap:.45rem; font-size:.85rem; font-weight:500; }
+  .submission-form :where(input, textarea, select) { min-width:0; width:100%; padding:.8rem .9rem; border:1px solid var(--color-line); border-radius:.3rem; background:var(--color-paper); color:var(--color-ink); font-size:.9rem; font-weight:400; }
+  .submission-form :where(input, textarea)::placeholder { color:#847b6d; }
+  .submission-form textarea { resize:vertical; }
+  .submission-form label small { font-size:.71rem; font-weight:400; color:var(--color-muted); }
+  .submission-optional { border-block:1px solid var(--color-line); padding-block:.9rem; }
+  .submission-optional summary { cursor:pointer; font-size:.8rem; color:var(--color-muted); }
+  .submission-optional summary span { font-size:.67rem; margin-left:.4rem; }
+  .submission-optional > div { display:grid; gap:1rem; margin-top:1rem; }
+  .submission-form .submission-consent { display:flex; align-items:center; gap:.6rem; font-size:.76rem; font-weight:400; }
+  .submission-form .submission-consent input { width:1rem; height:1rem; flex-shrink:0; accent-color:var(--color-copper-deep); }
+  .submission-privacy { font-size:.75rem; color:var(--color-muted); line-height:1.6; }
+  .submission-privacy a { text-decoration:underline; text-underline-offset:3px; }
+  .submission-button { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.9rem 1rem; border:1px solid var(--color-copper-deep); border-radius:.3rem; background:var(--color-copper-deep); color:var(--color-paper); font-weight:500; cursor:pointer; font-size:.9rem; }
+  .submission-button:disabled { opacity:.6; cursor:wait; }
+  .submission-status { color:var(--color-copper-deep); font-size:.8rem; }
+  .submission-status:empty { display:none; }
+  .submission-honeypot { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+  .submission-review { margin-top:1.3rem; padding-inline:.3rem; }
+  .submission-review summary { font-size:.8rem; color:var(--color-muted); cursor:pointer; }
+  .submission-review .prose-page { padding-top:1.5rem; font-size:.86rem; }
+  .submission-receipt__symbol { display:grid; place-items:center; width:3rem; height:3rem; background:#e4eddf; color:var(--color-yes); border-radius:50%; font-size:1.4rem; margin-bottom:1.5rem; }
+  .submission-receipt h2 { font-size:2rem; line-height:1.15; font-weight:500; letter-spacing:-.04em; margin-top:.7rem; }
+  .submission-receipt > p:not(.eyebrow) { margin-top:1rem; color:var(--color-muted); font-size:.92rem; }
+  .submission-receipt .submission-receipt__id { font:.9rem var(--font-mono); margin-block:1.5rem; }
+  .submission-receipt .submission-back { margin-top:1.3rem; }
+  @media (max-width:960px) { .submission-page { gap:2.5rem; } .submission-form, .submission-receipt { padding:1.5rem; } }
+  @media (max-width:720px) { .submission-page { grid-template-columns:minmax(0, 1fr); padding-block:2rem; gap:2rem; } .submission-header .eyebrow { margin-top:2rem; } .submission-header h1 { font-size:3rem; } .submission-sponsor { margin-top:1.4rem; } }
+</style>

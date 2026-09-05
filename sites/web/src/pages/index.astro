@@ -2,25 +2,45 @@
 import { SITE, organizationJsonLd, websiteJsonLd } from "@canmyagentuse/catalog";
 import CompatibilityOverview from "../components/CompatibilityOverview.astro";
 import ProductDirectory from "../components/ProductDirectory.astro";
+import SearchBelt from "../components/SearchBelt.astro";
 import SiteChrome from "../components/SiteChrome.astro";
+import TaskGlyph from "../components/TaskGlyph.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { publishedCollection } from "../lib/collections";
-const products = await publishedCollection("products");
+import "../styles/product-home.css";
+const [products, features, harnesses, specifications] = await Promise.all([
+  publishedCollection("products"), publishedCollection("features"), publishedCollection("harnesses"), publishedCollection("specifications"),
+]);
+const categories = [
+  { label: "Notes", slug: "note-taking", icon: "notes" },
+  { label: "Cloud & dev", slug: "cloud-deployment", icon: "cloud" },
+  { label: "Email", slug: "email", icon: "mail" },
+  { label: "CRM", slug: "crm", icon: "crm" },
+  { label: "Movie tickets", slug: "movie-tickets", icon: "ticket" },
+  { label: "Shopping", slug: "shopping", icon: "shop" },
+];
 ---
-<BaseLayout title={`Can my agent use this product? | ${SITE.name}`} description={SITE.description} canonicalPath="/" socialTitle="Can my agent use this product?" socialDescription={SITE.description} jsonLd={[websiteJsonLd(), organizationJsonLd()]}>
-  <SiteChrome>
-    <main id="main">
-      <div class="shell product-home">
-        <header class="product-hero">
-          <div><p class="eyebrow">Independent research · Products your agent can use</p><h1>From “can it connect?”<br />to <em>“can it do the job?”</em></h1><p>Find out what your agent can use, what you need to set up, and where you need to step in. Start with a product. Follow the path to a first useful task.</p><div class="product-hero__links"><a class="home-action home-action--primary" href="/products">Explore products</a><a href="#compatibility">Explore agent compatibility ↓</a></div></div>
-          <aside class="product-hero__aside"><span class="eyebrow">The questions that matter</span><ol><li><span>01</span> Can it sign up?</li><li><span>02</span> Can it connect my account?</li><li><span>03</span> Can it buy or subscribe?</li><li><span>04</span> Can it get work done?</li></ol><p>Each step has its own answer.</p></aside>
-        </header>
-        <nav class="product-use-cases" aria-label="Find a product for your task"><span>I need a product for</span><a href="/products?category=note-taking">Taking notes ↗</a><a href="/products?category=cloud-deployment">Deploying an app ↗</a><a href="/products?category=email">Working with email ↗</a><a href="/products?category=crm">Managing customers ↗</a><a href="/products?category=movie-tickets">Buying movie tickets ↗</a><a href="/products?category=shopping">Shopping ↗</a></nav>
-        <section aria-labelledby="products-heading"><div class="product-section-heading"><div><p class="eyebrow">Start with a service</p><h2 id="products-heading">Can my agent use…</h2></div><a href="/products">All product guides →</a></div><ProductDirectory products={products.slice(0, 3).map((entry) => entry.data)} /></section>
-        <article class="product-editorial"><div><p class="eyebrow">Agents in everyday life · Research</p><h2><a href="/news/can-an-ai-agent-buy-my-movie-ticket">Your agent found the movie.<br />Can it actually buy the ticket?</a></h2><p>AMC, Atom, partner access, and the gap between a checkout link and a confirmed seat.</p><a class="product-text-link" href="/news/can-an-ai-agent-buy-my-movie-ticket">Read the investigation →</a></div><span aria-hidden="true" class="product-editorial__ticket">ADMIT<br /><strong>01</strong><small>SHOWTIME → SEAT → RECEIPT</small></span></article>
-        <p class="product-note">An API or MCP server is one part of the answer. Account creation, consent, permissions, billing, and the agent you choose determine the rest. These initial guides cite provider documentation; they have not been tested end to end.</p>
-      </div>
-      <CompatibilityOverview />
+<BaseLayout title={`Find apps your agent can use | ${SITE.name}`} description={SITE.description} canonicalPath="/" socialTitle="Find apps your agent can actually use." socialDescription={SITE.description} jsonLd={[websiteJsonLd(), organizationJsonLd()]}>
+  <SiteChrome showSearch={false} showSponsor={false}>
+    <main id="main" class="discovery-home">
+      <section class="discovery-hero shell" aria-labelledby="home-heading">
+        <p class="discovery-eyebrow"><span aria-hidden="true" /> The app directory for the agent era</p>
+        <h1 id="home-heading">Find apps your agent<br />can <em>actually use.</em></h1>
+        <p class="discovery-hero__lede">Know what works. See what needs you. Pick your next app.</p>
+        <div class="discovery-search"><SearchBelt variant="hero" scope="product" products={products.map((p) => p.data)} features={features.map((p) => p.data)} harnesses={harnesses.map((p) => p.data)} specifications={specifications.map((p) => p.data)} /></div>
+        <nav class="discovery-categories" aria-label="Browse apps by category">{categories.map((category) => <a href={`/products?category=${category.slug}`}><TaskGlyph kind={category.icon} />{category.label}</a>)}</nav>
+      </section>
+      <div class="discovery-sponsor shell"><span>Supported by</span><a href="https://openworklabs.com/" rel="sponsored noopener">OpenWork <span aria-hidden="true">↗</span></a><span class="discovery-sponsor__label">Founding sponsor</span><a class="discovery-sponsor__disclosure" href="/sponsors">Sponsored · Our policy</a></div>
+      <section class="shell discovery-apps" aria-labelledby="apps-heading">
+        <div class="discovery-section-head"><div><h2 id="apps-heading">Explore apps <span>{products.length}</span></h2><p>From your work stack to your weekend plans.</p></div><a href="/products">Filter & compare <span aria-hidden="true">↗</span></a></div>
+        <ProductDirectory products={products.map((entry) => entry.data)} />
+        <p class="discovery-legend"><span><i class="discovery-dot--ready" />Ready after setup</span><span><i class="discovery-dot--limited" />Limited access</span><a href="/methodology">Based on documentation, not live tests ↗</a></p>
+      </section>
+      <section class="shell discovery-extras" aria-label="Explore and contribute">
+        <a class="discovery-story" href="/news/can-an-ai-agent-buy-my-movie-ticket"><div class="discovery-story__copy"><p class="discovery-eyebrow">Agents in everyday life</p><h2>Can your agent<br />buy the movie tickets?</h2><span>Read the field note <span aria-hidden="true">↗</span></span></div><div class="discovery-ticket" aria-hidden="true"><TaskGlyph kind="ticket" /><strong>ADMIT<br />YOUR AGENT</strong><span>SHOWTIME → CHECKOUT</span></div></a>
+        <div class="discovery-submit"><span class="discovery-submit__symbol" aria-hidden="true">＋</span><p class="discovery-eyebrow">Building for agents?</p><h2>Your app belongs here.</h2><p>Help people discover what their agent can do with your product.</p><a href="/submit-app">Submit your app <span aria-hidden="true">↗</span></a></div>
+      </section>
+      <div class="shell discovery-research" id="compatibility"><details><summary><span><strong>Looking for agent compatibility?</strong><small>{harnesses.length} agent harnesses · {features.length} capabilities · The full research catalog</small></span><span aria-hidden="true">+</span></summary><CompatibilityOverview /></details></div>
     </main>
   </SiteChrome>
 </BaseLayout>

@@ -53,7 +53,7 @@ describe("providerMarkIsDisplayable", () => {
   });
 
   it("stores shared source metadata once and builds exact asset URLs", () => {
-    expect(PROVIDER_MARK_SOURCES).toHaveLength(2);
+    expect(PROVIDER_MARK_SOURCES.length).toBeGreaterThanOrEqual(2);
     expect(providerMarkSource("lobe-icons").label).toBe("Lobe Icons");
     const mark = PROVIDER_MARKS.at(0);
     expect(mark).toBeDefined();
@@ -91,6 +91,44 @@ describe("providerMark", () => {
     expect(providerMark("Anthropic", "claude-cli")?.id).toBe("claude-code");
     expect(providerMark("Anthropic", "claude-web")?.id).toBe("claude");
     expect(providerMark("Google", "chrome-webmcp-preview")?.id).toBe("chrome");
+  });
+
+  it("maps every product guide to its exact mark, including product-specific identities", () => {
+    const products = [
+      ["Cloudflare", "cloudflare"],
+      ["Google", "gmail"],
+      ["Salesforce", "salesforce"],
+      ["Notion", "notion"],
+      ["Obsidian", "obsidian"],
+      ["Microsoft", "onenote"],
+      ["GitHub", "github"],
+      ["Slack", "slack"],
+      ["Linear", "linear"],
+      ["Atom Tickets", "atom-tickets"],
+      ["AMC Theatres", "amc-theatres"],
+      ["Best Buy", "best-buy"],
+      ["Amazon", "amazon"],
+    ] as const;
+    for (const [provider, productSlug] of products) {
+      const identity = referenceIdentity({ provider, productSlug });
+      expect(identity.mark?.id).toBe(productSlug);
+      expect(providerMarkIsDisplayable(identity.mark)).toBe(true);
+      expect(identity.mark?.reviewedAt).toBe("2026-09-04");
+    }
+  });
+
+  it("requires a fingerprint and exact download URL for vendored provider assets", () => {
+    const mark = providerMark("Google", "gmail");
+    if (!mark) throw new Error("Expected the Gmail product mark.");
+    expect(providerMarkSourceUrl(mark)).toContain("gstatic.com/");
+    expect(mark.assetPath).toBe("/provider-marks/gmail.webp");
+    expect(providerMarkIsDisplayable({ ...mark, sha256: undefined })).toBe(
+      false
+    );
+    expect(providerMarkIsDisplayable({ ...mark, sourceUrl: undefined })).toBe(
+      false
+    );
+    expect(providerMarkSource(mark.source).license).toBe("Provider terms");
   });
 
   it("does not guess at unreviewed or fuzzy names", () => {

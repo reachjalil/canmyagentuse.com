@@ -17,16 +17,27 @@ export interface ProviderReference {
   tone: ProviderTone;
 }
 
-export type ProviderMarkSourceId = "lobe-icons" | "simple-icons";
+export type ProviderMarkSourceId =
+  | "lobe-icons"
+  | "simple-icons"
+  | "google-brand"
+  | "salesforce-brand"
+  | "microsoft-brand"
+  | "slack-brand"
+  | "atom-brand"
+  | "amc-brand"
+  | "bestbuy-brand"
+  | "amazon-brand";
 
 export interface ProviderMarkSource {
   id: ProviderMarkSourceId;
   label: string;
-  packageName: string;
-  packageVersion: string;
-  revision: string;
+  kind?: "provider-download";
+  packageName?: string;
+  packageVersion?: string;
+  revision?: string;
   repositoryUrl: `https://${string}`;
-  license: "MIT" | "CC0-1.0";
+  license: "MIT" | "CC0-1.0" | "Provider terms";
   licenseUrl: `https://${string}`;
 }
 
@@ -36,6 +47,8 @@ export interface ProviderMarkAuthorization {
   assetPath: `/provider-marks/${string}`;
   source: ProviderMarkSourceId;
   sourceAsset: string;
+  sourceUrl?: `https://${string}`;
+  sha256?: string;
   brandGuidelinesUrl?: `https://${string}`;
   reviewedAt: `${number}-${number}-${number}`;
 }
@@ -49,6 +62,22 @@ export interface ProviderReferenceIdentity extends ProviderReference {
 const MARK_REVIEW_DATE = "2026-08-28" as const;
 const LOBE_ICONS_REVISION = "fbd2d56e3f734e889f1373e71c8368cc4e60e0d7";
 const SIMPLE_ICONS_REVISION = "c956d67dfa7c37ae65206fc0775b0c02d1e695c2";
+
+function providerDownloadSource(
+  id: ProviderMarkSourceId,
+  label: string,
+  repositoryUrl: `https://${string}`,
+  licenseUrl: `https://${string}`
+): ProviderMarkSource {
+  return {
+    id,
+    label,
+    repositoryUrl,
+    licenseUrl,
+    license: "Provider terms",
+    kind: "provider-download",
+  };
+}
 
 export const PROVIDER_MARK_SOURCES: readonly ProviderMarkSource[] = [
   {
@@ -71,6 +100,54 @@ export const PROVIDER_MARK_SOURCES: readonly ProviderMarkSource[] = [
     license: "CC0-1.0",
     licenseUrl: `https://github.com/simple-icons/simple-icons/blob/${SIMPLE_ICONS_REVISION}/LICENSE.md`,
   },
+  providerDownloadSource(
+    "google-brand",
+    "Google product assets",
+    "https://about.google/products/",
+    "https://about.google/brand-resource-center/guidance/"
+  ),
+  providerDownloadSource(
+    "salesforce-brand",
+    "Salesforce brand assets",
+    "https://www.salesforce.com/news/media-collection/company-logos-and-video/",
+    "https://www.salesforce.com/company/legal/intellectual/tmcusageguidelines/"
+  ),
+  providerDownloadSource(
+    "microsoft-brand",
+    "Microsoft OneNote assets",
+    "https://www.onenote.com/",
+    "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks"
+  ),
+  providerDownloadSource(
+    "slack-brand",
+    "Slack media kit",
+    "https://slack.com/media-kit",
+    "https://slack.com/media-kit"
+  ),
+  providerDownloadSource(
+    "atom-brand",
+    "Atom Tickets assets",
+    "https://www.atomtickets.com/about",
+    "https://www.atomtickets.com/tos"
+  ),
+  providerDownloadSource(
+    "amc-brand",
+    "AMC Theatres investor assets",
+    "https://investor.amctheatres.com/",
+    "https://www.amctheatres.com/terms-and-conditions"
+  ),
+  providerDownloadSource(
+    "bestbuy-brand",
+    "Best Buy corporate assets",
+    "https://corporate.bestbuy.com/press-center/",
+    "https://corporate.bestbuy.com/media-faq/"
+  ),
+  providerDownloadSource(
+    "amazon-brand",
+    "Amazon corporate assets",
+    "https://www.aboutamazon.com/",
+    "https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf"
+  ),
 ] as const;
 
 const MARK_SOURCES_BY_ID = new Map(
@@ -108,6 +185,28 @@ function simpleMark(
     sourceAsset,
     brandGuidelinesUrl,
     reviewedAt: MARK_REVIEW_DATE,
+  };
+}
+
+function downloadedMark(
+  id: string,
+  label: string,
+  source: ProviderMarkSourceId,
+  sourceAsset: string,
+  sourceUrl: `https://${string}`,
+  sha256: string,
+  brandGuidelinesUrl: `https://${string}`
+): ProviderMarkAuthorization {
+  return {
+    id,
+    label,
+    source,
+    sourceAsset,
+    sourceUrl,
+    sha256,
+    brandGuidelinesUrl,
+    assetPath: `/provider-marks/${sourceAsset}`,
+    reviewedAt: "2026-09-04",
   };
 }
 
@@ -181,7 +280,113 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
   lobeMark("windsurf", "Windsurf", "windsurf", "https://windsurf.com/brand"),
   lobeMark("xai", "xAI", "xai", "https://x.ai/legal/brand-guidelines"),
   lobeMark("zai", "Z.AI", "zai"),
-  simpleMark("github", "GitHub", "github", "https://github.com/logos"),
+  {
+    ...lobeMark(
+      "cloudflare",
+      "Cloudflare",
+      "cloudflare-color",
+      "https://www.cloudflare.com/trademark/"
+    ),
+    reviewedAt: "2026-09-04",
+  },
+  {
+    ...lobeMark(
+      "notion",
+      "Notion",
+      "notion",
+      "https://notion.notion.site/Notion-Brand-Guidelines-db8fda2d1f0048bba1f4e547dfc48830"
+    ),
+    reviewedAt: "2026-09-04",
+  },
+  {
+    ...lobeMark(
+      "obsidian",
+      "Obsidian",
+      "obsidian-color",
+      "https://obsidian.md/brand"
+    ),
+    reviewedAt: "2026-09-04",
+  },
+  {
+    ...simpleMark("linear", "Linear", "linear", "https://linear.app/brand"),
+    reviewedAt: "2026-09-04",
+  },
+  downloadedMark(
+    "gmail",
+    "Gmail",
+    "google-brand",
+    "gmail.webp",
+    "https://www.gstatic.com/marketing-cms/assets/images/3b/69/c8499c0b4d33a35b4cd4ca975e79/logo-gmail-2026-color-2x-web-64dp.webp",
+    "e3718238591eefeb0a8b2937c5e0c8c3f535fc635718177d22575173e2974b4c",
+    "https://about.google/brand-resource-center/guidance/"
+  ),
+  downloadedMark(
+    "salesforce",
+    "Salesforce",
+    "salesforce-brand",
+    "salesforce.svg",
+    "https://wp.sfdcdigital.com/en-us/wp-content/uploads/sites/4/2024/11/logo-salesforce.svg",
+    "29bc87240df68c546f04cb1bf3398b524b7d5e37a2d56f3b102b62f349244703",
+    "https://www.salesforce.com/company/legal/intellectual/tmcusageguidelines/"
+  ),
+  downloadedMark(
+    "onenote",
+    "OneNote",
+    "microsoft-brand",
+    "onenote.png",
+    "https://res.cdn.office.net/files/fabric-cdn-prod_20251117.001/assets/brand-icons/product/png/onenote_48x3.png",
+    "5fe68a420d71c427b9e46a6a26aaa9e0043e2cdc57664b433318356b67d1e387",
+    "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks"
+  ),
+  downloadedMark(
+    "slack",
+    "Slack",
+    "slack-brand",
+    "slack.svg",
+    "https://a.slack-edge.com/9cc0056/marketing/img/nav/logo.svg",
+    "1f40066b694020057218c46eb2a11982b278d89b2dc8f96a21e4ea04e2b9db3b",
+    "https://slack.com/media-kit"
+  ),
+  downloadedMark(
+    "atom-tickets",
+    "Atom Tickets",
+    "atom-brand",
+    "atom-tickets.png",
+    "https://www.atomtickets.com/assets/tenant/images/favicon-196x196.png",
+    "ccea960aa85a23a11eed588d380e05aae0dcca4ad9c542c8eb528ca00e2a7553",
+    "https://www.atomtickets.com/help/entry/copyright-and-trademark-legal-line"
+  ),
+  downloadedMark(
+    "amc-theatres",
+    "AMC Theatres",
+    "amc-brand",
+    "amc-theatres.png",
+    "https://d1io3yog0oux5.cloudfront.net/_dc3b4c6a9cac71dafa8a05579f220f09/amctheatres/logo.png",
+    "d43eb224ccf3067a530da854d92c3660879a1d6dd863bbb19eaa0b53723ca4cb",
+    "https://www.amctheatres.com/terms-and-conditions"
+  ),
+  downloadedMark(
+    "best-buy",
+    "Best Buy",
+    "bestbuy-brand",
+    "best-buy.png",
+    "https://corporate.bestbuy.com/wp-content/uploads/thegem-logos/logo_0717ce843a2125d21ef450e7f05f352e_3x.png",
+    "474a3485f9a72d5419712023ba46ac0006c3acbd51c11772e1c691f77d3250c3",
+    "https://corporate.bestbuy.com/media-faq/"
+  ),
+  downloadedMark(
+    "amazon",
+    "Amazon",
+    "amazon-brand",
+    "amazon.png",
+    "https://www.aboutamazon.com/_next/static/media/apple-touch-icon.706b1b87.png",
+    "f8184c36ab5439a22007f105d0366f10bbb782ab1d379e38759e452965c18805",
+    "https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf"
+  ),
+  {
+    ...simpleMark("github", "GitHub", "github", "https://github.com/logos"),
+    reviewedAt: "2026-09-04",
+  },
   simpleMark("chrome", "Google Chrome", "googlechrome"),
   simpleMark(
     "jetbrains",
@@ -196,6 +401,16 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
 const MARKS_BY_ID = new Map(PROVIDER_MARKS.map((mark) => [mark.id, mark]));
 
 const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
+  amazon: "amazon",
+  "best buy": "best-buy",
+  "amc theatres": "amc-theatres",
+  "atom tickets": "atom-tickets",
+  linear: "linear",
+  slack: "slack",
+  obsidian: "obsidian",
+  notion: "notion",
+  salesforce: "salesforce",
+  cloudflare: "cloudflare",
   "alibaba / qwen": "qwen",
   "aws / kiro": "aws",
   "block / goose": "goose",
@@ -236,6 +451,19 @@ const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
 };
 
 const PRODUCT_MARK_ALIASES: Readonly<Record<string, string>> = {
+  amazon: "amazon",
+  "best-buy": "best-buy",
+  "amc-theatres": "amc-theatres",
+  "atom-tickets": "atom-tickets",
+  linear: "linear",
+  slack: "slack",
+  github: "github",
+  onenote: "onenote",
+  obsidian: "obsidian",
+  notion: "notion",
+  salesforce: "salesforce",
+  gmail: "gmail",
+  cloudflare: "cloudflare",
   "amp-cli": "amp",
   "chatgpt-cli": "openai",
   "chatgpt-desktop": "openai",
@@ -333,6 +561,11 @@ export function providerMarkSourceUrl(
   mark: ProviderMarkAuthorization
 ): `https://${string}` {
   const source = providerMarkSource(mark.source);
+  if (source.kind === "provider-download") {
+    if (!mark.sourceUrl)
+      throw new Error(`Missing exact provider asset URL: ${mark.id}`);
+    return mark.sourceUrl;
+  }
   if (source.id === "lobe-icons") {
     return `https://unpkg.com/${source.packageName}@${source.packageVersion}/icons/${mark.sourceAsset}.svg`;
   }
@@ -372,15 +605,20 @@ export function providerMarkIsDisplayable(
   if (!mark) return false;
   const source = MARK_SOURCES_BY_ID.get(mark.source);
   if (!source) return false;
+  const verifiedSource =
+    source.kind === "provider-download"
+      ? source.license === "Provider terms" &&
+        /^https:\/\//.test(mark.sourceUrl ?? "") &&
+        /^[a-f0-9]{64}$/.test(mark.sha256 ?? "")
+      : ["MIT", "CC0-1.0"].includes(source.license) &&
+        /^[a-f0-9]{40}$/.test(source.revision ?? "");
   return (
+    verifiedSource &&
     mark.assetPath.startsWith("/provider-marks/") &&
     source.repositoryUrl.startsWith("https://") &&
     source.licenseUrl.startsWith("https://") &&
     (!mark.brandGuidelinesUrl ||
       mark.brandGuidelinesUrl.startsWith("https://")) &&
-    ["lobe-icons", "simple-icons"].includes(mark.source) &&
-    ["MIT", "CC0-1.0"].includes(source.license) &&
-    /^[a-f0-9]{40}$/.test(source.revision) &&
     /^\d{4}-\d{2}-\d{2}$/.test(mark.reviewedAt) &&
     mark.sourceAsset.trim().length > 0
   );

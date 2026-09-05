@@ -62,6 +62,7 @@ export const GET: APIRoute = async () => {
     "- [Reports](/reports.md) — data-driven analysis built from named research snapshots",
     "- [Methodology](/methodology.md) — evidence and assertion rules",
     "- [Report an issue](/report.md) — prepare one exact catalog correction",
+    "- [Submit your app](/submit-app.md) — suggest a product for independent editorial review",
     "- [Brand references](/provider-marks.md) — provider and product marks used throughout the catalog",
     "- [Prompt this catalog](/prompt.md) — canonical prompts that route agents to the evidence",
     "- [Press kit](/press.md) — boilerplate, fact sheet, naming rules, and brand assets",

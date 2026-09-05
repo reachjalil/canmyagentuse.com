@@ -31,6 +31,21 @@ is absent or insufficient, not that the product is incapable. The Amazon
 entry concerns Amazon's own shopping assistant and explicitly does not claim
 that a generic outside agent can check out.
 
+## Product presentation and submissions
+
+The owner requested a commercially attractive, minimal directory on 2026-09-04.
+Keep the first view focused on product identity, one short use case, one primary
+action status, and compact connection badges. For shopping and movie tickets,
+the primary action is purchasing; a discovery API does not earn a ready
+checkout status. Preserve full evidence, account setup, and research in guide
+pages and expandable sections rather than adding those details to every card.
+
+Keep a prominent `/submit-app` entry point. Submissions enter the existing
+editorial review queue with a trackable receipt, never a published listing or
+support claim. Require app identity and evidence; keep optional contact private.
+Submission is free and separate from sponsorship. Real product marks remain
+secondary, locally served references governed by the provider manifest.
+
 ## Research order
 
 1. Deepen the existing SaaS records: precise permission scopes, entry-level

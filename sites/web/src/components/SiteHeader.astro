@@ -1,78 +1,27 @@
 ---
 import { SITE, type NewsData } from "@canmyagentuse/catalog";
-
-interface Props {
-  latest?: NewsData;
-}
-
-const { latest } = Astro.props;
+interface Props { latest?: NewsData; }
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/matrix", label: "Matrix" },
-  { href: "/harnesses", label: "Harnesses" },
-  { href: "/compare", label: "Compare" },
-  { href: "/atlas", label: "Atlas" },
-  { href: "/reports", label: "Reports" },
-  { href: "/specs", label: "Specs" },
-  { href: "/evidence", label: "Evidence" },
-  { href: "/coverage", label: "Coverage" },
+const researchLinks = [
+  { href: "/matrix", label: "Compatibility matrix" },
+  { href: "/harnesses", label: "Agent harnesses" },
+  { href: "/compare", label: "Compare agents" },
+  { href: "/atlas", label: "Evidence atlas" },
+  { href: "/reports", label: "Research reports" },
+  { href: "/specs", label: "Specifications" },
+  { href: "/evidence", label: "Source ledger" },
+  { href: "/coverage", label: "Research coverage" },
 ];
-
-function isCurrent(href: string) {
-  if (href === "/") return path === "/";
-  return path === href || path.startsWith(`${href}/`);
-}
+const active = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
-
-<header class="site-header">
-  <div class="shell flex flex-wrap items-center gap-3 py-2 text-sm">
-    <a class="brand-lockup" href="/">
-      <img src={SITE.markPath} alt="" width="34" height="34" />
-      <span>
-        <strong>Can My Agent Use</strong>
-        <small>products · setup · evidence</small>
-      </span>
-    </a>
-    <nav aria-label="Primary">
-      <ul class="flex flex-wrap items-center gap-1">
-        {
-          links.map((link) => (
-            <li>
-              <a
-                class="inline-block px-2.5 py-1.5"
-                href={link.href}
-                aria-current={isCurrent(link.href) ? "page" : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    {
-      latest ? (
-        <p class="news-ticker ml-auto font-mono text-xs">
-          <a href={`/news/${latest.slug}`}>
-            {latest.published
-              ? latest.published.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })
-              : ""}
-            {" · "}
-            {latest.title}
-          </a>
-        </p>
-      ) : (
-        <p class="news-ticker ml-auto font-mono text-xs opacity-70">
-          Independent catalog
-        </p>
-      )
-    }
+<header class="site-header site-header--catalog">
+  <div class="shell catalog-nav">
+    <a class="brand-lockup" href="/" aria-label="Can My Agent Use home"><img src={SITE.markPath} alt="" width="34" height="34" /><span><strong>Can My Agent Use</strong><small>Apps for your agent</small></span></a>
+    <nav aria-label="Primary"><ul class="catalog-nav__links">
+      <li><a href="/products" aria-current={active('/products') ? 'page' : undefined}>Explore apps</a></li>
+      <li><a href="/news" aria-current={active('/news') ? 'page' : undefined}>Field notes</a></li>
+      <li><details class="catalog-nav__research"><summary>Research <span aria-hidden="true">⌄</span></summary><div>{researchLinks.map((link) => <a href={link.href} aria-current={active(link.href) ? 'page' : undefined}>{link.label}</a>)}<a href="/methodology">Our methodology</a></div></details></li>
+    </ul></nav>
+    <a class="catalog-nav__submit" href="/submit-app">Submit your app <span aria-hidden="true">＋</span></a>
   </div>
 </header>

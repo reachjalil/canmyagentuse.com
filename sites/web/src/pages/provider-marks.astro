@@ -5,6 +5,7 @@ import {
   SITE,
   breadcrumbJsonLd,
   providerMarkSource,
+  providerMarkSourceUrl,
   websiteJsonLd,
 } from "@canmyagentuse/catalog";
 import ProviderMark from "../components/ProviderMark.astro";
@@ -69,6 +70,7 @@ const marks = [...PROVIDER_MARKS].toSorted((left, right) =>
                     </td>
                     <td>
                       <a href={source.repositoryUrl} rel="noopener noreferrer">{source.label} ↗</a>
+                      <small><a href={providerMarkSourceUrl(mark)} rel="noopener noreferrer">Exact asset ↗</a> · <a href={source.licenseUrl} rel="noopener noreferrer">{source.license}</a></small>
                       {mark.brandGuidelinesUrl ? (
                         <small><a href={mark.brandGuidelinesUrl} rel="noopener noreferrer">Brand guide ↗</a></small>
                       ) : null}
@@ -89,7 +91,16 @@ const marks = [...PROVIDER_MARKS].toSorted((left, right) =>
         <p>
           Can My Agent Use is an independent publication. Brand names and marks
           belong to their respective owners and are used to identify the products
-          covered by the catalog.
+          covered by the catalog. These are secondary references beside independent
+          research, not provider endorsements. OpenWork is the separately labeled
+          founding sponsor.
+        </p>
+        <p class="mt-4 text-sm text-[color:var(--color-muted)]">
+          Asset collection licenses and provider brand terms are separate. A source
+          license or review date is not provider permission or a legal conclusion.
+          Downloads from providers are preserved locally with a checked SHA-256
+          fingerprint; package assets use pinned releases. The <a href="https://github.com/reachjalil/canmyagentuse.com/blob/main/ops/PROVIDER-MARK-REVIEW-2026-09-04.md">review ledger</a>
+          records the current product mappings, source details, and policy restrictions.
         </p>
         <p class="mt-4 text-sm text-[color:var(--color-muted)]">
           Spot an outdated mark or incorrect product mapping? Use the

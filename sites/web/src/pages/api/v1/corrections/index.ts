@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 import {
+  correctionDeduplicationKey,
   makeCorrectionId,
   parseStartedAt,
   sha256,
@@ -143,17 +144,7 @@ export const POST: APIRoute = async ({ request }) => {
   const submitterHash = await sha256(
     `${hashSalt}|${clientAddress}|${userAgent}`
   );
-  const submissionHash = await sha256(
-    JSON.stringify({
-      targetType: submission.targetType,
-      feature: submission.feature,
-      harness: submission.harness,
-      track: submission.track,
-      proposedStatus: submission.proposedStatus,
-      explanation: submission.explanation.toLowerCase(),
-      sourceUrls: submission.sourceUrls,
-    })
-  );
+  const submissionHash = await sha256(correctionDeduplicationKey(submission));
   const oneHourAgo = new Date(Date.now() - 3_600_000).toISOString();
   const oneDayAgo = new Date(Date.now() - 86_400_000).toISOString();
   const rate = await database
