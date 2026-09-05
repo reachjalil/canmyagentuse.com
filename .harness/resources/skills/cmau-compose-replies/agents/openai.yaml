@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose cited replies"
+  short_description: "Draft varied, sourced replies for Can My Agent Use"
+  default_prompt: "Create a cited Markdown reply list from selected research and published Can My Agent Use evidence; keep account mode explicit and drafts only."

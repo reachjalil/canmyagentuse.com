@@ -23,3 +23,12 @@ skills/*
 !skills/provider-compatible-ui-skill/**
 !skills/quality-testing-strategy-skill/
 !skills/quality-testing-strategy-skill/**
+
+!skills/cmau-find-conversations/
+!skills/cmau-find-conversations/**
+
+!skills/cmau-discussion-to-site/
+!skills/cmau-discussion-to-site/**
+
+!skills/cmau-compose-replies/
+!skills/cmau-compose-replies/**

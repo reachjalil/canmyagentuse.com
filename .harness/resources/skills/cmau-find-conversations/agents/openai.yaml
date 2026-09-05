@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find conversations"
+  short_description: "Discover sourced public conversations for review"
+  default_prompt: "Use $cmau-find-conversations to discover and normalize public conversations for a reviewable Can My Agent Use batch without drafting or posting replies."

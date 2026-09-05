@@ -63,3 +63,25 @@ ready in `ops/tweet-drafts-email-2026-09-05.md`; no posting occurred. No publica
 blocker remains. Main checkout's unrelated notes drafts were not edited.
 Next useful leads: Mailgun/SendGrid for email; Google Drive/Dropbox/Box for files.
 Retain the existing publishing automation.
+
+## Conversation skills and work queue — 2026-09-05
+
+The maintained conversation pipeline is `ops/conversations/README.md`, with a
+generated `INDEX.md`, typed Markdown records and three Harness-managed skills:
+`cmau-find-conversations`, `cmau-discussion-to-site`, `cmau-compose-replies`.
+Discovery is extensive and tool-agnostic; site tasks turn selected questions
+into primary-source content; reply tasks support `jalil`, `brand` or `both`.
+The exact brand handle is pending and does not block drafting. No social post
+is authorized by this workflow.
+
+The initial queue retains 36 earlier research records, an import batch and three
+independently assignable queued tasks. Imported observation timestamps remain
+unknown instead of being replaced by import time. Prior unpublished email
+article work is explicitly handed off in the site task; it is not deployed by
+this configuration release. New provider-readiness and agent-signup releases
+from peer tasks were preserved by integrating current main.
+
+Use `pnpm conversations:check`, `pnpm conversations:index` and
+`pnpm conversations:new <discovery|site|replies> <topic> <owner>`. Keep the existing
+daily 09:00 heartbeat and read the new queue; do not duplicate the scheduler.
+See `ops/releases/conversation-workflow-2026-09-05.md` for validation.

@@ -683,3 +683,23 @@ RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31
   Release report: `ops/releases/email-services-2026-09-05.md`. Mailgun/SendGrid and
   Google Drive/Dropbox/Box are future leads. Existing notes drafts and automation
   untouched.
+
+## 2026-09-05 — Independent conversation workflow
+
+Owner requested three reusable skills and a continuous repo-based Markdown
+workflow for extensive tweet/thread discovery, discussion-informed site work,
+and varied personal/brand contribution lists. Added Harness-managed skills,
+shared contracts, voices/strategies, templates, task scaffolding, structural
+validation and a generated index. Retained 36 earlier public research records
+without claiming fresh checks; created discovery/site/reply starter tasks.
+
+Luna authored skills and performed an independent offline forward test. The
+test produced distinct account alternatives and correctly kept stale-context
+drafts blocked. Clarified evidence paths, observation/import times, task scope,
+character budgets and filename validation. Fixture runs verified no-overwrite
+scaffolding, unresolved references, posting-proof requirements and dependency
+readiness. Three skill validators passed; Harness validate/preview/activate
+converged; Biome, uncached check/test/build passed (136 tests). This changes
+repository operations only; no Worker deploy or social action was performed.
+The prior email article remains a named queued handoff rather than a silent
+uncommitted release. Preserved peers' provider-readiness and signup-study work.

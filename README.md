@@ -159,3 +159,11 @@ CSS, or microcopy from those products. See `provider-compatible-ui-skill`.
 The public read-only MCP endpoint is `https://canmyagentuse.com/mcp` (Streamable HTTP, no authentication). [Install the plugin](https://canmyagentuse.com/plugin) to search the catalog, retrieve full evidence records, and check exact feature/harness/track compatibility. Source lives in `plugins/can-my-agent-use`, with shared query semantics in `packages/catalog/src/mcp-catalog.ts` and the runtime in `sites/web/src/lib/mcp.ts`.
 
 Run `pnpm plugin:package` to generate the downloadable ZIP (also runs during the web build). Run `pnpm plugin:smoke` to check production with the official MCP client, or `pnpm plugin:smoke http://localhost:4321/mcp` against a local server. Curated directory review materials are in `plugins/SUBMISSION.md`.
+
+## Conversation research and contributions
+
+Use [the conversation workflow](ops/conversations/README.md) to assign separate
+agents to extensive tweet/thread research, sourced site improvements and
+personal/brand reply drafts. [The work index](ops/conversations/INDEX.md) links
+the current records and tasks. Run `pnpm conversations:check` to validate the
+records and `pnpm conversations:index` to regenerate the overview.

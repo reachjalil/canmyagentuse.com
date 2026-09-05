@@ -28,7 +28,10 @@
     "harness:activate": "npx harnessc activate --yes",
     "setup:harness": "pnpm harness:validate && pnpm harness:activate",
     "plugin:package": "pnpm --filter @canmyagentuse/web plugin:package",
-    "plugin:smoke": "pnpm --filter @canmyagentuse/web plugin:smoke"
+    "plugin:smoke": "pnpm --filter @canmyagentuse/web plugin:smoke",
+    "conversations:new": "node ops/conversations/manage.mjs new-task",
+    "conversations:check": "node ops/conversations/manage.mjs check",
+    "conversations:index": "node ops/conversations/manage.mjs index"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",

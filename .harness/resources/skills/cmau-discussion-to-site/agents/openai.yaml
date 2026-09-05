@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discussion to site"
+  short_description: "Turn selected conversations into sourced catalog content"
+  default_prompt: "Use $cmau-discussion-to-site to turn a selected conversation into source-backed, portable Can My Agent Use content within the authorized site task."
