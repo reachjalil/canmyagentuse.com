@@ -12,7 +12,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { publishedCollection } from "../lib/collections";
 import { researchAtlas } from "../lib/research";
 
-const [features, harnesses, news] = await Promise.all([
+const [products, features, harnesses, news] = await Promise.all([
+  publishedCollection("products"),
   publishedCollection("features"),
   publishedCollection("harnesses"),
   publishedCollection("news"),
@@ -57,9 +58,11 @@ const generatedOn = new Date().toISOString().slice(0, 10);
         Pointing an agent here instead? Use the <a href="/prompt">canonical prompts</a>.
       </p>
 
+      <p class="press-crosslink">Commercial inquiries: see <a href="/sponsors">available sponsorship formats, our founding sponsor, and editorial rules</a>.</p>
       <dl class="catalog-census mt-7">
+        <div><dt>Product & service guides</dt><dd>{products.length}</dd></div>
         <div><dt>Catalog capabilities</dt><dd>{features.length}</dd></div>
-        <div><dt>Exact product columns</dt><dd>{harnesses.length}</dd></div>
+        <div><dt>Exact agent harnesses</dt><dd>{harnesses.length}</dd></div>
         <div><dt>Atlas exact surfaces</dt><dd>{report.surfaces}</dd></div>
         <div><dt>Atlas compatibility cells</dt><dd>{report.compatibilityCells}</dd></div>
         <div><dt>Public source records</dt><dd>{report.sources}</dd></div>

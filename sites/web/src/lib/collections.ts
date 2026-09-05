@@ -2,6 +2,7 @@ import { isPublished } from "@canmyagentuse/catalog";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 export type CatalogCollection =
+  | "products"
   | "features"
   | "harnesses"
   | "specifications"

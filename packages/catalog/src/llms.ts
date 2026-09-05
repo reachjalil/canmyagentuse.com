@@ -190,6 +190,7 @@ export function toEntryMarkdown(input: {
   contentKind?: string;
   locale?: string;
   description?: string;
+  audience?: string;
   publishedAt?: Date | string;
   updatedAt?: Date | string;
   verifiedAt?: Date | string;
@@ -211,6 +212,7 @@ export function toEntryMarkdown(input: {
     `locale: ${JSON.stringify(input.locale ?? SITE.defaultLocale)}`,
     `description: ${JSON.stringify(input.description ?? input.llmSummary)}`,
     `llmSummary: ${JSON.stringify(input.llmSummary)}`,
+    ...(input.audience ? [`audience: ${JSON.stringify(input.audience)}`] : []),
     `publishedAt: ${JSON.stringify(dateValue(input.publishedAt))}`,
     `updatedAt: ${JSON.stringify(dateValue(input.updatedAt))}`,
     `verifiedAt: ${JSON.stringify(dateValue(input.verifiedAt))}`,

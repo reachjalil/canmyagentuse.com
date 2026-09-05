@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import {
   categorySchema,
+  productSchema,
   featureSchema,
   harnessSchema,
   newsSchema,
@@ -70,6 +71,10 @@ const reports = defineCollection({
 });
 
 export const collections = {
+  products: defineCollection({
+    loader: glob({ pattern: "**/*.md", base: `${contentRoot}/products` }),
+    schema: productSchema,
+  }),
   features,
   harnesses,
   specifications,

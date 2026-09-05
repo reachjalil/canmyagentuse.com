@@ -4,6 +4,7 @@
   "files": {
     "includes": [
       "**",
+      "!!**/.tmp",
       "!**/node_modules",
       "!**/dist",
       "!**/.turbo",

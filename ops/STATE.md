@@ -1,13 +1,16 @@
 # Resume state
-1. Read this file, `ops/BACKLOG.md`, and the final 120 lines of `ops/LOG.md`.
+1. Read this file, `ops/PRODUCT-STRATEGY.md`, `ops/BACKLOG.md`, and the final 120 lines of `ops/LOG.md`.
 2. Inspect `git status`; recover only work explicitly listed below, then pull `--ff-only`.
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
-- State updated: 2026-09-03
-- Cycle: 18 evidence-audit correction released and production-verified
-- Phase: A — harness floor, with exact-source family sweeps interleaved
+- State updated: 2026-09-04
+- Cycle: Product-first launch prepared; release reconciliation pending
+- Phase: Product/service breadth and depth; retain the historical harness corpus
 - Coverage: 1,480/3,534 current-track cells assessed with direct reviewed evidence (41.9%); audit-correction delta -2
 - Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
+- Product guides: 13 (four lifecycle actions and five interface checks per product)
+- Founding sponsor: OpenWork, explicitly confirmed and authorized for labeled publication by the owner
+- Product test evidence: documentation review only; no new live signup or purchase tests
 - Atomic features: 114
 - Harnesses: 31
 - Last completed catalog commit: `2cbfb8c` (Cycle 18 evidence-audit correction)
@@ -18,7 +21,7 @@
 - Last correction smoke: receipt `CMAU-SPDEJSWZJC`; received, privacy-checked, and declined as a release-only test
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
 - In-flight briefs: none; audit remediation refreshed exact OpenAI screenshot/data-analysis sources, pinned VS Code/Goose/Zed sources, narrowed unsupported wording, and removed two cross-surface encryption claims
-- Owned dirty paths: none after commit
+- Owned dirty paths: product-first launch changes listed in the launch commit; original tree was clean
 - Blockers: none
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: begin Cycle 19 research on low-floor harnesses and continue toward 50% milestone (287 cells remaining)
+- Next action: verify and release the product-first launch, then resume the product research queue in `ops/BACKLOG.md`

@@ -1,5 +1,6 @@
 import {
   categoryPath,
+  productPath,
   featurePath,
   harnessPath,
   newsPath,
@@ -29,6 +30,8 @@ export interface ResolvedMetadata {
 
 function defaultPath(kind: ContentKind, slug: string): string {
   switch (kind) {
+    case "product":
+      return productPath(slug);
     case "feature":
       return featurePath(slug);
     case "harness":

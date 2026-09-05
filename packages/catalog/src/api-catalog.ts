@@ -4,6 +4,7 @@ import { SITE } from "./site.ts";
 export const API_CATALOG_PROFILE = "https://www.rfc-editor.org/info/rfc9727";
 
 const JSON_ENDPOINTS = [
+  MACHINE_PATHS.productsJson,
   MACHINE_PATHS.featuresJson,
   MACHINE_PATHS.harnessesJson,
   MACHINE_PATHS.specificationsJson,

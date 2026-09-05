@@ -1,8 +1,9 @@
+import type { ProductData } from "./product.ts";
 import type { FeatureData, HarnessData, SpecificationData } from "./schema.ts";
 import type { CapabilityKind, SupportStage, SupportStatus } from "./status.ts";
 import { supportStatusForFeature } from "./capability.ts";
 
-export type SearchKind = "feature" | "harness" | "specification";
+export type SearchKind = "product" | "feature" | "harness" | "specification";
 
 export interface CatalogSearchHit {
   kind: SearchKind;
@@ -138,18 +139,36 @@ function relevance(query: string, title: string, values: readonly string[]) {
 export function searchCatalog(
   query: string,
   input: {
+    products?: readonly ProductData[];
     features: readonly FeatureData[];
     harnesses: readonly HarnessData[];
     specifications?: readonly SpecificationData[];
   },
   filters: CatalogSearchFilters = {}
 ): {
+  products: ProductData[];
   features: FeatureData[];
   harnesses: HarnessData[];
   specifications: SpecificationData[];
   hits: CatalogSearchHit[];
 } {
   const specifications = input.specifications ?? [];
+  const productScores = (input.products ?? [])
+    .map((product) => ({
+      product,
+      score: relevance(query, product.title, [
+        product.title,
+        product.slug,
+        ...product.aliases,
+        product.category,
+        product.vendor,
+        product.summary,
+        ...product.actions.map((action) => action.summary),
+      ]),
+    }))
+    .filter((hit) => hit.score > 0)
+    .toSorted((a, b) => b.score - a.score);
+  const products = productScores.map((hit) => hit.product);
   const featuresBySlug = new Map(
     input.features.map((feature) => [feature.slug, feature] as const)
   );
@@ -298,6 +317,15 @@ export function searchCatalog(
     );
 
   const hits: CatalogSearchHit[] = [
+    ...productScores.map(({ product, score }) => ({
+      kind: "product" as const,
+      slug: product.slug,
+      title: product.title,
+      summary: product.summary,
+      path: `/products/${product.slug}`,
+      score,
+      meta: product.category,
+    })),
     ...features.map((feature) => ({
       kind: "feature" as const,
       slug: feature.slug,
@@ -328,12 +356,13 @@ export function searchCatalog(
   ].toSorted(
     (left, right) =>
       right.score - left.score ||
-      { specification: 0, feature: 1, harness: 2 }[left.kind] -
-        { specification: 0, feature: 1, harness: 2 }[right.kind] ||
+      { product: -1, specification: 0, feature: 1, harness: 2 }[left.kind] -
+        { product: -1, specification: 0, feature: 1, harness: 2 }[right.kind] ||
       left.title.localeCompare(right.title)
   );
 
   return {
+    products,
     features,
     harnesses,
     specifications: matchedSpecifications,

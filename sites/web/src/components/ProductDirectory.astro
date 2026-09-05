@@ -1,0 +1,23 @@
+---
+import { PRODUCT_STATUS_LABELS, productPath, type ProductData } from "@canmyagentuse/catalog";
+interface Props { products: ProductData[]; }
+const { products } = Astro.props;
+const shortLabels = { "sign-up": "Sign up", "connect-account": "Connect account", "buy-subscribe": "Buy / subscribe", "use-product": "Use it" };
+---
+<div class="product-directory">
+  {products.map((product) => (
+    <article class="product-card" data-product-card={product.slug}>
+      <div class="product-card__identity">
+        <span class="product-monogram" aria-hidden="true">{product.title.slice(0, 2).toUpperCase()}</span>
+        <div><p class="eyebrow">{product.category}</p><h3><a href={productPath(product.slug)}>{product.title}</a></h3></div>
+        <span class="product-card__number" aria-hidden="true">{String(product.order).padStart(2, "0")}</span>
+      </div>
+      <p class="product-card__summary">{product.summary}</p>
+      <dl class="product-checklist">
+        {product.actions.map((action) => <div><dt>{shortLabels[action.id]}</dt><dd><span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span></dd></div>)}
+      </dl>
+      <a class="product-card__link" href={productPath(product.slug)}>See what it takes <span aria-hidden="true">↗</span><span class="sr-only"> for {product.title}</span></a>
+      <p class="product-card__review">Docs reviewed {product.updated.toISOString().slice(0, 10)} · No live test</p>
+    </article>
+  ))}
+</div>

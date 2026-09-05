@@ -79,6 +79,7 @@ export const ENVIRONMENT_PROFILE_IDS = [
 export type EnvironmentProfileId = (typeof ENVIRONMENT_PROFILE_IDS)[number];
 
 export const CONTENT_KINDS = [
+  "product",
   "feature",
   "harness",
   "specification",

@@ -18,7 +18,9 @@ import {
 
 const localeSchema = z.enum(LOCALES);
 
-function seoSchema<TKind extends (typeof CONTENT_KINDS)[number]>(kind: TKind) {
+export function seoSchema<TKind extends (typeof CONTENT_KINDS)[number]>(
+  kind: TKind
+) {
   return z.object({
     title: z.string().min(1),
     description: z.string().min(1),

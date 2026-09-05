@@ -2,11 +2,13 @@
 import {
   referenceIdentity,
   type FeatureData,
+  type ProductData,
   type HarnessData,
   type SpecificationData,
 } from "@canmyagentuse/catalog";
 
 interface Props {
+  products: ProductData[];
   features: FeatureData[];
   harnesses: HarnessData[];
   specifications: SpecificationData[];
@@ -14,9 +16,10 @@ interface Props {
   scope?: SearchScope;
 }
 
-type SearchScope = "all" | "feature" | "harness" | "specification";
+type SearchScope = "product" | "all" | "feature" | "harness" | "specification";
 
 const {
+  products,
   features,
   harnesses,
   specifications,
@@ -24,13 +27,15 @@ const {
   scope = "all",
 } = Astro.props;
 const scopeOptions = [
-  { value: "all", label: "Everything", hint: "Capabilities, products, and specifications" },
+  { value: "product", label: "Products", hint: "Services your agent can sign up for, connect, and use" },
+  { value: "all", label: "Everything", hint: "Products, capabilities, agent harnesses, and specifications" },
   { value: "feature", label: "Capabilities", hint: "Atomic things an agent may be able to do" },
-  { value: "harness", label: "Products", hint: "Exact web, desktop, and CLI products" },
+  { value: "harness", label: "Agent harnesses", hint: "Exact web, desktop, and CLI agents" },
   { value: "specification", label: "Specifications", hint: "Protocols, formats, and conventions" },
 ] as const;
 const currentScope = scopeOptions.find((option) => option.value === scope) ?? scopeOptions[0];
 const index = [
+  ...products.map((product) => ({ title: product.title, aliases: [product.slug, ...product.aliases], searchText: [product.summary, product.category, product.vendor, ...product.actions.map((action) => action.summary)].join(" "), summary: product.summary, meta: product.category, path: `/products/${product.slug}`, kind: "product", kindLabel: "Product" })),
   ...features.map((feature) => ({
     title: feature.title,
     aliases: [feature.slug, ...feature.aliases],
@@ -55,7 +60,7 @@ const index = [
       meta: `${harness.family} · ${harness.vendor}`,
       path: `/harnesses/${harness.slug}`,
       kind: "harness",
-      kindLabel: "Product",
+      kindLabel: "Agent harness",
       markPath: identity.mark?.assetPath,
       monogram: identity.monogram,
       tone: identity.tone,
@@ -85,7 +90,7 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
             id="capability-search"
             name="q"
             type="search"
-            placeholder="MCP, Cursor, SKILL.md…"
+            placeholder="Cloudflare, Gmail, Salesforce…"
             value={value}
             autocomplete="off"
             autocapitalize="none"
@@ -96,7 +101,7 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
             aria-expanded="false"
             aria-describedby="search-support-text"
           />
-          <small id="search-support-text">Search by capability, product, provider, protocol, or alias</small>
+          <small id="search-support-text">Search a product, setup requirement, agent, or capability</small>
           <div
             id="capability-suggestions"
             class="search-suggestions"
@@ -148,7 +153,7 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
 </div>
 
 <script>
-  type SearchKind = "feature" | "harness" | "specification";
+  type SearchKind = "product" | "feature" | "harness" | "specification";
   type SearchItem = {
     title: string;
     aliases: string[];
@@ -368,8 +373,9 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
           for (const item of recent) addOption(item.title, item.path, item.kindLabel, item.meta, "", item.markPath, item.monogram, item.tone);
         }
         addHeading(recent.length ? "Or explore" : "Explore the catalog");
+        if (scope === "all" || scope === "product") addOption("Browse products", "/products", "Explore", "Account setup, access, and first tasks");
         if (scope === "all" || scope === "feature") addOption("Browse capabilities", "/features", "Explore", `${items.filter((item) => item.kind === "feature").length} cataloged capabilities`);
-        if (scope === "all" || scope === "harness") addOption("Browse products", "/harnesses", "Explore", `${items.filter((item) => item.kind === "harness").length} exact agent surfaces`);
+        if (scope === "all" || scope === "harness") addOption("Browse agent harnesses", "/harnesses", "Explore", `${items.filter((item) => item.kind === "harness").length} exact agent surfaces`);
         if (scope === "all" || scope === "specification") addOption("Browse specifications", "/specs", "Explore", `${items.filter((item) => item.kind === "specification").length} protocols and conventions`);
       }
 
@@ -381,7 +387,8 @@ const serializedIndex = JSON.stringify(index).replaceAll("<", "\\u003c");
     const destinationFor = () => {
       if (!(input instanceof HTMLInputElement)) return "/features";
       const query = input.value.trim();
-      if (!query) return selectedScope() === "all" ? "/features" : {
+      if (!query) return selectedScope() === "all" ? "/products" : {
+        product: "/products",
         feature: "/features",
         harness: "/harnesses",
         specification: "/specs",

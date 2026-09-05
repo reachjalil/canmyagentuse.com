@@ -32,6 +32,7 @@ function urlEntry(
 }
 
 export const GET: APIRoute = async () => {
+  const products = await publishedCollection("products");
   const [
     features,
     harnesses,
@@ -51,6 +52,7 @@ export const GET: APIRoute = async () => {
   ]);
 
   const allEntries = [
+    ...products,
     ...features,
     ...harnesses,
     ...specifications,
@@ -64,6 +66,10 @@ export const GET: APIRoute = async () => {
   );
 
   const urls = [
+    urlEntry("/products", "weekly", catalogUpdated),
+    ...products.map(({ data }) =>
+      urlEntry(`/products/${data.slug}`, "weekly", data.updated)
+    ),
     urlEntry("/", "daily", catalogUpdated),
     urlEntry("/features", "daily", catalogUpdated),
     urlEntry("/harnesses", "daily", catalogUpdated),

@@ -8,16 +8,18 @@ import type {
 import { publishedCollection } from "../lib/collections";
 import FeatureIndex from "./FeatureIndex.astro";
 import SearchBelt from "./SearchBelt.astro";
+import SponsorPlacement from "./SponsorPlacement.astro";
 import SiteFooter from "./SiteFooter.astro";
 import SiteHeader from "./SiteHeader.astro";
 
 interface Props {
   showIndex?: boolean;
   searchValue?: string;
-  searchScope?: "all" | "feature" | "harness" | "specification";
+  searchScope?: "product" | "all" | "feature" | "harness" | "specification";
 }
 
 const { showIndex = false, searchValue = "", searchScope = "all" } = Astro.props;
+const products = await publishedCollection("products");
 const features = await publishedCollection("features");
 const harnesses = await publishedCollection("harnesses");
 const specifications = await publishedCollection("specifications");
@@ -30,6 +32,7 @@ const latest: NewsData | undefined = news[0]?.data;
 
 <SiteHeader latest={latest} />
 <SearchBelt
+  products={products.map((entry) => entry.data)}
   features={featureData}
   harnesses={harnessData}
   specifications={specificationData}
@@ -38,4 +41,5 @@ const latest: NewsData | undefined = news[0]?.data;
 />
 {showIndex ? <FeatureIndex features={featureData} /> : null}
 <slot />
+<SponsorPlacement />
 <SiteFooter />

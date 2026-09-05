@@ -3,6 +3,10 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import {
+  productSchema,
+  productMarkdown,
+  productRecord,
+  type ProductData,
   type FeatureData,
   type HarnessData,
   type ReportData,
@@ -86,7 +90,12 @@ function requireText(
 
 function requireSharedMetadata(
   document: string,
-  data: FeatureData | HarnessData | ReportData | SpecificationData,
+  data:
+    | ProductData
+    | FeatureData
+    | HarnessData
+    | ReportData
+    | SpecificationData,
   file: string
 ): void {
   requireText(document, `title: ${JSON.stringify(data.title)}`, "title", file);
@@ -289,4 +298,32 @@ for (const entry of reports) {
 
 process.stdout.write(
   `Validated HTML/Markdown/JSON parity fields for ${features.length} features, ${harnesses.length} harnesses, ${specifications.length} specifications, and ${reports.length} reports.\n`
+);
+
+const products = await sourceEntries("products", (value) =>
+  productSchema.parse(value)
+);
+const productSlugs = new Set<string>();
+for (const entry of products) {
+  if (productSlugs.has(entry.data.slug))
+    throw new Error(`Duplicate product slug: ${entry.data.slug}`);
+  productSlugs.add(entry.data.slug);
+  const document = productMarkdown(entry.data, entry.body);
+  requireSharedMetadata(document, entry.data, entry.file);
+  const record = productRecord(entry.data, entry.body);
+  for (const path of [record.html, record.markdown, record.json])
+    requireText(document, path, "representation path", entry.file);
+  for (const source of entry.data.sources) {
+    requireText(document, source.href, "source URL", entry.file);
+    requireText(document, source.reviewedAt, "source date", entry.file);
+  }
+  for (const route of entry.data.routes) {
+    if (!featureData.some((feature) => feature.slug === route.feature))
+      throw new Error(`${entry.file}: Unknown capability ${route.feature}`);
+  }
+  for (const assertion of [...entry.data.actions, ...entry.data.integrations])
+    requireText(document, assertion.detail, "assertion detail", entry.file);
+}
+process.stdout.write(
+  `Validated ${products.length} product guides, evidence references, and Markdown/JSON parity.\n`
 );

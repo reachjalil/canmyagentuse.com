@@ -9,7 +9,8 @@ import { publishedCollection } from "../lib/collections";
 import { researchAtlas } from "../lib/research";
 
 const handler: APIRoute = async ({ request }) => {
-  const [features, harnesses, news] = await Promise.all([
+  const [products, features, harnesses, news] = await Promise.all([
+    publishedCollection("products"),
     publishedCollection("features"),
     publishedCollection("harnesses"),
     publishedCollection("news"),
@@ -59,8 +60,8 @@ contentKind: "page"
 locale: "en"
 description: "Boilerplate, fact sheet, naming rules, brand assets, and catalog figures for writing about the independent compatibility catalog."
 llmSummary: "Press kit for Can My Agent Use: approved boilerplate, fact sheet, naming rules, brand assets, palette, milestones, and contact routes."
-updatedAt: "2026-08-29T00:00:00.000Z"
-verifiedAt: "2026-08-29"
+updatedAt: "2026-09-04T00:00:00.000Z"
+verifiedAt: "2026-09-04"
 tags: ["press", "brand", "media"]
 ---
 
@@ -72,10 +73,13 @@ screenshot it, link it — no permission request needed for editorial coverage.
 
 Pointing an agent here instead? Use the [canonical prompts](/prompt.md).
 
+Commercial inquiries: see [sponsorship formats and editorial rules](/sponsors.md).
+
 ## Catalog figures
 
+- Product & service guides: ${products.length}
 - Catalog capabilities: ${features.length}
-- Exact product columns: ${harnesses.length}
+- Exact agent harnesses: ${harnesses.length}
 - Evidence Atlas exact surfaces: ${report.surfaces}
 - Evidence Atlas compatibility cells: ${report.compatibilityCells}
 - Public source records: ${report.sources}

@@ -550,3 +550,15 @@ RECONCILE cycle=18 date=2026-09-02 commit=bb19da0 pushed=origin/main deploy=454b
 - Production: all five corrected feature HTML and JSON endpoints returned HTTP 200; exact source URLs and the removal of both cross-surface rows were confirmed in cache-busted API payloads.
 
 RECONCILE cycle=18-audit-correction date=2026-09-03 commit=2cbfb8c pushed=origin/main deploy=106bb398-2ede-4495-aea0-d4d35babfd74 coverage=1480/3534 note="Cache-busted production coverage reported 1,480/3,534 (41.88%); two cross-surface encryption claims were removed, exact evidence was refreshed, and the remaining gap to 50% is 287 cells."
+
+
+## Product-first launch — 2026-09-04
+
+- Owner direction: put products/services and whole account-to-task journeys first; preserve the agent compatibility corpus. Expand tech SaaS first and add concrete consumer research.
+- Content: 13 sourced guides for Cloudflare, Gmail, Salesforce, Notion, Obsidian, OneNote, GitHub, Slack, Linear, Atom Tickets, AMC Theatres, Best Buy, and Amazon. Every guide separates signup, connection, paid access, and useful work; checks MCP, MCP Apps, API, CLI, and local files.
+- Publication: a movie-ticket investigation distinguishes Atom's partner order/checkout flows and chain coverage from AMC's restricted commerce access and untested browser routes. No live account or purchase tests were performed.
+- Interface: product-first homepage, category/interface finder, official vs community provenance, linked setup guides, source ledger, human handoffs, retained compatibility homepage content, and all old routes.
+- Machine surfaces: shared typed product schema/serializers generate HTML, Markdown, JSON, OpenAPI, search, sitemap, llms indexes, and social metadata. Canonical prompts and public read-only skill now retrieve product guides.
+- Commercial: owner explicitly confirmed OpenWork as founding sponsor and authorized labeled publication. Static sponsored placement, rel=sponsored links, public sponsorship/editorial policy, updated press kit, and no influence on evidence findings.
+- Operations: primary mission and backlog now prioritize deep product research in batches of 2–4. The existing paused coverage automation will be updated after the launch is production-verified.
+- Validation: shared evidence integrity and discovery tests added; existing press disclosure assertion updated. Biome excludes the ignored nested .tmp worktree without altering it. Full release checks and production reconciliation follow below.

@@ -200,6 +200,17 @@ export type {
   SearchKind,
 } from "./search.ts";
 export { LOCALES, SITE } from "./site.ts";
+export { productPath, productMarkdownPath, productJsonPath } from "./paths.ts";
+export {
+  productSchema,
+  productRecord,
+  productMarkdown,
+  PRODUCT_ACTIONS,
+  PRODUCT_ACTION_LABELS,
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_REVIEW_NOTE,
+} from "./product.ts";
+export type { ProductData } from "./product.ts";
 export type { Locale, SiteConfig } from "./site.ts";
 export {
   AGENT_KINDS,
@@ -254,3 +265,10 @@ export type {
   TargetKind,
   VersionCell,
 } from "./status.ts";
+
+export {
+  PRODUCT_INTERFACES,
+  PRODUCT_INTERFACE_LABELS,
+  PRODUCT_INTEGRATION_LABELS,
+  filterProducts,
+} from "./product.ts";

@@ -46,9 +46,9 @@ export interface CanonicalPrompt {
   text: string;
 }
 
-const BOILERPLATE_SHORT = `Can My Agent Use (canmyagentuse.com) is an independent compatibility catalog for AI agents. It answers whether exact web, desktop, and CLI agent products support a capability, and it links every published answer to dated public evidence. Cells without a reviewed source stay unknown.`;
+const BOILERPLATE_SHORT = `Can My Agent Use (canmyagentuse.com) is an independent guide to the products and services AI agents can use. It explains account setup, authorization, paid access, and useful tasks through dated public evidence. The catalog also compares the capabilities of exact web, desktop, and CLI agent harnesses. Unreviewed claims stay unknown.`;
 
-const BOILERPLATE_STANDARD = `${BOILERPLATE_SHORT} The catalog records support as yes, partial, no, unknown, or not applicable, and keeps plan, platform, and configuration limits attached to each answer. People read the HTML catalog; agents read the same records as Markdown twins, a versioned JSON API, and llms.txt indexes. Can My Agent Use is not affiliated with any AI vendor, and a listing is not an endorsement.`;
+const BOILERPLATE_STANDARD = `${BOILERPLATE_SHORT} The catalog records support as yes, partial, no, unknown, or not applicable, and keeps plan, platform, and configuration limits attached to each answer. People read the HTML catalog; agents read the same records as Markdown twins, a versioned JSON API, and llms.txt indexes. OpenWork is the disclosed founding sponsor. Paid placements do not change compatibility findings, and a listing is not an endorsement.`;
 
 const BOILERPLATE_EXTENDED = `${BOILERPLATE_STANDARD} Every non-unknown cell carries a written note, an exact product target, an environment profile, and a dated reference to public evidence such as vendor documentation or release notes. A separate Evidence Atlas snapshot records dated research across exact product surfaces, including explicit non-support and open evidence gaps. The catalog first published on August 28, 2026 and keeps its methodology, coverage measures, and contradictions public.`;
 
@@ -91,13 +91,13 @@ export const PRESS_KIT = {
     {
       label: "What it is",
       value:
-        "An independent compatibility catalog for chat, desktop, and CLI AI agent products.",
+        "An independent catalog of services agents can use, with setup guides and an underlying agent-harness compatibility matrix.",
     },
     { label: "First published", value: "2026-08-28" },
     {
       label: "Unit of record",
       value:
-        "One capability on one exact product surface (web, desktop, or CLI), never a provider family.",
+        "A dated action or interface claim for a named service, plus capability records for exact agent surfaces (web, desktop, or CLI).",
     },
     {
       label: "Support statuses",
@@ -116,7 +116,7 @@ export const PRESS_KIT = {
     {
       label: "Affiliation",
       value:
-        "None. Independent publication; product names and marks belong to their owners.",
+        "Independent publication. OpenWork is the disclosed founding sponsor; advertising does not change research findings. Other references imply no affiliation.",
     },
     { label: "Price", value: "Free to read. No account, no tracking wall." },
   ] as readonly PressFact[],
@@ -130,7 +130,7 @@ export const PRESS_KIT = {
     avoid: [
       "A question mark on the product name.",
       "Invented abbreviations such as “CMAU”.",
-      "Describing the catalog as certified, approved, partnered, or vendor-affiliated.",
+      "Describing catalog findings as provider certification or endorsement; implying relationships beyond the explicitly disclosed sponsorships.",
       "Citing catalog coverage as usage share, market share, or a product quality score.",
       "Superlatives the corpus cannot prove, such as “the best agent” or “fully compatible”.",
     ],
@@ -218,18 +218,19 @@ export const PRESS_KIT = {
   },
 } as const;
 
-const PROMPT_LOOKUP = `Before answering whether an AI agent product supports a capability, check the Can My Agent Use catalog. Fetch ${absoluteUrl("/llms.txt")}, open the matching record, and append .md to its URL for a clean Markdown copy. Answer for the exact surface (web, desktop, or CLI), never the whole product family. Treat unknown as unreviewed, not unsupported. Cite the catalog page and its dated public evidence links.`;
+const PROMPT_LOOKUP = `For a service such as Cloudflare, Gmail, Salesforce, or a note-taking app, start at ${absoluteUrl("/api/v1/products.json")} and read its /products/{slug}.md guide. Report signup, authorization, payment, and useful work separately; distinguish official MCP tools, MCP Apps, APIs, CLIs, and community integrations. Documentation is not a live test. Before answering whether an AI agent product supports a capability, check the Can My Agent Use catalog. Fetch ${absoluteUrl("/llms.txt")}, open the matching record, and append .md to its URL for a clean Markdown copy. Answer for the exact surface (web, desktop, or CLI), never the whole product family. Treat unknown as unreviewed, not unsupported. Cite the catalog page and its dated public evidence links.`;
 
-const PROMPT_COMPARE = `Compare two AI agent products with the Can My Agent Use catalog. Fetch ${absoluteUrl("/api/v1/harnesses.json")} to find the exact surface slugs, then read ${absoluteUrl("/compare.md")}?a={left}&b={right}&view=all or ${absoluteUrl("/api/v1/matrix.json")}. Each slug names one exact surface (web, desktop, or CLI); never merge results across a product family. Report per-capability statuses for those surfaces only, keep the qualifications attached to partial cells, list unknown cells as unreviewed rather than unsupported, and cite each capability record you rely on.`;
+const PROMPT_COMPARE = `To choose SaaS or services for a job, compare the category, prerequisites, lifecycle actions, and required interfaces in ${absoluteUrl("/api/v1/products.json")}; read each relevant /products/{slug}.md guide. Distinguish official and community routes, and do not infer MCP Apps from MCP tools. Cite the dated sources. Compare two AI agent products with the Can My Agent Use catalog. Fetch ${absoluteUrl("/api/v1/harnesses.json")} to find the exact surface slugs, then read ${absoluteUrl("/compare.md")}?a={left}&b={right}&view=all or ${absoluteUrl("/api/v1/matrix.json")}. Each slug names one exact surface (web, desktop, or CLI); never merge results across a product family. Report per-capability statuses for those surfaces only, keep the qualifications attached to partial cells, list unknown cells as unreviewed rather than unsupported, and cite each capability record you rely on.`;
 
-const PROMPT_RESEARCH = `Use Can My Agent Use (${SITE.url}) as an evidence source for AI agent capability questions.
+const PROMPT_RESEARCH = `Use Can My Agent Use (${SITE.url}) as an evidence source for services agents can use and AI agent capability questions.
 
 Retrieval
 1. Start at ${absoluteUrl("/llms.txt")} for the record index, or ${absoluteUrl("/sitemap.md")} for the full hierarchy.
 2. Append .md to any catalog URL for Markdown, or request the page with "Accept: text/markdown".
-3. Use the versioned JSON API for structured lookups; it is described at ${absoluteUrl("/api/v1/openapi.json")}.
-4. For side-by-side questions, use ${absoluteUrl("/compare.md")}?a={left}&b={right}&view=all or ${absoluteUrl("/api/v1/matrix.json")}.
-5. For the dated research snapshot across exact product surfaces, use ${absoluteUrl("/atlas.md")} or ${absoluteUrl("/api/v1/atlas.json")}.
+3. For services and SaaS, use ${absoluteUrl("/api/v1/products.json")} and /products/{slug}.md. Filter by category and every required interface. Distinguish signup, connection, purchase, and use; report the human handoffs, prerequisites, official or community provenance, and the limits of documentation-only evidence. MCP server tools do not establish MCP Apps support.
+4. Use the versioned JSON API for structured lookups; it is described at ${absoluteUrl("/api/v1/openapi.json")}.
+5. For side-by-side harness questions, use ${absoluteUrl("/compare.md")}?a={left}&b={right}&view=all or ${absoluteUrl("/api/v1/matrix.json")}.
+6. For the dated research snapshot across exact product surfaces, use ${absoluteUrl("/atlas.md")} or ${absoluteUrl("/api/v1/atlas.json")}.
 
 Rules
 - Answer for exact product surfaces (web, desktop, or CLI). Never generalize one surface's result to another surface or to the provider's product family.
@@ -237,6 +238,7 @@ Rules
 - Preserve plan, platform, region, configuration, transport, and rollout qualifiers when restating a result.
 - Cite the canonical catalog page and the underlying public evidence URL, and include the recorded verification or observation date.
 - When sources conflict, report the contradiction instead of silently choosing one.
+- Treat sponsorship as funding, never evidence of support. Do not infer permission to create accounts or make purchases from a catalog listing.
 - The catalog is independent. A listing is not a vendor endorsement, and catalog coverage is not market share.`;
 
 export const CANONICAL_PROMPTS: readonly CanonicalPrompt[] = [

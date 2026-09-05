@@ -28,6 +28,7 @@ function items(
 }
 
 export const GET: APIRoute = async () => {
+  const products = await publishedCollection("products");
   const [
     features,
     harnesses,
@@ -66,6 +67,14 @@ export const GET: APIRoute = async () => {
     "- [Press kit](/press.md) — boilerplate, fact sheet, naming rules, and brand assets",
     "- [Evidence Atlas](/atlas.md) — broad dated research across exact product surfaces",
     "- [Atlas source ledger](/atlas/sources.md) — source-level provenance for the research snapshot",
+    "",
+    "## Products",
+    "",
+    "- [Product index](/products.md) — discover services by setup and agent access",
+    ...products.map(
+      ({ data }) =>
+        `- [${data.title}](/products/${data.slug}.md): ${data.summary}`
+    ),
     "",
     "## Capabilities",
     "",

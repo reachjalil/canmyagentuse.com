@@ -9,10 +9,11 @@ import { publishedCollection } from "../lib/collections";
 
 const query = Astro.url.searchParams.get("q")?.trim() ?? "";
 const requestedScope = Astro.url.searchParams.get("scope") ?? "all";
-const searchScope = (["all", "feature", "harness", "specification"] as const).find(
+const searchScope = (["all", "product", "feature", "harness", "specification"] as const).find(
   (scope) => scope === requestedScope
 ) ?? "all";
-const [features, harnesses, specifications] = await Promise.all([
+const [products, features, harnesses, specifications] = await Promise.all([
+  publishedCollection("products"),
   publishedCollection("features"),
   publishedCollection("harnesses"),
   publishedCollection("specifications"),
@@ -23,8 +24,9 @@ const requestedSupport = Astro.url.searchParams.get("support")?.trim() ?? "";
 const support = SUPPORT_STATUSES.find((candidate) => candidate === requestedSupport);
 const requestedStage = Astro.url.searchParams.get("stage")?.trim() ?? "";
 const stage = SUPPORT_STAGES.find((candidate) => candidate === requestedStage);
-const activeSearch = Boolean(query || family || harness || support || stage);
+const activeSearch = Boolean(query || family || harness || support || stage || searchScope !== "all");
 const results = searchCatalog(query, {
+  products: products.map((entry) => entry.data),
   features: features.map((entry) => entry.data),
   harnesses: harnesses.map((entry) => entry.data),
   specifications: specifications.map((entry) => entry.data),
@@ -39,7 +41,8 @@ const hits = searchScope === "all"
   : results.hits.filter((hit) => hit.kind === searchScope);
 const kindLabels = {
   feature: "Capability",
-  harness: "Product",
+  product: "Product",
+  harness: "Agent harness",
   specification: "Specification",
 } as const;
 const harnessBySlug = new Map(
@@ -48,21 +51,22 @@ const harnessBySlug = new Map(
 const scopeLabels = {
   all: "the complete catalog",
   feature: "capabilities",
-  harness: "products",
+  product: "products",
+  harness: "agent harnesses",
   specification: "specifications",
 } as const;
 ---
 
 <BaseLayout
   title={`${query ? `Search: ${query}` : "Search the catalog"} | ${SITE.name}`}
-  description="Search capabilities, exact web, desktop, and CLI products, and specification references from one catalog index."
+  description="Search products, agent capabilities, exact harnesses, and specification references from one catalog index."
   canonicalPath="/search"
   noindex={Boolean(query)}
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome searchValue={query} searchScope={searchScope}>
     <main id="main" class="shell py-8">
-      <p class="eyebrow">Capabilities, products, and specifications</p>
+      <p class="eyebrow">Products, agent capabilities, and specifications</p>
       <h1 class="text-4xl font-semibold tracking-tight">Search the catalog</h1>
       {
         activeSearch ? (
@@ -87,9 +91,9 @@ const scopeLabels = {
             {features.filter((entry) => entry.data.capabilityKind === "family").map((entry) => <option value={entry.data.slug} selected={entry.data.slug === family}>{entry.data.title}</option>)}
           </select>
         </label>
-        <label>Product
+        <label>Agent harness
           <select name="harness">
-            <option value="">All products</option>
+            <option value="">All agent harnesses</option>
             {harnesses.map((entry) => <option value={entry.data.slug} selected={entry.data.slug === harness}>{entry.data.title} ({entry.data.surface})</option>)}
           </select>
         </label>
@@ -115,7 +119,7 @@ const scopeLabels = {
             <h2>No catalog record matched</h2>
             <p>
               Try a shorter protocol name, a provider family, or browse the
-              complete <a href="/features">capability index</a> and <a href="/harnesses">product index</a>.
+              complete <a href="/features">capability index</a> and <a href="/products">product index</a>.
             </p>
           </div>
         ) : null

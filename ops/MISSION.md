@@ -1,5 +1,10 @@
 # Continuous Research Mission
 
+> Product direction updated 2026-09-04: read `ops/PRODUCT-STRATEGY.md` first.
+> Product/service discovery and whole-task feasibility are now the primary
+> research priority. The historical harness workflow below remains supporting
+> methodology; its coverage-percentage target no longer controls scheduling.
+
 This file is the complete operating prompt for a long-running research
 orchestrator. It does not depend on the chat that created it. Treat repository
 instructions, validators, schemas, and the current catalog as authoritative

@@ -10,6 +10,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
   { href: "/matrix", label: "Matrix" },
   { href: "/harnesses", label: "Harnesses" },
   { href: "/compare", label: "Compare" },
@@ -32,7 +33,7 @@ function isCurrent(href: string) {
       <img src={SITE.markPath} alt="" width="34" height="34" />
       <span>
         <strong>Can My Agent Use</strong>
-        <small>lookup · compare · cite</small>
+        <small>products · setup · evidence</small>
       </span>
     </a>
     <nav aria-label="Primary">

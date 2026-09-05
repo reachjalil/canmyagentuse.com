@@ -42,3 +42,7 @@ Reports are dated editorial analyses built from a named, frozen catalog or
 research snapshot. Keep report prose in `content/reports`; interactive HTML may
 use empty `data-report-chart` placeholders that the report route progressively
 enhances from the same typed snapshot used by its Markdown and JSON twins.
+
+## Service products
+
+Author service guides in `products/en/`. Each entry uses the shared `productSchema` with complete signup, connection, purchase, and work actions; complete MCP, MCP Apps, API, CLI, and local-file checks; setup handoffs; linked capabilities; and dated source references. Unknown is a valid published finding. Run catalog validation to check evidence references and representation parity. Product guide data powers HTML, Markdown, JSON, discovery, and social cards.

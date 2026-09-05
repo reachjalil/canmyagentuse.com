@@ -14,6 +14,16 @@ export function featurePath(slug: string): string {
   return `/features/${slug}`;
 }
 
+export function productPath(slug: string): string {
+  return `/products/${slug}`;
+}
+export function productMarkdownPath(slug: string): string {
+  return `/products/${slug}.md`;
+}
+export function productJsonPath(slug: string): string {
+  return `/api/v1/products/${slug}.json`;
+}
+
 export function featureMarkdownPath(slug: string): string {
   return `/features/${slug}.md`;
 }
@@ -89,6 +99,7 @@ export function pageMarkdownPath(slug: string): string {
 }
 
 const STATIC_MARKDOWN_PATHS = new Map<string, string>([
+  ["/products", "/products.md"],
   ["/", "/index.md"],
   ["/features", "/features.md"],
   ["/harnesses", "/harnesses.md"],
@@ -96,6 +107,7 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
   ["/news", "/news.md"],
   ["/reports", "/reports.md"],
   ["/about", "/about.md"],
+  ["/sponsors", "/sponsors.md"],
   ["/methodology", "/methodology.md"],
   ["/privacy", "/privacy.md"],
   ["/harness-guide", "/harness-guide.md"],
@@ -117,6 +129,7 @@ const STATIC_MARKDOWN_PATHS = new Map<string, string>([
 ]);
 
 const DYNAMIC_MARKDOWN_PREFIXES = [
+  "/products/",
   "/features/",
   "/harnesses/",
   "/specs/",
@@ -165,6 +178,7 @@ export function pagePathForMarkdownPath(path: string): string | undefined {
 export function jsonPathForPagePath(path: string): string | undefined {
   const pathname = normalizeSitePath(path);
   const fixed = new Map<string, string>([
+    ["/products", MACHINE_PATHS.productsJson],
     ["/features", MACHINE_PATHS.featuresJson],
     ["/harnesses", MACHINE_PATHS.harnessesJson],
     ["/specs", MACHINE_PATHS.specificationsJson],
@@ -182,7 +196,7 @@ export function jsonPathForPagePath(path: string): string | undefined {
   if (known) return known;
 
   const detail = pathname.match(
-    /^\/(features|harnesses|specs|reports)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/
+    /^\/(products|features|harnesses|specs|reports)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/
   );
   if (detail?.[1] && detail[2]) {
     return `/api/v1/${detail[1]}/${detail[2]}.json`;
@@ -196,6 +210,7 @@ export function jsonPathForPagePath(path: string): string | undefined {
 }
 
 export const MACHINE_PATHS = {
+  productsJson: "/api/v1/products.json",
   llms: "/llms.txt",
   llmsFull: "/llms-full.txt",
   featuresLlms: "/features/llms.txt",

@@ -39,13 +39,20 @@ const SOCIAL_SURFACES = ["web", "desktop", "cli"] as const;
 
 const SYSTEM_CARDS: SocialCard[] = [
   {
-    canonicalPath: "/",
-    eyebrow: "Independent AI agent compatibility catalog",
-    title: "Know what your AI agent can actually do.",
+    canonicalPath: "/products",
+    eyebrow: "The product catalog",
+    title: "Start with the product.",
     description:
-      "Pick a capability, compare exact products, and check the public evidence behind every answer.",
+      "Discover agent access, account setup, MCP tools, APIs, and the steps that need you.",
+    meta: "Independent research · dated sources",
+  },
+  {
+    canonicalPath: "/",
+    eyebrow: "Products your agent can use",
+    title: "Can my agent use this product?",
+    description:
+      "Account setup, available tools, and the path to a first useful task.",
     meta: "Independent research · unknown stays unknown",
-    variant: "home",
   },
   {
     canonicalPath: "/features",
@@ -283,7 +290,17 @@ async function collectCards(): Promise<SocialCard[]> {
     coverage: { assessed, total, unknown, percentLabel },
   };
 
+  const products = await frontmatterFiles("products");
   const cards: SocialCard[] = [
+    ...products
+      .filter((entry) => entry.status !== "draft")
+      .map((entry) => ({
+        canonicalPath: `/products/${stringValue(entry.slug)}`,
+        eyebrow: "Products your agent can use",
+        title: stringValue(entry.socialTitle),
+        description: stringValue(entry.socialDescription),
+        meta: "Account setup · tools · human handoffs",
+      })),
     ...SYSTEM_CARDS,
     coverageCard,
     ...features.map((entry) => ({

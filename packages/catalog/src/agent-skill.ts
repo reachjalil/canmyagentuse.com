@@ -2,7 +2,7 @@ import { MACHINE_PATHS } from "./paths.ts";
 
 export const CATALOG_SKILL_NAME = "can-my-agent-use";
 export const CATALOG_SKILL_DESCRIPTION =
-  "Look up and compare agent-harness capabilities using Can My Agent Use's read-only evidence catalog. Use when answering whether an exact web, desktop, or CLI harness supports a capability and the answer needs qualifications, verification dates, and citations.";
+  "Look up services agents can use and compare agent-harness capabilities using Can My Agent Use's read-only evidence catalog. Use when answering whether an exact web, desktop, or CLI harness supports a capability and the answer needs qualifications, verification dates, and citations.";
 
 export const CATALOG_SKILL_DOCUMENT = `---
 name: ${CATALOG_SKILL_NAME}
@@ -11,7 +11,7 @@ description: ${CATALOG_SKILL_DESCRIPTION}
 
 # Can My Agent Use
 
-Use this public, read-only catalog to answer compatibility questions about exact agent harness surfaces.
+Use this public, read-only catalog to choose services an agent can use and to answer compatibility questions about exact agent harness surfaces.
 
 ## Retrieval workflow
 
@@ -23,6 +23,10 @@ Use this public, read-only catalog to answer compatibility questions about exact
 6. Cite the canonical HTML catalog page and the public evidence URL. Include the last verification or observation date.
 
 For the broader dated research snapshot, use \`/atlas.md\` or \`/api/v1/atlas.json\`. Keep its exact surface IDs and research cutoff intact; do not merge Atlas targets into a provider-wide claim.
+
+## Services and SaaS
+
+Read \`/api/v1/products.json\` to compare services by category and required interfaces, then open \`/products/{slug}.md\` for the complete guide. Answer signup, connection, purchase, and useful work separately. Preserve prerequisites, human handoffs, source links, and review dates. Official and community integrations are different. MCP tools do not establish MCP Apps support. Documentation reviews are not live transaction tests; sponsorship is not compatibility evidence.
 
 ## Status interpretation
 

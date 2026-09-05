@@ -2,8 +2,10 @@
 import { MACHINE_PATHS, SITE } from "@canmyagentuse/catalog";
 
 const links = [
+  { href: "/sponsors", label: "Sponsorship & advertising" },
+  { href: "/products", label: "Products your agent can use" },
   { href: "/features", label: "Capabilities" },
-  { href: "/harnesses", label: "Product columns" },
+  { href: "/harnesses", label: "Agent harnesses" },
   { href: "/harness-guide", label: "Harness evaluation guide" },
   { href: "/compare", label: "Compare" },
   { href: "/matrix", label: "Matrix" },
@@ -15,7 +17,7 @@ const links = [
   { href: "/changes", label: "Changes" },
   { href: "/contradictions", label: "Contradictions" },
   { href: "/report", label: "Suggest a correction" },
-  { href: "/report?targetType=missing-harness", label: "Request a product" },
+  { href: "/report?targetType=missing-harness", label: "Request an agent harness" },
   { href: "/report?targetType=missing-feature", label: "Request a capability" },
   { href: "/contribute", label: "Contribute" },
   { href: "/prompt", label: "Prompt this catalog" },
@@ -46,6 +48,7 @@ const links = [
     </nav>
     <nav aria-label="Catalog copies">
       <ul class="space-y-1 font-mono text-xs">
+        <li><a href={MACHINE_PATHS.productsJson}>/api/v1/products.json</a></li>
         <li><a href={MACHINE_PATHS.llms}>/llms.txt</a></li>
         <li><a href={MACHINE_PATHS.promptText}>/prompt.txt</a></li>
         <li><a href={MACHINE_PATHS.feedXml}>/feed.xml</a></li>

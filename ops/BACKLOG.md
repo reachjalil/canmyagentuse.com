@@ -1,5 +1,27 @@
 # Research backlog
 
+## Current priority — product and service coverage
+
+As of 2026-09-04, use `ops/PRODUCT-STRATEGY.md` as the primary mission.
+The harness queue below is preserved as secondary work. Ship researched batches
+of 2–4 additions or substantial improvements, with citations and validated releases.
+
+1. Deepen the first 13 product guides: exact permission scopes, setup plans,
+   regional and quota limits, revocation, and a reproducible first useful task.
+   Prioritize Gmail, Salesforce, Cloudflare, Notion, and Linear API coverage.
+2. Add Vercel, Supabase, and Sentry with the same full account-to-task contract.
+3. Expand notes with Joplin and Evernote; publish an evidence-backed notes
+   comparison that separates hosted MCP, local files, and delegated API access.
+4. Add Airtable, Figma, HubSpot, Asana, Google Calendar, and Google Drive.
+5. Deepen movie ticketing by region and fulfillment route; investigate other
+   theater intermediaries before claiming individual-chain agent purchasing.
+6. Extend shopping after SaaS: verify outside-agent access independently of
+   provider-native assistants, and preserve partner/invite restrictions.
+
+Only after primary product work is scoped should the historical harness
+coverage queue supply an optional maintenance item. Never interpret a sponsor
+relationship or a documentation review as a passed live test.
+
 This file stores durable priority policy plus the next queue. Re-derive live
 membership from `pnpm --filter @canmyagentuse/web coverage:report` at the start
 of every cycle. Counts below are the 2026-08-29 bootstrap baseline, not frozen

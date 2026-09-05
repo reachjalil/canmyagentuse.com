@@ -1,3 +1,4 @@
+import { productJsonSchema } from "./product.ts";
 import { MACHINE_PATHS } from "./paths.ts";
 import { SITE } from "./site.ts";
 import {
@@ -66,7 +67,7 @@ export function catalogOpenApi() {
     openapi: "3.1.0",
     info: {
       title: `${SITE.name} Catalog API`,
-      version: "1.3.0",
+      version: "1.4.0",
       summary: "Read-only compatibility catalog and evidence ledger.",
       description: `${SITE.description} Unknown means not yet sufficiently sourced; it does not mean unsupported. Documentation evidence is not runtime certification.`,
     },
@@ -99,6 +100,38 @@ export function catalogOpenApi() {
       { name: "Operations", description: "Minimal service health." },
     ],
     paths: {
+      [MACHINE_PATHS.productsJson]: {
+        get: {
+          operationId: "listProducts",
+          tags: ["Catalog"],
+          summary:
+            "List service products with setup actions and agent access evidence",
+          responses: {
+            "200": jsonResponse(
+              {
+                type: "object",
+                required: ["items"],
+                properties: {
+                  items: { type: "array", items: reference("Product") },
+                },
+              },
+              "Published product guides."
+            ),
+          },
+        },
+      },
+      "/api/v1/products/{slug}.json": {
+        get: {
+          operationId: "getProduct",
+          tags: ["Catalog"],
+          summary: "Get a product guide including its Markdown body",
+          parameters: [slugParameter],
+          responses: {
+            "200": jsonResponse(reference("Product"), "Product guide."),
+            "404": { description: "Unknown product slug." },
+          },
+        },
+      },
       [MACHINE_PATHS.featuresJson]: {
         get: {
           operationId: "listFeatures",
@@ -409,6 +442,7 @@ export function catalogOpenApi() {
     },
     components: {
       schemas: {
+        Product: productJsonSchema,
         Status: { type: "string", enum: SUPPORT_STATUSES },
         SupportStage: { type: "string", enum: SUPPORT_STAGES },
         EvidenceType: { type: "string", enum: EVIDENCE_TYPES },

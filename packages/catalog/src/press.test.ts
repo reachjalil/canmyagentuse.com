@@ -28,7 +28,8 @@ describe("press kit", () => {
     const affiliation = PRESS_KIT.factSheet.find(
       (fact) => fact.label === "Affiliation"
     );
-    expect(affiliation?.value).toContain("None");
+    expect(affiliation?.value).toContain("OpenWork");
+    expect(affiliation?.value).toContain("does not change research findings");
     expect(affiliation?.value).toContain("Independent");
   });
 

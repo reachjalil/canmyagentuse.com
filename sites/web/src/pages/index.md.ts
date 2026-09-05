@@ -1,3 +1,4 @@
+import { productMarkdownPath } from "@canmyagentuse/catalog";
 import type { APIRoute } from "astro";
 import { SITE, toEntryMarkdown } from "@canmyagentuse/catalog";
 import { publishedCollection } from "../lib/collections";
@@ -5,6 +6,7 @@ import { researchAtlas } from "../lib/research";
 import { markdownResponse } from "../lib/security";
 
 export const GET: APIRoute = async () => {
+  const products = await publishedCollection("products");
   const [features, harnesses, specifications] = await Promise.all([
     publishedCollection("features"),
     publishedCollection("harnesses"),
@@ -24,7 +26,15 @@ export const GET: APIRoute = async () => {
         "",
         SITE.independentNotice,
         "",
-        "## Catalog",
+        "## Products your agent can use",
+        "",
+        "- [Browse products](/products.md) — signup, account access, paid services, and supported tasks",
+        ...products.map(
+          ({ data }) =>
+            `- [${data.title}](${productMarkdownPath(data.slug)}): ${data.summary}`
+        ),
+        "",
+        "## Agent compatibility catalog",
         "",
         `- [Capabilities](/features.md) — ${features.length} published capability records`,
         `- [Harnesses](/harnesses.md) — ${harnesses.length} exact chat, desktop, and CLI surfaces`,

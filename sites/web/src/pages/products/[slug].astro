@@ -1,0 +1,32 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import { PRODUCT_ACTION_LABELS, PRODUCT_INTERFACE_LABELS, PRODUCT_INTEGRATION_LABELS, PRODUCT_STATUS_LABELS, PRODUCT_REVIEW_NOTE, SITE, productJsonPath, productMarkdownPath, absoluteUrl } from "@canmyagentuse/catalog";
+import SiteChrome from "../../components/SiteChrome.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publishedCollection } from "../../lib/collections";
+export async function getStaticPaths() { return (await publishedCollection("products")).map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } })); }
+interface Props { entry: CollectionEntry<"products">; }
+const { entry } = Astro.props;
+const product = entry.data;
+const { Content } = await render(entry);
+const sourceFor = (id: string) => product.sources.find((source) => source.id === id)!;
+---
+<BaseLayout title={product.seoTitle} description={product.description} canonicalPath={`/products/${product.slug}`} socialTitle={product.socialTitle} socialDescription={product.socialDescription} socialImageAlt={product.previewImageAlt} contentType="article" publishedTime={product.published} modifiedTime={product.updated} tags={product.tags} jsonLd={[{ "@context": "https://schema.org", "@type": "Article", headline: product.seoTitle, description: product.description, dateModified: product.updated.toISOString(), datePublished: product.published?.toISOString(), mainEntityOfPage: absoluteUrl(`/products/${product.slug}`), image: absoluteUrl(`/social/products--${product.slug}.png`), author: { "@type": "Organization", name: SITE.name } }]}>
+  <SiteChrome>
+    <main id="main" class="shell product-page">
+      <a class="product-text-link" href="/products">← All products</a>
+      <header class="product-intro"><p class="eyebrow">{product.category} · {product.vendor}</p><h1>Can my agent use<br /><span>{product.title}?</span></h1><p>{product.summary}</p><small>Documentation reviewed {product.updated.toISOString().slice(0, 10)} · No live agent test</small></header>
+      <p class="product-scope"><strong>Scope of this guide</strong> {product.scope}</p>
+      <section id="interfaces" class="product-panel" aria-labelledby="interfaces-heading"><div class="product-section-heading"><h2 id="interfaces-heading">Agent access</h2><a href={`/products?category=${product.categorySlug}`}>Compare alternatives →</a></div><p class="product-note">Suggested fit: {product.bestFor} This is an editorial assessment of the documented routes.</p><div class="product-interface-grid">{product.integrations.map((item) => <div><h3>{PRODUCT_INTERFACE_LABELS[item.kind]}</h3><span class={`integration-status integration-status--${item.status}`}>{PRODUCT_INTEGRATION_LABELS[item.status]}</span><p>{item.detail}</p><div class="product-source-links">{item.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title}</a>)}</div></div>)}</div></section>
+      <section aria-labelledby="journey-heading">
+        <div class="product-section-heading"><h2 id="journey-heading">From account to first task</h2><span>Four separate questions</span></div>
+        <div class="product-journey">{product.actions.map((action, index) => <article id={action.id} class="product-action"><span class="product-action__number">0{index + 1}</span><div><h3>{PRODUCT_ACTION_LABELS[action.id]}</h3><strong>{action.summary}</strong><p>{action.detail}</p><div class="product-source-links">{action.sourceIds.length ? action.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title} ↗</a>) : <span>No conclusive evidence recorded.</span>}</div></div><span class={`product-status product-status--${action.status}`}>{PRODUCT_STATUS_LABELS[action.status]}</span></article>)}</div>
+      </section>
+      <div class="product-detail-grid">
+        <section class="product-panel" aria-labelledby="setup-heading"><p class="eyebrow">The handoffs</p><h2 id="setup-heading">What it takes</h2><ol class="product-steps">{product.setup.map((step) => <li><span>{step.actor}</span><h3>{step.title}</h3><p>{step.detail}</p></li>)}</ol></section>
+        <div><section class="product-panel" aria-labelledby="routes-heading"><p class="eyebrow">The connection</p><h2 id="routes-heading">Ways your agent can use it</h2>{product.routes.map((route) => <div class="product-route"><h3>{route.name}</h3><p>{route.description}</p><a href={`/features/${route.feature}`}>Check this capability in your agent →</a><div class="product-source-links">{route.sourceIds.map((id) => <a href={`#source-${id}`}>{sourceFor(id).title}</a>)}</div></div>)}</section><div class="product-panel prose-page"><Content /></div></div>
+      </div>
+      <section class="product-evidence" aria-labelledby="sources-heading"><div class="product-section-heading"><h2 id="sources-heading">Read the evidence</h2><a href={product.homepage}>Product website ↗</a></div><p>{PRODUCT_REVIEW_NOTE}</p><ol>{product.sources.map((source) => <li id={`source-${source.id}`}><a href={source.href}>{source.title} ↗</a><span>{source.publisher} · Reviewed {source.reviewedAt}</span></li>)}</ol><div class="product-source-links"><a href={productMarkdownPath(product.slug)}>Read as Markdown</a><a href={productJsonPath(product.slug)}>Get the JSON record</a><a href="/methodology">Research methodology</a></div></section>
+    </main>
+  </SiteChrome>
+</BaseLayout>

@@ -1,9 +1,13 @@
 # Can My Agent Use
 
-Independent, evidence-led support tables for chat, desktop, and CLI agent
-harnesses. Look up a capability, compare columns, read the documented limits,
-and leave with a public citation. The implementation, night-ledger identity,
-assets, and copy are original.
+Find products your agent can use, understand account setup and permissions,
+and compare the documented routes to a useful task. The product-first catalog
+covers SaaS and consumer services while preserving the original harness
+compatibility research. Start at `/products`; the strategy and operating
+contract live in `ops/PRODUCT-STRATEGY.md`.
+
+OpenWork is the confirmed founding sponsor. Placements are labeled and governed
+by `/sponsors`; sponsorship does not change evidence or comparison ordering.
 
 Catalog v1 sources a deliberately tight current-track wave: MCP tools, MCP
 Apps, workspace files, terminal, computer use, and skills across selected major
@@ -21,6 +25,7 @@ Documentation evidence is never presented as runtime certification.
 
 ```text
 content/                 portable Markdown corpus
+  products/              service guides, account journeys, interfaces, sources
   specifications/        revision-aware protocol and convention references
 packages/catalog         schemas, relations, search, coverage, OpenAPI, matrix
 sites/web                Astro 7 site on Cloudflare Workers
