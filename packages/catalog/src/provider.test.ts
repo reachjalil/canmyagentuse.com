@@ -108,6 +108,9 @@ describe("providerMark", () => {
       ["AMC Theatres", "amc-theatres"],
       ["Best Buy", "best-buy"],
       ["Amazon", "amazon"],
+      ["Vercel", "vercel"],
+      ["Supabase", "supabase"],
+      ["Sentry", "sentry"],
     ] as const;
     for (const [provider, productSlug] of products) {
       const identity = referenceIdentity({ provider, productSlug });

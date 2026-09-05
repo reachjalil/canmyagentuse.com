@@ -74,6 +74,7 @@ const marks = [...PROVIDER_MARKS].toSorted((left, right) =>
                       {mark.brandGuidelinesUrl ? (
                         <small><a href={mark.brandGuidelinesUrl} rel="noopener noreferrer">Brand guide ↗</a></small>
                       ) : null}
+                      {mark.attribution ? <small>{mark.attribution}</small> : null}
                     </td>
                     <td>{mark.reviewedAt}</td>
                   </tr>

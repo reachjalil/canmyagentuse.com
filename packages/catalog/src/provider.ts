@@ -50,6 +50,7 @@ export interface ProviderMarkAuthorization {
   sourceUrl?: `https://${string}`;
   sha256?: string;
   brandGuidelinesUrl?: `https://${string}`;
+  attribution?: string;
   reviewedAt: `${number}-${number}-${number}`;
 }
 
@@ -311,6 +312,30 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
     ...simpleMark("linear", "Linear", "linear", "https://linear.app/brand"),
     reviewedAt: "2026-09-04",
   },
+  {
+    ...simpleMark(
+      "vercel",
+      "Vercel",
+      "vercel",
+      "https://vercel.com/geist/brands"
+    ),
+    attribution:
+      "Vercel, the Vercel design, Next.js and related marks, designs and logos are trademarks or registered trademarks of Vercel, Inc. or its affiliates in the US and other countries.",
+    reviewedAt: "2026-09-04",
+  },
+  {
+    ...simpleMark(
+      "supabase",
+      "Supabase",
+      "supabase",
+      "https://supabase.com/brand-assets"
+    ),
+    reviewedAt: "2026-09-04",
+  },
+  {
+    ...simpleMark("sentry", "Sentry", "sentry", "https://sentry.io/branding/"),
+    reviewedAt: "2026-09-04",
+  },
   downloadedMark(
     "gmail",
     "Gmail",
@@ -401,6 +426,9 @@ export const PROVIDER_MARKS: readonly ProviderMarkAuthorization[] = [
 const MARKS_BY_ID = new Map(PROVIDER_MARKS.map((mark) => [mark.id, mark]));
 
 const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
+  vercel: "vercel",
+  supabase: "supabase",
+  sentry: "sentry",
   amazon: "amazon",
   "best buy": "best-buy",
   "amc theatres": "amc-theatres",
@@ -451,6 +479,9 @@ const PROVIDER_MARK_ALIASES: Readonly<Record<string, string>> = {
 };
 
 const PRODUCT_MARK_ALIASES: Readonly<Record<string, string>> = {
+  vercel: "vercel",
+  supabase: "supabase",
+  sentry: "sentry",
   amazon: "amazon",
   "best-buy": "best-buy",
   "amc-theatres": "amc-theatres",

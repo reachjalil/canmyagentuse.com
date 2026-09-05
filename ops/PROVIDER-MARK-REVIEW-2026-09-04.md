@@ -1,6 +1,6 @@
 # Product logo provenance and reference review
 
-Reviewed: 2026-09-04. Scope: the 13 independently researched product records,
+Reviewed: 2026-09-04. Scope: the 16 independently researched product records,
 product discovery cards, comparison rows, and product search. The user requested
 real logos. OpenWork's confirmed sponsorship is a separate labeled placement;
 none of the marks below denotes sponsorship, approval, or a tested integration.
@@ -27,7 +27,7 @@ publication. Collection copyright licenses do not grant trademark rights.
   original file has a SHA-256 fingerprint checked on every generation. PNG,
   WebP, and passive SVG formats are accepted; scripts, event handlers, external
   SVG references, foreign objects, entities, and doctypes are rejected.
-- Five products use existing pinned packages: `@lobehub/icons-static-svg@1.94.0`
+- Eight products use existing pinned packages: `@lobehub/icons-static-svg@1.94.0`
   (MIT, revision `fbd2d56e3f734e889f1373e71c8368cc4e60e0d7`) or
   `simple-icons@16.28.0` (CC0-1.0, revision
   `c956d67dfa7c37ae65206fc0775b0c02d1e695c2`). Package copyright licenses apply
@@ -52,6 +52,21 @@ publication. Collection copyright licenses do not grant trademark rights.
 | AMC Theatres | Provider investor-site AMC Theatres wordmark, PNG | [AMC's investor site](https://investor.amctheatres.com/) supplies this asset and identifies AMC Theatres. A standalone media-logo license was not located; the public terms endpoint was not retrievable during review. This is not the unrelated AMC television brand. No provider permission is inferred. |
 | Best Buy | Current black wordmark with yellow tag, PNG | [Best Buy media FAQ](https://corporate.bestbuy.com/media-faq/) directs logo requests to its press team. The unchanged asset is from the provider's corporate site; no request has been sent and no press permission is asserted. This catalog placement is separate from paid advertising. |
 | Amazon | Provider's current white smile on navy square, PNG | Asset is served by [Amazon's corporate site](https://www.aboutamazon.com/). [Amazon Brand Usage Guidelines](https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf) describe advertiser branding conditions; they are not evidence that this site is an Amazon affiliate or has advertising approval. The reference is to Amazon retail, not AWS or Alexa. |
+
+## SaaS expansion review
+
+The Vercel, Supabase, and Sentry guide marks use unchanged SVGs from the existing
+`simple-icons@16.28.0` package, CC0-1.0, revision
+`c956d67dfa7c37ae65206fc0775b0c02d1e695c2`. They are local editorial references
+beside their exact product names, with the same fallback and non-affiliation
+boundary. No additional dependency, provider API request, or sponsored provider
+placement was added.
+
+| Record | Exact pinned asset | Provider-policy review |
+| --- | --- | --- |
+| Vercel | [vercel.svg](https://github.com/simple-icons/simple-icons/blob/c956d67dfa7c37ae65206fc0775b0c02d1e695c2/icons/vercel.svg) | [Brand guidelines](https://vercel.com/geist/brands) permit truthful descriptions and the symbol in compact or multi-brand layouts; prohibit modification, endorsement implications, and use as our own commercial branding. The requested trademark attribution is stored in the typed manifest and displayed beside Vercel in the public brand-reference index and Markdown twin, reached by the site-wide footer link. This is an independent product guide, not Vercel-sponsored marketing or a statement of commercial-logo clearance. |
+| Supabase | [supabase.svg](https://github.com/simple-icons/simple-icons/blob/c956d67dfa7c37ae65206fc0775b0c02d1e695c2/icons/supabase.svg) | [Official assets](https://supabase.com/brand-assets) require marks to represent Supabase and prohibit modification. The unmodified monochrome symbol identifies the Supabase product only. No invented recoloring, integration button, partner status, or account-connection implication. |
+| Sentry | [sentry.svg](https://github.com/simple-icons/simple-icons/blob/c956d67dfa7c37ae65206fc0775b0c02d1e695c2/icons/sentry.svg) | [Official logo resources](https://sentry.io/branding/) offer glyph and wordmark variants and link to a [brand guide](https://live.standards.site/sentry). The linked guide's text was not retrievable in this review; no blanket trademark permission is inferred from the download page or package copyright license. The glyph remains a secondary editorial reference, not the site's identity or a paid Sentry placement. |
 
 ## Review outcome and limits
 

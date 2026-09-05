@@ -19,18 +19,20 @@
       "id": "sign-up",
       "status": "conditional",
       "summary": "Create a scratch org after Dev Hub setup.",
-      "detail": "Salesforce CLI can provision a development scratch org using an authorized Dev Hub. Initial Developer Edition signup and paid production-org creation are separate flows.",
+      "detail": "Salesforce CLI can provision an expiring development scratch org using an authorized Dev Hub with spare allocation. Initial Developer Edition signup and paid production-org creation are separate flows; this is not an autonomous new-customer signup.",
       "sourceIds": [
         "scratch",
         "devhub",
-        "quickstart"
+        "quickstart",
+        "scratch-lifecycle",
+        "devhub-availability"
       ]
     },
     {
       "id": "connect-account",
       "status": "human-step",
       "summary": "Admin setup comes before connection.",
-      "detail": "Hosted MCP requires an External Client App for OAuth and an administrator to enable the selected MCP servers in the org.",
+      "detail": "Hosted MCP requires an External Client App with mcp_api and refresh_token scopes, an enabled server, and an authorized Salesforce user. Existing Connected Apps cannot replace the External Client App for this route.",
       "sourceIds": [
         "eca",
         "activate"
@@ -49,21 +51,25 @@
       "id": "use-product",
       "status": "agent-ready",
       "summary": "Query and update permitted CRM records.",
-      "detail": "The hosted SObject tools support record operations under the authenticated user’s object, field, and sharing permissions. Choose a narrower server if only reads are needed.",
+      "detail": "Hosted SObject tools query and change CRM records under the authenticated user’s object, field, and sharing permissions. Start with SObject Reads; creation, updates, and deletion require a server that exposes those operations.",
       "sourceIds": [
-        "sobject"
+        "sobject",
+        "reads",
+        "servers"
       ]
     }
   ],
   "routes": [
     {
       "name": "Salesforce hosted MCP",
-      "description": "An MCP client connects to the servers enabled for your org.",
+      "description": "Connect an MCP client to the selected org and enabled server; SObject Reads exposes query and schema tools without record mutations.",
       "feature": "mcp-tools",
       "sourceIds": [
         "eca",
         "activate",
-        "sobject"
+        "sobject",
+        "reads",
+        "connections"
       ]
     },
     {
@@ -87,24 +93,29 @@
   ],
   "setup": [
     {
-      "title": "Choose an org with API access",
+      "title": "Confirm the org and API entitlement",
       "actor": "Admin",
-      "detail": "Confirm the edition, API entitlement, and user permissions; use a development org for evaluation."
+      "detail": "Choose production, sandbox, or a disposable development org. Check API access, the intended user’s permissions, and the org’s remaining API or scratch-org allocation."
     },
     {
-      "title": "Enable the connection",
+      "title": "Enable a narrow MCP connection",
       "actor": "Admin",
-      "detail": "For hosted MCP, register an External Client App and enable the required servers in API Catalog."
+      "detail": "Create an External Client App with mcp_api and refresh_token scopes; pre-authorize only the intended users and enable SObject Reads. Allow for app/server activation delays."
     },
     {
-      "title": "Authorize the right user",
+      "title": "Authorize the intended user and org",
       "actor": "You",
-      "detail": "Complete the configured OAuth flow for the intended org."
+      "detail": "Complete the configured OAuth connection. Use the sandbox endpoint for sandbox and scratch orgs; Developer Edition uses the non-sandbox endpoint."
     },
     {
-      "title": "Try a scoped CRM task",
+      "title": "Inspect schema and read ten records",
       "actor": "Agent",
-      "detail": "Query a small set of records first. Add write operations only within the authorized user’s access."
+      "detail": "Confirm the org, inspect permitted Opportunity fields, then retrieve at most ten open opportunities. Report record IDs and omitted or inaccessible fields before any separate write request."
+    },
+    {
+      "title": "Set the connection’s lifetime",
+      "actor": "Admin",
+      "detail": "Choose the refresh-token policy and record how to revoke the ECA’s tokens from OAuth Usage. Disable an MCP server when the org should stop exposing that server."
     }
   ],
   "sources": [
@@ -156,6 +167,62 @@
       "href": "https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev/sfdx_app_dev_create_app",
       "publisher": "Salesforce",
       "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "reads",
+      "title": "SObject Reads server",
+      "href": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/sobject-reads.html",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "servers",
+      "title": "Standard hosted MCP servers and permissions",
+      "href": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/servers-reference.html",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "connections",
+      "title": "Hosted MCP server connection troubleshooting",
+      "href": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/connection-issues.html",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "scratch-lifecycle",
+      "title": "Scratch-org lifetime and development scope",
+      "href": "https://admin.salesforce.com/blog/2023/sandboxes-vs-scratch-orgs-and-how-to-use-them",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "mcp-security",
+      "title": "Hosted MCP access controls and token revocation",
+      "href": "https://developer.salesforce.com/blogs/2026/06/how-to-secure-salesforce-hosted-mcp-servers",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "api-limits",
+      "title": "API limits and usage monitoring",
+      "href": "https://developer.salesforce.com/blogs/2024/11/api-limits-and-monitoring-your-api-usage",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "connect-limits",
+      "title": "Current Connect REST API rate limits",
+      "href": "https://developer.salesforce.com/docs/platform/connect-rest-api/guide/intro_rate_limits.html",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
+    },
+    {
+      "id": "devhub-availability",
+      "title": "Enable Dev Hub in an eligible org",
+      "href": "https://developer.salesforce.com/docs/platform/pkg2-dev/guide/sfdx-pkg-enable-devhub.html",
+      "publisher": "Salesforce",
+      "reviewedAt": "2026-09-04"
     }
   ],
   "locale": "en",
@@ -183,10 +250,12 @@
     {
       "kind": "mcp",
       "status": "official",
-      "detail": "Hosted MCP servers require app registration and org activation.",
+      "detail": "Official hosted MCP supports separately enabled read and mutation servers. External Client App registration, user authorization, and org permissions apply.",
       "sourceIds": [
         "eca",
-        "activate"
+        "activate",
+        "reads",
+        "servers"
       ]
     },
     {
@@ -222,18 +291,36 @@
 }
 ---
 
-## First useful task
-
-Ask for a small list of opportunities with only the fields needed for your task. Confirm the org and returned records before requesting updates.
-
-## “Add an account” has two meanings
-
-Connecting a Salesforce org authorizes access to the service. Creating an **Account record** adds a company to the CRM. The latter is a data operation subject to object permissions; it does not create a Salesforce subscription.
-
-## Check your agent
-
-Verify [MCP tool support](/features/mcp-tools) or the [connector route](/features/connectors) for your exact [agent harness](/harnesses). Org policy and client configuration still apply.
-
 ## Can an agent create a Salesforce org?
 
-**A development scratch org: conditionally, yes.** An agent with terminal access and an authorized Dev Hub can use the documented `sf org create scratch` command. Dev Hub allocation and permissions apply. This does not prove the agent can sign up for a new paid production organization or bypass the initial account setup.
+**A development scratch org: conditionally, yes.** With terminal access and an already authorized Dev Hub, an agent can run the documented `sf org create scratch` command. The Dev Hub needs available allocation; creation requires an edition, definition file, or another supported configuration. This provisions a development environment. It does not establish that an agent can complete a new customer’s signup or purchase a production subscription. [Salesforce CLI reference](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_org_create_scratch.html)
+
+Scratch orgs expire after seven days by default and can last at most 30 days. They are unsuitable as the permanent home for business records; preserve needed source and work before expiry. An authorized Dev Hub is required; Developer Edition signup is one option if you do not already have an eligible org. [Scratch-org lifecycle](https://admin.salesforce.com/blog/2023/sandboxes-vs-scratch-orgs-and-how-to-use-them), [Dev Hub eligibility](https://developer.salesforce.com/docs/platform/pkg2-dev/guide/sfdx-pkg-enable-devhub.html)
+
+## “Add an account” needs one clarification
+
+A Salesforce **Account record** represents a company or customer in the CRM. Creating that record is a data operation inside an existing org. Connecting your login, provisioning a scratch org, and buying a Salesforce subscription are separate tasks with different prerequisites. SObject tools can create and update records when the selected server and authenticated user permit those operations. [SObject tool reference](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/references/reference/sobject-all.html)
+
+## What an administrator must enable
+
+Hosted MCP requires an **External Client App**; a legacy Connected App is not interchangeable for this connection. Configure the `mcp_api` and `refresh_token` scopes, set the client’s redirect details, and authorize the intended users. An administrator can restrict access with pre-authorized permission sets instead of allowing every org user to connect. App creation can take up to 30 minutes to become operational. [External Client App setup](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/create-external-client-app.html)
+
+MCP servers are disabled initially. Enable the required server in Setup’s API Catalog and allow up to two minutes for activation. A scratch-org evaluation has an extra app-registration constraint: Salesforce directs administrators to create the External Client App in a Dev Hub, package it, and install it in the scratch org. [Server activation](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/activate-mcp-servers.html), [Scratch-org app setup](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/create-external-client-app.html)
+
+## Start with a CRM read
+
+Choose **SObject Reads** for schema discovery, queries, and searches. Its tools cannot create, update, or delete records. Other SObject servers expose different mutation sets, and every call still follows the user’s object permissions, field visibility, and sharing rules. [Read server](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/sobject-reads.html), [Server permission model](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/servers-reference.html)
+
+A useful first request is: “Confirm this org, inspect the Opportunity fields I can access, then list up to ten open opportunities with their names, stages, and record IDs.” Check the result before granting a separate write task. For sandbox or scratch orgs, choose the sandbox MCP endpoint; Developer Edition uses the non-sandbox endpoint. A wrong endpoint can look like an authentication failure. [Connection troubleshooting](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/connection-issues.html)
+
+## Editions, quotas, and billing
+
+Confirm the org’s API entitlement before selecting Salesforce for an agent workflow. Access varies by edition and may require an add-on. The reviewed documentation does not establish an autonomous paid-subscription checkout. [API availability by edition](https://help.salesforce.com/s/articleView?id=000005140&language=en_US&type=1)
+
+For direct API workflows, inspect current allocation in Setup or the REST Limits resource. Most Connect REST calls now share the org’s 24-hour Platform API allocation; Chatter resources retain a separate hourly limit. Do not budget against a universal requests-per-minute number. These API limits do not establish a separate hosted-MCP pricing entitlement. [Usage monitoring](https://developer.salesforce.com/blogs/2024/11/api-limits-and-monitoring-your-api-usage), [Current Connect limits](https://developer.salesforce.com/docs/platform/connect-rest-api/guide/intro_rate_limits.html)
+
+## Disconnect and choose an agent
+
+An administrator can revoke individual or all External Client App tokens from **Setup → OAuth Usage**. Review the app’s refresh-token policy and disable an enabled MCP server when it should no longer be exposed. Token revocation and server activation are distinct controls. [Token revocation](https://developer.salesforce.com/blogs/2026/06/how-to-secure-salesforce-hosted-mcp-servers), [Activation controls](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/activate-mcp-servers.html)
+
+Choose a [harness](/harnesses) with [MCP tools](/features/mcp-tools), [connectors](/features/connectors), or [terminal access](/features/terminal) for the route you intend to use. This guide records documentation review; no org creation, CRM mutation, or subscription purchase was performed.

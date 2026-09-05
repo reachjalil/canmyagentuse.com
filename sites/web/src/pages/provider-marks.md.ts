@@ -45,6 +45,10 @@ unmapped brands use a text fallback.
 | --- | --- | --- | --- | --- | --- |
 ${rows}
 
+${PROVIDER_MARKS.filter((mark) => mark.attribution)
+  .map((mark) => mark.attribution)
+  .join("\n\n")}
+
 Can My Agent Use is an independent publication. Brand names and marks belong
 to their respective owners and are used to identify products covered by the
 catalog. Marks are secondary editorial references, not provider endorsements.

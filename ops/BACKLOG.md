@@ -9,10 +9,13 @@ of 2–4 additions or substantial improvements, with citations and validated rel
 1. Deepen the first 13 product guides: exact permission scopes, setup plans,
    regional and quota limits, revocation, and a reproducible first useful task.
    Gmail, Cloudflare, Notion, and Linear received the first depth pass on
-   2026-09-04 (30 additional first-party source entries). Next: Salesforce org
-   provisioning/permissions and the remaining original product records; revisit
+   2026-09-04 (30 additional first-party source entries). Salesforce org
+   provisioning/permissions received a depth pass in the next batch. Next: the
+   remaining original product records; revisit
    Gmail MCP preview availability and any announced quota/billing transition.
-2. Add Vercel, Supabase, and Sentry with the same full account-to-task contract.
+2. Vercel, Supabase, and Sentry added on 2026-09-04 with the full account-to-task
+   contract and exact local logos. Recheck Vercel MCP purchase rollout, Supabase
+   scoped-PAT alpha and Sentry Seer Agent availability when provider docs change.
 3. Expand notes with Joplin and Evernote; publish an evidence-backed notes
    comparison that separates hosted MCP, local files, and delegated API access.
 4. Add Airtable, Figma, HubSpot, Asana, Google Calendar, and Google Drive.
