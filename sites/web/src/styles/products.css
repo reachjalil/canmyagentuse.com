@@ -117,6 +117,7 @@
   font-size: 0.82rem;
   border: 1px solid var(--color-line);
   background: var(--color-canvas);
+  color: var(--color-ink);
 }
 .product-card .eyebrow {
   font-size: 0.58rem;
