@@ -60,8 +60,10 @@
     {
       "kind": "mcp-apps",
       "status": "unknown",
-      "detail": "Airtable documents MCP tools and Airtable Interfaces, but the reviewed first-party material does not establish an interactive MCP Apps surface rendered inside an MCP host.",
-      "sourceIds": []
+      "detail": "The MCP tool reference documents display_records_for_table as an interactive kanban or levels widget. This review has not established its MCP Apps extension contract or client rendering requirements; native Airtable Interfaces alone do not settle that question.",
+      "sourceIds": [
+        "mcp-tools"
+      ]
     },
     {
       "kind": "api",
@@ -119,12 +121,12 @@
       "id": "buy-subscribe",
       "status": "human-step",
       "summary": "A workspace Owner must choose the plan and approve payment.",
-      "detail": "Airtable bills self-serve plans per workspace. The current documentation lists Free at 1,000 records per base and 1,000 API calls per workspace per month; Team at $24 per collaborator monthly or $20 annually, 50,000 records per base and 100,000 API calls per month; and self-serve Business at $54 monthly or $45 annually, 125,000 records per base and unlimited monthly API calls. MCP is included in the existing plan, but it still consumes API limits. No agent checkout or autonomous subscription change is verified. Owners can downgrade a self-serve workspace to Free; Business downgrade permanently deletes the organization after confirmation.",
+      "detail": "MCP is included in existing Airtable plans and consumes their API allowance. Airtable bills paid self-serve plans per workspace; an Owner chooses the plan and payment method. Free and Team plans have monthly API caps, while paid collaborator and record limits also affect the task. No agent checkout or autonomous subscription change was verified.",
       "sourceIds": [
         "plans",
         "limits",
         "billing",
-        "signup"
+        "mcp"
       ]
     },
     {
@@ -277,6 +279,13 @@
       "href": "https://support.airtable.com/articles/9656884884-settings-airtable-admin-panel",
       "publisher": "Airtable",
       "reviewedAt": "2026-09-05"
+    },
+    {
+      "id": "mcp-tools",
+      "title": "Airtable MCP Tools Reference",
+      "href": "https://airtable.com/developers/agents/mcp/tools",
+      "publisher": "Airtable",
+      "reviewedAt": "2026-09-05"
     }
   ],
   "locale": "en",
@@ -324,9 +333,9 @@ For the write step, ask for a preview containing record IDs, old values, new val
 
 ## Plan and billing boundaries
 
-MCP is currently included in every Airtable plan and uses the public API underneath, so it still consumes API allowance. The current plan guide lists Free at 1,000 records per base, 1,000 API calls per workspace per month and 1 GB of attachment storage per base; Team at $24 per collaborator per month or $20 annually, 50,000 records per base and 100,000 API calls per workspace per month; and self-serve Business at $54 monthly or $45 annually, 125,000 records per base and unlimited monthly API calls. The 5-requests-per-second-per-base limit applies across plans. [Plans](https://support.airtable.com/articles/2277136852-airtable-plans-overview), [API call limits](https://support.airtable.com/articles/7735693959-managing-api-call-limits-in-airtable).
+MCP is currently included in every Airtable plan and uses the public API underneath, so it still consumes API allowance. The current plan guide lists Free at 1,000 records per base, 1,000 API calls per workspace per month and 1 GB of attachment storage per base; Team at $24 per collaborator per month when billed monthly, or $20 per collaborator per month when billed annually, 50,000 records per base and 100,000 API calls per workspace per month; and self-serve Business at $54 per collaborator per month when billed monthly, or $45 per collaborator per month when billed annually, 125,000 records per base and unlimited monthly API calls. The 5-requests-per-second-per-base limit applies across plans. [Plans](https://support.airtable.com/articles/2277136852-airtable-plans-overview), [API call limits](https://support.airtable.com/articles/7735693959-managing-api-call-limits-in-airtable).
 
-The reviewed purchase route is a human step. Airtable bills self-serve plans per workspace; an Owner manages plan changes and payment. A new account's first workspace receives a complimentary 14-day Team trial, after which it can remain Free or be upgraded. Adding a payment method during the trial automatically upgrades the workspace and bills it. No reviewed source establishes that an outside agent can choose a plan, enter payment details or complete checkout safely. [Plans and trial](https://support.airtable.com/articles/2277136852-airtable-plans-overview), [billing](https://support.airtable.com/articles/6347253266-airtable-billing-overview).
+The reviewed purchase route is a human step. Airtable bills self-serve plans per workspace; an Owner manages plan changes and payment. A new account's first workspace receives a complimentary 14-day Team trial, after which it can remain Free or be upgraded. Adding a payment method during the trial automatically upgrades the workspace and bills it. No reviewed source establishes that an outside agent can choose a plan, enter payment details or complete checkout. [Plans and trial](https://support.airtable.com/articles/2277136852-airtable-plans-overview), [billing](https://support.airtable.com/articles/6347253266-airtable-billing-overview).
 
 ## Revocation and credential cleanup
 
@@ -336,4 +345,4 @@ Remove specific bases or delete the MCP integration under Airtable's Profile →
 
 Airtable's official `@airtable/mcp-cli` package discovers the tools exposed by the MCP server at runtime. The documented commands include `configure`, `whoami`, `tools`, `list-bases` and `list-records`; `AIRTABLE_TOKEN` can supply a PAT in scripts, and `--input -` accepts JSON. The CLI stores profiles and its short-lived tool cache with restrictive local permissions, but that does not make Airtable a local-files product. The repository labels the CLI experimental: names, arguments and output formats can change, so discover tools before scripting against them. This guide did not install or execute the CLI. [Official CLI repository](https://github.com/Airtable/airtable-mcp-cli/tree/6847f24e318e366a2afac4967f72b1b976ea9654).
 
-MCP Apps remain unverified. Airtable's documentation discusses MCP tools and native Airtable Interfaces, including interface-only record reads, but the reviewed evidence does not show an MCP App that renders an interactive Airtable surface inside a host. Keep that distinction visible when selecting a client.
+The MCP tool reference describes `display_records_for_table` as rendering an interactive kanban or levels widget. That is a useful research lead, but this review has not established the MCP Apps extension contract or which clients render it. MCP Apps therefore remain unverified here. Native Airtable Interfaces are a separate surface. [MCP Tools Reference](https://airtable.com/developers/agents/mcp/tools).

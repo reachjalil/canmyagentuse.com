@@ -181,7 +181,7 @@
     },
     {
       "id": "oauth",
-      "title": "Using OAuth 2.0 for Web Server Applications",
+      "title": "Using OAuth 2.0 to Access Google APIs",
       "href": "https://developers.google.com/identity/protocols/oauth2",
       "publisher": "Google for Developers",
       "reviewedAt": "2026-09-05"

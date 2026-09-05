@@ -49,9 +49,10 @@
     {
       "kind": "mcp",
       "status": "official",
-      "detail": "Asana documents a generally available V2 Streamable HTTP MCP server. MCP apps use OAuth, do not request specific OAuth scopes, and can call the available tools subject to the authorizing user’s Asana permissions.",
+      "detail": "Asana documents a generally available V2 Streamable HTTP MCP server. OAuth selects one workspace per session; separate workspaces require separate sessions. The grant permits available MCP tools, including writes, bounded by the authorizing user’s Asana permissions rather than per-tool OAuth scopes.",
       "sourceIds": [
-        "mcp-v2"
+        "mcp-v2",
+        "mcp-tools"
       ]
     },
     {
@@ -263,7 +264,7 @@
       "id": "use-product",
       "status": "agent-ready",
       "summary": "Read, create and update permitted tasks and projects.",
-      "detail": "Asana documents MCP examples for finding incomplete tasks and creating tasks, and its REST API documents task creation with `tasks:write` plus read endpoints. A safe first task is a read-only query for incomplete tasks due this week in one named workspace or project. Treat a successful response as evidence of the returned record only; verify any write by fetching the task again.",
+      "detail": "Use get_tasks to read incomplete work in one named project and inspect its due dates. The advanced search_tasks tool requires Premium; get_tasks is the documented alternative for non-Premium workspaces. This read plan does not make MCP authorization read-only. Approve any later task change separately and fetch the task again to verify the result.",
       "sourceIds": [
         "mcp-tools",
         "create-task",
@@ -316,7 +317,7 @@ PATs are convenient for a single user or script but are long-lived and carry the
 
 ## Keep approval and identity visible
 
-MCP actions appear as the user who authorized the MCP app. They are limited by the user’s existing access to workspaces, projects and tasks, but the current MCP authorization can call the available tool set, including tools added later. This makes the human approval screen, the named workspace and the exact task proposal part of the safety boundary. A workspace administrator may also approve or block an app; Asana’s app distribution guide says the app listing details are shown to admins making that decision. [Share your app](https://developers.asana.com/docs/share-your-app).
+An MCP session is scoped to the workspace selected during authorization; another workspace needs a separate session. Actions appear as the user who authorized the app. [MCP session scope](https://developers.asana.com/docs/mcp-tools-reference). They are limited by the user’s existing access to workspaces, projects and tasks, but the current MCP authorization can call the available tool set, including tools added later. This makes the human approval screen, the named workspace and the exact task proposal part of the safety boundary. A workspace administrator may also approve or block an app; Asana’s app distribution guide says the app listing details are shown to admins making that decision. [Share your app](https://developers.asana.com/docs/share-your-app).
 
 For a write, ask the user to confirm the destination project or parent, title, assignee, due date and description. With the REST API, grant `tasks:write` only for the approved operation; keep `tasks:delete` out of the initial connection. After the API returns a task, read it again and compare its GID, project, assignee and completion state. MCP tool names and parameters may change, so a client should use `tools/list` and keep the returned schema in its own evidence trail.
 
