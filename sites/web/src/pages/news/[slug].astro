@@ -6,6 +6,7 @@ import {
   techArticleJsonLd,
 } from "@canmyagentuse/catalog";
 import { render } from "astro:content";
+import ReviewVerdict from "../../components/ReviewVerdict.astro";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { entryBySlug, publishedCollection } from "../../lib/collections";
@@ -28,7 +29,8 @@ if (!item) {
 
 const { Content } = await render(item);
 const metadata = resolveMetadata(item.data);
-const isExplainer = slug === "can-an-ai-agent-buy-my-movie-ticket";
+const review = item.data.review;
+const isExplainer = Boolean(review);
 ---
 
 <BaseLayout
@@ -41,13 +43,13 @@ const isExplainer = slug === "can-an-ai-agent-buy-my-movie-ticket";
   contentType="article"
   publishedTime={metadata.published}
   modifiedTime={metadata.updated}
-  section="Catalog news"
+  section="Field notes"
   tags={metadata.tags}
   jsonLd={[
     techArticleJsonLd(metadata),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
-      { name: "News", path: "/news" },
+      { name: "Field notes", path: "/news" },
       { name: item.data.title, path: newsPath(item.data.slug) },
     ]),
   ]}
@@ -55,19 +57,39 @@ const isExplainer = slug === "can-an-ai-agent-buy-my-movie-ticket";
   <SiteChrome>
     <main id="main" class:list={["shell py-8", { explainer: isExplainer }]}>
       <header class="article-intro">
-        <p class="article-kicker">{isExplainer ? "THE EVERYDAY AGENT TEST · FIELD NOTES / 01" : "Field notes"}</p>
+        <p class="article-kicker">{review ? `FIELD NOTES / ${String(review.number).padStart(2, "0")} · A LIVING REVIEW` : "Field notes"}</p>
         <h1 class="mt-2 text-4xl font-semibold tracking-tight">{item.data.title}</h1>
         <p class="article-deck">{item.data.summary}</p>
-        {isExplainer && (
+        {review && (
           <div class="article-meta">
-            <span>Documentation reviewed · September 5, 2026</span>
-            <span>No live purchase test</span>
-            <a href="#this-is-the-question-behind-the-whole-site">Why we built this ↗</a>
+            <span>Updated {review.reviewedAt} · Version {review.version}</span>
+            <span>One question. An evolving answer.</span>
+            <a href="#verdict-heading">Read the verdict ↓</a>
           </div>
         )}
       </header>
+      {review && <ReviewVerdict review={review} />}
       <div class="prose-page mt-8">
         <Content />
+        {review && (
+          <section id="review-history" class="review-history" aria-labelledby="history-heading">
+            <h2 id="history-heading">This exploration keeps going</h2>
+            <p>We revisit this question as services change and new evidence arrives. This URL always holds the latest edition; earlier editions and the reasons for each update are recorded below.</p>
+            <details>
+              <summary>Update history · {review.history.length} editions</summary>
+              <ol>
+                {[...review.history].reverse().map((entry) => (
+                  <li>
+                    <strong>Version {entry.version} · {entry.date}</strong>
+                    <p>{entry.change}</p>
+                    {entry.archiveUrl && <a href={entry.archiveUrl}>Read this edition ↗</a>}
+                  </li>
+                ))}
+              </ol>
+            </details>
+            <p>Have a source or result that could change the verdict? <a href="/submit-app">Send it for review</a>. Evidence changes the answer; sponsorship never does.</p>
+          </section>
+        )}
       </div>
     </main>
   </SiteChrome>
@@ -128,6 +150,9 @@ const isExplainer = slug === "can-an-ai-agent-buy-my-movie-ticket";
   }
   .explainer :global(.prose-page > blockquote:first-child p) { line-height: inherit; }
   .explainer :global(.prose-page h2) { scroll-margin-top: 6rem; text-wrap: balance; }
+  .review-history { scroll-margin-top: 6rem; }
+  .review-history summary { cursor: pointer; font-weight: 600; }
+  .review-history li { padding: 0.75rem 0; }
   @media (max-width: 600px) {
     .explainer { padding-top: 1.25rem; }
     .explainer .prose-page { margin-top: 2rem; }

@@ -1,4 +1,5 @@
 import {
+  reviewMarkdown,
   type CategoryData,
   type FeatureData,
   type HarnessData,
@@ -450,7 +451,9 @@ export function newsEntryMarkdown(input: {
     htmlPath: newsPath(input.item.slug),
     markdownPath: newsMarkdownPath(input.item.slug),
     llmSummary: input.item.llmSummary,
-    body: input.body,
+    body: [reviewMarkdown(input.item.review), input.body]
+      .filter(Boolean)
+      .join("\n\n"),
     ...metadata(input.item),
   });
 }

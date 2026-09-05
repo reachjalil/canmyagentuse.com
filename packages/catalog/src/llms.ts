@@ -1,3 +1,4 @@
+import { reviewMarkdown } from "./review.ts";
 import {
   absoluteUrl,
   featureMarkdownPath,
@@ -56,6 +57,7 @@ export function toLlmsTxt(input: {
     `- [Specifications JSON](${absoluteUrl(MACHINE_PATHS.specificationsJson, siteUrl)})`,
     `- [Evidence JSON](${absoluteUrl(MACHINE_PATHS.evidenceJson, siteUrl)})`,
     `- [Coverage JSON](${absoluteUrl(MACHINE_PATHS.coverageJson, siteUrl)})`,
+    `- [Living reviews and verdict history](${absoluteUrl(MACHINE_PATHS.reviewsJson, siteUrl)})`,
     `- [Reports JSON](${absoluteUrl(MACHINE_PATHS.reportsJson, siteUrl)})`,
     `- [Conformance test definitions](${absoluteUrl(MACHINE_PATHS.testsJson, siteUrl)})`,
     `- [Evidence Atlas JSON](${absoluteUrl(MACHINE_PATHS.atlasJson, siteUrl)})`,
@@ -155,6 +157,7 @@ export function toLlmsFullTxt(input: {
       `HTML: ${absoluteUrl(newsPath(item.data.slug), siteUrl)}`,
       `Markdown: ${absoluteUrl(newsMarkdownPath(item.data.slug), siteUrl)}`,
       "",
+      reviewMarkdown(item.data.review),
       item.body.trim(),
       "",
       "---",

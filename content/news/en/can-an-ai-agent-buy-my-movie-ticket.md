@@ -13,6 +13,33 @@ status: published
 tags: [agent-commerce, movie-tickets, consumer-agents, research, product-discovery]
 updated: 2026-09-05
 published: 2026-09-04
+review:
+  number: 1
+  version: 3
+  reviewedAt: "2026-09-05"
+  verdict: conditional
+  headline: Possible, with the right access.
+  summary: An approved integration can take movie booking further. A public API page alone does not give your agent a way to buy two seats tonight.
+  evidence: documentation
+  sources:
+    - https://developers.amctheatres.com/GettingStarted/NewVendorRequest
+    - https://developers.atomtickets.com/ai-agents/
+    - https://developers.atomtickets.com/getting-started/authentication/
+  works: Atom documents showing discovery, checkout handoff, and API ordering; AMC documents ordering flows.
+  catch: Atom requires partner credentials. AMC restricts commerce and seating access. We have not completed a live purchase.
+  nextCheck: Record an authorized booking through an eligible integration, from a real showing to usable tickets, including each human handoff.
+  history:
+    - version: 1
+      date: "2026-09-04"
+      change: First exploration of AMC and Atom. Documented routes and access restrictions; no live purchase.
+      archiveUrl: https://github.com/reachjalil/canmyagentuse.com/blob/9ce2f846fc2e3ece67581abe7491e322cd03c6a7/content/news/en/can-an-ai-agent-buy-my-movie-ticket.md
+    - version: 2
+      date: "2026-09-05"
+      change: Rechecked the sources and expanded the story to explain the product catalog, with a new editorial design.
+      archiveUrl: https://github.com/reachjalil/canmyagentuse.com/blob/b5bbe8ff0c285ad5a8f17db1aa43d45cbd56bf01/content/news/en/can-an-ai-agent-buy-my-movie-ticket.md
+    - version: 3
+      date: "2026-09-05"
+      change: Added the reusable verdict and edition history. The conditional assessment is unchanged; no new live test.
 summary: Two seats. One request. A movie ticket turns out to be a surprisingly good way to explain the web we want agents to use.
 ---
 

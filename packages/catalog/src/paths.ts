@@ -211,6 +211,7 @@ export function jsonPathForPagePath(path: string): string | undefined {
 }
 
 export const MACHINE_PATHS = {
+  reviewsJson: "/api/v1/reviews.json",
   productsJson: "/api/v1/products.json",
   llms: "/llms.txt",
   llmsFull: "/llms-full.txt",

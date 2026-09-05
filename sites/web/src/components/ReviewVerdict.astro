@@ -1,0 +1,50 @@
+---
+import { REVIEW_EVIDENCE, REVIEW_VERDICTS, type LivingReview } from "@canmyagentuse/catalog";
+const { review } = Astro.props as { review: LivingReview };
+---
+<section class="review-verdict" aria-labelledby="verdict-heading">
+  <div class="verdict-topline">
+    <p><span aria-hidden="true">◇</span> THE VERDICT</p>
+    <a href="#review-history">VERSION {review.version} ↗</a>
+  </div>
+  <h2 id="verdict-heading">{review.headline}</h2>
+  <p class="verdict-summary">{review.summary}</p>
+  <div class="verdict-labels">
+    <span class="verdict-status" data-status={review.verdict}>{REVIEW_VERDICTS[review.verdict]}</span>
+    <span>{REVIEW_EVIDENCE[review.evidence]}</span>
+    <span>Reviewed {review.reviewedAt}</span>
+  </div>
+  <dl>
+    <div><dt>What works</dt><dd>{review.works}</dd></div>
+    <div><dt>The catch</dt><dd>{review.catch}</dd></div>
+    <div><dt>Next check</dt><dd>{review.nextCheck}</dd></div>
+  </dl>
+  <details>
+    <summary>Evidence behind this verdict</summary>
+    {review.evidence === "documentation" && <p>No live test is claimed by this verdict.</p>}
+    <ul>
+      {review.sources.map((source, index) => <li><a href={source}>Source {index + 1} · {new URL(source).hostname} ↗</a></li>)}
+      {review.testReports.map((source, index) => <li><a href={source}>Live test report {index + 1} ↗</a></li>)}
+    </ul>
+  </details>
+</section>
+
+<style>
+  .review-verdict { margin: 2rem 0; padding: clamp(1.25rem, 4vw, 2.5rem); background: var(--color-ink); color: var(--color-paper); border-radius: 0.3rem; }
+  .verdict-topline { display: flex; justify-content: space-between; gap: 1rem; font: 0.7rem var(--font-mono); letter-spacing: 0.09em; color: #e7af82; }
+  .verdict-topline a { text-decoration: underline; text-underline-offset: 0.3rem; }
+  .verdict-topline span { font-size: 1.2rem; vertical-align: middle; margin-right: 0.4rem; }
+  h2 { margin-top: 1.5rem; font-size: clamp(1.7rem, 4vw, 2.7rem); line-height: 1.12; letter-spacing: -0.035em; text-wrap: balance; }
+  .verdict-summary { margin-top: 1rem; max-width: 44rem; color: #d7cbb9; line-height: 1.7; }
+  .verdict-labels { display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem; align-items: center; margin: 1.25rem 0 1.75rem; font: 0.68rem var(--font-mono); color: #d7cbb9; }
+  .verdict-status { border: 1px solid #947653; padding: 0.4rem 0.6rem; color: #f2ce9a; }
+  .verdict-status[data-status="ready"] { border-color: #6f9b83; color: #bddac8; }
+  dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; border-top: 1px solid #50473b; padding-top: 1.5rem; }
+  dt { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; }
+  dd { font-size: 0.9rem; line-height: 1.65; color: #d7cbb9; }
+  details { margin-top: 1.5rem; border-top: 1px solid #50473b; padding-top: 1rem; font-size: 0.8rem; line-height: 1.7; color: #d7cbb9; }
+  summary { cursor: pointer; }
+  details p, details ul { margin-top: 0.6rem; }
+  details a { text-decoration: underline; overflow-wrap: anywhere; }
+  @media (max-width: 650px) { dl { grid-template-columns: 1fr; gap: 1.1rem; } }
+</style>

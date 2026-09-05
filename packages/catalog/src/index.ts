@@ -272,3 +272,11 @@ export {
   PRODUCT_INTEGRATION_LABELS,
   filterProducts,
 } from "./product.ts";
+
+export {
+  reviewSchema,
+  reviewMarkdown,
+  REVIEW_VERDICTS,
+  REVIEW_EVIDENCE,
+  type LivingReview,
+} from "./review.ts";

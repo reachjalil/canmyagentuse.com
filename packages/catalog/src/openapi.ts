@@ -1,3 +1,4 @@
+import { reviewJsonSchema } from "./review.ts";
 import { productJsonSchema } from "./product.ts";
 import { MACHINE_PATHS } from "./paths.ts";
 import { SITE } from "./site.ts";
@@ -100,6 +101,44 @@ export function catalogOpenApi() {
       { name: "Operations", description: "Minimal service health." },
     ],
     paths: {
+      [MACHINE_PATHS.reviewsJson]: {
+        get: {
+          operationId: "listLivingReviews",
+          tags: ["Catalog"],
+          summary: "Living review verdicts, evidence and version history",
+          responses: {
+            "200": jsonResponse(
+              {
+                type: "object",
+                required: ["items"],
+                properties: {
+                  items: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      required: [
+                        "slug",
+                        "title",
+                        "url",
+                        "markdownUrl",
+                        "review",
+                      ],
+                      properties: {
+                        slug: { type: "string" },
+                        title: { type: "string" },
+                        url: { type: "string", format: "uri" },
+                        markdownUrl: { type: "string", format: "uri" },
+                        review: reviewJsonSchema,
+                      },
+                    },
+                  },
+                },
+              },
+              "Published living reviews. Documentation and live evidence are labeled separately."
+            ),
+          },
+        },
+      },
       [MACHINE_PATHS.productsJson]: {
         get: {
           operationId: "listProducts",

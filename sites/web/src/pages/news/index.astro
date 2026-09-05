@@ -1,5 +1,5 @@
 ---
-import { SITE, websiteJsonLd } from "@canmyagentuse/catalog";
+import { REVIEW_VERDICTS, SITE, websiteJsonLd } from "@canmyagentuse/catalog";
 import SiteChrome from "../../components/SiteChrome.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { publishedCollection } from "../../lib/collections";
@@ -8,16 +8,16 @@ const news = await publishedCollection("news");
 ---
 
 <BaseLayout
-  title={`News | ${SITE.name}`}
-  description="Catalog notes for Can My Agent Use: columns, routes, and sourcing rules."
+  title={`Field Notes | ${SITE.name}`}
+  description="Everyday requests, real-world agent access. Explore our living reviews, verdicts, and latest findings."
   canonicalPath="/news"
   jsonLd={[websiteJsonLd()]}
 >
   <SiteChrome>
     <main id="main" class="shell py-8">
-      <h1 class="text-4xl font-semibold tracking-tight">News</h1>
+      <h1 class="text-4xl font-semibold tracking-tight">Field Notes</h1>
       <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
-        Short notes about the catalog itself. Not a vendor changelog.
+        Can your agent actually do it? Follow the exploration, read the verdict, and come back as the answer evolves.
       </p>
       <ul class="mt-8 space-y-4">
         {
@@ -34,10 +34,17 @@ const news = await publishedCollection("news");
                 {item.data.title}
               </a>
               <p class="mt-2 text-[color:var(--color-muted)]">{item.data.summary}</p>
+              {item.data.review && <p class="mt-3 font-mono text-xs text-[color:var(--color-copper-deep)]">◇ {REVIEW_VERDICTS[item.data.review.verdict]} · Version {item.data.review.version} · Updated {item.data.review.reviewedAt}</p>}
             </li>
           ))
         }
       </ul>
+      <section class="mt-12 border-t border-[color:var(--color-line)] pt-6">
+        <p class="font-mono text-xs text-[color:var(--color-copper-deep)]">QUESTIONS WE’RE EXPLORING</p>
+        <h2 class="mt-3 text-2xl font-semibold tracking-tight">Same question. A different part of your day.</h2>
+        <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">Which notes app should your agent use? Can it launch a website, buy a laptop, or organize your inbox? Each deserves its own exploration. These are research leads; verdicts follow the evidence.</p>
+        <a class="mt-4 inline-block underline" href="/submit-app">Have a service we should investigate? Submit your app ↗</a>
+      </section>
     </main>
   </SiteChrome>
 </BaseLayout>

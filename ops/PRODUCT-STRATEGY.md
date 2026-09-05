@@ -131,3 +131,13 @@ ops ledger. Never mark a deployment successful from a local build alone.
 
 Stay quiet if a scheduled cycle has no meaningful change. Notify for a
 published batch, material failure, or input required to proceed.
+
+## Living Field Notes
+
+The owner expanded the editorial direction on 2026-09-05: recurring,
+review-style task explorations with a concise verdict and visible edition
+history. Follow [FIELD-NOTES.md](FIELD-NOTES.md) and its authoring template
+when publishing or materially revising these articles. Keep one canonical
+URL per question, archive the previous edition and explain each change.
+Use current evidence to drive revisions; scheduled runs alone do not justify
+a new version. The movie-ticket article is Field Notes 01.

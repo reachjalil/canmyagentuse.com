@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { reviewSchema } from "./review.ts";
 import { LOCALES } from "./site.ts";
 import {
   ASSESSMENT_BASES,
@@ -437,6 +438,7 @@ export const pageSchema = seoSchema("page").extend({
 
 export const newsSchema = seoSchema("news").extend({
   summary: z.string().min(1),
+  review: reviewSchema.optional(),
 });
 
 export const reportSchema = seoSchema("report").extend({
