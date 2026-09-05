@@ -603,3 +603,12 @@ RECONCILE cycle=saas-depth-1 date=2026-09-04 commit=9cdd6faf5d81abb6b15314dda1e1
 - Release: push, deployment and production verification are reconciled below.
 
 RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31d483e2350639c659 pushed=origin/main deploy=1f934530-d30a-4cae-bf56-8472871ab30b products=16 source_entries=116 tests=124 ci=33945826623 note="Three new SaaS guides and logos, Salesforce depth pass, and 47 added source entries. CI succeeded; local and production parity, search, indexes, social images and retained routes passed. Desktop/390px browser checks and production homepage refresh passed. Worker read back at 100%. See ops/releases/saas-expansion-1-2026-09-04.md."
+
+## 2026-09-05 — Movie-ticket product explainer
+
+- Owner-requested article rewrite: Friday-night story, three possible outcomes, the site's four lifecycle questions, separate interfaces, a reusable agent prompt, catalog discovery and app submissions.
+- Original ticket-inspired opening, responsive editorial header and field-note social treatment. Existing provider findings retained and first-party AMC/Atom access, discovery, authentication and fulfillment sources reviewed September 5. No live transaction claim.
+- Unfinished Joplin/Evernote drafts remain untouched in the main checkout; release built in an isolated worktree from origin/main.
+- Validation: catalog validation, Biome, uncached check/test/build, 124 passing tests; desktop and 390px browser review with no horizontal overflow; local and live HTML/Markdown body parity, exact source links, JSON-LD, social PNG, machine indexes and 16-product API passed.
+- Released commit b5bbe8ff0c285ad5a8f17db1aa43d45cbd56bf01 to origin/main. Cloudflare version 94f299dd-cc18-4449-a24a-71df59c9d6d5 read back at 100%. Production browser inspected. CI run 33978788419 was in progress at this ledger write; full local checks passed.
+- Research gaps unchanged: ticket purchases are documentation-reviewed, not live tested. Continue the unfinished notes batch separately.
