@@ -27,3 +27,7 @@
 - Release proof: `ops/releases/saas-expansion-1-2026-09-04.md` (latest; CI 33945826623 succeeded); prior design proof in `ops/releases/commercial-directory-2026-09-04.md`
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
 - Next action: expand notes with Joplin and Evernote and prepare a sourced comparison of hosted MCP, local files and delegated APIs. Then deepen the remaining original SaaS guides. Track Gmail preview/quotas, Vercel MCP purchase rollout, Supabase scoped PAT alpha and Sentry Seer availability; retain the scoped public-machine-route Cloudflare 1010 follow-up.
+
+## Latest editorial platform release — 2026-09-05
+
+Living Field Notes are live. Movie tickets is review 01, version 3, with a conditional documentation-based verdict and links to two earlier editions. Follow ops/FIELD-NOTES.md for future articles and versioned updates. Shared HTML/Markdown/corpus/JSON verdicts verified; 129 tests passed. Content commit 6ae840f98e9a842b71941cb47a02ce3aaeb6cb58; Worker dc168047-60a0-4992-a59e-ae91575a7b04 at 100%. Product coverage remains 16 guides / 116 product-source entries. The notes research backlog remains next.

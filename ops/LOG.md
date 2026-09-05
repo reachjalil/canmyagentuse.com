@@ -612,3 +612,13 @@ RECONCILE cycle=saas-expansion-1 date=2026-09-04 commit=f4af4687742c25af13ab7c31
 - Validation: catalog validation, Biome, uncached check/test/build, 124 passing tests; desktop and 390px browser review with no horizontal overflow; local and live HTML/Markdown body parity, exact source links, JSON-LD, social PNG, machine indexes and 16-product API passed.
 - Released commit b5bbe8ff0c285ad5a8f17db1aa43d45cbd56bf01 to origin/main. Cloudflare version 94f299dd-cc18-4449-a24a-71df59c9d6d5 read back at 100%. Production browser inspected. CI run 33978788419 was in progress at this ledger write; full local checks passed.
 - Research gaps unchanged: ticket purchases are documentation-reviewed, not live tested. Continue the unfinished notes batch separately.
+
+## 2026-09-05 — Living Field Notes and verdicts
+
+- Owner-requested recurring editorial format implemented: compact review verdict, evidence basis, what works/the catch/next check, stable URL, version and dated history. Movie ticket becomes Field Notes 01, version 3; versions 1 and 2 link to verified immutable Git editions.
+- Portable optional review schema preserves legacy news. Shared Markdown serialization keeps verdict/history in article Markdown and full corpus. New /api/v1/reviews.json is documented in OpenAPI and llms.txt. Field Notes HTML/Markdown indexes show latest verdict/version.
+- Editorial rules and reusable authoring template: ops/FIELD-NOTES.md and ops/templates/field-note.md, linked from PRODUCT-STRATEGY for existing research cycles. Added future task research leads; no unsupported new product/article claims.
+- Narrow schema tests, catalog validation, Biome, uncached check/test/build passed; 129 tests. Live-test labels require a report URL, edition histories must remain ordered and complete. No new provider transaction test was conducted.
+- Local and production HTML/Markdown/corpus/JSON parity, sources, archive links, API discovery, indexes and retained 16-product API passed. Desktop/mobile verdict rendering and evidence/history disclosure verified, mobile width 390 without horizontal overflow; production browser refreshed.
+- Content release: 6ae840f98e9a842b71941cb47a02ce3aaeb6cb58. Worker version dc168047-60a0-4992-a59e-ae91575a7b04 read back at 100%. CI run 33980452693 still in progress at ledger write; full local checks passed.
+- Main checkout's unfinished Evernote/Joplin drafts remain untouched. Next: complete the notes comparison as the next living review, with current first-party evidence.
