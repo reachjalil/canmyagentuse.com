@@ -18,6 +18,12 @@ of 2–4 additions or substantial improvements, with citations and validated rel
 6. Extend shopping after SaaS: verify outside-agent access independently of
    provider-native assistants, and preserve partner/invite restrictions.
 
+Infrastructure follow-up: Cloudflare returns 1010 for the default Python-urllib
+signature on public JSON. Curl and a descriptive catalog-client User-Agent work.
+Investigate a narrowly scoped policy for public read-only machine routes; retain
+protection for corrections and any write endpoints. Do not disable zone-wide
+security protections as a routine workaround.
+
 Only after primary product work is scoped should the historical harness
 coverage queue supply an optional maintenance item. Never interpret a sponsor
 relationship or a documentation review as a passed live test.

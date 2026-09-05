@@ -4,7 +4,7 @@
 3. Run the coverage report and catalog validation; resume at `Next action`.
 
 - State updated: 2026-09-04
-- Cycle: Product-first launch prepared; release reconciliation pending
+- Cycle: Product-first launch released and production-verified
 - Phase: Product/service breadth and depth; retain the historical harness corpus
 - Coverage: 1,480/3,534 current-track cells assessed with direct reviewed evidence (41.9%); audit-correction delta -2
 - Preview: 9/3,192 assessed with direct reviewed evidence (0.3%); Cycle-7 delta +0
@@ -13,15 +13,17 @@
 - Product test evidence: documentation review only; no new live signup or purchase tests
 - Atomic features: 114
 - Harnesses: 31
-- Last completed catalog commit: `2cbfb8c` (Cycle 18 evidence-audit correction)
-- Last content commit pushed: `2cbfb8c` on `origin/main`
-- Last content deploy: Cycle 18 evidence-audit correction is live in Cloudflare version `106bb398-2ede-4495-aea0-d4d35babfd74`; cache-busted production readback 1,480/3,534 (-2 corrected surface-overclaim cells) verified
-- Last interface release: coverage facelift commit `a108b0d8e1e18e20beb7df8a0f9e0a02e4baf25b`; CI run `33322097863` succeeded; desktop and narrow production views verified
-- Last social release: refined data-driven coverage card commit `ce83e02d6cb051a05bbfbdd5835c9a22479160a8`; CI run `33324487257` succeeded; live card `/social/coverage-frontier-v2-1480.png` regenerated with the corrected count
+- Last completed catalog commit: `9ce2f84` (product-first launch)
+- Last content commit pushed: `9ce2f84` on `origin/main`
+- Last content deploy: product-first launch is live in Cloudflare version `d9ba2790-ba60-464d-8803-3c90e00aa1c4`; cache-busted production checks verified all 13 product guides and their machine copies, sponsor policy, movie article, and preserved compatibility routes
+- Last interface release: product-first launch `9ce2f84`; CI run `33938774288` succeeded; local Worker desktop/390px views and production filtering verified
+- Last social release: product guide and homepage social cards in `9ce2f84`; all 13 guide PNG URLs returned HTTP 200 in production
 - Last correction smoke: receipt `CMAU-SPDEJSWZJC`; received, privacy-checked, and declined as a release-only test
 - News counter: 0/approximately 150 after `assessed-catalog-37-percent`
-- In-flight briefs: none; audit remediation refreshed exact OpenAI screenshot/data-analysis sources, pinned VS Code/Goose/Zed sources, narrowed unsupported wording, and removed two cross-surface encryption claims
-- Owned dirty paths: product-first launch changes listed in the launch commit; original tree was clean
-- Blockers: none
+- In-flight briefs: none; next research is product depth and expansion, per `ops/BACKLOG.md`
+- Owned dirty paths: none after release reconciliation commit
+- Blockers: none for publication. Infrastructure follow-up: default Python-urllib receives Cloudflare 1010; curl, browser, and an honest descriptive User-Agent returned HTTP 200. Security settings were not changed.
+- Automation: `continue-catalog-coverage`, renamed “Expand product coverage”, ACTIVE hourly in the current product-pivot task; retain quiet unchanged cycles and publish meaningful batch/failure notifications.
+- Release proof: `ops/releases/product-first-2026-09-04.md`
 - Retry counters: deploy-auth=0; push-auth=0; build-infra=0; needs-human=0
-- Next action: verify and release the product-first launch, then resume the product research queue in `ops/BACKLOG.md`
+- Next action: deepen Gmail/Salesforce/Cloudflare/Notion permissions and Linear API evidence, then add Vercel/Supabase/Sentry in bounded batches. Investigate the scoped public-machine-route Cloudflare 1010 follow-up.
